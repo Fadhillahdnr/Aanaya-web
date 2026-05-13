@@ -1,0 +1,47 @@
+﻿
+   PASS  Tests\Unit\ExampleTest
+  Γ£ô that true is true                                0.01s  
+
+   PASS  Tests\Feature\Auth\AuthenticationTest
+  Γ£ô login screen can be rendered                     2.03s  
+  Γ£ô users can authenticate using the login screen    0.16s  
+  Γ£ô users can not authenticate with invalid passworΓÇª 0.25s  
+  Γ£ô users can logout                                 0.04s  
+
+   PASS  Tests\Feature\Auth\EmailVerificationTest
+  Γ£ô email verification screen can be rendered        0.05s  
+  Γ£ô email can be verified                            0.06s  
+  Γ£ô email is not verified with invalid hash          0.12s  
+
+   PASS  Tests\Feature\Auth\PasswordConfirmationTest
+  Γ£ô confirm password screen can be rendered          1.07s  
+  Γ£ô password can be confirmed                        0.06s  
+  Γ£ô password is not confirmed with invalid password  0.24s  
+
+   PASS  Tests\Feature\Auth\PasswordResetTest
+  Γ£ô reset password link screen can be rendered       0.74s  
+  Γ£ô reset password link can be requested             0.26s  
+  Γ£ô reset password screen can be rendered            1.53s  
+  Γ£ô password can be reset with valid token           0.27s  
+
+   PASS  Tests\Feature\Auth\PasswordUpdateTest
+  Γ£ô password can be updated                          0.05s  
+  Γ£ô correct password must be provided to update pasΓÇª 0.04s  
+
+   PASS  Tests\Feature\Auth\RegistrationTest
+  Γ£ô registration screen can be rendered              1.64s  
+  Γ£ô new users can register                           0.05s  
+
+   PASS  Tests\Feature\ExampleTest
+  Γ£ô the application returns a successful response    0.05s  
+
+   PASS  Tests\Feature\ProfileTest
+  Γ£ô profile page is displayed                        3.19s  
+  Γ£ô profile information can be updated               0.07s  
+  Γ£ô email verification status is unchanged when theΓÇª 0.04s  
+  Γ£ô user can delete their account                    0.07s  
+  Γ£ô correct password must be provided to delete accΓÇª 0.04s  
+
+  Tests:    25 passed (61 assertions)
+  Duration: 12.63s
+

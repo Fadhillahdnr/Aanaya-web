@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+
+use App\Models\Music;
+use App\Models\Article;
+use App\Models\Product;
+use App\Models\Gallery;
+
+class AdminController extends Controller
+{
+    public function dashboard()
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | TOTAL DATA
+        |--------------------------------------------------------------------------
+        */
+
+        $totalMusic = Music::count();
+
+        $totalArticles = class_exists(Article::class)
+            ? Article::count()
+            : 0;
+
+        $totalProducts = class_exists(Product::class)
+            ? Product::count()
+            : 0;
+
+        $totalGallery = class_exists(Gallery::class)
+            ? Gallery::count()
+            : 0;
+
+        /*
+        |--------------------------------------------------------------------------
+        | LATEST RELEASE
+        |--------------------------------------------------------------------------
+        */
+
+        $latestMusic = Music::latest()->first();
+
+        return view('admin.dashboard', compact(
+            'totalMusic',
+            'totalArticles',
+            'totalProducts',
+            'totalGallery',
+            'latestMusic'
+        ));
+    }
+}
