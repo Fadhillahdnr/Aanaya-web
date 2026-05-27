@@ -1,0 +1,798 @@
+/* =========================================================
+   ADMIN DASHBOARD PREMIUM DREAMY UI
+========================================================= */
+
+.dashboard-wrapper{
+    position: relative;
+
+    padding: 40px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 40px;
+
+    overflow: hidden;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.dashboard-hero{
+    display: grid;
+
+    grid-template-columns: 1.2fr 0.85fr;
+
+    gap: 32px;
+
+    align-items: stretch;
+}
+
+/* =========================================================
+   HERO LEFT
+========================================================= */
+
+.dashboard-text{
+    position: relative;
+
+    padding: 48px;
+
+    border-radius: 36px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.55),
+            rgba(255,255,255,0.22)
+        );
+
+    backdrop-filter: blur(28px);
+
+    border:
+        1px solid rgba(255,255,255,0.24);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.35);
+}
+
+/* glow */
+
+.dashboard-text::before{
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            rgba(255,210,225,0.28),
+            transparent 70%
+        );
+
+    top: -180px;
+    right: -120px;
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.dashboard-badge{
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 22px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,0.38);
+
+    border:
+        1px solid rgba(255,255,255,0.25);
+
+    color: #444;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+    margin-bottom: 28px;
+}
+
+/* =========================================================
+   HERO TITLE
+========================================================= */
+
+.dashboard-text h1{
+    font-size: 62px;
+
+    line-height: 1.05;
+
+    font-weight: 800;
+
+    color: #222;
+
+    margin-bottom: 24px;
+
+    letter-spacing: -2px;
+}
+
+.dashboard-text h1 span{
+    background:
+        linear-gradient(
+            135deg,
+            #ff79b0,
+            #b392ff
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+/* =========================================================
+   HERO DESCRIPTION
+========================================================= */
+
+.dashboard-text p{
+    max-width: 700px;
+
+    color: #666;
+
+    font-size: 17px;
+
+    line-height: 1.9;
+}
+
+/* =========================================================
+   HERO RIGHT CARD
+========================================================= */
+
+.dashboard-hero-card{
+    position: relative;
+
+    padding: 28px;
+
+    border-radius: 36px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.48),
+            rgba(255,255,255,0.20)
+        );
+
+    backdrop-filter: blur(30px);
+
+    border:
+        1px solid rgba(255,255,255,0.24);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.08);
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
+
+    justify-content: center;
+}
+
+/* =========================================================
+   HERO GLOW
+========================================================= */
+
+.hero-glow{
+    position: absolute;
+
+    width: 280px;
+    height: 280px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            rgba(255,200,220,0.35),
+            transparent 70%
+        );
+
+    top: -120px;
+    right: -100px;
+
+    filter: blur(10px);
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   LATEST LABEL
+========================================================= */
+
+.latest-label{
+    width: fit-content;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 18px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,0.36);
+
+    color: #222;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+/* =========================================================
+   COVER
+========================================================= */
+
+.latest-cover-wrapper{
+    position: relative;
+
+    border-radius: 28px;
+
+    overflow: hidden;
+
+    aspect-ratio: 1 / 1;
+}
+
+.latest-cover{
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: 0.45s ease;
+}
+
+.latest-cover:hover{
+    transform: scale(1.05);
+}
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.latest-info h2{
+    font-size: 28px;
+
+    font-weight: 800;
+
+    color: #222;
+
+    margin-bottom: 8px;
+}
+
+.latest-info p{
+    color: #777;
+
+    font-size: 15px;
+}
+
+/* =========================================================
+   AUDIO
+========================================================= */
+
+.latest-audio audio{
+    width: 100%;
+
+    border-radius: 999px;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty-release{
+    min-height: 280px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 18px;
+
+    color: #777;
+}
+
+.empty-release i{
+    font-size: 52px;
+
+    color: #ff7cae;
+}
+
+/* =========================================================
+   STATS GRID
+========================================================= */
+
+.stats-grid{
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 24px;
+}
+
+/* =========================================================
+   STATS CARD
+========================================================= */
+
+.stats-card{
+    position: relative;
+
+    padding: 30px;
+
+    border-radius: 32px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.52),
+            rgba(255,255,255,0.18)
+        );
+
+    backdrop-filter: blur(24px);
+
+    border:
+        1px solid rgba(255,255,255,0.24);
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,0.06);
+
+    transition: 0.4s ease;
+}
+
+.stats-card:hover{
+    transform:
+        translateY(-8px);
+
+    box-shadow:
+        0 28px 60px rgba(255,180,210,0.18);
+}
+
+/* =========================================================
+   STATS TOP
+========================================================= */
+
+.stats-top{
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 28px;
+}
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.stats-icon{
+    width: 64px;
+    height: 64px;
+
+    border-radius: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 24px;
+
+    color: #222;
+}
+
+.stats-icon.pink{
+    background:
+        linear-gradient(
+            135deg,
+            #ffd4e5,
+            #ffc3d9
+        );
+}
+
+.stats-icon.purple{
+    background:
+        linear-gradient(
+            135deg,
+            #e1d4ff,
+            #ccb7ff
+        );
+}
+
+.stats-icon.peach{
+    background:
+        linear-gradient(
+            135deg,
+            #ffe0cc,
+            #ffc8aa
+        );
+}
+
+.stats-icon.blue{
+    background:
+        linear-gradient(
+            135deg,
+            #d4f1ff,
+            #bde6ff
+        );
+}
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.stats-badge{
+    padding: 8px 14px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,0.35);
+
+    color: #666;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.stats-content h2{
+    font-size: 42px;
+
+    font-weight: 800;
+
+    color: #222;
+
+    margin-bottom: 10px;
+}
+
+.stats-content p{
+    color: #777;
+
+    font-size: 15px;
+}
+
+/* =========================================================
+   WAVE
+========================================================= */
+
+.stats-wave{
+    position: absolute;
+
+    bottom: -80px;
+    right: -60px;
+
+    width: 180px;
+    height: 180px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            rgba(255,255,255,0.22),
+            transparent 70%
+        );
+}
+
+/* =========================================================
+   QUICK SECTION
+========================================================= */
+
+.quick-section{
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 30px;
+}
+
+/* =========================================================
+   QUICK TITLE
+========================================================= */
+
+.quick-title{
+    text-align: center;
+}
+
+.quick-badge{
+    display: inline-flex;
+
+    padding: 10px 18px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,0.34);
+
+    color: #555;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 18px;
+}
+
+.quick-title h2{
+    font-size: 46px;
+
+    font-weight: 800;
+
+    color: #222;
+
+    margin-bottom: 14px;
+}
+
+.quick-title p{
+    color: #777;
+
+    font-size: 16px;
+}
+
+/* =========================================================
+   QUICK GRID
+========================================================= */
+
+.quick-grid{
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 24px;
+}
+
+/* =========================================================
+   QUICK CARD
+========================================================= */
+
+.quick-card{
+    position: relative;
+
+    padding: 30px;
+
+    border-radius: 32px;
+
+    overflow: hidden;
+
+    text-decoration: none;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.48),
+            rgba(255,255,255,0.18)
+        );
+
+    backdrop-filter: blur(24px);
+
+    border:
+        1px solid rgba(255,255,255,0.22);
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,0.06);
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 22px;
+
+    transition: 0.4s ease;
+}
+
+.quick-card:hover{
+    transform:
+        translateY(-10px);
+
+    box-shadow:
+        0 30px 65px rgba(255,180,210,0.18);
+}
+
+/* =========================================================
+   QUICK ICON
+========================================================= */
+
+.quick-icon{
+    width: 70px;
+    height: 70px;
+
+    border-radius: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 28px;
+
+    color: #222;
+}
+
+.pink-bg{
+    background:
+        linear-gradient(
+            135deg,
+            #ffd3e4,
+            #ffc2da
+        );
+}
+
+.purple-bg{
+    background:
+        linear-gradient(
+            135deg,
+            #e3d8ff,
+            #cfbcff
+        );
+}
+
+.peach-bg{
+    background:
+        linear-gradient(
+            135deg,
+            #ffe2cf,
+            #ffcaaa
+        );
+}
+
+.blue-bg{
+    background:
+        linear-gradient(
+            135deg,
+            #d7f0ff,
+            #bde6ff
+        );
+}
+
+/* =========================================================
+   QUICK CONTENT
+========================================================= */
+
+.quick-content h3{
+    font-size: 22px;
+
+    font-weight: 800;
+
+    color: #222;
+
+    margin-bottom: 10px;
+}
+
+.quick-content p{
+    color: #777;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+}
+
+/* =========================================================
+   QUICK ARROW
+========================================================= */
+
+.quick-arrow{
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(255,255,255,0.38);
+
+    color: #333;
+
+    margin-top: auto;
+
+    transition: 0.35s ease;
+}
+
+.quick-card:hover .quick-arrow{
+    transform:
+        translateX(4px);
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffd4e5,
+            #d9c5ff
+        );
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1200px){
+
+    .dashboard-hero{
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .quick-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width:768px){
+
+    .dashboard-wrapper{
+        padding: 20px;
+    }
+
+    .dashboard-text{
+        padding: 34px 26px;
+    }
+
+    .dashboard-text h1{
+        font-size: 42px;
+    }
+
+    .dashboard-hero-card{
+        padding: 22px;
+    }
+
+    .stats-grid,
+    .quick-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .quick-title h2{
+        font-size: 34px;
+    }
+}

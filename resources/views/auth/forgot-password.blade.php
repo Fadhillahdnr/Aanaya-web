@@ -68,6 +68,16 @@
 
             </button>
 
+            <!-- BACK BUTTON -->
+            <a href="{{ route('login') }}"
+            class="forgot-back-btn">
+
+                <i class="fas fa-arrow-left"></i>
+
+                Back to Login
+
+            </a>
+
         </form>
 
     </div>

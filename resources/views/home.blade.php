@@ -1,96 +1,98 @@
 <x-app-layout>
 
-<!-- =========================
-     HERO SECTION
-========================= -->
-<section class="hero">
+<div class="dream-home-page">
 
-    <!-- BACKGROUND -->
-    <div class="hero-blur hero-blur-1"></div>
-    <div class="hero-blur hero-blur-2"></div>
+    <!-- NOISE -->
+    <div class="home-noise"></div>
+
+    <!-- GLOW -->
+    <div class="home-bg glow-1"></div>
+    <div class="home-bg glow-2"></div>
+    <div class="home-bg glow-3"></div>
 
     <!-- FLOATING ORBS -->
     <div class="floating-orb orb-1"></div>
     <div class="floating-orb orb-2"></div>
     <div class="floating-orb orb-3"></div>
 
-    <!-- CONTENT -->
-    <div class="hero-content">
+    <!-- HERO -->
+    <section class="dream-hero">
 
-        <!-- TOP TAG -->
-        <div class="hero-top">
+        <div class="dream-hero-content">
 
-            <span class="hero-tag" data-aos="fade-down">
+            <!-- BADGE -->
+            <div class="dream-badge"
+                 data-aos="fade-down">
 
-                <i class="fas fa-wave-square"></i>
+                <span class="badge-dot"></span>
 
                 INDONESIAN DREAM POP BAND
 
-            </span>
+            </div>
 
-        </div>
+            <!-- TITLE -->
+            <h1 data-aos="fade-up">
 
-        <!-- TITLE -->
-        <h1 data-aos="fade-up">
+                <span class="title-white">Aana</span><span class="title-gradient">ya</span>
 
-            <span class="title-light">AANA</span><span class="title-pink">YA</span>
+            </h1>
 
-        </h1>
+            <!-- SUBTITLE -->
+            <div class="dream-subtitle"
+                 data-aos="fade-up"
+                 data-aos-delay="100">
 
-        <!-- SUBTITLE -->
-        <div class="hero-subtitle"
-             data-aos="fade-up"
-             data-aos-delay="100">
+                <span></span>
 
-            <span></span>
+                <p>
+                    dreamy • emotional • cinematic
+                </p>
 
-            <p>
-                dreamy • emotional • cinematic
+                <span></span>
+
+            </div>
+
+            <!-- DESCRIPTION -->
+            <p class="dream-description"
+               data-aos="fade-up"
+               data-aos-delay="200">
+
+                Floating through dreamy melodies,
+                emotional lyrics, and cinematic soundscapes
+                that feel like midnight memories,
+                soft heartbreaks, and endless night drives.
+
             </p>
 
-            <span></span>
+            <!-- BUTTONS -->
+            <div class="dream-actions"
+                 data-aos="fade-up"
+                 data-aos-delay="300">
+
+                <a href="/music"
+                   class="dream-btn primary-btn">
+
+                    <i class="fas fa-play"></i>
+
+                    Listen Now
+
+                </a>
+
+                <a href="/about"
+                   class="dream-btn secondary-btn">
+
+                    <i class="fas fa-stars"></i>
+
+                    Explore Universe
+
+                </a>
+
+            </div>
 
         </div>
 
-        <!-- DESCRIPTION -->
-        <p class="hero-description"
-           data-aos="fade-up"
-           data-aos-delay="200">
+    </section>
 
-            Floating through dreamy melodies,
-            emotional lyrics, and cinematic soundscapes that feel
-            like memories, midnight drives,
-            and quiet heartbreaks.
-
-        </p>
-
-        <!-- BUTTONS -->
-        <div class="hero-buttons"
-             data-aos="fade-up"
-             data-aos-delay="400">
-
-            <a href="/music"
-               class="btn-primary">
-
-                <i class="fas fa-play"></i>
-
-                Listen Now
-
-            </a>
-
-            <a href="/about"
-               class="btn-secondary">
-
-                <i class="fas fa-star"></i>
-
-                Explore Universe
-
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
+</div>
 
 </x-app-layout>

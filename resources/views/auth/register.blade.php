@@ -1,18 +1,18 @@
 <x-guest-layout>
 
-    <div class="auth-page">
+    <div class="auth-regis-page">
 
         <!-- BLUR -->
-        <div class="auth-blur auth-blur-1"></div>
-        <div class="auth-blur auth-blur-2"></div>
+        <div class="auth-regis-blur auth-regis-blur-1"></div>
+        <div class="auth-regis-blur auth-regis-blur-2"></div>
 
         <!-- CARD -->
-        <div class="auth-card">
+        <div class="auth-regis-card">
 
             <!-- LEFT -->
-            <div class="auth-left">
+            <div class="auth-regis-left">
 
-                <span class="auth-tag">
+                <span class="auth-regis-tag">
                     JOIN AANAYA ✨
                 </span>
 
@@ -28,42 +28,72 @@
                 </p>
 
                 <!-- FEATURES -->
-                <div class="auth-features">
+                <div class="auth-regis-features">
 
-                    <div class="feature-item">
+                    <!-- ITEM -->
+                    <div class="auth-regis-feature-item">
 
                         <i class="fas fa-music"></i>
 
-                        <span>
-                            Exclusive Music Access
-                        </span>
+                        <div class="auth-regis-feature-content">
+
+                            <h4>
+                                Exclusive Music Access
+                            </h4>
+
+                            <p>
+                                Listen to dreamy tracks, unreleased demos,
+                                and emotional soundscapes from Aanaya.
+                            </p>
+
+                        </div>
 
                     </div>
 
-                    <div class="feature-item">
+                    <!-- ITEM -->
+                    <div class="auth-regis-feature-item">
 
                         <i class="fas fa-image"></i>
 
-                        <span>
-                            Dreamy Visual Gallery
-                        </span>
+                        <div class="auth-regis-feature-content">
+
+                            <h4>
+                                Dreamy Visual Gallery
+                            </h4>
+
+                            <p>
+                                Explore cinematic visuals, aesthetics,
+                                behind the scenes, and emotional moments.
+                            </p>
+
+                        </div>
 
                     </div>
 
-                    <div class="feature-item">
+                    <!-- ITEM -->
+                    <div class="auth-regis-feature-item">
 
                         <i class="fas fa-shirt"></i>
 
-                        <span>
-                            Official Merchandise
-                        </span>
+                        <div class="auth-regis-feature-content">
+
+                            <h4>
+                                Official Merchandise
+                            </h4>
+
+                            <p>
+                                Discover exclusive apparel and limited
+                                collections inspired by Aanaya’s universe.
+                            </p>
+
+                        </div>
 
                     </div>
 
                 </div>
 
                 <!-- MUSIC BARS -->
-                <div class="music-bars">
+                <div class="auth-regis-music-bars">
 
                     <span></span>
                     <span></span>
@@ -75,10 +105,10 @@
             </div>
 
             <!-- RIGHT -->
-            <div class="auth-right">
+            <div class="auth-regis-right">
 
                 <!-- HEADER -->
-                <div class="login-header">
+                <div class="auth-regis-header">
 
                     <h2>
                         Create Account
@@ -93,18 +123,18 @@
                 <!-- FORM -->
                 <form method="POST"
                       action="{{ route('register') }}"
-                      class="auth-form">
+                      class="auth-regis-form">
 
                     @csrf
 
                     <!-- NAME -->
-                    <div class="form-group">
+                    <div class="auth-regis-group">
 
                         <label for="name">
                             Full Name
                         </label>
 
-                        <div class="input-wrapper">
+                        <div class="auth-regis-input-wrapper">
 
                             <i class="fas fa-user"></i>
 
@@ -117,7 +147,7 @@
                                 autofocus
                                 autocomplete="name"
                                 placeholder="Enter your full name"
-                                class="auth-input">
+                                class="auth-regis-input">
 
                         </div>
 
@@ -128,13 +158,13 @@
                     </div>
 
                     <!-- EMAIL -->
-                    <div class="form-group">
+                    <div class="auth-regis-group">
 
                         <label for="email">
                             Email Address
                         </label>
 
-                        <div class="input-wrapper">
+                        <div class="auth-regis-input-wrapper">
 
                             <i class="fas fa-envelope"></i>
 
@@ -146,7 +176,7 @@
                                 required
                                 autocomplete="username"
                                 placeholder="Enter your email"
-                                class="auth-input">
+                                class="auth-regis-input">
 
                         </div>
 
@@ -157,13 +187,13 @@
                     </div>
 
                     <!-- PASSWORD -->
-                    <div class="form-group">
+                    <div class="auth-regis-group">
 
                         <label for="password">
                             Password
                         </label>
 
-                        <div class="input-wrapper">
+                        <div class="auth-regis-input-wrapper">
 
                             <i class="fas fa-lock"></i>
 
@@ -174,7 +204,16 @@
                                 required
                                 autocomplete="new-password"
                                 placeholder="Create password"
-                                class="auth-input">
+                                class="auth-regis-input">
+
+                            <!-- TOGGLE -->
+                            <button type="button"
+                                    class="auth-regis-password-toggle"
+                                    onclick="togglePassword('password', this)">
+
+                                <i class="fas fa-eye"></i>
+
+                            </button>
 
                         </div>
 
@@ -185,13 +224,13 @@
                     </div>
 
                     <!-- CONFIRM PASSWORD -->
-                    <div class="form-group">
+                    <div class="auth-regis-group">
 
                         <label for="password_confirmation">
                             Confirm Password
                         </label>
 
-                        <div class="input-wrapper">
+                        <div class="auth-regis-input-wrapper">
 
                             <i class="fas fa-shield-heart"></i>
 
@@ -202,7 +241,16 @@
                                 required
                                 autocomplete="new-password"
                                 placeholder="Confirm password"
-                                class="auth-input">
+                                class="auth-regis-input">
+
+                            <!-- TOGGLE -->
+                            <button type="button"
+                                    class="auth-regis-password-toggle"
+                                    onclick="togglePassword('password_confirmation', this)">
+
+                                <i class="fas fa-eye"></i>
+
+                            </button>
 
                         </div>
 
@@ -214,7 +262,7 @@
 
                     <!-- BUTTON -->
                     <button type="submit"
-                            class="login-btn-main">
+                            class="auth-regis-btn">
 
                         <i class="fas fa-user-plus"></i>
 
@@ -222,8 +270,18 @@
 
                     </button>
 
+                    <!-- BACK BUTTON -->
+                    <a href="{{ route('home') }}"
+                    class="forgot-back-btn">
+
+                        <i class="fas fa-arrow-left"></i>
+
+                        Back to Home
+
+                    </a>
+
                     <!-- LOGIN -->
-                    <div class="register-link">
+                    <div class="auth-regis-login-link">
 
                         Already have an account?
 
@@ -240,5 +298,32 @@
         </div>
 
     </div>
+
+    <script>
+    function togglePassword(inputId, button){
+
+        const input = document.getElementById(inputId);
+
+        const icon = button.querySelector('i');
+
+        if(input.type === 'password'){
+
+            input.type = 'text';
+
+            icon.classList.remove('fa-eye');
+
+            icon.classList.add('fa-eye-slash');
+
+        }else{
+
+            input.type = 'password';
+
+            icon.classList.remove('fa-eye-slash');
+
+            icon.classList.add('fa-eye');
+
+        }
+    }
+</script>
 
 </x-guest-layout>

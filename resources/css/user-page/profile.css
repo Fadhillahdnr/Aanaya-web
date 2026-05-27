@@ -1,0 +1,690 @@
+/* =========================================================
+   PROFILE PAGE
+========================================================= */
+
+.user-profile-page{
+    position: relative;
+
+    min-height: 100vh;
+
+    padding: 140px 24px 100px;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at top left, rgba(255,182,213,0.12), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(200,169,255,0.14), transparent 35%),
+        linear-gradient(
+            180deg,
+            #0f0f14 0%,
+            #15151d 50%,
+            #111118 100%
+        );
+}
+
+/* =========================================================
+   BACKGROUND GLOW
+========================================================= */
+
+.user-profile-bg{
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter: blur(120px);
+
+    opacity: 0.3;
+
+    pointer-events: none;
+}
+
+.user-profile-bg.blur-1{
+    width: 420px;
+    height: 420px;
+
+    top: -120px;
+    left: -100px;
+
+    background: #ff9ec7;
+}
+
+.user-profile-bg.blur-2{
+    width: 420px;
+    height: 420px;
+
+    bottom: -140px;
+    right: -100px;
+
+    background: #b68cff;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.user-profile-hero{
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 900px;
+
+    margin: 0 auto 70px;
+
+    text-align: center;
+}
+
+/* badge */
+
+.user-profile-badge{
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 12px 24px;
+
+    margin-bottom: 28px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    border:
+        1px solid rgba(255,255,255,0.12);
+
+    backdrop-filter: blur(20px);
+
+    color: #f5d9e7;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+/* title */
+
+.user-profile-hero h1{
+    font-size: clamp(48px, 7vw, 82px);
+
+    line-height: 1.05;
+
+    font-weight: 800;
+
+    color: #fff;
+
+    margin-bottom: 24px;
+
+    letter-spacing: -3px;
+}
+
+.user-profile-hero h1 span{
+    background:
+        linear-gradient(
+            135deg,
+            #ff9bc4,
+            #d2b0ff
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+/* desc */
+
+.user-profile-hero p{
+    max-width: 760px;
+
+    margin: auto;
+
+    color: rgba(255,255,255,0.7);
+
+    font-size: 18px;
+
+    line-height: 1.9;
+}
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.user-profile-grid{
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 1300px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(2,1fr);
+
+    gap: 30px;
+
+    align-items: start;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.user-profile-card{
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 38px;
+
+    border-radius: 34px;
+
+    background:
+        rgba(255,255,255,0.06);
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter: blur(26px);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.28);
+
+    transition: 0.4s ease;
+}
+
+.user-profile-card:hover{
+    transform:
+        translateY(-6px);
+
+    border-color:
+        rgba(255,255,255,0.16);
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,0.38);
+}
+
+/* danger */
+
+.danger-card{
+    grid-column: span 2;
+
+    border:
+        1px solid rgba(255,110,145,0.15);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,85,120,0.08),
+            rgba(255,255,255,0.05)
+        );
+}
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.user-profile-card-header{
+    margin-bottom: 30px;
+}
+
+.user-profile-card-header h2{
+    color: #fff;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    margin-bottom: 10px;
+}
+
+.user-profile-card-header p{
+    color: rgba(255,255,255,0.65);
+
+    font-size: 15px;
+
+    line-height: 1.8;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.user-profile-form{
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
+}
+
+/* =========================================================
+   GROUP
+========================================================= */
+
+.user-profile-group{
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.user-profile-group label{
+    color: #fff;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.4px;
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.user-profile-input{
+    width: 100%;
+
+    padding: 18px 22px;
+
+    border-radius: 18px;
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    background:
+        rgba(255,255,255,0.07);
+
+    backdrop-filter: blur(16px);
+
+    color: #fff;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.3s ease;
+}
+
+.user-profile-input::placeholder{
+    color: rgba(255,255,255,0.35);
+}
+
+.user-profile-input:focus{
+    border-color: #ff9bc4;
+
+    background:
+        rgba(255,255,255,0.1);
+
+    box-shadow:
+        0 0 0 4px rgba(255,155,196,0.15);
+}
+
+/* =========================================================
+   VERIFY
+========================================================= */
+
+.user-profile-verify{
+    margin-top: 14px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+.user-profile-verify p{
+    color: rgba(255,255,255,0.7);
+
+    font-size: 14px;
+}
+
+/* verify btn */
+
+.user-profile-verify-btn{
+    border: none;
+
+    padding: 12px 18px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff9bc4,
+            #d4b1ff
+        );
+
+    color: #111;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.user-profile-verify-btn:hover{
+    transform:
+        translateY(-2px);
+
+    opacity: 0.95;
+}
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.user-profile-success,
+.user-profile-saved{
+    color: #7dffb2;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.user-profile-actions{
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-top: 6px;
+}
+
+/* save btn */
+
+.user-profile-btn{
+    border: none;
+
+    padding: 16px 26px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff9bc4,
+            #d4b1ff
+        );
+
+    color: #111;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.35s ease;
+
+    box-shadow:
+        0 15px 35px rgba(255,155,196,0.18);
+}
+
+.user-profile-btn:hover{
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 20px 45px rgba(255,155,196,0.25);
+}
+
+/* =========================================================
+   DANGER
+========================================================= */
+
+.user-profile-danger{
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
+}
+
+.user-profile-danger p{
+    color: rgba(255,255,255,0.7);
+
+    font-size: 15px;
+
+    line-height: 1.9;
+}
+
+/* delete btn */
+
+.user-profile-delete-btn{
+    width: fit-content;
+
+    border: none;
+
+    padding: 16px 24px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff4d79,
+            #ff7b8f
+        );
+
+    color: #fff;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.35s ease;
+
+    box-shadow:
+        0 15px 35px rgba(255,77,121,0.25);
+}
+
+.user-profile-delete-btn:hover{
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 22px 50px rgba(255,77,121,0.35);
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.user-profile-modal{
+    padding: 34px;
+
+    border-radius: 30px;
+
+    background:
+        #15151d;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 22px;
+}
+
+/* modal title */
+
+.user-profile-modal h2{
+    color: #fff;
+
+    font-size: 30px;
+
+    font-weight: 800;
+}
+
+/* modal desc */
+
+.user-profile-modal p{
+    color: rgba(255,255,255,0.68);
+
+    line-height: 1.9;
+
+    font-size: 15px;
+}
+
+/* modal actions */
+
+.user-profile-modal-actions{
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 16px;
+
+    margin-top: 10px;
+}
+
+/* cancel */
+
+.user-profile-cancel-btn{
+    border: none;
+
+    padding: 15px 22px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    color: #fff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.user-profile-cancel-btn:hover{
+    background:
+        rgba(255,255,255,0.12);
+}
+
+/* confirm */
+
+.user-profile-confirm-btn{
+    border: none;
+
+    padding: 15px 22px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff4d79,
+            #ff8da1
+        );
+
+    color: #fff;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.user-profile-confirm-btn:hover{
+    transform:
+        translateY(-2px);
+}
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.text-red-600{
+    color: #ff8fa7 !important;
+
+    font-size: 13px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1024px){
+
+    .user-profile-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .danger-card{
+        grid-column: span 1;
+    }
+}
+
+@media(max-width:768px){
+
+    .user-profile-page{
+        padding:
+            120px 20px 80px;
+    }
+
+    .user-profile-card{
+        padding: 28px;
+    }
+
+    .user-profile-hero h1{
+        letter-spacing: -1px;
+    }
+
+    .user-profile-hero p{
+        font-size: 15px;
+    }
+
+    .user-profile-card-header h2{
+        font-size: 24px;
+    }
+
+    .user-profile-actions{
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .user-profile-modal{
+        padding: 26px;
+    }
+
+    .user-profile-modal-actions{
+        flex-direction: column;
+    }
+
+    .user-profile-cancel-btn,
+    .user-profile-confirm-btn{
+        width: 100%;
+    }
+}

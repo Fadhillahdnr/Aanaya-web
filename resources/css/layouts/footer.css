@@ -1,0 +1,310 @@
+/* =========================================================
+   USER FOOTER
+========================================================= */
+
+.user-footer{
+    position: relative;
+
+    overflow: hidden;
+
+    padding:
+        120px 24px 50px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff9fb 0%,
+            #f7f3ff 100%
+        );
+
+    text-align: center;
+}
+
+/* =========================================================
+   RESET LINK STYLE
+========================================================= */
+
+.user-footer a{
+    text-decoration: none !important;
+}
+
+/* =========================================================
+   CONTACT SECTION
+========================================================= */
+
+.user-footer-contact{
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 760px;
+
+    margin: auto auto 70px;
+}
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.user-footer-badge{
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 12px 22px;
+
+    margin-bottom: 28px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,0.7);
+
+    backdrop-filter: blur(18px);
+
+    border:
+        1px solid rgba(255,255,255,0.3);
+
+    color: #555;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.06);
+}
+
+/* =========================================================
+   FOOTER TITLE
+========================================================= */
+
+.user-footer-contact h2{
+    font-size: clamp(42px, 6vw, 74px);
+
+    line-height: 1.05;
+
+    font-weight: 800;
+
+    color: #222;
+
+    margin-bottom: 24px;
+
+    letter-spacing: -3px;
+}
+
+.user-footer-contact h2 span{
+    background:
+        linear-gradient(
+            135deg,
+            #ff8ec5,
+            #c8a9ff
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+/* =========================================================
+   FOOTER DESCRIPTION
+========================================================= */
+
+.user-footer-contact p{
+    font-size: 18px;
+
+    line-height: 1.9;
+
+    color: #666;
+}
+
+/* =========================================================
+   SOCIALS
+========================================================= */
+
+.user-footer-socials{
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+    max-width: 1200px;
+
+    margin:
+        0 auto 80px;
+}
+
+/* =========================================================
+   SOCIAL ITEM
+========================================================= */
+
+.user-footer-social{
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    padding: 18px 28px;
+
+    min-width: 190px;
+
+    border-radius: 28px;
+
+    background:
+        rgba(255,255,255,0.65);
+
+    backdrop-filter: blur(18px);
+
+    border:
+        1px solid rgba(255,255,255,0.35);
+
+    color: #333 !important;
+
+    font-weight: 700;
+
+    text-decoration: none !important;
+
+    transition: 0.35s ease;
+
+    box-shadow:
+        0 12px 40px rgba(0,0,0,0.06);
+}
+
+.user-footer-social:link,
+.user-footer-social:visited,
+.user-footer-social:hover,
+.user-footer-social:active{
+    text-decoration: none !important;
+}
+
+.user-footer-social span{
+    text-decoration: none !important;
+}
+
+.user-footer-social i{
+    font-size: 22px;
+}
+
+/* =========================================================
+   SOCIAL HOVER
+========================================================= */
+
+.user-footer-social:hover{
+    transform:
+        translateY(-6px)
+        scale(1.02);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(247,200,208,0.9),
+            rgba(233,215,255,0.9)
+        );
+
+    color: #111 !important;
+
+    box-shadow:
+        0 18px 50px rgba(247,200,208,0.28);
+}
+
+/* =========================================================
+   BOTTOM
+========================================================= */
+
+.user-footer-bottom{
+    position: relative;
+
+    z-index: 2;
+}
+
+/* =========================================================
+   LINE
+========================================================= */
+
+.user-footer-line{
+    width: 100%;
+
+    max-width: 1000px;
+
+    height: 1px;
+
+    margin:
+        0 auto 30px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(0,0,0,0.15),
+            transparent
+        );
+}
+
+/* =========================================================
+   COPYRIGHT
+========================================================= */
+
+.user-footer-bottom p{
+    font-size: 15px;
+
+    color: #777;
+
+    letter-spacing: 1px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:768px){
+
+    .user-footer{
+        padding:
+            90px 20px 40px;
+    }
+
+    .user-footer-contact{
+        margin-bottom: 50px;
+    }
+
+    .user-footer-contact h2{
+        letter-spacing: -1px;
+    }
+
+    .user-footer-contact p{
+        font-size: 15px;
+    }
+
+    .user-footer-socials{
+        gap: 14px;
+
+        margin-bottom: 60px;
+    }
+
+    .user-footer-social{
+        width: 100%;
+
+        min-width: unset;
+
+        padding: 18px 20px;
+    }
+
+    .user-footer-bottom p{
+        font-size: 13px;
+
+        line-height: 1.8;
+    }
+
+}

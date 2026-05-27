@@ -18,7 +18,7 @@
 
                 <h1>
                     Welcome Back to
-                    <span>AANAYA</span>
+                    <span>Aanaya</span>
                 </h1>
 
                 <p>
@@ -89,20 +89,33 @@
 
                         <label>Password</label>
 
-                        <input
-                            type="password"
-                            name="password"
-                            required
-                            autocomplete="current-password"
-                            class="auth-input"
-                            placeholder="Enter your password">
+                        <div class="auth-input-wrapper">
+
+                            <input
+                                id="login_password"
+                                type="password"
+                                name="password"
+                                required
+                                autocomplete="current-password"
+                                class="auth-input"
+                                placeholder="Enter your password">
+
+                            <!-- TOGGLE -->
+                            <button type="button"
+                                    class="auth-password-toggle"
+                                    onclick="togglePassword('login_password', this)">
+
+                                <i class="fas fa-eye"></i>
+
+                            </button>
+
+                        </div>
 
                         <x-input-error
                             :messages="$errors->get('password')"
                             class="mt-2" />
 
                     </div>
-
                     <!-- OPTIONS -->
                     <div class="auth-options">
 
@@ -138,6 +151,16 @@
 
                     </button>
 
+                    <!-- BACK BUTTON -->
+                    <a href="{{ route('home') }}"
+                    class="forgot-back-btn">
+
+                        <i class="fas fa-arrow-left"></i>
+
+                        Back to Home
+
+                    </a>
+
                     <!-- REGISTER -->
                     <div class="register-link">
 
@@ -156,5 +179,32 @@
         </div>
 
     </div>
+
+<script>
+    function togglePassword(inputId, button){
+
+        const input = document.getElementById(inputId);
+
+        const icon = button.querySelector('i');
+
+        if(input.type === 'password'){
+
+            input.type = 'text';
+
+            icon.classList.remove('fa-eye');
+
+            icon.classList.add('fa-eye-slash');
+
+        }else{
+
+            input.type = 'password';
+
+            icon.classList.remove('fa-eye-slash');
+
+            icon.classList.add('fa-eye');
+
+        }
+    }
+</script>
 
 </x-guest-layout>

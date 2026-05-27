@@ -1,16 +1,13 @@
 <nav x-data="{ open: false }" class="aanaya-navbar">
 
-    <!-- BACKGROUND BLUR -->
-    <div class="navbar-blur blur-1"></div>
-    <div class="navbar-blur blur-2"></div>
-
     <div class="navbar-container">
 
-        <!-- LEFT -->
+        <!-- LOGO -->
         <div class="navbar-left">
 
-            <!-- LOGO -->
-            <a href="{{ route('dashboard') }}" class="navbar-logo">
+            <a
+                href="{{ route('dashboard') }}"
+                class="navbar-logo">
 
                 <img
                     src="{{ asset('images/logo.png') }}"
@@ -20,11 +17,12 @@
 
         </div>
 
-        <!-- CENTER MENU -->
+        <!-- DESKTOP MENU -->
         <div class="desktop-menu">
 
-            <a href="{{ route('dashboard') }}"
-               class="nav-link {{ request()->routeIs('dashboard') ? 'active-link' : '' }}">
+            <a
+                href="{{ route('dashboard') }}"
+                class="nav-link {{ request()->routeIs('dashboard') ? 'active-link' : '' }}">
 
                 <i class="fas fa-house"></i>
 
@@ -32,8 +30,9 @@
 
             </a>
 
-            <a href="{{ route('music') }}"
-               class="nav-link {{ request()->routeIs('music') ? 'active-link' : '' }}">
+            <a
+                href="{{ route('music') }}"
+                class="nav-link {{ request()->routeIs('music') ? 'active-link' : '' }}">
 
                 <i class="fas fa-music"></i>
 
@@ -41,8 +40,9 @@
 
             </a>
 
-            <a href="{{ route('articles') }}"
-               class="nav-link {{ request()->routeIs('articles') ? 'active-link' : '' }}">
+            <a
+                href="{{ route('articles') }}"
+                class="nav-link {{ request()->routeIs('articles') ? 'active-link' : '' }}">
 
                 <i class="fas fa-newspaper"></i>
 
@@ -50,8 +50,9 @@
 
             </a>
 
-            <a href="{{ route('gallery') }}"
-               class="nav-link {{ request()->routeIs('gallery') ? 'active-link' : '' }}">
+            <a
+                href="{{ route('gallery') }}"
+                class="nav-link {{ request()->routeIs('gallery') ? 'active-link' : '' }}">
 
                 <i class="fas fa-image"></i>
 
@@ -59,8 +60,9 @@
 
             </a>
 
-            <a href="{{ route('merchandise') }}"
-               class="nav-link {{ request()->routeIs('merchandise') ? 'active-link' : '' }}">
+            <a
+                href="{{ route('merchandise') }}"
+                class="nav-link {{ request()->routeIs('merchandise') ? 'active-link' : '' }}">
 
                 <i class="fas fa-bag-shopping"></i>
 
@@ -68,8 +70,9 @@
 
             </a>
 
-            <a href="{{ route('about') }}"
-               class="nav-link {{ request()->routeIs('about') ? 'active-link' : '' }}">
+            <a
+                href="{{ route('about') }}"
+                class="nav-link {{ request()->routeIs('about') ? 'active-link' : '' }}">
 
                 <i class="fas fa-heart"></i>
 
@@ -84,13 +87,13 @@
 
             @auth
 
-                <!-- USER DROPDOWN -->
+                <!-- USER -->
                 <div
                     class="user-dropdown"
                     x-data="{ dropdown: false }">
 
                     <button
-                        @click="dropdown = ! dropdown"
+                        @click="dropdown = !dropdown"
                         class="user-btn">
 
                         <div class="user-avatar">
@@ -102,11 +105,15 @@
                         <div class="user-info">
 
                             <span class="user-name">
+
                                 {{ Auth::user()->name }}
+
                             </span>
 
                             <span class="user-role">
+
                                 {{ ucfirst(Auth::user()->role) }}
+
                             </span>
 
                         </div>
@@ -189,7 +196,7 @@
 
             <!-- MOBILE TOGGLE -->
             <button
-                @click="open = ! open"
+                @click="open = !open"
                 class="mobile-toggle">
 
                 <i class="fas fa-bars"></i>
@@ -207,33 +214,51 @@
         class="mobile-menu">
 
         <a href="{{ route('dashboard') }}">
+
             <i class="fas fa-house"></i>
+
             Dashboard
+
         </a>
 
         <a href="{{ route('music') }}">
+
             <i class="fas fa-music"></i>
+
             Music
+
         </a>
 
         <a href="{{ route('articles') }}">
+
             <i class="fas fa-newspaper"></i>
+
             Articles
+
         </a>
 
         <a href="{{ route('gallery') }}">
+
             <i class="fas fa-image"></i>
+
             Gallery
+
         </a>
 
         <a href="{{ route('merchandise') }}">
+
             <i class="fas fa-bag-shopping"></i>
+
             Merchandise
+
         </a>
 
         <a href="{{ route('about') }}">
+
             <i class="fas fa-heart"></i>
+
             About
+
         </a>
 
         @auth
@@ -277,11 +302,15 @@
         @else
 
             <a href="{{ route('login') }}">
+
                 Login
+
             </a>
 
             <a href="{{ route('register') }}">
+
                 Register
+
             </a>
 
         @endauth

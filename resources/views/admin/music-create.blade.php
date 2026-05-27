@@ -2,24 +2,30 @@
 
 @section('content')
 
-<div class="music-page">
+<div class="music-page-admin">
 
     <!-- HEADER -->
-    <div class="page-top">
+    <div class="form-header">
 
         <div>
-            <h1>Music Management</h1>
 
-            <p class="page-subtitle">
-                Upload new songs, albums, and manage releases ✨
+            <span class="form-badge">
+                UPLOAD MUSIC
+            </span>
+
+            <h1>Upload New Music</h1>
+
+            <p>
+                Add new music releases to the website.
             </p>
+
         </div>
 
-        <a href="/admin/music/create" class="pink-btn">
+        <a href="/admin/music" class="back-btn">
 
-            <i class="fas fa-plus"></i>
+            <i class="fas fa-arrow-left"></i>
 
-            Upload Music
+            Back
 
         </a>
 
@@ -28,7 +34,7 @@
     <!-- SUCCESS MESSAGE -->
     @if(session('success'))
 
-        <div class="success-alert">
+        <div class="success-alert-admin">
             {{ session('success') }}
         </div>
 
@@ -37,7 +43,7 @@
     <!-- ERROR -->
     @if ($errors->any())
 
-        <div class="error-alert">
+        <div class="error-alert-admin">
 
             <ul>
 
@@ -54,11 +60,11 @@
     @endif
 
     <!-- FORM -->
-    <div class="music-form-card">
+    <div class="music-form-card-admin">
 
-        <div class="form-glow"></div>
+        <div class="form-glow-admin"></div>
 
-        <h2 class="form-title">
+        <h2 class="form-title-admin">
             Upload New Track
         </h2>
 
@@ -68,13 +74,13 @@
 
             @csrf
 
-            <div class="form-grid">
+            <div class="form-grid-admin">
 
                 <!-- LEFT -->
-                <div class="form-left">
+                <div class="form-left-admin">
 
                     <!-- TITLE -->
-                    <div class="form-group">
+                    <div class="form-group-admin">
 
                         <label>Music Title</label>
 
@@ -87,7 +93,7 @@
                     </div>
 
                     <!-- ARTIST -->
-                    <div class="form-group">
+                    <div class="form-group-admin">
 
                         <label>Artist</label>
 
@@ -100,7 +106,7 @@
                     </div>
 
                     <!-- RELEASE -->
-                    <div class="form-group">
+                    <div class="form-group-admin">
 
                         <label>Release Date</label>
 
@@ -111,7 +117,7 @@
                     </div>
 
                     <!-- DESCRIPTION -->
-                    <div class="form-group">
+                    <div class="form-group-admin">
 
                         <label>Description</label>
 
@@ -125,10 +131,10 @@
                 </div>
 
                 <!-- RIGHT -->
-                <div class="form-right">
+                <div class="form-right-admin">
 
                     <!-- COVER -->
-                    <div class="upload-box">
+                    <div class="upload-box-admin">
 
                         <i class="fas fa-image"></i>
 
@@ -143,7 +149,7 @@
                     </div>
 
                     <!-- AUDIO -->
-                    <div class="upload-box">
+                    <div class="upload-box-admin">
 
                         <i class="fas fa-music"></i>
 
@@ -158,7 +164,7 @@
                     </div>
 
                     <!-- SPOTIFY -->
-                    <div class="form-group">
+                    <div class="form-group-admin">
 
                         <label>Spotify Link</label>
 
@@ -170,7 +176,7 @@
                     </div>
 
                     <!-- YOUTUBE -->
-                    <div class="form-group">
+                    <div class="form-group-admin">
 
                         <label>YouTube Link</label>
 
@@ -186,9 +192,9 @@
             </div>
 
             <!-- BUTTON -->
-            <div class="submit-wrapper">
+            <div class="submit-wrapper-admin">
 
-                <button type="submit" class="save-btn">
+                <button type="submit" class="save-btn-admin">
 
                     <i class="fas fa-cloud-upload-alt"></i>
 

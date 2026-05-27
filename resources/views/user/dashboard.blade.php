@@ -1,282 +1,306 @@
 <x-app-layout>
 
-    <div class="user-dashboard">
+    <div class="dream-dashboard">
 
-        <!-- BACKGROUND GLOW -->
-        <div class="dashboard-bg-glow glow-1"></div>
-        <div class="dashboard-bg-glow glow-2"></div>
+        <!-- =========================================
+            HERO
+        ========================================== -->
+        <section class="dream-hero">
 
-        <!-- HERO -->
-        <section class="user-hero">
+            <!-- BACKGROUND -->
+            <div class="hero-slider">
 
-            <!-- LEFT -->
-            <div class="hero-left">
+                <div class="hero-slide active">
+                    <img src="{{ asset('assets/bg/bg1.png') }}">
+                </div>
 
-                <span class="hero-badge">
-                    ✨ DREAMY • CINEMATIC • EMOTIONAL
-                </span>
+                <div class="hero-slide">
+                    <img src="{{ asset('assets/bg/bg2.jpeg') }}">
+                </div>
 
-                <h1>
-                    Welcome Back,
-                    <span>{{ Auth::user()->name }}</span>
-                </h1>
+                <div class="hero-slide">
+                    <img src="{{ asset('assets/bg/bg3.png') }}">
+                </div>
 
-                <p class="hero-description">
-                    Dive into the dreamy universe of Aanaya —
-                    stream emotional music, explore cinematic visuals,
-                    discover exclusive merchandise,
-                    and feel the atmosphere behind every release.
-                </p>
+                <div class="hero-slide">
+                    <img src="{{ asset('assets/bg/bg4.png') }}">
+                </div>
 
-                <!-- BUTTON -->
-                <div class="hero-buttons">
+            </div>
 
-                    <a href="/music" class="hero-btn primary-btn">
+            <!-- OVERLAY -->
+            <div class="hero-overlay"></div>
 
-                        <i class="fas fa-play"></i>
+            <!-- GLOW -->
+            <div class="hero-glow glow-1"></div>
+            <div class="hero-glow glow-2"></div>
 
-                        Listen Now
+            <!-- CONTENT -->
+            <div class="hero-container">
 
-                    </a>
+                <div class="hero-left">
 
-                    <a href="/gallery" class="hero-btn secondary-btn">
+                    <div class="dream-badge">
+                        <span></span>
+                        Aanaya UNIVERSE
+                    </div>
 
-                        <i class="fas fa-image"></i>
+                    <h1 class="dream-title">
 
-                        Explore Gallery
+                        @auth
+                            Hello,
+                            <span>{{ Auth::user()->name }}</span>
+                        @endauth
 
-                    </a>
+                        @guest
+                            Welcome To
+                            <span>Aanaya</span>
+                        @endguest
+
+                    </h1>
+
+                    <p class="dream-description">
+                        Enter a dreamy cinematic universe filled with emotional music,
+                        elegant visuals, and soft immersive experiences.
+                    </p>
+
+                    <div class="dream-buttons">
+
+                        <a href="/music" class="dream-btn primary-btn">
+
+                            <i class="fas fa-play"></i>
+
+                            Listen Music
+
+                        </a>
+
+                        <a href="/gallery" class="dream-btn secondary-btn">
+
+                            <i class="fas fa-image"></i>
+
+                            Explore Gallery
+
+                        </a>
+
+                    </div>
 
                 </div>
 
-                <!-- STATS -->
-                <div class="hero-stats">
+                <!-- FLOAT CARD -->
+                <div class="hero-right">
 
-                    <div class="hero-stat-card">
+                    @if(isset($latestMusic) && $latestMusic)
 
-                        <h2>{{ $totalMusic }}</h2>
+                        <div class="hero-music-card">
 
-                        <p>Music</p>
+                            <div class="music-card-image">
 
-                    </div>
+                                <img
+                                    src="{{ asset($latestMusic->cover_image) }}"
+                                    alt="{{ $latestMusic->title }}">
 
-                    <div class="hero-stat-card">
+                                <div class="music-image-overlay"></div>
 
-                        <h2>{{ $totalArticles }}</h2>
+                            </div>
 
-                        <p>Articles</p>
+                            <div class="music-card-content">
 
-                    </div>
+                                <div class="music-top">
 
-                    <div class="hero-stat-card">
+                                    <span>Latest Release</span>
 
-                        <h2>{{ $totalProducts }}</h2>
+                                    <div class="music-wave">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
 
-                        <p>Products</p>
+                                </div>
 
-                    </div>
+                                <h3>
+                                    {{ $latestMusic->title }}
+                                </h3>
 
-                    <div class="hero-stat-card">
+                                <p>
+                                    {{ $latestMusic->artist }}
+                                </p>
 
-                        <h2>{{ $totalGallery }}</h2>
+                                <div class="aanaya-player">
 
-                        <p>Gallery</p>
+                                    <button class="aanaya-play-btn">
+                                        <i class="fas fa-play"></i>
+                                    </button>
 
-                    </div>
+                                    <div class="aanaya-audio-info">
+
+                                        <span>
+                                            {{ $latestMusic->title }}
+                                        </span>
+
+                                        <div class="aanaya-audio-wave">
+                                            <i></i>
+                                            <i></i>
+                                            <i></i>
+                                            <i></i>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="aanaya-volume">
+
+                                        <i class="fas fa-volume-up"></i>
+
+                                        <input
+                                            type="range"
+                                            class="volume-slider"
+                                            min="0"
+                                            max="1"
+                                            step="0.01"
+                                            value="1">
+
+                                    </div>
+
+                                    <audio class="custom-audio">
+
+                                        <source
+                                            src="{{ asset($latestMusic->audio_file) }}"
+                                            type="audio/mpeg">
+
+                                    </audio>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @endif
 
                 </div>
 
             </div>
 
-            <!-- RIGHT -->
-            <div class="dashboard-hero-card">
+            <!-- SLIDER NAV -->
+            <div class="hero-navigation">
 
-                <div class="hero-glow"></div>
+                <button class="hero-nav-btn" id="prevSlide">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
 
-                <div class="latest-label">
-
-                    <i class="fas fa-fire"></i>
-
-                    Latest Release
-
-                </div>
-
-                @if(isset($latestMusic) && $latestMusic)
-
-                    <!-- COVER -->
-                    <div class="latest-cover-wrapper">
-
-                        <img
-                            src="{{ asset($latestMusic->cover_image) }}"
-                            alt="{{ $latestMusic->title }}"
-                            class="latest-cover">
-
-                    </div>
-
-                    <!-- INFO -->
-                    <div class="latest-info">
-
-                        <span class="latest-category">
-                            NEW MUSIC
-                        </span>
-
-                        <h2>
-                            {{ $latestMusic->title }}
-                        </h2>
-
-                        <p>
-                            {{ $latestMusic->artist }}
-                        </p>
-
-                    </div>
-
-                    <!-- AUDIO -->
-                    <div class="latest-audio">
-
-                        <audio controls>
-
-                            <source
-                                src="{{ asset($latestMusic->audio_file) }}"
-                                type="audio/mpeg">
-
-                        </audio>
-
-                    </div>
-
-                @else
-
-                    <div class="empty-release">
-
-                        <i class="fas fa-music"></i>
-
-                        <h3>No Music Yet</h3>
-
-                        <p>
-                            Latest releases will appear here.
-                        </p>
-
-                    </div>
-
-                @endif
+                <button class="hero-nav-btn" id="nextSlide">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
 
             </div>
 
         </section>
 
-        <!-- QUICK ACCESS -->
-        <section class="dashboard-section">
+        <!-- =========================================
+            DISCOVER
+        ========================================== -->
+        <section class="dream-section">
 
-            <div class="section-title">
+            <div class="section-heading">
 
-                <span>DISCOVER</span>
+                <div>
+                    <span class="section-mini-title">
+                        DISCOVER
+                    </span>
 
-                <h2>Explore The Universe</h2>
-
-                <p>
-                    Everything you need in one dreamy place.
-                </p>
+                    <h2>
+                        Explore The Universe
+                    </h2>
+                </div>
 
             </div>
 
-            <div class="quick-grid">
+            <div class="dream-grid">
 
-                <!-- MUSIC -->
-                <a href="/music" class="quick-card">
+                <a href="/music" class="dream-card">
 
-                    <div class="quick-icon pink">
-
+                    <div class="dream-icon pink">
                         <i class="fas fa-music"></i>
-
                     </div>
 
-                    <div class="quick-content">
+                    <div class="dream-card-content">
 
                         <h3>Music</h3>
 
                         <p>
-                            Listen to emotional cinematic tracks.
+                            Emotional cinematic soundtracks and dreamy ambience.
                         </p>
 
                     </div>
 
-                    <span class="quick-arrow">
+                    <div class="card-arrow">
                         <i class="fas fa-arrow-right"></i>
-                    </span>
+                    </div>
 
                 </a>
 
-                <!-- ARTICLES -->
-                <a href="/articles" class="quick-card">
+                <a href="/articles" class="dream-card">
 
-                    <div class="quick-icon purple">
-
-                        <i class="fas fa-newspaper"></i>
-
+                    <div class="dream-icon purple">
+                        <i class="fas fa-book-open"></i>
                     </div>
 
-                    <div class="quick-content">
+                    <div class="dream-card-content">
 
                         <h3>Articles</h3>
 
                         <p>
-                            Read stories and latest updates.
+                            Universe stories, thoughts, and exclusive updates.
                         </p>
 
                     </div>
 
-                    <span class="quick-arrow">
+                    <div class="card-arrow">
                         <i class="fas fa-arrow-right"></i>
-                    </span>
+                    </div>
 
                 </a>
 
-                <!-- GALLERY -->
-                <a href="/gallery" class="quick-card">
+                <a href="/gallery" class="dream-card">
 
-                    <div class="quick-icon blue">
-
+                    <div class="dream-icon blue">
                         <i class="fas fa-camera"></i>
-
                     </div>
 
-                    <div class="quick-content">
+                    <div class="dream-card-content">
 
                         <h3>Gallery</h3>
 
                         <p>
-                            Explore aesthetic dreamy visuals.
+                            Soft visual collections with dreamy aesthetics.
                         </p>
 
                     </div>
 
-                    <span class="quick-arrow">
+                    <div class="card-arrow">
                         <i class="fas fa-arrow-right"></i>
-                    </span>
+                    </div>
 
                 </a>
 
-                <!-- PRODUCT -->
-                <a href="/products" class="quick-card">
+                <a href="/products" class="dream-card">
 
-                    <div class="quick-icon peach">
-
+                    <div class="dream-icon peach">
                         <i class="fas fa-bag-shopping"></i>
-
                     </div>
 
-                    <div class="quick-content">
+                    <div class="dream-card-content">
 
-                        <h3>Merchandise</h3>
+                        <h3>Store</h3>
 
                         <p>
-                            Official Aanaya merchandise collection.
+                            Explore premium official Aanaya merchandise.
                         </p>
 
                     </div>
 
-                    <span class="quick-arrow">
+                    <div class="card-arrow">
                         <i class="fas fa-arrow-right"></i>
-                    </span>
+                    </div>
 
                 </a>
 
@@ -284,82 +308,134 @@
 
         </section>
 
-        <!-- RECENT MUSIC -->
-        <section class="dashboard-section">
+        <!-- LIBRARY -->
+        <section class="music-library"
+                id="musicCollection">
 
-            <div class="section-title">
+            <!-- TOP -->
+            <div class="library-top"
+                data-aos="fade-up">
 
-                <span>LATEST MUSIC</span>
+                <div>
 
-                <h2>Recent Releases</h2>
+                    <span class="section-subtitle">
+                        LATEST RELEASES
+                    </span>
+
+                    <h2>
+                        Music Collection
+                    </h2>
+
+                </div>
 
             </div>
 
-            <div class="recent-music-grid">
+            <!-- GRID -->
+            <div class="music-grid">
 
-                @forelse($recentMusics as $music)
+                <!-- CARD -->
+                <div class="spotify-card"
+                    data-aos="fade-up"
+                    data-aos-delay="100">
 
-                    <div class="music-card">
+                    <div class="spotify-card-glow"></div>
 
-                        <div class="music-image-wrapper">
+                    <div class="card-top">
 
-                            <img
-                                src="{{ asset($music->cover_image) }}"
-                                alt="{{ $music->title }}">
-
-                        </div>
-
-                        <div class="music-content">
-
-                            <h3>
-                                {{ $music->title }}
-                            </h3>
-
-                            <p>
-                                {{ $music->artist }}
-                            </p>
-
-                            <audio controls>
-
-                                <source
-                                    src="{{ asset($music->audio_file) }}"
-                                    type="audio/mpeg">
-
-                            </audio>
-
-                        </div>
+                        <span class="music-type">
+                            Latest Single
+                        </span>
 
                     </div>
 
-                @empty
+                    <div class="spotify-content">
 
-                    <div class="empty-box">
+                        <h3>
+                            Unfold
+                        </h3>
 
-                        <i class="fas fa-music"></i>
-
-                        <p>No music uploaded yet</p>
+                        <p>
+                            Emotional indie-pop single
+                            with cinematic dreamy vibes
+                            and soft ambient textures.
+                        </p>
 
                     </div>
 
-                @endforelse
+                    <div class="spotify-embed">
+
+                        <iframe
+                            src="https://open.spotify.com/embed/track/0fQnKYxYVQupxyL8PKif9a?utm_source=generator&theme=0"
+                            allowfullscreen=""
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            loading="lazy">
+                        </iframe>
+
+                    </div>
+
+                </div>
+
+                <!-- CARD -->
+                <div class="spotify-card"
+                    data-aos="fade-up"
+                    data-aos-delay="200">
+
+                    <div class="spotify-card-glow"></div>
+
+                    <div class="card-top">
+
+                        <span class="music-type">
+                            Dream Pop
+                        </span>
+
+
+                    </div>
+
+                    <div class="spotify-content">
+
+                        <h3>
+                            MSYL
+                        </h3>
+
+                        <p>
+                            Floating melodies,
+                            emotional atmosphere,
+                            and dreamy synth layers
+                            inside Aanaya’s universe.
+                        </p>
+
+                    </div>
+
+                    <div class="spotify-embed">
+
+                        <iframe
+                            src="https://open.spotify.com/embed/track/1Uk8q00F6gDdEqXKAk5Wbr?utm_source=generator&theme=0"
+                            allowfullscreen=""
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            loading="lazy">
+                        </iframe>
+
+                    </div>
+
+                </div>
 
             </div>
 
         </section>
 
-        <!-- QUOTE -->
-        <section class="quote-section">
+        <!-- =========================================
+            QUOTE
+        ========================================== -->
+        <section class="dream-quote-section">
 
-            <div class="quote-card">
+            <div class="dream-quote-card">
 
-                <div class="quote-glow"></div>
-
-                <i class="fas fa-quote-left"></i>
+                <div class="quote-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
 
                 <h2>
-                    “Music gives a soul to the universe,
-                    wings to the mind,
-                    and life to everything.”
+                    “Music begins where words end.”
                 </h2>
 
                 <span>
@@ -371,5 +447,100 @@
         </section>
 
     </div>
+
+    <!-- =========================================
+        SCRIPT
+    ========================================== -->
+    <script>
+
+        const slides =
+            document.querySelectorAll('.hero-slide');
+
+        let currentSlide = 0;
+
+        function showSlide(index){
+
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            slides[index].classList.add('active');
+        }
+
+        function nextSlide(){
+
+            currentSlide++;
+
+            if(currentSlide >= slides.length){
+                currentSlide = 0;
+            }
+
+            showSlide(currentSlide);
+        }
+
+        function prevSlide(){
+
+            currentSlide--;
+
+            if(currentSlide < 0){
+                currentSlide = slides.length - 1;
+            }
+
+            showSlide(currentSlide);
+        }
+
+        document
+            .getElementById('nextSlide')
+            .addEventListener('click', nextSlide);
+
+        document
+            .getElementById('prevSlide')
+            .addEventListener('click', prevSlide);
+
+        setInterval(nextSlide, 7000);
+
+    </script>
+
+    <script>
+
+        const playBtn =
+            document.querySelector('.aanaya-play-btn');
+
+        const audio =
+            document.querySelector('.custom-audio');
+
+        const icon =
+            playBtn.querySelector('i');
+
+        const volumeSlider =
+            document.querySelector('.volume-slider');
+
+        playBtn.addEventListener('click', () => {
+
+            if(audio.paused){
+
+                audio.play();
+
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+
+            }else{
+
+                audio.pause();
+
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+
+            }
+
+        });
+
+        volumeSlider.addEventListener('input', () => {
+
+            audio.volume = volumeSlider.value;
+
+        });
+
+    </script>
 
 </x-app-layout>

@@ -14,6 +14,14 @@
             </p>
         </div>
 
+        <a href="/admin/products" class="back-btn">
+
+            <i class="fas fa-arrow-left"></i>
+
+            Back
+
+        </a>
+
     </div>
 
     <div class="product-form-card">

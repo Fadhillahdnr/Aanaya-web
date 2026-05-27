@@ -1,56 +1,75 @@
 <x-app-layout>
 
-    <div class="music-page">
+<div class="music-page">
 
-    <!-- BACKGROUND GLOW -->
+    <!-- =========================================
+        BACKGROUND
+    ========================================== -->
+    <div class="music-noise"></div>
+
     <div class="music-bg glow-1"></div>
     <div class="music-bg glow-2"></div>
+    <div class="music-bg glow-3"></div>
 
-    <!-- HERO -->
+    <!-- =========================================
+        HERO
+    ========================================== -->
     <section class="music-hero">
 
         <div class="music-hero-content"
              data-aos="fade-up">
 
             <span class="music-badge">
-                ✨ AANAYA DISCOGRAPHY
+
+                <span class="badge-dot"></span>
+
+                Aanaya Dreamy Music
+
             </span>
 
             <h1>
+
                 Dreamy Sounds
-                <span>& Emotional Stories</span>
+
+                <span>
+                    & Emotional Stories
+                </span>
+
             </h1>
 
             <p>
-                Dive into Aanaya’s cinematic universe —
-                a collection of emotional melodies,
-                dreamy atmospheres,
-                and heartfelt lyrics.
+                Dive into Aanaya’s cinematic universe 
+                emotional melodies,
+                floating atmospheres,
+                and soft dreamy experiences crafted
+                through music.
             </p>
 
         </div>
 
     </section>
 
-    <!-- SECTION -->
-    <section class="music-library">
+    <!-- =========================================
+        MUSIC COLLECTION
+    ========================================== -->
+    <section class="dream-section">
 
-        <!-- TOP -->
-        <div class="library-top"
-             data-aos="fade-up">
+        <!-- HEADING -->
+        <div class="section-heading">
 
             <div>
 
-                <span class="section-subtitle">
-                    LATEST RELEASES
+                <span class="section-mini-title">
+                    MUSIC COLLECTION
                 </span>
 
                 <h2>
-                    Music Collection
+                    Recent Releases
                 </h2>
 
             </div>
 
+            <!-- FILTER -->
             <div class="music-filter">
 
                 <button class="filter-btn active">
@@ -70,91 +89,269 @@
         </div>
 
         <!-- GRID -->
-        <div class="music-grid">
+        <div class="dream-music-grid">
 
-            <!-- CARD -->
-            <div class="spotify-card"
-                 data-aos="fade-up"
-                 data-aos-delay="100">
+            @forelse($recentMusics as $music)
 
-                <div class="spotify-card-glow"></div>
+                <!-- CARD -->
+                <div class="dream-music-card"
+                     data-aos="fade-up">
 
-                <!-- CONTENT -->
-                <div class="spotify-content">
+                    <!-- COVER -->
+                    <div class="music-image">
 
-                    <span class="music-type">
-                        Latest Single
-                    </span>
+                        <img
+                            src="{{ asset($music->cover_image) }}"
+                            alt="{{ $music->title }}">
+
+                        <div class="music-image-overlay"></div>
+
+                        <!-- FLOATING PLAY -->
+                        <button class="floating-play-btn">
+
+                            <i class="fas fa-play"></i>
+
+                        </button>
+
+                    </div>
+
+                    <!-- CONTENT -->
+                    <div class="music-content">
+
+                        <!-- META -->
+                        <div class="music-meta">
+
+                            <div>
+
+                                <span class="music-tag">
+                                    Dream Pop
+                                </span>
+
+                                <h3>
+                                    {{ $music->title }}
+                                </h3>
+
+                                <p>
+                                    {{ $music->artist }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <!-- CUSTOM PLAYER -->
+                        <div class="aanaya-player">
+
+                            <!-- PLAY -->
+                            <button class="aanaya-play-btn">
+
+                                <i class="fas fa-play"></i>
+
+                            </button>
+
+                            <!-- INFO -->
+                            <div class="aanaya-audio-info">
+
+                                <span>
+                                    {{ $music->title }}
+                                </span>
+
+                                <div class="aanaya-audio-wave">
+
+                                    <i></i>
+                                    <i></i>
+                                    <i></i>
+                                    <i></i>
+
+                                </div>
+
+                            </div>
+
+                            <!-- VOLUME -->
+                            <div class="aanaya-volume">
+
+                                <i class="fas fa-volume-up"></i>
+
+                                <input
+                                    type="range"
+                                    class="volume-slider"
+                                    min="0"
+                                    max="1"
+                                    step="0.01"
+                                    value="1">
+
+                            </div>
+
+                            <!-- AUDIO -->
+                            <audio class="custom-audio">
+
+                                <source
+                                    src="{{ asset($music->audio_file) }}"
+                                    type="audio/mpeg">
+
+                            </audio>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @empty
+
+                <!-- EMPTY -->
+                <div class="dream-empty-box">
+
+                    <i class="fas fa-music"></i>
 
                     <h3>
-                        Unfold
+                        No Music Yet
                     </h3>
 
                     <p>
-                        Emotional indie-pop single
-                        with dreamy cinematic vibes.
+                        Upload your first dreamy soundtrack.
                     </p>
 
                 </div>
 
-                <!-- EMBED -->
-                <div class="spotify-embed">
-
-                    <iframe
-                        src="https://open.spotify.com/embed/track/0fQnKYxYVQupxyL8PKif9a?utm_source=generator&theme=0"
-                        allowfullscreen=""
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                        loading="lazy">
-                    </iframe>
-
-                </div>
-
-            </div>
-
-            <!-- CARD -->
-            <div class="spotify-card"
-                 data-aos="fade-up"
-                 data-aos-delay="200">
-
-                <div class="spotify-card-glow"></div>
-
-
-                <!-- CONTENT -->
-                <div class="spotify-content">
-
-                    <span class="music-type">
-                        Dream Pop
-                    </span>
-
-                    <h3>
-                        MSYL (Me And Someone You Love)
-                    </h3>
-
-                    <p>
-                        Floating melodies and
-                        soft emotional atmospheres.
-                    </p>
-
-                </div>
-
-                <!-- EMBED -->
-                <div class="spotify-embed">
-
-                    <iframe
-                        src="https://open.spotify.com/embed/track/1Uk8q00F6gDdEqXKAk5Wbr?utm_source=generator&theme=0"
-                        allowfullscreen=""
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                        loading="lazy">
-                    </iframe>
-
-                </div>
-
-            </div>
+            @endforelse
 
         </div>
 
     </section>
 
 </div>
+
+<!-- =========================================
+    AUDIO SCRIPT
+========================================== -->
+<script>
+
+    document
+        .querySelectorAll('.dream-music-card')
+        .forEach(card => {
+
+            const playBtn =
+                card.querySelector('.aanaya-play-btn');
+
+            const floatingBtn =
+                card.querySelector('.floating-play-btn');
+
+            const audio =
+                card.querySelector('.custom-audio');
+
+            const icon =
+                playBtn.querySelector('i');
+
+            const floatingIcon =
+                floatingBtn.querySelector('i');
+
+            const volumeSlider =
+                card.querySelector('.volume-slider');
+
+            // =====================================
+            // TOGGLE AUDIO
+            // =====================================
+
+            function toggleAudio(){
+
+                // pause other audio
+                document
+                    .querySelectorAll('.custom-audio')
+                    .forEach(otherAudio => {
+
+                        if(otherAudio !== audio){
+
+                            otherAudio.pause();
+
+                            const parentCard =
+                                otherAudio.closest('.dream-music-card');
+
+                            parentCard
+                                .querySelector('.aanaya-play-btn i')
+                                .className =
+                                'fas fa-play';
+
+                            parentCard
+                                .querySelector('.floating-play-btn i')
+                                .className =
+                                'fas fa-play';
+
+                        }
+
+                    });
+
+                // current audio
+                if(audio.paused){
+
+                    audio.play();
+
+                    icon.classList.remove('fa-play');
+                    icon.classList.add('fa-pause');
+
+                    floatingIcon.classList.remove('fa-play');
+                    floatingIcon.classList.add('fa-pause');
+
+                    card.classList.add('playing');
+
+                }else{
+
+                    audio.pause();
+
+                    icon.classList.remove('fa-pause');
+                    icon.classList.add('fa-play');
+
+                    floatingIcon.classList.remove('fa-pause');
+                    floatingIcon.classList.add('fa-play');
+
+                    card.classList.remove('playing');
+
+                }
+
+            }
+
+            // =====================================
+            // BUTTON EVENTS
+            // =====================================
+
+            playBtn.addEventListener(
+                'click',
+                toggleAudio
+            );
+
+            floatingBtn.addEventListener(
+                'click',
+                toggleAudio
+            );
+
+            // =====================================
+            // VOLUME
+            // =====================================
+
+            volumeSlider.addEventListener('input', () => {
+
+                audio.volume = volumeSlider.value;
+
+            });
+
+            // =====================================
+            // AUDIO ENDED
+            // =====================================
+
+            audio.addEventListener('ended', () => {
+
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+
+                floatingIcon.classList.remove('fa-pause');
+                floatingIcon.classList.add('fa-play');
+
+                card.classList.remove('playing');
+
+            });
+
+        });
+
+</script>
 
 </x-app-layout>

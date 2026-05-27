@@ -2,59 +2,86 @@
 
 <div class="user-gallery-page">
 
-    <!-- BACKGROUND -->
+    <!-- =========================================
+        BACKGROUND
+    ========================================== -->
+    <div class="gallery-noise"></div>
+
     <div class="gallery-bg glow-1"></div>
     <div class="gallery-bg glow-2"></div>
 
-    <!-- HERO -->
+    <!-- =========================================
+        HERO
+    ========================================== -->
     <section class="gallery-hero">
 
         <span class="gallery-badge">
-            ✨ DREAMY MEMORIES
+            <span class="badge-dot"></span>
+            AANAYA MEMORIES
         </span>
 
         <h1>
-            Beautiful <span>Gallery</span>
+            Dreamy
+            <span>Gallery</span>
         </h1>
 
         <p>
-            A collection of beautiful moments, dreamy memories,
-            and aesthetic visuals captured in one magical place.
+            A curated universe of cinematic visuals,
+            emotional moments,
+            dreamy memories,
+            and aesthetic stories from Aanaya.
         </p>
 
     </section>
 
-    <!-- MASONRY GRID -->
-    <section class="gallery-grid">
+    <!-- =========================================
+        MASONRY GRID
+    ========================================== -->
+    <section class="gallery-masonry">
 
         @forelse($galleries as $gallery)
 
-            <div class="gallery-item">
+            <article class="gallery-card">
 
                 <!-- IMAGE -->
-                <div class="gallery-image-wrap">
+                <div class="gallery-image-box">
 
                     <img
                         src="{{ asset('uploads/gallery/' . $gallery->image) }}"
                         alt="{{ $gallery->title }}"
                         class="gallery-image">
 
+
                     <!-- OVERLAY -->
                     <div class="gallery-overlay">
 
-                        <div class="gallery-overlay-content">
+                        <div class="gallery-content">
 
-                            <span class="gallery-mini-badge">
-                                ✨ Gallery
-                            </span>
+                            <div class="gallery-text">
 
-                            <h2>
-                                {{ $gallery->title ?? 'Dreamy Moment' }}
-                            </h2>
+                                <h2>
+                                    {{ $gallery->title ?? 'Dreamy Moment' }}
+                                </h2>
 
-                            <p>
-                                {{ $gallery->description }}
-                            </p>
+                                @if($gallery->description)
+
+                                    <p>
+                                        {{ $gallery->description }}
+                                    </p>
+
+                                @endif
+
+                            </div>
+
+                            <button
+                                class="gallery-action-btn open-gallery-modal"
+                                data-image="{{ asset('uploads/gallery/' . $gallery->image) }}"
+                                data-title="{{ $gallery->title }}"
+                                data-description="{{ $gallery->description }}">
+                                
+                                <i class="fas fa-expand"></i>
+
+                            </button>
 
                         </div>
 
@@ -62,18 +89,24 @@
 
                 </div>
 
-            </div>
+            </article>
 
         @empty
 
+            <!-- EMPTY -->
             <div class="empty-gallery">
 
-                <i class="fas fa-image"></i>
+                <div class="empty-icon">
+                    <i class="fas fa-image"></i>
+                </div>
 
-                <h2>No Gallery Yet</h2>
+                <h2>
+                    No Gallery Yet
+                </h2>
 
                 <p>
-                    Beautiful moments will appear here soon ✨
+                    Beautiful memories and dreamy visuals
+                    will appear here soon ✨
                 </p>
 
             </div>
@@ -82,6 +115,124 @@
 
     </section>
 
+    <!-- =========================================
+        FULLSCREEN MODAL
+    ========================================== -->
+    <div class="gallery-modal" id="galleryModal">
+
+        <!-- CLOSE -->
+        <button class="gallery-modal-close" id="closeGalleryModal">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <!-- BACKDROP -->
+        <div class="gallery-modal-backdrop"></div>
+
+        <!-- CONTENT -->
+        <div class="gallery-modal-content">
+
+            <img
+                src=""
+                alt=""
+                class="gallery-modal-image"
+                id="galleryModalImage">
+
+            <div class="gallery-modal-info">
+
+                <h2 id="galleryModalTitle">
+                    Dreamy Moment
+                </h2>
+
+                <p id="galleryModalDescription">
+                    Beautiful memory captured inside Aanaya universe.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
+
+<!-- =========================================
+    SCRIPT
+========================================== -->
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const modal = document.getElementById("galleryModal");
+
+    const modalImage = document.getElementById("galleryModalImage");
+
+    const modalTitle = document.getElementById("galleryModalTitle");
+
+    const modalDescription = document.getElementById("galleryModalDescription");
+
+    const closeBtn = document.getElementById("closeGalleryModal");
+
+    const openButtons = document.querySelectorAll(".open-gallery-modal");
+
+    // OPEN MODAL
+    openButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const image = button.dataset.image;
+
+            const title = button.dataset.title;
+
+            const description = button.dataset.description;
+
+            modalImage.src = image;
+
+            modalTitle.innerText = title || "Dreamy Moment";
+
+            modalDescription.innerText =
+                description || "Beautiful memory captured inside Aanaya universe.";
+
+            modal.classList.add("active");
+
+            document.body.style.overflow = "hidden";
+
+        });
+
+    });
+
+    // CLOSE
+    closeBtn.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (e) => {
+
+        if(
+            e.target.classList.contains("gallery-modal") ||
+            e.target.classList.contains("gallery-modal-backdrop")
+        ){
+            closeModal();
+        }
+
+    });
+
+    // ESC
+    document.addEventListener("keydown", (e) => {
+
+        if(e.key === "Escape"){
+            closeModal();
+        }
+
+    });
+
+    function closeModal(){
+
+        modal.classList.remove("active");
+
+        document.body.style.overflow = "";
+
+    }
+
+});
+
+</script>
 
 </x-app-layout>

@@ -85,4 +85,49 @@
 
 </div>
 
+<!-- TOAST -->
+<div id="cart-toast" class="cart-toast">
+    <i class="fas fa-circle-check"></i>
+
+    <span>
+        Product successfully added to cart ✨
+    </span>
+</div>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const forms = document.querySelectorAll('.inline-form');
+
+    const toast = document.getElementById('cart-toast');
+
+    forms.forEach(form => {
+
+        form.addEventListener('submit', () => {
+
+            localStorage.setItem('showCartToast', 'true');
+
+        });
+
+    });
+
+    if(localStorage.getItem('showCartToast') === 'true'){
+
+        toast.classList.add('show');
+
+        setTimeout(() => {
+
+            toast.classList.remove('show');
+
+            localStorage.removeItem('showCartToast');
+
+        }, 3000);
+
+    }
+
+});
+
+</script>
+
 </x-app-layout>

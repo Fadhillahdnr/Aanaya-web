@@ -2,72 +2,141 @@
 
     <div class="admin-container">
 
+        <!-- ===================================================== -->
         <!-- LEFT -->
+        <!-- ===================================================== -->
+
         <div class="admin-left">
 
             <!-- LOGO -->
             <a href="/admin" class="admin-logo-link">
-                <img src="{{ asset('images/logo.png') }}"
-                     alt="Aanaya Logo"
-                     class="admin-logo">
+
+                <img
+                    src="{{ asset('images/logo.png') }}"
+                    alt="Aanaya Logo"
+                    class="admin-logo">
+
             </a>
 
+            <!-- ===================================================== -->
             <!-- DESKTOP LINKS -->
+            <!-- ===================================================== -->
+
             <div class="admin-links-desktop">
 
-                <a href="/admin">
+                <!-- DASHBOARD -->
+                <a
+                    href="/admin"
+                    class="{{ request()->is('admin') ? 'active' : '' }}">
+
                     <i class="fas fa-chart-line"></i>
+
                     <span>Dashboard</span>
+
                 </a>
 
-                <a href="/admin/music">
+                <!-- MUSIC -->
+                <a
+                    href="/admin/music"
+                    class="{{ request()->is('admin/music*') ? 'active' : '' }}">
+
                     <i class="fas fa-music"></i>
+
                     <span>Music</span>
+
                 </a>
 
-                <a href="/admin/articles">
+                <!-- ARTICLES -->
+                <a
+                    href="/admin/articles"
+                    class="{{ request()->is('admin/articles*') ? 'active' : '' }}">
+
                     <i class="fas fa-newspaper"></i>
+
                     <span>Articles</span>
+
                 </a>
 
-                <a href="/admin/products">
+                <!-- PRODUCTS -->
+                <a
+                    href="/admin/products"
+                    class="{{ request()->is('admin/products*') ? 'active' : '' }}">
+
                     <i class="fas fa-bag-shopping"></i>
+
                     <span>Products</span>
+
                 </a>
 
-                <a href="/admin/gallery">
+                <!-- GALLERY -->
+                <a
+                    href="/admin/gallery"
+                    class="{{ request()->is('admin/gallery*') ? 'active' : '' }}">
+
                     <i class="fas fa-image"></i>
+
                     <span>Gallery</span>
+
+                </a>
+
+                <!-- USERS -->
+                <a
+                    href="/admin/users"
+                    class="{{ request()->is('admin/users*') ? 'active' : '' }}">
+
+                    <i class="fas fa-users"></i>
+
+                    <span>Users</span>
+
                 </a>
 
             </div>
 
         </div>
 
+        <!-- ===================================================== -->
         <!-- RIGHT -->
+        <!-- ===================================================== -->
+
         <div class="admin-right">
 
+            <!-- USER -->
             <div class="admin-user">
 
                 <div class="admin-avatar">
+
                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+
                 </div>
 
                 <div class="admin-user-info">
 
-                    <h4>{{ Auth::user()->name }}</h4>
+                    <h4>
+                        {{ Auth::user()->name }}
+                    </h4>
 
-                    <p>Administrator</p>
+                    <p>
+                        Administrator
+                    </p>
 
                 </div>
 
             </div>
 
+            <!-- ===================================================== -->
             <!-- LOGOUT -->
-            <form method="POST" action="{{ route('logout') }}">
+            <!-- ===================================================== -->
+
+            <form
+                method="POST"
+                action="{{ route('logout') }}">
+
                 @csrf
 
-                <button type="submit" class="logout-btn" title="Logout">
+                <button
+                    type="submit"
+                    class="logout-btn"
+                    title="Logout">
 
                     <i class="fas fa-right-from-bracket"></i>
 
@@ -75,7 +144,10 @@
 
             </form>
 
+            <!-- ===================================================== -->
             <!-- MOBILE TOGGLE -->
+            <!-- ===================================================== -->
+
             <button
                 @click="open = ! open"
                 class="admin-mobile-toggle"
@@ -89,37 +161,80 @@
 
     </div>
 
+    <!-- ===================================================== -->
     <!-- MOBILE MENU -->
+    <!-- ===================================================== -->
+
     <div
         x-show="open"
         x-transition
         class="admin-links-mobile">
 
-        <a href="/admin">
+        <!-- DASHBOARD -->
+        <a
+            href="/admin"
+            class="{{ request()->is('admin') ? 'active' : '' }}">
+
             <i class="fas fa-chart-line"></i>
+
             Dashboard
+
         </a>
 
-        <a href="/admin/music">
+        <!-- MUSIC -->
+        <a
+            href="/admin/music"
+            class="{{ request()->is('admin/music*') ? 'active' : '' }}">
+
             <i class="fas fa-music"></i>
+
             Music
+
         </a>
 
-        <a href="/admin/articles">
+        <!-- ARTICLES -->
+        <a
+            href="/admin/articles"
+            class="{{ request()->is('admin/articles*') ? 'active' : '' }}">
+
             <i class="fas fa-newspaper"></i>
+
             Articles
+
         </a>
 
-        <a href="/admin/products">
+        <!-- PRODUCTS -->
+        <a
+            href="/admin/products"
+            class="{{ request()->is('admin/products*') ? 'active' : '' }}">
+
             <i class="fas fa-bag-shopping"></i>
+
             Products
+
         </a>
 
-        <a href="/admin/gallery">
+        <!-- GALLERY -->
+        <a
+            href="/admin/gallery"
+            class="{{ request()->is('admin/gallery*') ? 'active' : '' }}">
+
             <i class="fas fa-image"></i>
+
             Gallery
+
         </a>
 
+        <!-- USERS -->
+        <a
+            href="/admin/users"
+            class="{{ request()->is('admin/users*') ? 'active' : '' }}">
+
+            <i class="fas fa-users"></i>
+
+            Users
+        </a>
+        
     </div>
 
 </nav>

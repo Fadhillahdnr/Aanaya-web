@@ -12,7 +12,7 @@
         <div class="articles-hero-content">
 
             <span class="articles-badge">
-                ✨ DREAMY STORIES
+                ✨ Aanaya Stories
             </span>
 
             <h1>

@@ -10,7 +10,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
-
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,113 +24,157 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| USER DASHBOARD
+| PUBLIC USER PAGES
 |--------------------------------------------------------------------------
+| Bisa diakses guest tanpa login
 */
 
-Route::middleware(['auth', 'verified'])->group(function () {
-
-    Route::get(
-        '/dashboard',
-        [UserDashboardController::class, 'index']
-    )->name('dashboard');
-
-    // MUSIC PAGE
-    Route::get(
-        '/music',
-        [MusicController::class, 'userIndex']
-    )->name('music');
-
-    /*
-    |--------------------------------------------------------------------------
-    | ARTICLES
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get(
-        '/articles',
-        [ArticleController::class, 'userIndex']
-    )->name('articles');
-
-    Route::get(
-        '/articles/{id}',
-        [ArticleController::class, 'show']
-    )->name('articles.show');
-
-    /*
-    |--------------------------------------------------------------------------
-    | GALLERY
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get(
-        '/gallery',
-        [GalleryController::class, 'userIndex']
-    )->name('gallery');
-
-    /*
-    |--------------------------------------------------------------------------
-    | MERCHANDISE
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get(
-        '/merchandise',
-        [ProductController::class, 'userIndex']
-    )->name('merchandise');
-
-    Route::get(
-        '/merchandise/{slug}', 
-        [ProductController::class, 'show']
-    )->name('merchandise.show');
-
-    /*
-    |--------------------------------------------------------------------------
-    | CART & CHECKOUT
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
-    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/cart/update/{id}', [CartController::class, 'updateQuantity'])->name('cart.update');
-
-    Route::middleware('auth')->group(function () {
-
-        Route::get('/checkout', [CheckoutController::class, 'index']);
-
-        Route::post('/checkout/process', [CheckoutController::class, 'process']);
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | ABOUT
-    |--------------------------------------------------------------------------
-    */
-
-    Route::view(
-        '/about',
-        'user.about'
-    )->name('about');
-
-});
+Route::get(
+    '/dashboard',
+    [UserDashboardController::class, 'index']
+)->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
-| PROFILE
+| MUSIC
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth')->group(function () {
+Route::get(
+    '/music',
+    [UserDashboardController::class, 'Musicindex']
+)->name('music');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
+/*
+|--------------------------------------------------------------------------
+| ARTICLES
+|--------------------------------------------------------------------------
+*/
 
-    Route::patch('/profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
+Route::get(
+    '/articles',
+    [ArticleController::class, 'userIndex']
+)->name('articles');
 
-    Route::delete('/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
+Route::get(
+    '/articles/{id}',
+    [ArticleController::class, 'show']
+)->name('articles.show');
+
+Route::get(
+    '/comic/{slug}',
+    [ArticleController::class, 'show']
+)->name('articles.comic');
+
+/*
+|--------------------------------------------------------------------------
+| GALLERY
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/gallery',
+    [GalleryController::class, 'userIndex']
+)->name('gallery');
+
+/*
+|--------------------------------------------------------------------------
+| MERCHANDISE
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/merchandise',
+    [ProductController::class, 'userIndex']
+)->name('merchandise');
+
+Route::get(
+    '/merchandise/{slug}',
+    [ProductController::class, 'show']
+)->name('merchandise.show');
+
+/*
+|--------------------------------------------------------------------------
+| ABOUT
+|--------------------------------------------------------------------------
+*/
+
+Route::view(
+    '/about',
+    'user.about'
+)->name('about');
+
+/*
+|--------------------------------------------------------------------------
+| AUTH REQUIRED
+|--------------------------------------------------------------------------
+| Harus login
+*/
+
+Route::middleware(['auth'])->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | CART
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/cart',
+        [CartController::class, 'index']
+    )->name('cart.index');
+
+    Route::post(
+        '/cart/add/{id}',
+        [CartController::class, 'add']
+    )->name('cart.add');
+
+    Route::delete(
+        '/cart/remove/{id}',
+        [CartController::class, 'remove']
+    )->name('cart.remove');
+
+    Route::post(
+        '/cart/update/{id}',
+        [CartController::class, 'updateQuantity']
+    )->name('cart.update');
+
+    /*
+    |--------------------------------------------------------------------------
+    | CHECKOUT
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/checkout',
+        [CheckoutController::class, 'index']
+    )->name('checkout');
+
+    Route::post(
+        '/checkout/process',
+        [CheckoutController::class, 'process']
+    )->name('checkout.process');
+
+    /*
+    |--------------------------------------------------------------------------
+    | PROFILE
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/profile',
+        [ProfileController::class, 'edit']
+    )->name('profile.edit');
+
+    Route::patch(
+        '/profile',
+        [ProfileController::class, 'update']
+    )->name('profile.update');
+
+    Route::delete(
+        '/profile',
+        [ProfileController::class, 'destroy']
+    )->name('profile.destroy');
 
 });
 
@@ -142,61 +186,36 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
 
-    Route::get('/admin', function () {
-        return view('admin.dashboard');
-    });
-
-    Route::get('/admin/music', function () {
-        return view('admin.music');
-    });
-
-    Route::get('/admin/articles', function () {
-        return view('admin.articles');
-    });
-
-    Route::get('/admin/products', function () {
-        return view('admin.products');
-    });
-
-    Route::get('/admin/gallery', function () {
-        return view('admin.gallery');
-    });
-
     Route::get('/admin', [AdminController::class, 'dashboard'])
         ->name('admin.dashboard');
 
     /*
-    | MUSIC
+    |--------------------------------------------------------------------------
+    | MUSIC ADMIN
+    |--------------------------------------------------------------------------
     */
 
-     // LIST MUSIC
     Route::get('/admin/music', [MusicController::class, 'index'])
         ->name('admin.music');
 
-    // CREATE PAGE
     Route::get('/admin/music/create', [MusicController::class, 'create'])
         ->name('admin.music.create');
 
-    // STORE MUSIC
     Route::post('/admin/music/store', [MusicController::class, 'store'])
         ->name('admin.music.store');
 
-    // EDIT PAGE
     Route::get('/admin/music/{id}/edit', [MusicController::class, 'edit'])
         ->name('admin.music.edit');
 
-    // UPDATE MUSIC
     Route::put('/admin/music/{id}', [MusicController::class, 'update'])
         ->name('admin.music.update');
 
-    // DELETE MUSIC
     Route::delete('/admin/music/{id}', [MusicController::class, 'destroy'])
         ->name('admin.music.destroy');
 
     /*
-
     |--------------------------------------------------------------------------
-    | ARTICLES
+    | ARTICLES ADMIN
     |--------------------------------------------------------------------------
     */
 
@@ -214,77 +233,76 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | PRODUCTS
+    | PRODUCTS ADMIN
     |--------------------------------------------------------------------------
     */
 
-    Route::get(
-        '/admin/products',
-        [ProductController::class, 'index']
-    );
+    Route::get('/admin/products', [ProductController::class, 'index']);
 
-    Route::get(
-        '/admin/products/create',
-        [ProductController::class, 'create']
-    );
+    Route::get('/admin/products/create', [ProductController::class, 'create']);
 
-    Route::post(
-        '/admin/products/store',
-        [ProductController::class, 'store']
-    );
+    Route::post('/admin/products/store', [ProductController::class, 'store']);
 
-    Route::get(
-        '/admin/products/{id}/edit',
-        [ProductController::class, 'edit']
-    );
+    Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit']);
 
-    Route::put(
-        '/admin/products/{id}',
-        [ProductController::class, 'update']
-    );
+    Route::put('/admin/products/{id}', [ProductController::class, 'update']);
 
-    Route::delete(
-        '/admin/products/{id}',
-        [ProductController::class, 'destroy']
-    );
+    Route::delete('/admin/products/{id}', [ProductController::class, 'destroy']);
 
     /*
     |--------------------------------------------------------------------------
-    | GALLERY
+    | GALLERY ADMIN
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/admin/gallery', [GalleryController::class, 'index']);
+
+    Route::get('/admin/gallery/create', [GalleryController::class, 'create']);
+
+    Route::post('/admin/gallery/store', [GalleryController::class, 'store']);
+
+    Route::get('/admin/gallery/{id}/edit', [GalleryController::class, 'edit']);
+
+    Route::put('/admin/gallery/{id}', [GalleryController::class, 'update']);
+
+    Route::delete('/admin/gallery/{id}', [GalleryController::class, 'destroy']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | USER MANAGEMENT
     |--------------------------------------------------------------------------
     */
 
     Route::get(
-        '/admin/gallery',
-        [GalleryController::class, 'index']
+        '/admin/users',
+        [UserController::class, 'index']
     );
 
     Route::get(
-        '/admin/gallery/create',
-        [GalleryController::class, 'create']
+        '/admin/users/create',
+        [UserController::class, 'create']
     );
 
     Route::post(
-        '/admin/gallery/store',
-        [GalleryController::class, 'store']
+        '/admin/users/store',
+        [UserController::class, 'store']
     );
 
     Route::get(
-        '/admin/gallery/{id}/edit',
-        [GalleryController::class, 'edit']
+        '/admin/users/{user}/edit',
+        [UserController::class, 'edit']
     );
 
     Route::put(
-        '/admin/gallery/{id}',
-        [GalleryController::class, 'update']
+        '/admin/users/{user}/update',
+        [UserController::class, 'update']
     );
 
     Route::delete(
-        '/admin/gallery/{id}',
-        [GalleryController::class, 'destroy']
+        '/admin/users/{user}/delete',
+        [UserController::class, 'destroy']
     );
 
 });
-
 
 require __DIR__.'/auth.php';

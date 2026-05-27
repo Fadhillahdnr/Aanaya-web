@@ -1,0 +1,517 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.dream-home-page{
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 100vh;
+
+    padding:
+        110px
+        32px
+        80px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #0d0c13 0%,
+            #16131d 35%,
+            #f8f4fa 100%
+        );
+}
+
+/* =========================================================
+   NOISE
+========================================================= */
+
+.home-noise{
+    position: absolute;
+
+    inset: 0;
+
+    opacity: .03;
+
+    pointer-events: none;
+
+    background-image:
+        url("https://www.transparenttextures.com/patterns/noise.png");
+}
+
+/* =========================================================
+   GLOW BACKGROUND
+========================================================= */
+
+.home-bg{
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter: blur(140px);
+
+    pointer-events: none;
+}
+
+/* LEFT */
+
+.glow-1{
+    width: 420px;
+    height: 420px;
+
+    top: -120px;
+    left: -120px;
+
+    background:
+        rgba(255,140,200,.18);
+}
+
+/* RIGHT */
+
+.glow-2{
+    width: 420px;
+    height: 420px;
+
+    bottom: -120px;
+    right: -120px;
+
+    background:
+        rgba(150,120,255,.14);
+}
+
+/* CENTER */
+
+.glow-3{
+    width: 280px;
+    height: 280px;
+
+    top: 38%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background:
+        rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.dream-hero{
+    position: relative;
+
+    z-index: 5;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: calc(100vh - 190px);
+
+    text-align: center;
+
+    padding-top: 10px;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.dream-hero-content{
+    width: 100%;
+
+    max-width: 980px;
+
+    margin: auto auto 220px;
+}
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.dream-badge{
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        12px
+        24px;
+
+    margin-bottom: 36px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    backdrop-filter: blur(18px);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    color: #f2d7ff;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.25);
+}
+
+.badge-dot{
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    margin-right: 10px;
+
+    background: #ff9fcf;
+
+    box-shadow:
+        0 0 16px #ff9fcf;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.dream-hero-content h1{
+    font-size:
+        clamp(72px,10vw,150px);
+
+    line-height: .92;
+
+    font-weight: 900;
+
+    letter-spacing: -6px;
+
+    margin-bottom: 32px;
+}
+
+/* WHITE */
+
+.title-white{
+    color: white;
+}
+
+/* GRADIENT */
+
+.title-gradient{
+    background:
+        linear-gradient(
+            135deg,
+            #ff8dc3,
+            #d0b8ff
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+/* =========================================================
+   SUBTITLE
+========================================================= */
+
+.dream-subtitle{
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 16px;
+
+    margin-bottom: 34px;
+}
+
+.dream-subtitle span{
+    width: 80px;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.25),
+            transparent
+        );
+}
+
+.dream-subtitle p{
+    color:
+        rgba(255,255,255,.7);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.dream-description{
+    max-width: 760px;
+
+    margin:
+        0 auto 48px;
+
+    color:
+        rgba(255,255,255,.72);
+
+    font-size: 18px;
+
+    line-height: 2;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.dream-actions{
+    display: flex;
+
+    justify-content: center;
+
+    gap: 18px;
+
+    flex-wrap: wrap;
+}
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.dream-btn{
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    padding:
+        18px
+        32px;
+
+    border-radius: 20px;
+
+    text-decoration: none !important;
+
+    transition: .35s ease;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+/* =========================================================
+   PRIMARY BUTTON
+========================================================= */
+
+.primary-btn{
+    background: white;
+
+    color: #111;
+
+    box-shadow:
+        0 18px 40px rgba(255,255,255,.12);
+}
+
+.primary-btn:hover{
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 24px 50px rgba(255,255,255,.18);
+}
+
+/* =========================================================
+   SECONDARY BUTTON
+========================================================= */
+
+.secondary-btn{
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
+    color: white;
+
+    backdrop-filter: blur(18px);
+}
+
+.secondary-btn:hover{
+    transform:
+        translateY(-4px);
+
+    background:
+        rgba(255,255,255,.12);
+}
+
+/* =========================================================
+   FLOATING ORBS
+========================================================= */
+
+.floating-orb{
+    position: absolute;
+
+    border-radius: 50%;
+
+    backdrop-filter: blur(12px);
+
+    background:
+        rgba(255,255,255,0.08);
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    animation:
+        floating 7s ease-in-out infinite;
+}
+
+/* ORB 1 */
+
+.orb-1{
+    width: 120px;
+    height: 120px;
+
+    top: 18%;
+    left: 10%;
+}
+
+/* ORB 2 */
+
+.orb-2{
+    width: 70px;
+    height: 70px;
+
+    bottom: 18%;
+    left: 18%;
+
+    animation-delay: 1.5s;
+}
+
+/* ORB 3 */
+
+.orb-3{
+    width: 100px;
+    height: 100px;
+
+    top: 22%;
+    right: 12%;
+
+    animation-delay: 2.5s;
+}
+
+/* =========================================================
+   FLOAT ANIMATION
+========================================================= */
+
+@keyframes floating{
+
+    0%{
+        transform:
+            translateY(0px);
+    }
+
+    50%{
+        transform:
+            translateY(-20px);
+    }
+
+    100%{
+        transform:
+            translateY(0px);
+    }
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:992px){
+
+    .dream-home-page{
+        padding-top: 150px;
+    }
+
+    .dream-hero-content h1{
+        letter-spacing: -3px;
+    }
+
+    .dream-description{
+        font-size: 16px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .dream-home-page{
+        padding:
+            105px
+            20px
+            70px;
+    }
+
+    .dream-hero{
+        min-height: auto;
+    }
+
+    .dream-subtitle{
+        gap: 10px;
+    }
+
+    .dream-subtitle span{
+        width: 40px;
+    }
+
+    .dream-subtitle p{
+        font-size: 11px;
+
+        letter-spacing: 2px;
+    }
+
+    .dream-description{
+        font-size: 15px;
+
+        line-height: 1.9;
+    }
+
+    .dream-actions{
+        flex-direction: column;
+    }
+
+    .dream-btn{
+        width: 100%;
+    }
+
+    .orb-1,
+    .orb-2,
+    .orb-3{
+        opacity: .45;
+    }
+
+}

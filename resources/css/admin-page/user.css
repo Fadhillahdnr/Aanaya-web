@@ -1,0 +1,566 @@
+/* =========================================================
+   USERS PAGE
+========================================================= */
+
+.users-page{
+    width: 100%;
+
+    padding: 36px 20px 70px;
+}
+
+/* =========================================================
+   PAGE TOP
+========================================================= */
+
+.users-page .page-top{
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin-bottom: 34px;
+
+    padding: 42px;
+
+    border-radius: 34px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.52),
+            rgba(255,255,255,0.18)
+        );
+
+    backdrop-filter: blur(24px);
+
+    border:
+        1px solid rgba(255,255,255,0.20);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.08);
+}
+
+/* =========================================================
+   HEADER GLOW
+========================================================= */
+
+.users-page .page-top::before{
+    content: "";
+
+    position: absolute;
+
+    top: -120px;
+    left: -120px;
+
+    width: 280px;
+    height: 280px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            rgba(255,210,230,0.30),
+            transparent 70%
+        );
+}
+
+.users-page .page-top::after{
+    content: "";
+
+    position: absolute;
+
+    bottom: -140px;
+    right: -120px;
+
+    width: 320px;
+    height: 320px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            rgba(210,220,255,0.25),
+            transparent 70%
+        );
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.users-page .page-top h1{
+    position: relative;
+
+    z-index: 2;
+
+    font-size: clamp(2rem, 4vw, 3.3rem);
+
+    font-weight: 800;
+
+    line-height: 1.1;
+
+    letter-spacing: -1px;
+
+    color: #1f2937;
+
+    margin-bottom: 14px;
+}
+
+.users-page .page-subtitle{
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 620px;
+
+    color: #6b7280;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+}
+
+/* =========================================================
+   PINK BUTTON
+========================================================= */
+
+.pink-btn{
+    position: relative;
+
+    z-index: 2;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    padding: 18px 30px;
+
+    border-radius: 999px;
+
+    text-decoration: none;
+
+    color: #222;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffd4e6,
+            #d8c9ff
+        );
+
+    box-shadow:
+        0 14px 34px rgba(255,190,220,0.28);
+
+    transition: 0.35s ease;
+}
+
+.pink-btn:hover{
+    transform:
+        translateY(-4px)
+        scale(1.02);
+
+    box-shadow:
+        0 22px 48px rgba(255,190,220,0.36);
+}
+
+/* =========================================================
+   TABLE CARD
+========================================================= */
+
+.users-table-card{
+    width: 100%;
+
+    overflow-x: auto;
+
+    border-radius: 34px;
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.46),
+            rgba(255,255,255,0.18)
+        );
+
+    backdrop-filter: blur(24px);
+
+    border:
+        1px solid rgba(255,255,255,0.18);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.08);
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.users-table{
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 900px;
+}
+
+/* =========================================================
+   TABLE HEAD
+========================================================= */
+
+.users-table thead{
+    background:
+        rgba(255,255,255,0.40);
+}
+
+.users-table th{
+    padding: 24px 26px;
+
+    text-align: left;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    color: #6b7280;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.18);
+}
+
+/* =========================================================
+   TABLE BODY
+========================================================= */
+
+.users-table td{
+    padding: 24px 26px;
+
+    font-size: 15px;
+
+    color: #374151;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.12);
+
+    vertical-align: middle;
+}
+
+.users-table tbody tr{
+    transition: 0.3s ease;
+}
+
+.users-table tbody tr:hover{
+    background:
+        rgba(255,255,255,0.24);
+}
+
+/* =========================================================
+   USER INFO
+========================================================= */
+
+.user-info{
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+}
+
+.user-info h4{
+    margin: 0;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #1f2937;
+}
+
+/* =========================================================
+   USER AVATAR
+========================================================= */
+
+.user-avatar{
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffd6e7,
+            #d8c8ff
+        );
+
+    color: #4b5563;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 10px 24px rgba(255,190,220,0.20);
+}
+
+/* =========================================================
+   ROLE BADGE
+========================================================= */
+
+.role-badge{
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 10px 18px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: .5px;
+
+    text-transform: uppercase;
+}
+
+/* ADMIN */
+
+.role-badge.admin{
+    background:
+        rgba(255,215,230,0.55);
+
+    color: #c02666;
+
+    border:
+        1px solid rgba(255,180,210,0.35);
+}
+
+/* USER */
+
+.role-badge.user{
+    background:
+        rgba(220,230,255,0.45);
+
+    color: #4f46e5;
+
+    border:
+        1px solid rgba(190,205,255,0.35);
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.table-actions{
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+.table-actions form{
+    margin: 0;
+}
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.edit-btn{
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 14px 20px;
+
+    border-radius: 16px;
+
+    text-decoration: none;
+
+    background:
+        rgba(255,255,255,0.34);
+
+    border:
+        1px solid rgba(255,255,255,0.16);
+
+    color: #374151;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    transition: 0.3s ease;
+}
+
+.edit-btn:hover{
+    transform: translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,215,230,0.35),
+            rgba(220,205,255,0.35)
+        );
+}
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.delete-btn{
+    border: none;
+
+    cursor: pointer;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 14px 20px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffbccd,
+            #ffd6df
+        );
+
+    color: #8b1e46;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    transition: 0.35s ease;
+}
+
+.delete-btn:hover{
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 14px 28px rgba(255,170,190,0.22);
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.users-table-card::-webkit-scrollbar{
+    height: 10px;
+}
+
+.users-table-card::-webkit-scrollbar-thumb{
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffd4e6,
+            #d9c8ff
+        );
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width: 992px){
+
+    .users-page .page-top{
+        padding: 30px;
+    }
+
+    .users-table{
+        min-width: 820px;
+    }
+}
+
+@media(max-width: 768px){
+
+    .users-page{
+        padding: 20px 14px 50px;
+    }
+
+    .users-page .page-top{
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding: 26px;
+
+        border-radius: 28px;
+    }
+
+    .users-page .page-top h1{
+        font-size: 2rem;
+    }
+
+    .users-table-card{
+        border-radius: 26px;
+    }
+
+    .users-table th,
+    .users-table td{
+        padding: 20px;
+    }
+
+    .pink-btn{
+        width: 100%;
+    }
+
+    .table-actions{
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .edit-btn,
+    .delete-btn{
+        width: 100%;
+    }
+}

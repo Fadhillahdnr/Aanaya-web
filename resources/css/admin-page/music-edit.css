@@ -1,0 +1,582 @@
+/* =========================================================
+   EDIT MUSIC PAGE — DREAMY PREMIUM FULL WIDTH
+========================================================= */
+
+.form-page{
+    position: relative;
+
+    width: 100%;
+
+    padding: 34px 18px 20px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.form-header{
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    width: 100%;
+
+    margin-bottom: 34px;
+
+    padding: 42px;
+
+    overflow: hidden;
+
+    border-radius: 38px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.42),
+            rgba(255,255,255,0.16)
+        );
+
+    backdrop-filter: blur(28px);
+
+    border:
+        1px solid rgba(255,255,255,0.22);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.28);
+}
+
+/* =========================================================
+   DREAMY GLOW
+========================================================= */
+
+.form-header::before{
+    content: "";
+
+    position: absolute;
+
+    width: 340px;
+    height: 340px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            rgba(255,210,225,0.25),
+            transparent 70%
+        );
+
+    top: -160px;
+    left: -120px;
+}
+
+.form-header::after{
+    content: "";
+
+    position: absolute;
+
+    width: 320px;
+    height: 320px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            rgba(215,200,255,0.25),
+            transparent 70%
+        );
+
+    bottom: -180px;
+    right: -120px;
+}
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.form-badge{
+    position: relative;
+
+    z-index: 2;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 12px 22px;
+
+    margin-bottom: 18px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,0.28);
+
+    border:
+        1px solid rgba(255,255,255,0.24);
+
+    color: #666;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.form-header h1{
+    position: relative;
+
+    z-index: 2;
+
+    font-size: 54px;
+
+    font-weight: 800;
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+
+    color: #222;
+
+    margin-bottom: 14px;
+}
+
+.form-header p{
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 700px;
+
+    color: #666;
+
+    font-size: 16px;
+
+    line-height: 1.9;
+}
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-btn{
+    position: relative;
+
+    z-index: 2;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    padding: 18px 28px;
+
+    border-radius: 999px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #222;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffd6e5,
+            #dbc8ff
+        );
+
+    box-shadow:
+        0 14px 34px rgba(255,190,220,0.28);
+
+    transition: 0.35s ease;
+}
+
+.back-btn:hover{
+    transform:
+        translateY(-4px)
+        scale(1.02);
+
+    box-shadow:
+        0 20px 45px rgba(255,190,220,0.35);
+}
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.music-form-card{
+    position: relative;
+
+    width: 100%;
+
+    padding: 42px;
+
+    overflow: hidden;
+
+    border-radius: 38px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.42),
+            rgba(255,255,255,0.16)
+        );
+
+    backdrop-filter: blur(28px);
+
+    border:
+        1px solid rgba(255,255,255,0.22);
+
+    box-shadow:
+        0 22px 60px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.24);
+}
+
+/* =========================================================
+   FORM LAYOUT
+========================================================= */
+
+.music-form-card form{
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 30px;
+}
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.form-group{
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.form-group label{
+    color: #333;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width: 100%;
+
+    padding: 18px 22px;
+
+    border-radius: 22px;
+
+    border:
+        1px solid rgba(255,255,255,0.20);
+
+    background:
+        rgba(255,255,255,0.58);
+
+    backdrop-filter: blur(18px);
+
+    color: #222;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.3s ease;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.45);
+}
+
+.form-group textarea{
+    resize: vertical;
+
+    min-height: 180px;
+}
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color: rgba(255,170,210,0.55);
+
+    box-shadow:
+        0 0 0 5px rgba(255,190,220,0.18);
+}
+
+/* =========================================================
+   UPLOAD BOX
+========================================================= */
+
+.upload-box{
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    min-height: 220px;
+
+    padding: 30px;
+
+    overflow: hidden;
+
+    border-radius: 28px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.40),
+            rgba(255,255,255,0.16)
+        );
+
+    border:
+        2px dashed rgba(255,185,220,0.40);
+
+    transition: 0.35s ease;
+}
+
+.upload-box:hover{
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(210,180,255,0.55);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,235,245,0.55),
+            rgba(240,232,255,0.42)
+        );
+}
+
+/* =========================================================
+   UPLOAD ICON
+========================================================= */
+
+.upload-box i{
+    font-size: 38px;
+
+    color: #ff7cae;
+}
+
+/* =========================================================
+   UPLOAD TEXT
+========================================================= */
+
+.upload-box p{
+    color: #666;
+
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
+
+.upload-box input[type="file"]{
+    width: 100%;
+
+    padding: 14px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255,255,255,0.6);
+
+    cursor: pointer;
+}
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.form-actions{
+    grid-column: span 2;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 10px;
+}
+
+/* =========================================================
+   SAVE BUTTON
+========================================================= */
+
+.save-btn{
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    padding: 18px 34px;
+
+    border: none;
+
+    cursor: pointer;
+
+    border-radius: 999px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #222;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffd4e4,
+            #dac8ff
+        );
+
+    box-shadow:
+        0 16px 38px rgba(255,190,220,0.30);
+
+    transition: 0.35s ease;
+}
+
+.save-btn:hover{
+    transform:
+        translateY(-4px)
+        scale(1.02);
+
+    box-shadow:
+        0 24px 48px rgba(255,190,220,0.36);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+    .music-form-card form{
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions{
+        grid-column: span 1;
+    }
+}
+
+@media(max-width:768px){
+
+    .form-page{
+        padding: 20px 12px;
+    }
+
+    .form-header{
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding: 30px 24px;
+    }
+
+    .form-header h1{
+        font-size: 40px;
+    }
+
+    .music-form-card{
+        padding: 26px 20px;
+    }
+
+    .back-btn,
+    .save-btn{
+        width: 100%;
+    }
+
+    .form-actions{
+        justify-content: stretch;
+    }
+}
+
+/* =========================================================
+   CURRENT IMAGE PREVIEW
+========================================================= */
+
+.current-image-preview{
+    width: 100%;
+
+    overflow: hidden;
+
+    border-radius: 28px;
+
+    background:
+        rgba(255,255,255,0.45);
+
+    padding: 12px;
+
+    border:
+        1px solid rgba(255,255,255,0.22);
+}
+
+.current-image-preview img{
+    width: 100%;
+
+    height: 320px;
+
+    object-fit: cover;
+
+    border-radius: 22px;
+
+    display: block;
+}

@@ -1,0 +1,146 @@
+/* =========================================================
+   ADMIN FOOTER PREMIUM DREAMY
+========================================================= */
+
+.admin-footer{
+    position: relative;
+
+    margin: 80px 20px 20px;
+
+    padding: 26px 32px;
+
+    border-radius: 30px;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.38),
+            rgba(255,255,255,0.14)
+        );
+
+    backdrop-filter: blur(28px);
+
+    -webkit-backdrop-filter: blur(28px);
+
+    border:
+        1px solid rgba(255,255,255,0.20);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.26);
+}
+
+/* =========================================================
+   DREAMY GLOW
+========================================================= */
+
+.admin-footer::before{
+    content: "";
+
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            rgba(255,210,225,0.24),
+            transparent 70%
+        );
+
+    top: -120px;
+    left: -100px;
+
+    pointer-events: none;
+}
+
+.admin-footer::after{
+    content: "";
+
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            rgba(220,205,255,0.22),
+            transparent 70%
+        );
+
+    bottom: -140px;
+    right: -100px;
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.admin-footer p{
+    position: relative;
+
+    z-index: 2;
+
+    margin: 0;
+
+    color: #555;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.4px;
+
+    line-height: 1.8;
+}
+
+/* =========================================================
+   HOVER EFFECT
+========================================================= */
+
+.admin-footer:hover{
+    transform: translateY(-2px);
+
+    transition: 0.35s ease;
+
+    box-shadow:
+        0 28px 70px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.30);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+    .admin-footer{
+        margin: 60px 12px 12px;
+
+        padding: 22px 18px;
+
+        border-radius: 24px;
+    }
+
+    .admin-footer p{
+        font-size: 13px;
+
+        line-height: 1.7;
+    }
+}
