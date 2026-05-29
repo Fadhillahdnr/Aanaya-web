@@ -6,6 +6,7 @@ use App\Models\Music;
 use App\Models\Article;
 use App\Models\Product;
 use App\Models\Gallery;
+use App\Models\MusicVideo;
 
 class UserDashboardController extends Controller
 {
@@ -24,6 +25,8 @@ class UserDashboardController extends Controller
         $latestProduct = Product::latest()->first();
 
         $latestGallery = Gallery::latest()->first();
+
+        $latestVideos = MusicVideo::latest()->get();
 
         /*
         |--------------------------------------------------------------------------
@@ -73,6 +76,7 @@ class UserDashboardController extends Controller
             'latestArticle',
             'latestProduct',
             'latestGallery',
+            'latestVideos',
 
             'totalMusic',
             'totalArticles',

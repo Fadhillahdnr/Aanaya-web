@@ -90,6 +90,16 @@
 
                 </a>
 
+                <!-- MUSIC VIDEOS -->
+                <a
+                    href="/admin/mv"
+                    class="{{ request()->is('admin/mv*') ? 'active' : '' }}">
+
+                    <i class="fas fa-video"></i>
+
+                    <span>Music Videos</span>
+                </a>
+
             </div>
 
         </div>
@@ -234,7 +244,17 @@
 
             Users
         </a>
-        
+
+        <!-- MUSIC VIDEOS -->
+        <a
+            href="/admin/mv"
+            class="{{ request()->is('admin/mv*') ? 'active' : '' }}">
+
+            <i class="fas fa-video"></i>
+
+            Music Videos
+        </a>
+
     </div>
 
 </nav>

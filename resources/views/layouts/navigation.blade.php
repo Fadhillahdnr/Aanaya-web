@@ -1,4 +1,31 @@
-<nav x-data="{ open: false }" class="aanaya-navbar">
+<nav
+    x-data="{
+        open: false,
+        scrolled: false,
+        lastScroll: 0,
+        hidden: false
+    }"
+    x-init="
+        window.addEventListener('scroll', () => {
+
+            let currentScroll = window.pageYOffset;
+
+            scrolled = currentScroll > 30;
+
+            if(currentScroll > lastScroll && currentScroll > 120){
+                hidden = true;
+            }else{
+                hidden = false;
+            }
+
+            lastScroll = currentScroll;
+        });
+    "
+    :class="{
+        'navbar-scrolled': scrolled,
+        'navbar-hidden': hidden
+    }"
+    class="aanaya-navbar">
 
     <div class="navbar-container">
 
@@ -125,8 +152,13 @@
                     <!-- DROPDOWN -->
                     <div
                         x-show="dropdown"
+                        x-transition:enter="dropdown-enter"
+                        x-transition:enter-start="dropdown-enter-start"
+                        x-transition:enter-end="dropdown-enter-end"
+                        x-transition:leave="dropdown-leave"
+                        x-transition:leave-start="dropdown-leave-start"
+                        x-transition:leave-end="dropdown-leave-end"
                         @click.outside="dropdown = false"
-                        x-transition
                         class="dropdown-menu">
 
                         <a href="{{ route('profile.edit') }}">

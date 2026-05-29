@@ -2,12 +2,15 @@
 
     <div class="dream-dashboard">
 
-        <!-- =========================================
-            HERO
-        ========================================== -->
+        <!-- =========================================================
+            HERO SECTION
+        ========================================================== -->
         <section class="dream-hero">
 
-            <!-- BACKGROUND -->
+            <!-- PARALLAX BG -->
+            <div class="hero-parallax"></div>
+
+            <!-- BACKGROUND SLIDER -->
             <div class="hero-slider">
 
                 <div class="hero-slide active">
@@ -35,14 +38,29 @@
             <div class="hero-glow glow-1"></div>
             <div class="hero-glow glow-2"></div>
 
+            <!-- PARTICLES -->
+            <div class="floating-particles">
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
             <!-- CONTENT -->
             <div class="hero-container">
 
-                <div class="hero-left">
+                <!-- LEFT -->
+                <div class="hero-left reveal reveal-left">
 
                     <div class="dream-badge">
+
                         <span></span>
-                        Aanaya UNIVERSE
+
+                        DREAMY CINEMATIC EXPERIENCE
+
                     </div>
 
                     <h1 class="dream-title">
@@ -60,13 +78,17 @@
                     </h1>
 
                     <p class="dream-description">
+
                         Enter a dreamy cinematic universe filled with emotional music,
-                        elegant visuals, and soft immersive experiences.
+                        immersive visuals, soft aesthetics, and emotional storytelling
+                        that creates a unique digital experience.
+
                     </p>
 
                     <div class="dream-buttons">
 
-                        <a href="/music" class="dream-btn primary-btn">
+                        <a href="/music"
+                           class="dream-btn primary-btn magnetic-btn">
 
                             <i class="fas fa-play"></i>
 
@@ -74,7 +96,8 @@
 
                         </a>
 
-                        <a href="/gallery" class="dream-btn secondary-btn">
+                        <a href="/gallery"
+                           class="dream-btn secondary-btn magnetic-btn">
 
                             <i class="fas fa-image"></i>
 
@@ -86,89 +109,27 @@
 
                 </div>
 
-                <!-- FLOAT CARD -->
-                <div class="hero-right">
+                <!-- RIGHT -->
+                <div class="hero-right reveal reveal-right">
 
-                    @if(isset($latestMusic) && $latestMusic)
+                    @if(isset($latestVideos) && $latestVideos->count())
 
-                        <div class="hero-music-card">
+                        <div class="hero-video-card tilt-card">
 
-                            <div class="music-card-image">
+                            <div class="hero-video-wrapper">
 
-                                <img
-                                    src="{{ asset($latestMusic->cover_image) }}"
-                                    alt="{{ $latestMusic->title }}">
+                                <video
+                                    id="heroVideo"
+                                    autoplay
+                                    muted
+                                    playsinline
+                                    class="hero-video">
 
-                                <div class="music-image-overlay"></div>
+                                    <source
+                                        src="{{ asset($latestVideos[0]->video_file) }}"
+                                        type="video/mp4">
 
-                            </div>
-
-                            <div class="music-card-content">
-
-                                <div class="music-top">
-
-                                    <span>Latest Release</span>
-
-                                    <div class="music-wave">
-                                        <i></i>
-                                        <i></i>
-                                        <i></i>
-                                    </div>
-
-                                </div>
-
-                                <h3>
-                                    {{ $latestMusic->title }}
-                                </h3>
-
-                                <p>
-                                    {{ $latestMusic->artist }}
-                                </p>
-
-                                <div class="aanaya-player">
-
-                                    <button class="aanaya-play-btn">
-                                        <i class="fas fa-play"></i>
-                                    </button>
-
-                                    <div class="aanaya-audio-info">
-
-                                        <span>
-                                            {{ $latestMusic->title }}
-                                        </span>
-
-                                        <div class="aanaya-audio-wave">
-                                            <i></i>
-                                            <i></i>
-                                            <i></i>
-                                            <i></i>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="aanaya-volume">
-
-                                        <i class="fas fa-volume-up"></i>
-
-                                        <input
-                                            type="range"
-                                            class="volume-slider"
-                                            min="0"
-                                            max="1"
-                                            step="0.01"
-                                            value="1">
-
-                                    </div>
-
-                                    <audio class="custom-audio">
-
-                                        <source
-                                            src="{{ asset($latestMusic->audio_file) }}"
-                                            type="audio/mpeg">
-
-                                    </audio>
-
-                                </div>
+                                </video>
 
                             </div>
 
@@ -178,31 +139,67 @@
 
                 </div>
 
-            </div>
-
-            <!-- SLIDER NAV -->
+            <!-- NAV -->
             <div class="hero-navigation">
 
-                <button class="hero-nav-btn" id="prevSlide">
+                <button class="hero-nav-btn"
+                        id="prevSlide">
+
                     <i class="fas fa-chevron-left"></i>
+
                 </button>
 
-                <button class="hero-nav-btn" id="nextSlide">
+                <button class="hero-nav-btn"
+                        id="nextSlide">
+
                     <i class="fas fa-chevron-right"></i>
+
                 </button>
 
             </div>
 
         </section>
 
-        <!-- =========================================
-            DISCOVER
-        ========================================== -->
-        <section class="dream-section">
+        <!-- =========================================================
+            CHARACTER WRAPPER
+        ========================================================= -->
 
-            <div class="section-heading">
+        <div class="character-section-wrapper">
+
+            <div class="floating-character">
+
+                <div class="floating-character-glow"></div>
+
+                <video
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    class="floating-character-video">
+
+                    <source
+                        src="{{ asset('assets/character/aanaya.webm') }}"
+                        type="video/webm">
+
+                    <source
+                        src="{{ asset('assets/character/aanaya.mp4') }}"
+                        type="video/mp4">
+
+                </video>
+
+            </div>
+
+        </div>
+        
+        <!-- =========================================================
+            DISCOVER
+        ========================================================= -->
+        <section class="dream-section reveal-section discover-section">
+
+            <div class="section-heading reveal reveal-up">
 
                 <div>
+
                     <span class="section-mini-title">
                         DISCOVER
                     </span>
@@ -210,16 +207,21 @@
                     <h2>
                         Explore The Universe
                     </h2>
+
                 </div>
 
             </div>
 
             <div class="dream-grid">
 
-                <a href="/music" class="dream-card">
+                <!-- MUSIC -->
+                <a href="/music"
+                class="dream-card delay-1">
 
                     <div class="dream-icon pink">
+
                         <i class="fas fa-music"></i>
+
                     </div>
 
                     <div class="dream-card-content">
@@ -233,15 +235,21 @@
                     </div>
 
                     <div class="card-arrow">
+
                         <i class="fas fa-arrow-right"></i>
+
                     </div>
 
                 </a>
 
-                <a href="/articles" class="dream-card">
+                <!-- ARTICLES -->
+                <a href="/articles"
+                class="dream-card delay-2">
 
                     <div class="dream-icon purple">
+
                         <i class="fas fa-book-open"></i>
+
                     </div>
 
                     <div class="dream-card-content">
@@ -249,21 +257,27 @@
                         <h3>Articles</h3>
 
                         <p>
-                            Universe stories, thoughts, and exclusive updates.
+                            Stories, thoughts, and emotional universe updates.
                         </p>
 
                     </div>
 
                     <div class="card-arrow">
+
                         <i class="fas fa-arrow-right"></i>
+
                     </div>
 
                 </a>
 
-                <a href="/gallery" class="dream-card">
+                <!-- GALLERY -->
+                <a href="/gallery"
+                class="dream-card delay-3">
 
                     <div class="dream-icon blue">
+
                         <i class="fas fa-camera"></i>
+
                     </div>
 
                     <div class="dream-card-content">
@@ -271,21 +285,27 @@
                         <h3>Gallery</h3>
 
                         <p>
-                            Soft visual collections with dreamy aesthetics.
+                            Elegant visual collections with dreamy aesthetics.
                         </p>
 
                     </div>
 
                     <div class="card-arrow">
+
                         <i class="fas fa-arrow-right"></i>
+
                     </div>
 
                 </a>
 
-                <a href="/products" class="dream-card">
+                <!-- STORE -->
+                <a href="/merchandise"
+                class="dream-card delay-4">
 
                     <div class="dream-icon peach">
+
                         <i class="fas fa-bag-shopping"></i>
+
                     </div>
 
                     <div class="dream-card-content">
@@ -299,7 +319,9 @@
                     </div>
 
                     <div class="card-arrow">
+
                         <i class="fas fa-arrow-right"></i>
+
                     </div>
 
                 </a>
@@ -308,35 +330,30 @@
 
         </section>
 
-        <!-- LIBRARY -->
-        <section class="music-library"
-                id="musicCollection">
+        <!-- =========================================================
+            MUSIC
+        ========================================================== -->
+        <section class="dream-section-music reveal-section">
 
-            <!-- TOP -->
-            <div class="library-top"
-                data-aos="fade-up">
+            <div class="section-heading-music reveal reveal-up">
 
                 <div>
 
-                    <span class="section-subtitle">
-                        LATEST RELEASES
+                    <span class="section-mini-title-music">
+                        MUSIC COLLECTION
                     </span>
 
                     <h2>
-                        Music Collection
+                        Latest Dream Releases
                     </h2>
 
                 </div>
 
             </div>
 
-            <!-- GRID -->
-            <div class="music-grid">
+            <div class="music-showcase-grid">
 
-                <!-- CARD -->
-                <div class="spotify-card"
-                    data-aos="fade-up"
-                    data-aos-delay="100">
+                <div class="spotify-card tilt-card reveal reveal-left">
 
                     <div class="spotify-card-glow"></div>
 
@@ -355,9 +372,7 @@
                         </h3>
 
                         <p>
-                            Emotional indie-pop single
-                            with cinematic dreamy vibes
-                            and soft ambient textures.
+                            Emotional indie-pop single with cinematic dreamy vibes.
                         </p>
 
                     </div>
@@ -375,10 +390,7 @@
 
                 </div>
 
-                <!-- CARD -->
-                <div class="spotify-card"
-                    data-aos="fade-up"
-                    data-aos-delay="200">
+                <div class="spotify-card tilt-card reveal reveal-right">
 
                     <div class="spotify-card-glow"></div>
 
@@ -387,7 +399,6 @@
                         <span class="music-type">
                             Dream Pop
                         </span>
-
 
                     </div>
 
@@ -398,10 +409,7 @@
                         </h3>
 
                         <p>
-                            Floating melodies,
-                            emotional atmosphere,
-                            and dreamy synth layers
-                            inside Aanaya’s universe.
+                            Floating melodies and dreamy synth layers.
                         </p>
 
                     </div>
@@ -423,23 +431,29 @@
 
         </section>
 
-        <!-- =========================================
+        <!-- =========================================================
             QUOTE
-        ========================================== -->
-        <section class="dream-quote-section">
+        ========================================================== -->
+        <section class="dream-quote-section reveal-section">
 
-            <div class="dream-quote-card">
+            <div class="dream-quote-card reveal reveal-zoom">
 
                 <div class="quote-icon">
+
                     <i class="fas fa-quote-left"></i>
+
                 </div>
 
                 <h2>
+
                     “Music begins where words end.”
+
                 </h2>
 
                 <span>
+
                     — Aanaya Universe
+
                 </span>
 
             </div>
@@ -448,10 +462,14 @@
 
     </div>
 
-    <!-- =========================================
+    <!-- =========================================================
         SCRIPT
-    ========================================== -->
+    ========================================================== -->
     <script>
+
+        /* =========================================================
+            HERO SLIDER
+        ========================================================== */
 
         const slides =
             document.querySelectorAll('.hero-slide');
@@ -465,6 +483,7 @@
             });
 
             slides[index].classList.add('active');
+
         }
 
         function nextSlide(){
@@ -476,6 +495,7 @@
             }
 
             showSlide(currentSlide);
+
         }
 
         function prevSlide(){
@@ -487,6 +507,7 @@
             }
 
             showSlide(currentSlide);
+
         }
 
         document
@@ -499,48 +520,250 @@
 
         setInterval(nextSlide, 7000);
 
+        /* =========================================================
+            SCROLL REVEAL
+        ========================================================== */
+
+        const reveals =
+            document.querySelectorAll('.reveal');
+
+        function revealOnScroll(){
+
+            reveals.forEach(el => {
+
+                const windowHeight =
+                    window.innerHeight;
+
+                const revealTop =
+                    el.getBoundingClientRect().top;
+
+                const revealPoint = 120;
+
+                if(revealTop < windowHeight - revealPoint){
+
+                    el.classList.add('active');
+
+                }
+
+            });
+
+        }
+
+        window.addEventListener(
+            'scroll',
+            revealOnScroll
+        );
+
+        revealOnScroll();
+
+        /* =========================================================
+            TILT EFFECT
+        ========================================================== */
+
+        const tiltCards =
+            document.querySelectorAll('.tilt-card');
+
+        tiltCards.forEach(card => {
+
+            card.addEventListener(
+                'mousemove',
+                (e) => {
+
+                    const rect =
+                        card.getBoundingClientRect();
+
+                    const x =
+                        e.clientX - rect.left;
+
+                    const y =
+                        e.clientY - rect.top;
+
+                    const centerX =
+                        rect.width / 2;
+
+                    const centerY =
+                        rect.height / 2;
+
+                    const rotateX =
+                        ((y - centerY) / 25);
+
+                    const rotateY =
+                        ((centerX - x) / 25);
+
+                    card.style.transform =
+                        `
+                        perspective(1000px)
+                        rotateX(${rotateX}deg)
+                        rotateY(${rotateY}deg)
+                        translateY(-8px)
+                        `;
+
+                }
+            );
+
+            card.addEventListener(
+                'mouseleave',
+                () => {
+
+                    card.style.transform =
+                        `
+                        perspective(1000px)
+                        rotateX(0deg)
+                        rotateY(0deg)
+                        translateY(0px)
+                        `;
+
+                }
+            );
+
+        });
+
+        /* =========================================================
+            PARALLAX
+        ========================================================== */
+
+        window.addEventListener(
+            'scroll',
+            () => {
+
+                const scrolled =
+                    window.pageYOffset;
+
+                const parallax =
+                    document.querySelector('.hero-parallax');
+
+                parallax.style.transform =
+                    `translateY(${scrolled * 0.35}px)`;
+
+            }
+        );
+
+    </script>
+
+
+    <script>
+
+        /*
+        =========================================================
+        HERO VIDEO AUTO PLAY DATABASE
+        =========================================================
+        */
+
+        const heroVideo =
+            document.getElementById('heroVideo');
+
+        /*
+        =========================================================
+        VIDEO LIST
+        =========================================================
+        */
+
+        const videoList = [
+
+            @foreach($latestVideos as $video)
+
+                "{{ asset($video->video_file) }}",
+
+            @endforeach
+
+        ];
+
+        /*
+        =========================================================
+        DEBUG
+        =========================================================
+        */
+
+        console.log(videoList);
+
+        /*
+        =========================================================
+        CURRENT INDEX
+        =========================================================
+        */
+
+        let currentVideo = 0;
+
+        /*
+        =========================================================
+        FUNCTION NEXT VIDEO
+        =========================================================
+        */
+
+        function nextVideo(){
+
+            currentVideo++;
+
+            /*
+            BALIK KE VIDEO PERTAMA
+            */
+            if(currentVideo >= videoList.length){
+
+                currentVideo = 0;
+
+            }
+
+            /*
+            GANTI VIDEO
+            */
+            heroVideo.src =
+                videoList[currentVideo];
+
+            /*
+            LOAD VIDEO BARU
+            */
+            heroVideo.load();
+
+            /*
+            PLAY VIDEO BARU
+            */
+            heroVideo.play();
+
+        }
+
+        /*
+        =========================================================
+        SAAT VIDEO SELESAI
+        =========================================================
+        */
+
+        heroVideo.onended = function(){
+
+            nextVideo();
+
+        };
+
     </script>
 
     <script>
 
-        const playBtn =
-            document.querySelector('.aanaya-play-btn');
+    document.addEventListener('DOMContentLoaded', () => {
 
-        const audio =
-            document.querySelector('.custom-audio');
+        const cards = document.querySelectorAll('.dream-card');
 
-        const icon =
-            playBtn.querySelector('i');
+        const observer = new IntersectionObserver((entries) => {
 
-        const volumeSlider =
-            document.querySelector('.volume-slider');
+            entries.forEach(entry => {
 
-        playBtn.addEventListener('click', () => {
+                if(entry.isIntersecting){
 
-            if(audio.paused){
+                    entry.target.classList.add('active');
 
-                audio.play();
+                }
 
-                icon.classList.remove('fa-play');
-                icon.classList.add('fa-pause');
+            });
 
-            }else{
-
-                audio.pause();
-
-                icon.classList.remove('fa-pause');
-                icon.classList.add('fa-play');
-
-            }
-
+        }, {
+            threshold: 0.15
         });
 
-        volumeSlider.addEventListener('input', () => {
-
-            audio.volume = volumeSlider.value;
-
+        cards.forEach(card => {
+            observer.observe(card);
         });
+
+    });
 
     </script>
+
 
 </x-app-layout>

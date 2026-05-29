@@ -8,6 +8,7 @@ use App\Models\Music;
 use App\Models\Article;
 use App\Models\Product;
 use App\Models\Gallery;
+use App\Models\MusicVideo;
 
 class AdminController extends Controller
 {
@@ -33,6 +34,8 @@ class AdminController extends Controller
             ? Gallery::count()
             : 0;
 
+        $latestVideo = MusicVideo::latest()->first();
+
         /*
         |--------------------------------------------------------------------------
         | LATEST RELEASE
@@ -46,7 +49,8 @@ class AdminController extends Controller
             'totalArticles',
             'totalProducts',
             'totalGallery',
-            'latestMusic'
+            'latestMusic',
+            'latestVideo'
         ));
     }
 }

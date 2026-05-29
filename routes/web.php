@@ -11,6 +11,7 @@ use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\MusicVideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,6 +104,7 @@ Route::view(
     '/about',
     'user.about'
 )->name('about');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -302,6 +304,32 @@ Route::middleware(['auth', 'admin'])->group(function () {
         '/admin/users/{user}/delete',
         [UserController::class, 'destroy']
     );
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUSIC VIDEO
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/admin/mv',
+        [MusicVideoController::class, 'index']
+    )->name('admin.music-vidio');
+
+    Route::get(
+        '/admin/mv/create',
+        [MusicVideoController::class, 'create']
+    )->name('admin.music-vidio-create');
+
+    Route::post(
+        '/admin/mv/store',
+        [MusicVideoController::class, 'store']
+    )->name('admin.music-vidio.store');
+
+    Route::delete(
+        '/admin/mv/{mv}/delete',
+        [MusicVideoController::class, 'destroy']
+    )->name('admin.music-vidio.destroy');
 
 });
 

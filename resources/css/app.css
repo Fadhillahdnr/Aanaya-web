@@ -53,6 +53,8 @@
 @import './admin-page/user.css';
 @import './admin-page/user-create.css';
 @import './admin-page/user-edit.css';
+@import './admin-page/music-vidio.css';
+@import './admin-page/music-vidio-create.css';
 
 /* =========================================================
    RESET

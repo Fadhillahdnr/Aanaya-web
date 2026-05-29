@@ -1,5 +1,5 @@
 /* =========================================================
-   AANAYA NAVBAR FINAL UPGRADE
+   AANAYA NAVBAR ULTRA FINAL
 ========================================================= */
 
 .aanaya-navbar{
@@ -28,7 +28,39 @@
     border-bottom:
         1px solid rgba(255,255,255,0.08);
 
-    transition: .35s ease;
+    transition:
+        transform .45s cubic-bezier(.4,0,.2,1),
+        background .35s ease,
+        padding .35s ease,
+        box-shadow .35s ease,
+        border .35s ease;
+
+    transform: translateY(0);
+}
+
+/* =========================================================
+   HIDE ON SCROLL DOWN
+========================================================= */
+
+.navbar-hidden{
+    transform: translateY(-120%);
+}
+
+/* =========================================================
+   SCROLLED STATE
+========================================================= */
+
+.navbar-scrolled{
+    padding: 12px 34px;
+
+    background:
+        rgba(10,10,14,0.78);
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.10);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.24);
 }
 
 /* =========================================================
@@ -65,12 +97,18 @@
 
     object-fit: contain;
 
-    transition: .35s ease;
+    transition:
+        transform .35s ease,
+        filter .35s ease;
 }
 
 .navbar-logo:hover img{
     transform:
-        scale(1.05);
+        scale(1.06)
+        rotate(-2deg);
+
+    filter:
+        drop-shadow(0 0 16px rgba(255,192,220,.35));
 }
 
 /* =========================================================
@@ -95,6 +133,9 @@
         1px solid rgba(255,255,255,0.10);
 
     backdrop-filter: blur(20px);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08);
 }
 
 /* =========================================================
@@ -102,6 +143,8 @@
 ========================================================= */
 
 .nav-link{
+    position: relative;
+
     display: flex;
 
     align-items: center;
@@ -121,6 +164,34 @@
     transition: .3s ease;
 
     text-decoration: none !important;
+
+    overflow: hidden;
+}
+
+.nav-link::before{
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.12),
+            transparent
+        );
+
+    opacity: 0;
+
+    transition: .3s ease;
+}
+
+.nav-link i,
+.nav-link span{
+    position: relative;
+
+    z-index: 2;
 }
 
 .nav-link i{
@@ -132,6 +203,12 @@
 
     background:
         rgba(255,255,255,0.10);
+
+    transform: translateY(-2px);
+}
+
+.nav-link:hover::before{
+    opacity: 1;
 }
 
 /* =========================================================
@@ -303,6 +380,8 @@
 .user-btn:hover{
     background:
         rgba(255,255,255,0.12);
+
+    transform: translateY(-2px);
 }
 
 .user-avatar{
@@ -327,6 +406,9 @@
     color: #222;
 
     font-weight: 700;
+
+    box-shadow:
+        0 10px 25px rgba(255,192,220,.24);
 }
 
 .user-info{
@@ -372,7 +454,7 @@
     border-radius: 24px;
 
     background:
-        rgba(20,20,25,0.82);
+        rgba(20,20,25,0.88);
 
     backdrop-filter: blur(30px);
 
@@ -428,6 +510,40 @@
         rgba(255,255,255,0.08);
 
     color: white;
+
+    transform: translateX(3px);
+}
+
+/* =========================================================
+   DROPDOWN ANIMATION
+========================================================= */
+
+.dropdown-enter{
+    transition: all .25s ease;
+}
+
+.dropdown-enter-start{
+    opacity: 0;
+    transform: translateY(12px) scale(.96);
+}
+
+.dropdown-enter-end{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.dropdown-leave{
+    transition: all .2s ease;
+}
+
+.dropdown-leave-start{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.dropdown-leave-end{
+    opacity: 0;
+    transform: translateY(10px) scale(.96);
 }
 
 /* =========================================================
@@ -450,6 +566,15 @@
     color: white;
 
     cursor: pointer;
+
+    transition: .3s ease;
+}
+
+.mobile-toggle:hover{
+    background:
+        rgba(255,255,255,0.14);
+
+    transform: translateY(-2px);
 }
 
 /* =========================================================
@@ -496,6 +621,8 @@
 
         border:
             1px solid rgba(255,255,255,0.08);
+
+        backdrop-filter: blur(20px);
     }
 
     .mobile-menu a,
@@ -520,12 +647,16 @@
         text-decoration: none !important;
 
         font-weight: 600;
+
+        transition: .3s ease;
     }
 
     .mobile-menu a:hover,
     .mobile-menu button:hover{
         background:
             rgba(255,255,255,0.12);
+
+        transform: translateX(4px);
     }
 }
 
@@ -537,6 +668,10 @@
 
     .aanaya-navbar{
         padding: 14px 18px;
+    }
+
+    .navbar-scrolled{
+        padding: 10px 16px;
     }
 
     .navbar-logo img{
@@ -557,5 +692,9 @@
         padding: 12px 18px;
 
         font-size: 13px;
+    }
+
+    .dropdown-menu{
+        width: 220px;
     }
 }
