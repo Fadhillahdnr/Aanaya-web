@@ -2,72 +2,87 @@
 
 <div class="cart-page">
 
-    <h1>Your Dream Cart ✨</h1>
+    <div class="cart-bg-glow glow-1"></div>
+    <div class="cart-bg-glow glow-2"></div>
 
-    @php
-        $total = 0;
-    @endphp
-
-    @foreach($cart as $id => $item)
-
-        @php
-            $subtotal = $item['price'] * $item['quantity'];
-            $total += $subtotal;
-        @endphp
-
-        <div class="cart-card">
-
-            <img
-                src="{{ asset('uploads/products/' . $item['image']) }}">
-
-            <div class="cart-info">
-
-                <h2>{{ $item['name'] }}</h2>
-
-                <div class="cart-qty-control">
-                    <button class="qty-btn qty-minus" data-id="{{ $id }}" data-price="{{ $item['price'] }}">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <input type="number" class="qty-input" data-id="{{ $id }}" data-price="{{ $item['price'] }}" value="{{ $item['quantity'] }}" min="1">
-                    <button class="qty-btn qty-plus" data-id="{{ $id }}" data-price="{{ $item['price'] }}">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-
-                <div class="cart-price" data-subtotal="{{ $id }}">
-                    Rp {{ number_format($subtotal) }}
-                </div>
-
-            </div>
-
-            <form action="/cart/remove/{{ $id }}"
-                  method="POST">
-
-                @csrf
-                @method('DELETE')
-
-                <button class="remove-btn">
-                    Remove
-                </button>
-
-            </form>
-
+    <div class="cart-container fade-in-up">
+        
+        <div class="cart-header">
+            <h1>Your Dream Cart ✨</h1>
+            <p>Review your beautiful items before checkout.</p>
         </div>
 
-    @endforeach
+        @php
+            $total = 0;
+        @endphp
 
-    <div class="cart-total">
+        <div class="cart-items-wrapper">
+            @forelse($cart as $id => $item)
 
-        <h2>
-            Total: Rp {{ number_format($total) }}
-        </h2>
+                @php
+                    $subtotal = $item['price'] * $item['quantity'];
+                    $total += $subtotal;
+                @endphp
 
-        <a href="/checkout"
-           class="checkout-btn">
+                <div class="cart-card">
 
-            Checkout Now
+                    <div class="cart-img-wrap">
+                        <img src="{{ asset('uploads/products/' . $item['image']) }}" alt="{{ $item['name'] }}">
+                    </div>
 
-        </a>
+                    <div class="cart-info">
+                        <h2>{{ $item['name'] }}</h2>
+                        
+                        <div class="cart-price" data-subtotal="{{ $id }}">
+                            Rp {{ number_format($subtotal, 0, ',', '.') }}
+                        </div>
+
+                        <div class="cart-actions-row">
+                            <div class="cart-qty-control">
+                                <button class="qty-btn qty-minus" data-id="{{ $id }}" data-price="{{ $item['price'] }}">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" class="qty-input" data-id="{{ $id }}" data-price="{{ $item['price'] }}" value="{{ $item['quantity'] }}" min="1">
+                                <button class="qty-btn qty-plus" data-id="{{ $id }}" data-price="{{ $item['price'] }}">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+
+                            <form action="/cart/remove/{{ $id }}" method="POST" class="remove-form">
+                                @csrf
+                                @method('DELETE')
+                                <button class="remove-btn">
+                                    <i class="fas fa-trash-alt"></i> Remove
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            @empty
+                <div class="empty-cart-state">
+                    <i class="fas fa-box-open"></i>
+                    <h2>Your cart is empty</h2>
+                    <p>Looks like you haven't added any dreamy products yet.</p>
+                    <a href="/products" class="continue-shopping-btn">Explore Products</a>
+                </div>
+            @endforelse
+        </div>
+
+        @if(count($cart) > 0)
+        <div class="cart-summary-card">
+            <div class="cart-total">
+                <span>Grand Total</span>
+                <h2>Rp {{ number_format($total, 0, ',', '.') }}</h2>
+            </div>
+
+            <a href="/checkout" class="checkout-btn">
+                <span>Checkout Now</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        @endif
 
     </div>
 
@@ -113,6 +128,10 @@
         });
 
         function updateQuantity(id, quantity) {
+            // Tambahkan loading state pada card (opsional)
+            const card = document.querySelector(`.qty-input[data-id="${id}"]`).closest('.cart-card');
+            card.style.opacity = '0.7';
+
             fetch(`/cart/update/${id}`, {
                 method: 'POST',
                 headers: {
@@ -127,14 +146,18 @@
                 if(data.success) {
                     // Update subtotal
                     const priceElement = document.querySelector(`[data-subtotal="${id}"]`);
+                    // Gunakan format Indonesia
                     priceElement.textContent = 'Rp ' + data.subtotal.toLocaleString('id-ID');
 
                     // Update total
                     const totalElement = document.querySelector('.cart-total h2');
-                    totalElement.textContent = 'Total: Rp ' + data.total.toLocaleString('id-ID');
+                    totalElement.textContent = 'Rp ' + data.total.toLocaleString('id-ID');
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.error('Error:', error))
+            .finally(() => {
+                card.style.opacity = '1';
+            });
         }
     });
 </script>

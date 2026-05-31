@@ -2,101 +2,49 @@
 
     <div class="admin-container">
 
-        <!-- ===================================================== -->
-        <!-- LEFT -->
-        <!-- ===================================================== -->
-
         <div class="admin-left">
 
-            <!-- LOGO -->
-            <a href="/admin" class="admin-logo-link">
-
+            <a href="/admin" class="admin-logo-link" title="Go to Dashboard">
                 <img
                     src="{{ asset('images/logo.png') }}"
                     alt="Aanaya Logo"
                     class="admin-logo">
-
             </a>
-
-            <!-- ===================================================== -->
-            <!-- DESKTOP LINKS -->
-            <!-- ===================================================== -->
 
             <div class="admin-links-desktop">
 
-                <!-- DASHBOARD -->
-                <a
-                    href="/admin"
-                    class="{{ request()->is('admin') ? 'active' : '' }}">
-
+                <a href="/admin" class="{{ request()->is('admin') ? 'active' : '' }}">
                     <i class="fas fa-chart-line"></i>
-
                     <span>Dashboard</span>
-
                 </a>
 
-                <!-- MUSIC -->
-                <a
-                    href="/admin/music"
-                    class="{{ request()->is('admin/music*') ? 'active' : '' }}">
-
+                <a href="/admin/music" class="{{ request()->is('admin/music*') ? 'active' : '' }}">
                     <i class="fas fa-music"></i>
-
                     <span>Music</span>
-
                 </a>
 
-                <!-- ARTICLES -->
-                <a
-                    href="/admin/articles"
-                    class="{{ request()->is('admin/articles*') ? 'active' : '' }}">
-
+                <a href="/admin/articles" class="{{ request()->is('admin/articles*') ? 'active' : '' }}">
                     <i class="fas fa-newspaper"></i>
-
                     <span>Articles</span>
-
                 </a>
 
-                <!-- PRODUCTS -->
-                <a
-                    href="/admin/products"
-                    class="{{ request()->is('admin/products*') ? 'active' : '' }}">
-
+                <a href="/admin/products" class="{{ request()->is('admin/products*') ? 'active' : '' }}">
                     <i class="fas fa-bag-shopping"></i>
-
                     <span>Products</span>
-
                 </a>
 
-                <!-- GALLERY -->
-                <a
-                    href="/admin/gallery"
-                    class="{{ request()->is('admin/gallery*') ? 'active' : '' }}">
-
+                <a href="/admin/gallery" class="{{ request()->is('admin/gallery*') ? 'active' : '' }}">
                     <i class="fas fa-image"></i>
-
                     <span>Gallery</span>
-
                 </a>
 
-                <!-- USERS -->
-                <a
-                    href="/admin/users"
-                    class="{{ request()->is('admin/users*') ? 'active' : '' }}">
-
+                <a href="/admin/users" class="{{ request()->is('admin/users*') ? 'active' : '' }}">
                     <i class="fas fa-users"></i>
-
                     <span>Users</span>
-
                 </a>
 
-                <!-- MUSIC VIDEOS -->
-                <a
-                    href="/admin/mv"
-                    class="{{ request()->is('admin/mv*') ? 'active' : '' }}">
-
+                <a href="/admin/mv" class="{{ request()->is('admin/mv*') ? 'active' : '' }}">
                     <i class="fas fa-video"></i>
-
                     <span>Music Videos</span>
                 </a>
 
@@ -104,155 +52,74 @@
 
         </div>
 
-        <!-- ===================================================== -->
-        <!-- RIGHT -->
-        <!-- ===================================================== -->
-
         <div class="admin-right">
 
-            <!-- USER -->
             <div class="admin-user">
-
-                <div class="admin-avatar">
-
-                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-
-                </div>
-
                 <div class="admin-user-info">
-
-                    <h4>
-                        {{ Auth::user()->name }}
-                    </h4>
-
-                    <p>
-                        Administrator
-                    </p>
-
+                    <h4>{{ Auth::user()->name ?? 'Administrator' }}</h4>
+                    <p>Administrator</p>
                 </div>
-
             </div>
 
-            <!-- ===================================================== -->
-            <!-- LOGOUT -->
-            <!-- ===================================================== -->
-
-            <form
-                method="POST"
-                action="{{ route('logout') }}">
-
+            <form method="POST" action="{{ route('logout') }}">
                 @csrf
-
-                <button
-                    type="submit"
-                    class="logout-btn"
-                    title="Logout">
-
+                <button type="submit" class="logout-btn" title="Logout">
                     <i class="fas fa-right-from-bracket"></i>
-
                 </button>
-
             </form>
-
-            <!-- ===================================================== -->
-            <!-- MOBILE TOGGLE -->
-            <!-- ===================================================== -->
 
             <button
                 @click="open = ! open"
                 class="admin-mobile-toggle"
-                title="Toggle menu">
-
-                <i class="fas fa-bars"></i>
-
+                :class="{ 'is-open': open }"
+                title="Toggle menu"
+                aria-label="Toggle Navigation">
+                
+                <i class="fas fa-bars" x-show="!open"></i>
+                <i class="fas fa-xmark" x-show="open" style="display: none;"></i>
             </button>
 
         </div>
 
     </div>
 
-    <!-- ===================================================== -->
-    <!-- MOBILE MENU -->
-    <!-- ===================================================== -->
-
     <div
         x-show="open"
-        x-transition
-        class="admin-links-mobile">
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 transform scale-95 -translate-y-4"
+        x-transition:enter-end="opacity-100 transform scale-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 transform scale-100 translate-y-0"
+        x-transition:leave-end="opacity-0 transform scale-95 -translate-y-4"
+        class="admin-links-mobile"
+        style="display: none;">
 
-        <!-- DASHBOARD -->
-        <a
-            href="/admin"
-            class="{{ request()->is('admin') ? 'active' : '' }}">
-
-            <i class="fas fa-chart-line"></i>
-
-            Dashboard
-
+        <a href="/admin" class="{{ request()->is('admin') ? 'active' : '' }}">
+            <i class="fas fa-chart-line"></i> Dashboard
         </a>
 
-        <!-- MUSIC -->
-        <a
-            href="/admin/music"
-            class="{{ request()->is('admin/music*') ? 'active' : '' }}">
-
-            <i class="fas fa-music"></i>
-
-            Music
-
+        <a href="/admin/music" class="{{ request()->is('admin/music*') ? 'active' : '' }}">
+            <i class="fas fa-music"></i> Music
         </a>
 
-        <!-- ARTICLES -->
-        <a
-            href="/admin/articles"
-            class="{{ request()->is('admin/articles*') ? 'active' : '' }}">
-
-            <i class="fas fa-newspaper"></i>
-
-            Articles
-
+        <a href="/admin/articles" class="{{ request()->is('admin/articles*') ? 'active' : '' }}">
+            <i class="fas fa-newspaper"></i> Articles
         </a>
 
-        <!-- PRODUCTS -->
-        <a
-            href="/admin/products"
-            class="{{ request()->is('admin/products*') ? 'active' : '' }}">
-
-            <i class="fas fa-bag-shopping"></i>
-
-            Products
-
+        <a href="/admin/products" class="{{ request()->is('admin/products*') ? 'active' : '' }}">
+            <i class="fas fa-bag-shopping"></i> Products
         </a>
 
-        <!-- GALLERY -->
-        <a
-            href="/admin/gallery"
-            class="{{ request()->is('admin/gallery*') ? 'active' : '' }}">
-
-            <i class="fas fa-image"></i>
-
-            Gallery
-
+        <a href="/admin/gallery" class="{{ request()->is('admin/gallery*') ? 'active' : '' }}">
+            <i class="fas fa-image"></i> Gallery
         </a>
 
-        <!-- USERS -->
-        <a
-            href="/admin/users"
-            class="{{ request()->is('admin/users*') ? 'active' : '' }}">
-
-            <i class="fas fa-users"></i>
-
-            Users
+        <a href="/admin/users" class="{{ request()->is('admin/users*') ? 'active' : '' }}">
+            <i class="fas fa-users"></i> Users
         </a>
 
-        <!-- MUSIC VIDEOS -->
-        <a
-            href="/admin/mv"
-            class="{{ request()->is('admin/mv*') ? 'active' : '' }}">
-
-            <i class="fas fa-video"></i>
-
-            Music Videos
+        <a href="/admin/mv" class="{{ request()->is('admin/mv*') ? 'active' : '' }}">
+            <i class="fas fa-video"></i> Music Videos
         </a>
 
     </div>

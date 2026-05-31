@@ -2,176 +2,223 @@
 
 <div class="checkout-page">
 
-    <div class="checkout-card">
+    <div class="checkout-bg-glow glow-1"></div>
+    <div class="checkout-bg-glow glow-2"></div>
 
-        <h1>
-            Dream Checkout ✨
-        </h1>
+    <div class="checkout-container fade-in-up">
+        
+        <div class="checkout-card">
 
-        <form id="checkoutForm">
-
-            @csrf
-
-            <div class="form-group">
-
-                <label>Name</label>
-
-                <input type="text"
-                       name="name"
-                       required>
-
+            <div class="checkout-header">
+                <h1>Dream Checkout ✨</h1>
+                <p>Complete your shipping details to process the order</p>
             </div>
 
-            <div class="form-group">
+            <form
+                id="checkoutForm"
+                action="{{ route('checkout.process') }}"
+                method="POST"
+                class="modern-form">
 
-                <label>Email</label>
+                @csrf
 
-                <input type="email"
-                       name="email"
-                       required>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">
+                            <i class="fas fa-user"></i> Full Name
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
 
-            </div>
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i> Email Address
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="email" id="email" name="email" placeholder="name@example.com" required>
+                        </div>
+                    </div>
 
-            <div class="form-group">
+                    <div class="form-group">
+                        <label for="phone">
+                            <i class="fas fa-phone"></i> Phone Number
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="phone" name="phone" placeholder="e.g. 08123456789" required>
+                        </div>
+                    </div>
+                </div>
 
-                <label>Phone</label>
+                <div class="form-group mt-4">
+                    <label for="address">
+                        <i class="fas fa-map-marker-alt"></i> Complete Shipping Address
+                    </label>
+                    <div class="input-wrapper">
+                        <textarea id="address" name="address" rows="4" placeholder="Street name, building number, district, city, postal code..." required></textarea>
+                    </div>
+                </div>
 
-                <input type="text"
-                       name="phone"
-                       required>
+                <button type="submit" class="checkout-submit-btn">
+                    <span>✨ Complete Checkout</span>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
 
-            </div>
+            </form>
 
-            <div class="form-group">
-
-                <label>Address</label>
-
-                <textarea name="address"
-                          rows="5"
-                          required></textarea>
-
-            </div>
-
-            <button type="submit"
-                    class="checkout-submit-btn">
-
-                ✨ Complete Checkout
-
-            </button>
-
-        </form>
+        </div>
 
     </div>
 
 </div>
 
-<!-- SUCCESS POPUP -->
 <div class="checkout-popup" id="checkoutPopup">
-
+    <div class="checkout-popup-backdrop"></div>
     <div class="checkout-popup-card">
-
-        <div class="popup-icon">
-            <i class="fas fa-check"></i>
+        <div class="popup-icon-container">
+            <div class="popup-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <div class="popup-pulse"></div>
         </div>
 
-        <h2>
-            Checkout Success ✨
-        </h2>
-
-        <p>
-            Redirecting to WhatsApp...
-        </p>
-
+        <h2>Checkout Success ✨</h2>
+        <p>Your order is compiled beautifully. Redirecting you safely to WhatsApp...</p>
+        
+        <div class="popup-loader">
+            <div class="loader-bar"></div>
+        </div>
     </div>
-
 </div>
 
 <script>
 
 document
-    .getElementById('checkoutForm')
-    .addEventListener('submit', function(e){
+.getElementById('checkoutForm')
+.addEventListener('submit', async function(e){
 
     e.preventDefault();
 
     const form = this;
 
-    const name =
-        form.querySelector('[name="name"]').value;
+    const submitButton =
+        form.querySelector(
+            '.checkout-submit-btn'
+        );
 
-    const email =
-        form.querySelector('[name="email"]').value;
+    submitButton.disabled = true;
 
-    const phone =
-        form.querySelector('[name="phone"]').value;
+    submitButton.innerHTML =
+        `
+        <span>Processing...</span>
+        <i class="fas fa-spinner fa-spin"></i>
+        `;
 
-    const address =
-        form.querySelector('[name="address"]').value;
+    try{
 
-    // =========================
-    // CART DATA
-    // =========================
+        /*
+        ==========================================
+        KIRIM DATA KE LARAVEL
+        ==========================================
+        */
 
-    const cartItems = @json(session('cart'));
+        const response =
+            await fetch(
+                form.action,
+                {
+                    method: 'POST',
 
-    let message =
-`✨ *NEW DREAM ORDER* ✨
+                    body: new FormData(form),
 
-👤 Name: ${name}
-📧 Email: ${email}
-📱 Phone: ${phone}
+                    headers: {
 
-📍 Address:
-${address}
+                        'X-CSRF-TOKEN':
+                            document
+                            .querySelector(
+                                'meta[name="csrf-token"]'
+                            )
+                            .getAttribute(
+                                'content'
+                            ),
 
-🛍️ *Products:*`;
+                        'Accept':
+                            'application/json'
+                    }
+                }
+            );
 
-    let total = 0;
+        const result =
+            await response.json();
 
-    Object.values(cartItems).forEach(item => {
+        /*
+        ==========================================
+        JIKA GAGAL
+        ==========================================
+        */
 
-        const subtotal =
-            item.price * item.quantity;
+        if(!result.success){
 
-        total += subtotal;
+            throw new Error(
+                result.message ||
+                'Checkout gagal'
+            );
 
-        message += `
+        }
 
-• ${item.name}
-Qty: ${item.quantity}
-Price: Rp ${subtotal.toLocaleString('id-ID')}`;
-    });
+        /*
+        ==========================================
+        SHOW POPUP
+        ==========================================
+        */
 
-    message += `
+        const popup =
+            document.getElementById(
+                'checkoutPopup'
+            );
 
-💰 *Total:* Rp ${total.toLocaleString('id-ID')}
+        popup.classList.add(
+            'active'
+        );
 
-✨ Thank you`;
+        document.body.style.overflow =
+            'hidden';
 
-    // =========================
-    // SHOW POPUP
-    // =========================
+        /*
+        ==========================================
+        REDIRECT WHATSAPP
+        ==========================================
+        */
 
-    const popup =
-        document.getElementById('checkoutPopup');
+        setTimeout(() => {
 
-    popup.classList.add('active');
+            window.location.href =
+                result.whatsapp_url;
 
-    // =========================
-    // REDIRECT WA
-    // =========================
+        },1800);
 
-    setTimeout(() => {
+    }
+    catch(error){
 
-        const whatsappNumber =
-            '6289646363117';
+        console.error(error);
 
-        const waUrl =
-            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        alert(
+            error.message ||
+            'Terjadi kesalahan saat checkout'
+        );
 
-        window.location.href = waUrl;
+        submitButton.disabled =
+            false;
 
-    }, 1800);
+        submitButton.innerHTML =
+            `
+            <span>
+                ✨ Complete Checkout
+            </span>
+            <i class="fas fa-paper-plane"></i>
+            `;
+
+    }
 
 });
 

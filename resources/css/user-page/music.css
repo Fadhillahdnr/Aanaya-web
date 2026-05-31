@@ -17,9 +17,9 @@
     background:
         linear-gradient(
             180deg,
-            #0d0c13 0%,
-            #16131d 35%,
-            #f8f4fa 100%
+                #eb7eba 0%,
+                #f4c6f4 45%,
+                #fcf8ed 100%
         );
 }
 
@@ -59,7 +59,7 @@
     width: 420px;
     height: 420px;
 
-    background: rgba(255,140,200,.18);
+    background: rgba(224,31,66,.18);
 
     top: -120px;
     left: -120px;
@@ -69,7 +69,7 @@
     width: 420px;
     height: 420px;
 
-    background: rgba(150,120,255,.14);
+    background: rgba(235,126,186,.24);
 
     bottom: -120px;
     right: -120px;
@@ -79,7 +79,7 @@
     width: 260px;
     height: 260px;
 
-    background: rgba(255,255,255,.08);
+    background: rgba(255,255,255,.18);
 
     top: 40%;
     left: 50%;
@@ -103,7 +103,7 @@
 
     letter-spacing: -5px;
 
-    color: white;
+    color: #2b1f25;
 
     margin-bottom: 30px;
 
@@ -119,8 +119,8 @@
     background:
         linear-gradient(
             135deg,
-            #ffb6d9,
-            #d8c6ff
+            #e01f42,
+            #eb7eba
         );
 
     -webkit-background-clip: text;
@@ -137,7 +137,7 @@
     margin: auto;
 
     color:
-        rgba(255,255,255,.7);
+        rgba(43,31,37,.75);
 
     font-size: 17px;
 
@@ -164,14 +164,14 @@
     border-radius: 999px;
 
     background:
-        rgba(255,255,255,0.06);
+        rgba(255,255,255,.45);
 
     backdrop-filter: blur(18px);
 
     border:
-        1px solid rgba(255,255,255,0.08);
+        1px solid rgba(235,126,186,.2);
 
-    color: #f2d7ff;
+    color: #e01f42;
 
     font-size: 12px;
 
@@ -182,7 +182,7 @@
     text-transform: uppercase;
 
     box-shadow:
-        0 10px 40px rgba(0,0,0,0.25);
+        0 10px 40px rgba(224,31,66,.08);
 }
 
 .badge-dot{
@@ -195,10 +195,10 @@
 
     border-radius: 50%;
 
-    background: #ff9fcf;
+    background: #e01f42;
 
     box-shadow:
-        0 0 16px #ff9fcf;
+        0 0 16px rgba(224,31,66,.5);
 }
 
 /* =========================================================
@@ -215,7 +215,7 @@
 
     letter-spacing: -5px;
 
-    color: white;
+    color: #2b1f25;
 
     margin-bottom: 30px;
 }
@@ -226,8 +226,8 @@
     background:
         linear-gradient(
             135deg,
-            #ff8dc3,
-            #cab6ff
+            #e01f42,
+            #eb7eba
         );
 
     -webkit-background-clip: text;
@@ -248,7 +248,7 @@
         42px;
 
     color:
-        rgba(255,255,255,.72);
+        rgba(43,31,37,.72);
 
     font-size: 17px;
 
@@ -294,22 +294,27 @@
 }
 
 .primary-btn{
-    background: white;
+    background:
+        linear-gradient(
+            135deg,
+            #e01f42,
+            #f54351
+        );
 
-    color: #111;
+    color: white;
 
     box-shadow:
-        0 18px 40px rgba(255,255,255,.12);
+        0 18px 40px rgba(224,31,66,.22);
 }
 
 .secondary-btn{
     background:
-        rgba(255,255,255,.08);
+        rgba(255,255,255,.45);
 
     border:
-        1px solid rgba(255,255,255,.12);
+        1px solid rgba(235,126,186,.2);
 
-    color: white;
+    color: #2b1f25;
 
     backdrop-filter: blur(18px);
 }
@@ -369,14 +374,14 @@
     border-radius: 999px;
 
     background:
-        rgba(255,255,255,.08);
+        rgba(255,255,255,.45);
 
     border:
-        1px solid rgba(255,255,255,.12);
+        1px solid rgba(235,126,186,.2);
 
     backdrop-filter: blur(18px);
 
-    color: #ff9bc9;
+    color: #e01f42;
 
     font-size: 11px;
 
@@ -395,7 +400,7 @@
 
     border-radius: 50%;
 
-    background: #ff9bc9;
+    background: #e01f42;
 }
 
 /* =========================================================
@@ -408,7 +413,7 @@
 
     font-weight: 800;
 
-    color: white;
+    color: #2b1f25;
 
     letter-spacing: -2px;
 }
@@ -429,10 +434,10 @@
     border-radius: 999px;
 
     background:
-        rgba(255,255,255,.08);
+        rgba(255,255,255,.45);
 
     border:
-        1px solid rgba(255,255,255,.12);
+        1px solid rgba(235,126,186,.2);
 
     backdrop-filter: blur(18px);
 }
@@ -453,7 +458,7 @@
     background: transparent;
 
     color:
-        rgba(255,255,255,.72);
+        rgba(43,31,37,.72);
 
     font-size: 13px;
 
@@ -465,48 +470,21 @@
 }
 
 .filter-btn:hover{
-    color: white;
+    color: #2b1f25;
 }
 
 .filter-btn.active{
     background:
         linear-gradient(
             135deg,
-            #ff8fc4,
-            #d0b8ff
+            #e01f42,
+            #eb7eba
         );
 
     color: white;
 
     box-shadow:
-        0 14px 30px rgba(255,143,196,.18);
-}
-
-/* =========================================================
-   GRID
-========================================================= */
-
-.music-grid{
-    display: grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap: 30px;
-}
-
-/* =========================================================
-   CARD TOP
-========================================================= */
-
-.card-top{
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 28px;
+        0 14px 30px rgba(224,31,66,.18);
 }
 
 /* =========================================================
@@ -521,12 +499,12 @@
     border-radius: 999px;
 
     background:
-        rgba(255,255,255,.08);
+        rgba(255,255,255,.45);
 
     border:
-        1px solid rgba(255,255,255,.10);
+        1px solid rgba(235,126,186,.2);
 
-    color: #ff9fcf;
+    color: #e01f42;
 
     font-size: 11px;
 
@@ -550,8 +528,8 @@
     background:
         linear-gradient(
             135deg,
-            #ff8dc3,
-            #d0b8ff
+            #e01f42,
+            #eb7eba
         );
 
     color: white;
@@ -561,134 +539,301 @@
     transition: .35s ease;
 
     box-shadow:
-        0 15px 35px rgba(255,143,196,.22);
-}
-
-.mini-play-btn:hover{
-    transform:
-        scale(1.05)
-        translateY(-2px);
+        0 15px 35px rgba(224,31,66,.22);
 }
 
 /* =========================================================
-   CONTENT
+   SPOTIFY CONTENT
 ========================================================= */
 
-.spotify-content{
-    margin-bottom: 30px;
-}
-
 .spotify-content h3{
-    font-size: 40px;
-
-    line-height: 1.1;
-
-    font-weight: 800;
-
-    color: white;
-
-    margin-bottom: 16px;
+    color: #2b1f25;
 }
 
 .spotify-content p{
     color:
-        rgba(255,255,255,.68);
-
-    line-height: 1.9;
-
-    font-size: 15px;
+        rgba(43,31,37,.72);
 }
 
 /* =========================================================
-   EMBED
+   MUSIC CARD
 ========================================================= */
 
-.spotify-embed iframe{
-    width: 100%;
+.dream-music-card{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.82),
+            rgba(255,245,250,.92)
+        );
 
-    height: 352px;
+    border:
+        1px solid rgba(255,255,255,.6);
+
+    box-shadow:
+        0 20px 60px rgba(224,31,66,.08);
+}
+
+.dream-music-card:hover{
+    box-shadow:
+        0 28px 80px rgba(224,31,66,.16);
+}
+
+/* =========================================================
+   MUSIC TAG
+========================================================= */
+
+.music-tag{
+    background:
+        linear-gradient(
+            135deg,
+            #f54351,
+            #eb7eba
+        );
+
+    color: white;
+}
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+.aanaya-player{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.75),
+            rgba(255,245,250,.95)
+        );
+
+    border:
+        1px solid rgba(235,126,186,.2);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.8),
+        0 14px 35px rgba(224,31,66,.06);
+}
+
+/* =========================================================
+   PLAY BUTTON
+========================================================= */
+
+.aanaya-play-btn{
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e01f42,
+            #eb7eba
+        );
+
+    box-shadow:
+        0 10px 30px rgba(224,31,66,.22);
+}
+
+.aanaya-play-btn:hover{
+    box-shadow:
+        0 18px 40px rgba(224,31,66,.28);
+}
+
+/* =========================================================
+   WAVE
+========================================================= */
+
+.aanaya-audio-wave i{
+    background: #e01f42;
+}
+
+/* =========================================================
+   VOLUME
+========================================================= */
+
+.volume-slider{
+    accent-color: #e01f42;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.dream-empty-box{
+    background:
+        rgba(255,255,255,.72);
+
+    backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 18px 50px rgba(224,31,66,.08);
+}
+
+.dream-empty-box i{
+    color: #e01f42;
+}
+
+/* =========================================================
+   MUSIC SECTION
+========================================================= */
+
+.dream-music-section{
+    position: relative;
+
+    z-index: 2;
+
+    padding: 40px 0 20px;
+}
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.dream-music-section-heading{
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 50px;
+}
+
+/* =========================================================
+   MINI TITLE
+========================================================= */
+
+.dream-music-section-mini-title{
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+        10px
+        18px;
+
+    margin-bottom: 18px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,.45);
+
+    border:
+        1px solid rgba(235,126,186,.2);
+
+    backdrop-filter: blur(18px);
+
+    color: #e01f42;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.dream-music-section-mini-title::before{
+    content: "";
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #e01f42;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.dream-music-section-heading h2{
+    font-size:
+        clamp(38px,5vw,62px);
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    letter-spacing: -3px;
+
+    color: #2b1f25;
+}
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+.dream-music-filter{
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,.45);
+
+    border:
+        1px solid rgba(235,126,186,.2);
+
+    backdrop-filter: blur(18px);
+}
+
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
+.dream-music-filter-btn{
+    padding:
+        14px
+        22px;
 
     border: none;
 
-    border-radius: 28px;
+    border-radius: 999px;
 
-    overflow: hidden;
+    background: transparent;
+
+    color:
+        rgba(43,31,37,.72);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .35s ease;
+}
+
+.dream-music-filter-btn:hover{
+    color: #2b1f25;
+}
+
+.dream-music-filter-btn.active{
+    background:
+        linear-gradient(
+            135deg,
+            #e01f42,
+            #eb7eba
+        );
+
+    color: white;
 
     box-shadow:
-        0 20px 50px rgba(0,0,0,.25);
+        0 14px 30px rgba(224,31,66,.18);
 }
 
 /* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:1100px){
-
-    .music-grid{
-        grid-template-columns: 1fr;
-    }
-
-    .library-top{
-        flex-direction: column;
-
-        align-items: flex-start;
-    }
-}
-
-@media(max-width:768px){
-
-    .music-page{
-        padding:
-            140px
-            20px
-            90px;
-    }
-
-    .music-hero{
-        margin-bottom: 90px;
-    }
-
-    .music-hero-content h1{
-        letter-spacing: -2px;
-    }
-
-    .music-hero-content p{
-        font-size: 15px;
-    }
-
-    .hero-actions{
-        flex-direction: column;
-    }
-
-    .hero-btn{
-        width: 100%;
-    }
-
-    .music-filter{
-        width: 100%;
-
-        justify-content: space-between;
-    }
-
-    .filter-btn{
-        flex: 1;
-    }
-
-    .spotify-card{
-        padding: 24px;
-    }
-
-    .spotify-content h3{
-        font-size: 30px;
-    }
-
-    .spotify-embed iframe{
-        height: 300px;
-    }
-}
-
-/* =========================================================
-   MUSIC GRID
+   GRID
 ========================================================= */
 
 .dream-music-grid{
@@ -698,7 +843,7 @@
 }
 
 /* =========================================================
-   MUSIC CARD
+   CARD
 ========================================================= */
 
 .dream-music-card{
@@ -719,15 +864,15 @@
     background:
         linear-gradient(
             135deg,
-            rgba(255,255,255,.92),
-            rgba(255,245,250,.95)
+            rgba(255,255,255,.82),
+            rgba(255,245,250,.92)
         );
 
     border:
         1px solid rgba(255,255,255,.6);
 
     box-shadow:
-        0 20px 60px rgba(0,0,0,.06);
+        0 20px 60px rgba(224,31,66,.08);
 
     transition: .4s ease;
 }
@@ -737,14 +882,14 @@
         translateY(-6px);
 
     box-shadow:
-        0 28px 80px rgba(255,170,210,.18);
+        0 28px 80px rgba(224,31,66,.16);
 }
 
 /* =========================================================
    IMAGE
 ========================================================= */
 
-.music-image{
+.dream-music-image{
     position: relative;
 
     width: 240px;
@@ -757,7 +902,7 @@
     flex-shrink: 0;
 }
 
-.music-image img{
+.dream-music-image img{
     width: 100%;
     height: 100%;
 
@@ -766,7 +911,7 @@
     transition: 1s ease;
 }
 
-.dream-music-card:hover .music-image img{
+.dream-music-card:hover .dream-music-image img{
     transform: scale(1.08);
 }
 
@@ -774,7 +919,7 @@
    IMAGE OVERLAY
 ========================================================= */
 
-.music-image-overlay{
+.dream-music-image-overlay{
     position: absolute;
 
     inset: 0;
@@ -791,7 +936,7 @@
    FLOATING PLAY BUTTON
 ========================================================= */
 
-.floating-play-btn{
+.dream-music-floating-play-btn{
     position: absolute;
 
     left: 50%;
@@ -824,11 +969,11 @@
     transition: .35s ease;
 }
 
-.dream-music-card:hover .floating-play-btn{
+.dream-music-card:hover .dream-music-floating-play-btn{
     opacity: 1;
 }
 
-.floating-play-btn:hover{
+.dream-music-floating-play-btn:hover{
     transform:
         translate(-50%,-50%)
         scale(1.08);
@@ -841,7 +986,7 @@
    CONTENT
 ========================================================= */
 
-.music-content{
+.dream-music-content{
     flex: 1;
 
     display: flex;
@@ -855,13 +1000,15 @@
    META
 ========================================================= */
 
-.music-meta{
+.dream-music-meta{
     margin-bottom: 24px;
 }
 
-/* TAG */
+/* =========================================================
+   TAG
+========================================================= */
 
-.music-tag{
+.dream-music-tag{
     display: inline-flex;
 
     align-items: center;
@@ -875,11 +1022,11 @@
     background:
         linear-gradient(
             135deg,
-            #ffd8e8,
-            #eddcff
+            #f54351,
+            #eb7eba
         );
 
-    color: #7b5471;
+    color: white;
 
     font-size: 11px;
 
@@ -888,9 +1035,11 @@
     letter-spacing: 2px;
 }
 
-/* TITLE */
+/* =========================================================
+   TITLE
+========================================================= */
 
-.music-meta h3{
+.dream-music-meta h3{
     font-size:
         clamp(30px,4vw,42px);
 
@@ -898,17 +1047,19 @@
 
     font-weight: 800;
 
-    color: #111;
+    color: #2b1f25;
 
     letter-spacing: -2px;
 
     margin-bottom: 10px;
 }
 
-/* ARTIST */
+/* =========================================================
+   ARTIST
+========================================================= */
 
-.music-meta p{
-    color: #777;
+.dream-music-meta p{
+    color: #6f5963;
 
     font-size: 16px;
 
@@ -916,10 +1067,10 @@
 }
 
 /* =========================================================
-   CUSTOM PLAYER
+   PLAYER
 ========================================================= */
 
-.aanaya-player{
+.dream-music-player{
     display: flex;
 
     align-items: center;
@@ -937,23 +1088,23 @@
     background:
         linear-gradient(
             135deg,
-            rgba(255,255,255,.8),
-            rgba(255,247,251,.9)
+            rgba(255,255,255,.75),
+            rgba(255,245,250,.95)
         );
 
     border:
-        1px solid rgba(255,255,255,.7);
+        1px solid rgba(235,126,186,.2);
 
     box-shadow:
         inset 0 1px 0 rgba(255,255,255,.8),
-        0 14px 35px rgba(0,0,0,.05);
+        0 14px 35px rgba(224,31,66,.06);
 }
 
 /* =========================================================
    PLAY BUTTON
 ========================================================= */
 
-.aanaya-play-btn{
+.dream-music-play-btn{
     width: 62px;
     height: 62px;
 
@@ -965,46 +1116,46 @@
 
     cursor: pointer;
 
-    color: #111;
+    color: white;
 
     font-size: 18px;
 
     background:
         linear-gradient(
             135deg,
-            #ffffff,
-            #ffe5f0
+            #e01f42,
+            #eb7eba
         );
 
     box-shadow:
-        0 10px 30px rgba(255,180,210,.25);
+        0 10px 30px rgba(224,31,66,.22);
 
     transition: .35s ease;
 }
 
-.aanaya-play-btn:hover{
+.dream-music-play-btn:hover{
     transform:
         scale(1.08)
         translateY(-2px);
 
     box-shadow:
-        0 18px 40px rgba(255,170,210,.32);
+        0 18px 40px rgba(224,31,66,.28);
 }
 
 /* =========================================================
    AUDIO INFO
 ========================================================= */
 
-.aanaya-audio-info{
+.dream-music-audio-info{
     flex: 1;
 
     min-width: 0;
 }
 
-.aanaya-audio-info span{
+.dream-music-audio-info span{
     display: block;
 
-    color: #222;
+    color: #2b1f25;
 
     font-size: 14px;
 
@@ -1020,10 +1171,10 @@
 }
 
 /* =========================================================
-   WAVE
+   AUDIO WAVE
 ========================================================= */
 
-.aanaya-audio-wave{
+.dream-music-audio-wave{
     display: flex;
 
     align-items: flex-end;
@@ -1031,39 +1182,40 @@
     gap: 4px;
 }
 
-.aanaya-audio-wave i{
+.dream-music-audio-wave i{
     width: 4px;
 
     border-radius: 999px;
 
-    background: #ff8fc4;
+    background: #e01f42;
 
-    animation: audioWave 1s infinite ease-in-out;
+    animation:
+        dreamMusicWave 1s infinite ease-in-out;
 }
 
-.aanaya-audio-wave i:nth-child(1){
+.dream-music-audio-wave i:nth-child(1){
     height: 10px;
 }
 
-.aanaya-audio-wave i:nth-child(2){
+.dream-music-audio-wave i:nth-child(2){
     height: 18px;
 
     animation-delay: .15s;
 }
 
-.aanaya-audio-wave i:nth-child(3){
+.dream-music-audio-wave i:nth-child(3){
     height: 14px;
 
     animation-delay: .3s;
 }
 
-.aanaya-audio-wave i:nth-child(4){
+.dream-music-audio-wave i:nth-child(4){
     height: 20px;
 
     animation-delay: .45s;
 }
 
-@keyframes audioWave{
+@keyframes dreamMusicWave{
 
     0%,100%{
         transform: scaleY(.7);
@@ -1081,7 +1233,7 @@
    VOLUME
 ========================================================= */
 
-.aanaya-volume{
+.dream-music-volume{
     display: flex;
 
     align-items: center;
@@ -1091,25 +1243,29 @@
     flex-shrink: 0;
 }
 
-.aanaya-volume i{
-    color: #555;
+.dream-music-volume i{
+    color: #6f5963;
 
     font-size: 16px;
 }
 
-.volume-slider{
+/* =========================================================
+   VOLUME SLIDER
+========================================================= */
+
+.dream-music-volume-slider{
     width: 90px;
 
-    accent-color: #ff8fc4;
+    accent-color: #e01f42;
 
     cursor: pointer;
 }
 
 /* =========================================================
-   HIDE AUDIO
+   AUDIO
 ========================================================= */
 
-.custom-audio{
+.dream-music-audio{
     display: none;
 }
 
@@ -1117,37 +1273,52 @@
    EMPTY
 ========================================================= */
 
-.dream-empty-box{
+.dream-music-empty-box{
     text-align: center;
 
     padding: 80px 20px;
 
     border-radius: 36px;
 
-    background: white;
+    background:
+        rgba(255,255,255,.72);
+
+    backdrop-filter: blur(20px);
 
     box-shadow:
-        0 18px 50px rgba(0,0,0,.05);
+        0 18px 50px rgba(224,31,66,.08);
 }
 
-.dream-empty-box i{
+.dream-music-empty-box i{
     font-size: 52px;
 
-    color: #ff9fcb;
+    color: #e01f42;
 
     margin-bottom: 24px;
 }
 
-.dream-empty-box h3{
+.dream-music-empty-box h3{
     font-size: 28px;
 
-    color: #111;
+    color: #2b1f25;
 
     margin-bottom: 10px;
 }
 
-.dream-empty-box p{
-    color: #777;
+.dream-music-empty-box p{
+    color: #6f5963;
+}
+
+/* =========================================================
+   PLAYING STATE
+========================================================= */
+
+.dream-music-card.playing{
+    border:
+        1px solid rgba(224,31,66,.25);
+
+    box-shadow:
+        0 25px 70px rgba(224,31,66,.18);
 }
 
 /* =========================================================
@@ -1156,13 +1327,19 @@
 
 @media(max-width:1100px){
 
+    .dream-music-section-heading{
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
     .dream-music-card{
         flex-direction: column;
 
         align-items: flex-start;
     }
 
-    .music-image{
+    .dream-music-image{
         width: 100%;
 
         height: 340px;
@@ -1172,28 +1349,71 @@
 
 @media(max-width:768px){
 
-    .music-image{
+    .dream-music-section{
+        padding: 20px 0;
+    }
+
+    .dream-music-filter{
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+    .dream-music-filter-btn{
+        flex: 1;
+    }
+
+    .dream-music-image{
         height: 260px;
     }
 
-    .music-meta h3{
+    .dream-music-meta h3{
         font-size: 32px;
     }
 
-    .aanaya-player{
+    .dream-music-player{
         flex-wrap: wrap;
 
         gap: 16px;
     }
 
-    .aanaya-volume{
+    .dream-music-volume{
         width: 100%;
 
         justify-content: flex-end;
     }
 
-    .floating-play-btn{
+    .dream-music-floating-play-btn{
         opacity: 1;
+    }
+
+}
+
+@media(max-width:640px){
+
+    .dream-music-section-heading h2{
+        font-size: 42px;
+    }
+
+    .dream-music-card{
+        padding: 20px;
+
+        border-radius: 28px;
+    }
+
+    .dream-music-image{
+        height: 220px;
+
+        border-radius: 24px;
+    }
+
+    .dream-music-player{
+        padding: 16px;
+    }
+
+    .dream-music-play-btn{
+        width: 56px;
+        height: 56px;
     }
 
 }

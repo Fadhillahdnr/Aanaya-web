@@ -4,223 +4,226 @@
 
 <div class="mv-page">
 
-    <!-- =========================================
-         PAGE HEADER
-    ========================================= -->
-    <div class="page-top">
+<!-- =========================================
+     PAGE HEADER
+========================================= -->
+<div class="mv-page-top">
 
-        <div class="page-heading">
+    <div class="mv-page-heading">
 
-            <span class="page-badge">
-                <i class="fas fa-film"></i>
-                AANAYA VISUAL UNIVERSE
-            </span>
+        <span class="mv-page-badge">
 
-            <h1>
-                Music Videos
-            </h1>
+            <i class="fas fa-film"></i>
 
-            <p class="page-subtitle">
-                Manage cinematic music videos, dreamy visuals,
-                and featured releases for the Aanaya universe.
-            </p>
+            AANAYA VISUAL UNIVERSE
 
-        </div>
+        </span>
 
-        <a href="/admin/mv/create" class="pink-btn">
+        <h1>
+            Music Videos
+        </h1>
 
-            <i class="fas fa-cloud-upload-alt"></i>
-
-            Upload MV
-
-        </a>
+        <p class="mv-page-subtitle">
+            Manage cinematic music videos, dreamy visuals,
+            and featured releases for the Aanaya universe.
+        </p>
 
     </div>
 
-    <!-- =========================================
-         VIDEO GRID
-    ========================================= -->
-    @if($videos->count())
+    <a href="/admin/mv/create" class="mv-pink-btn">
 
-        <div class="mv-grid">
+        <i class="fas fa-cloud-upload-alt"></i>
 
-            @foreach($videos as $video)
+        Upload MV
 
-                <div class="mv-card">
+    </a>
 
-                    <!-- FEATURED -->
-                    @if($video->is_featured)
+</div>
 
-                        <div class="mv-featured">
+<!-- =========================================
+     VIDEO GRID
+========================================= -->
+@if($videos->count())
 
-                            <i class="fas fa-star"></i>
+    <div class="mv-grid">
 
-                            Featured
+        @foreach($videos as $video)
 
-                        </div>
+            <div class="mv-card">
 
-                    @endif
+                <!-- FEATURED -->
+                @if($video->is_featured)
 
-                    <!-- VIDEO -->
-                    <div class="mv-video-wrapper">
+                    <div class="mv-featured">
 
-                        <video
-                            preload="metadata"
-                            controls
-                            poster="{{ $video->thumbnail ? asset($video->thumbnail) : '' }}">
+                        <i class="fas fa-star"></i>
 
-                            <source
-                                src="{{ asset($video->video_file) }}"
-                                type="video/mp4">
-
-                        </video>
-
-                        <!-- OVERLAY -->
-                        <div class="mv-overlay"></div>
-
-                        <!-- PLAY ICON -->
-                        <div class="mv-play-icon">
-
-                            <i class="fas fa-play"></i>
-
-                        </div>
-
-                        <!-- FLOAT BADGE -->
-                        <div class="mv-floating-label">
-
-                            <i class="fas fa-wave-square"></i>
-
-                            DREAMY VISUAL
-
-                        </div>
+                        Featured
 
                     </div>
 
-                    <!-- CONTENT -->
-                    <div class="mv-content">
+                @endif
 
-                        <div class="mv-top-meta">
+                <!-- VIDEO -->
+                <div class="mv-video-wrapper">
 
-                            <div class="mv-badge">
+                    <video
+                        preload="metadata"
+                        controls
+                        poster="{{ $video->thumbnail ? asset($video->thumbnail) : '' }}">
 
-                                <i class="fas fa-compact-disc"></i>
+                        <source
+                            src="{{ asset($video->video_file) }}"
+                            type="video/mp4">
 
-                                MUSIC VIDEO
+                    </video>
 
-                            </div>
+                    <div class="mv-overlay"></div>
 
-                            <span class="mv-date">
+                    <div class="mv-play-icon">
 
-                                {{ $video->created_at->format('d M Y') }}
+                        <i class="fas fa-play"></i>
 
-                            </span>
+                    </div>
 
-                        </div>
+                    <div class="mv-floating-label">
 
-                        <h2>
-                            {{ $video->title }}
-                        </h2>
+                        <i class="fas fa-wave-square"></i>
 
-                        <div class="mv-artist">
-
-                            <i class="fas fa-microphone"></i>
-
-                            <span>
-                                {{ $video->artist }}
-                            </span>
-
-                        </div>
-
-                        @if($video->description)
-
-                            <p>
-                                {{ Str::limit($video->description, 120) }}
-                            </p>
-
-                        @else
-
-                            <p>
-                                Emotional visuals, cinematic atmosphere,
-                                and dreamy storytelling from Aanaya.
-                            </p>
-
-                        @endif
-
-                        <!-- ACTIONS -->
-                        <div class="mv-actions">
-
-                            <a href="{{ asset($video->video_file) }}"
-                               target="_blank"
-                               class="mv-btn edit">
-
-                                <i class="fas fa-play"></i>
-
-                                Watch
-
-                            </a>
-
-                            <form
-                                action="{{ route('admin.music-vidio.destroy', $video->id) }}"
-                                method="POST"
-                                onsubmit="return confirm('Delete this music video?')">
-
-                                @csrf
-                                @method('DELETE')
-
-                                <button type="submit" class="mv-btn delete">
-
-                                    <i class="fas fa-trash"></i>
-
-                                    Delete
-
-                                </button>
-
-                            </form>
-
-                        </div>
+                        DREAMY VISUAL
 
                     </div>
 
                 </div>
 
-            @endforeach
+                <!-- CONTENT -->
+                <div class="mv-content">
 
-        </div>
+                    <div class="mv-top-meta">
 
-    @else
+                        <div class="mv-badge">
 
-        <!-- =========================================
-             EMPTY STATE
-        ========================================= -->
-        <div class="mv-empty">
+                            <i class="fas fa-compact-disc"></i>
 
-            <div class="mv-empty-icon">
+                            MUSIC VIDEO
 
-                <i class="fas fa-photo-film"></i>
+                        </div>
+
+                        <span class="mv-date">
+
+                            {{ $video->created_at->format('d M Y') }}
+
+                        </span>
+
+                    </div>
+
+                    <h2>
+                        {{ $video->title }}
+                    </h2>
+
+                    <div class="mv-artist">
+
+                        <i class="fas fa-microphone"></i>
+
+                        <span>
+                            {{ $video->artist }}
+                        </span>
+
+                    </div>
+
+                    @if($video->description)
+
+                        <p>
+                            {{ Str::limit($video->description, 120) }}
+                        </p>
+
+                    @else
+
+                        <p>
+                            Emotional visuals, cinematic atmosphere,
+                            and dreamy storytelling from Aanaya.
+                        </p>
+
+                    @endif
+
+                    <!-- ACTIONS -->
+                    <div class="mv-actions">
+
+                        <a href="{{ asset($video->video_file) }}"
+                           target="_blank"
+                           class="mv-btn edit">
+
+                            <i class="fas fa-play"></i>
+
+                            Watch
+
+                        </a>
+
+                        <form
+                            action="{{ route('admin.music-vidio.destroy', $video->id) }}"
+                            method="POST"
+                            onsubmit="return confirm('Delete this music video?')">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button
+                                type="submit"
+                                class="mv-btn delete">
+
+                                <i class="fas fa-trash"></i>
+
+                                Delete
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <h2>
-                No Music Videos Yet
-            </h2>
+        @endforeach
 
-            <p>
-                Upload your first cinematic music video
-                and start building the dreamy visual universe
-                of Aanaya.
-            </p>
+    </div>
 
-            <a href="/admin/mv/create" class="pink-btn">
+@else
 
-                <i class="fas fa-plus"></i>
+    <!-- =========================================
+         EMPTY STATE
+    ========================================= -->
+    <div class="mv-empty">
 
-                Upload First MV
+        <div class="mv-empty-icon">
 
-            </a>
+            <i class="fas fa-photo-film"></i>
 
         </div>
 
-    @endif
+        <h2>
+            No Music Videos Yet
+        </h2>
+
+        <p>
+            Upload your first cinematic music video
+            and start building the dreamy visual universe
+            of Aanaya.
+        </p>
+
+        <a href="/admin/mv/create"
+           class="mv-pink-btn">
+
+            <i class="fas fa-plus"></i>
+
+            Upload First MV
+
+        </a>
+
+    </div>
+
+@endif
 
 </div>
 

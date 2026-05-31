@@ -10,7 +10,8 @@
     <section class="user-products-hero">
 
         <span class="user-products-badge">
-            ✨ Aanaya COLLECTION
+            <span class="badge-dot"></span>
+            Aanaya COLLECTION
         </span>
 
         <h1>
@@ -24,12 +25,11 @@
 
         <div class="user-products-hero-actions">
 
-            <a href="/cart"
-            class="user-checkout-btn">
+            <a href="/cart" class="user-checkout-btn">
 
                 <i class="fas fa-shopping-cart"></i>
 
-                View Cart
+                <span>View Cart</span>
 
             </a>
 

@@ -23,9 +23,9 @@
     background:
         linear-gradient(
             180deg,
-            #0d0c13 0%,
-            #16131d 35%,
-            #1f1b29 100%
+            #fcf8ed 0%,
+            #f4c6f4 45%,
+            #eb7eba 100%
         );
 }
 
@@ -40,7 +40,7 @@
 
     inset: 0;
 
-    opacity: .03;
+    opacity: .04;
 
     pointer-events: none;
 
@@ -72,7 +72,7 @@
     left: -140px;
 
     background:
-        rgba(255,140,200,.18);
+        rgba(224,31,66,.16);
 }
 
 /* RIGHT */
@@ -85,7 +85,7 @@
     right: -140px;
 
     background:
-        rgba(150,120,255,.14);
+        rgba(235,126,186,.22);
 }
 
 /* =========================================================
@@ -94,6 +94,8 @@
 
 .auth-regis-card{
     position: relative;
+
+    margin-top:-5%;
 
     z-index: 5;
 
@@ -112,17 +114,17 @@
     border-radius: 42px;
 
     background:
-        rgba(255,255,255,.06);
+        rgba(255,255,255,.45);
 
     backdrop-filter: blur(30px);
 
     -webkit-backdrop-filter: blur(30px);
 
     border:
-        1px solid rgba(255,255,255,.08);
+        1px solid rgba(255,255,255,.35);
 
     box-shadow:
-        0 30px 80px rgba(0,0,0,.35);
+        0 30px 80px rgba(224,31,66,.12);
 }
 
 /* =========================================================
@@ -145,8 +147,8 @@
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,.05),
-            rgba(255,255,255,.02)
+            rgba(255,255,255,.55),
+            rgba(255,255,255,.18)
         );
 }
 
@@ -166,7 +168,7 @@
     border-radius: 50%;
 
     background:
-        rgba(255,255,255,.08);
+        rgba(235,126,186,.24);
 
     filter: blur(120px);
 }
@@ -191,14 +193,14 @@
     border-radius: 999px;
 
     background:
-        rgba(255,255,255,.06);
+        rgba(255,255,255,.55);
 
     border:
-        1px solid rgba(255,255,255,.08);
+        1px solid rgba(235,126,186,.2);
 
     backdrop-filter: blur(18px);
 
-    color: #f2d7ff;
+    color: #e01f42;
 
     font-size: 12px;
 
@@ -209,7 +211,7 @@
     text-transform: uppercase;
 
     box-shadow:
-        0 10px 40px rgba(0,0,0,.25);
+        0 10px 40px rgba(224,31,66,.08);
 }
 
 /* =========================================================
@@ -226,7 +228,7 @@
 
     letter-spacing: -4px;
 
-    color: white;
+    color: #2b1f25;
 
     margin-bottom: 28px;
 }
@@ -235,8 +237,8 @@
     background:
         linear-gradient(
             135deg,
-            #ff8dc3,
-            #d0b8ff
+            #e01f42,
+            #eb7eba
         );
 
     -webkit-background-clip: text;
@@ -252,7 +254,7 @@
     max-width: 540px;
 
     color:
-        rgba(255,255,255,.7);
+        rgba(43,31,37,.75);
 
     font-size: 17px;
 
@@ -293,15 +295,15 @@
     border-radius: 30px;
 
     background:
-        rgba(255,255,255,.05);
+        rgba(255,255,255,.45);
 
     backdrop-filter: blur(18px);
 
     border:
-        1px solid rgba(255,255,255,.08);
+        1px solid rgba(235,126,186,.15);
 
     box-shadow:
-        0 15px 40px rgba(0,0,0,.12);
+        0 15px 40px rgba(224,31,66,.06);
 
     transition: .4s ease;
 }
@@ -311,10 +313,10 @@
         translateY(-6px);
 
     background:
-        rgba(255,255,255,.07);
+        rgba(255,255,255,.65);
 
     box-shadow:
-        0 25px 55px rgba(255,143,196,.12);
+        0 25px 55px rgba(224,31,66,.12);
 }
 
 /* =========================================================
@@ -338,16 +340,16 @@
     background:
         linear-gradient(
             135deg,
-            #ffd8e6,
-            #dac9ff
+            #f54351,
+            #eb7eba
         );
 
-    color: #111;
+    color: white;
 
     font-size: 24px;
 
     box-shadow:
-        0 12px 30px rgba(255,180,210,.18);
+        0 12px 30px rgba(224,31,66,.18);
 }
 
 /* =========================================================
@@ -363,7 +365,7 @@
 }
 
 .auth-regis-feature-content h4{
-    color: white;
+    color: #2b1f25;
 
     font-size: 18px;
 
@@ -374,7 +376,7 @@
     margin: 0;
 
     color:
-        rgba(255,255,255,.6);
+        rgba(43,31,37,.7);
 
     font-size: 14px;
 
@@ -401,8 +403,8 @@
     background:
         linear-gradient(
             180deg,
-            #ff8fbc,
-            #c5a6ff
+            #f54351,
+            #eb7eba
         );
 
     animation:
@@ -449,12 +451,14 @@
 
     display: flex;
 
+    margin-top: -55%;
+
     flex-direction: column;
 
     justify-content: center;
 
     background:
-        rgba(255,255,255,.03);
+        rgba(255,255,255,.22);
 }
 
 /* =========================================================
@@ -472,14 +476,14 @@
 
     letter-spacing: -2px;
 
-    color: white;
+    color: #2b1f25;
 
     margin-bottom: 12px;
 }
 
 .auth-regis-header p{
     color:
-        rgba(255,255,255,.6);
+        rgba(43,31,37,.7);
 
     font-size: 15px;
 
@@ -512,7 +516,7 @@
 
 .auth-regis-group label{
     color:
-        rgba(255,255,255,.8);
+        rgba(43,31,37,.85);
 
     font-size: 13px;
 
@@ -540,7 +544,7 @@
     transform: translateY(-50%);
 
     color:
-        rgba(255,255,255,.35);
+        rgba(43,31,37,.4);
 
     font-size: 14px;
 }
@@ -564,7 +568,7 @@
     cursor: pointer;
 
     color:
-        rgba(255,255,255,.45);
+        rgba(43,31,37,.45);
 
     font-size: 15px;
 
@@ -572,7 +576,7 @@
 }
 
 .auth-regis-password-toggle:hover{
-    color: #ff9fcf;
+    color: #e01f42;
 }
 
 /* =========================================================
@@ -591,14 +595,14 @@
     border-radius: 22px;
 
     border:
-        1px solid rgba(255,255,255,.08);
+        1px solid rgba(235,126,186,.18);
 
     background:
-        rgba(255,255,255,.06);
+        rgba(255,255,255,.55);
 
     backdrop-filter: blur(18px);
 
-    color: white;
+    color: #2b1f25;
 
     font-size: 15px;
 
@@ -611,20 +615,20 @@
 
 .auth-regis-input::placeholder{
     color:
-        rgba(255,255,255,.35);
+        rgba(43,31,37,.4);
 }
 
 /* focus */
 
 .auth-regis-input:focus{
     border-color:
-        rgba(255,170,220,.35);
+        rgba(224,31,66,.35);
 
     background:
-        rgba(255,255,255,.08);
+        rgba(255,255,255,.78);
 
     box-shadow:
-        0 0 0 5px rgba(255,143,196,.12);
+        0 0 0 5px rgba(235,126,186,.15);
 }
 
 /* =========================================================
@@ -652,7 +656,7 @@
 
     cursor: pointer;
 
-    color: #111;
+    color: white;
 
     font-size: 15px;
 
@@ -663,12 +667,12 @@
     background:
         linear-gradient(
             135deg,
-            #ffffff,
-            #ffe5f0
+            #e01f42,
+            #f54351
         );
 
     box-shadow:
-        0 18px 40px rgba(255,180,210,.18);
+        0 18px 40px rgba(224,31,66,.18);
 }
 
 .auth-regis-btn:hover{
@@ -676,7 +680,7 @@
         translateY(-4px);
 
     box-shadow:
-        0 24px 50px rgba(255,180,210,.24);
+        0 24px 50px rgba(224,31,66,.24);
 }
 
 /* =========================================================
@@ -689,13 +693,13 @@
     text-align: center;
 
     color:
-        rgba(255,255,255,.55);
+        rgba(43,31,37,.65);
 
     font-size: 14px;
 }
 
 .auth-regis-login-link a{
-    color: #ff9fcf;
+    color: #e01f42;
 
     font-weight: 700;
 

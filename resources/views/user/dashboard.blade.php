@@ -331,15 +331,16 @@
         </section>
 
         <!-- =========================================================
-            MUSIC
-        ========================================================== -->
-        <section class="dream-section-music reveal-section">
+            MUSIC SECTION
+        ========================================================= -->
+        <section class="dashboard-dream-section-music reveal-section">
 
-            <div class="section-heading-music reveal reveal-up">
+            <!-- HEADING -->
+            <div class="dashboard-section-heading-music reveal reveal-up">
 
                 <div>
 
-                    <span class="section-mini-title-music">
+                    <span class="dashboard-section-mini-title-music">
                         MUSIC COLLECTION
                     </span>
 
@@ -351,21 +352,25 @@
 
             </div>
 
-            <div class="music-showcase-grid">
+            <!-- GRID -->
+            <div class="dashboard-music-showcase-grid">
 
-                <div class="spotify-card tilt-card reveal reveal-left">
+                <!-- CARD -->
+                <div class="dashboard-spotify-card tilt-card reveal reveal-left">
 
-                    <div class="spotify-card-glow"></div>
+                    <div class="dashboard-spotify-card-glow"></div>
 
-                    <div class="card-top">
+                    <!-- TOP -->
+                    <div class="dashboard-card-top">
 
-                        <span class="music-type">
+                        <span class="dashboard-music-type">
                             Latest Single
                         </span>
 
                     </div>
 
-                    <div class="spotify-content">
+                    <!-- CONTENT -->
+                    <div class="dashboard-spotify-content">
 
                         <h3>
                             Unfold
@@ -377,7 +382,8 @@
 
                     </div>
 
-                    <div class="spotify-embed">
+                    <!-- EMBED -->
+                    <div class="dashboard-spotify-embed">
 
                         <iframe
                             src="https://open.spotify.com/embed/track/0fQnKYxYVQupxyL8PKif9a?utm_source=generator&theme=0"
@@ -390,19 +396,22 @@
 
                 </div>
 
-                <div class="spotify-card tilt-card reveal reveal-right">
+                <!-- CARD -->
+                <div class="dashboard-spotify-card tilt-card reveal reveal-right">
 
-                    <div class="spotify-card-glow"></div>
+                    <div class="dashboard-spotify-card-glow"></div>
 
-                    <div class="card-top">
+                    <!-- TOP -->
+                    <div class="dashboard-card-top">
 
-                        <span class="music-type">
+                        <span class="dashboard-music-type">
                             Dream Pop
                         </span>
 
                     </div>
 
-                    <div class="spotify-content">
+                    <!-- CONTENT -->
+                    <div class="dashboard-spotify-content">
 
                         <h3>
                             MSYL
@@ -414,7 +423,8 @@
 
                     </div>
 
-                    <div class="spotify-embed">
+                    <!-- EMBED -->
+                    <div class="dashboard-spotify-embed">
 
                         <iframe
                             src="https://open.spotify.com/embed/track/1Uk8q00F6gDdEqXKAk5Wbr?utm_source=generator&theme=0"

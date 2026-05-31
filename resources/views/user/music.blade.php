@@ -51,176 +51,174 @@
 
     <!-- =========================================
         MUSIC COLLECTION
-    ========================================== -->
-    <section class="dream-section">
+========================================== -->
+<section class="dream-music-section">
 
-        <!-- HEADING -->
-        <div class="section-heading">
+    <!-- HEADING -->
+    <div class="dream-music-section-heading">
 
-            <div>
+        <div>
 
-                <span class="section-mini-title">
-                    MUSIC COLLECTION
-                </span>
+            <span class="dream-music-section-mini-title">
+                MUSIC COLLECTION
+            </span>
 
-                <h2>
-                    Recent Releases
-                </h2>
-
-            </div>
-
-            <!-- FILTER -->
-            <div class="music-filter">
-
-                <button class="filter-btn active">
-                    All
-                </button>
-
-                <button class="filter-btn">
-                    Singles
-                </button>
-
-                <button class="filter-btn">
-                    Albums
-                </button>
-
-            </div>
+            <h2>
+                Recent Releases
+            </h2>
 
         </div>
 
-        <!-- GRID -->
-        <div class="dream-music-grid">
+        <!-- FILTER -->
+        <div class="dream-music-filter">
 
-            @forelse($recentMusics as $music)
+            <button class="dream-music-filter-btn active">
+                All
+            </button>
 
-                <!-- CARD -->
-                <div class="dream-music-card"
-                     data-aos="fade-up">
+            <button class="dream-music-filter-btn">
+                Singles
+            </button>
 
-                    <!-- COVER -->
-                    <div class="music-image">
+            <button class="dream-music-filter-btn">
+                Albums
+            </button>
 
-                        <img
-                            src="{{ asset($music->cover_image) }}"
-                            alt="{{ $music->title }}">
+        </div>
 
-                        <div class="music-image-overlay"></div>
+    </div>
 
-                        <!-- FLOATING PLAY -->
-                        <button class="floating-play-btn">
+    <!-- GRID -->
+    <div class="dream-music-grid">
+
+        @forelse($recentMusics as $music)
+
+            <!-- CARD -->
+            <div class="dream-music-card"
+                 data-aos="fade-up">
+
+                <!-- COVER -->
+                <div class="dream-music-image">
+
+                    <img
+                        src="{{ asset($music->cover_image) }}"
+                        alt="{{ $music->title }}">
+
+                    <div class="dream-music-image-overlay"></div>
+
+                    <!-- FLOATING PLAY -->
+                    <button class="dream-music-floating-play-btn">
+
+                        <i class="fas fa-play"></i>
+
+                    </button>
+
+                </div>
+
+                <!-- CONTENT -->
+                <div class="dream-music-content">
+
+                    <!-- META -->
+                    <div class="dream-music-meta">
+
+                        <div>
+
+                            <span class="dream-music-tag">
+                                Dream Pop
+                            </span>
+
+                            <h3>
+                                {{ $music->title }}
+                            </h3>
+
+                            <p>
+                                {{ $music->artist }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <!-- CUSTOM PLAYER -->
+                    <div class="dream-music-player">
+
+                        <!-- PLAY -->
+                        <button class="dream-music-play-btn">
 
                             <i class="fas fa-play"></i>
 
                         </button>
 
-                    </div>
+                        <!-- INFO -->
+                        <div class="dream-music-audio-info">
 
-                    <!-- CONTENT -->
-                    <div class="music-content">
+                            <span>
+                                {{ $music->title }}
+                            </span>
 
-                        <!-- META -->
-                        <div class="music-meta">
+                            <div class="dream-music-audio-wave">
 
-                            <div>
-
-                                <span class="music-tag">
-                                    Dream Pop
-                                </span>
-
-                                <h3>
-                                    {{ $music->title }}
-                                </h3>
-
-                                <p>
-                                    {{ $music->artist }}
-                                </p>
+                                <i></i>
+                                <i></i>
+                                <i></i>
+                                <i></i>
 
                             </div>
 
                         </div>
 
-                        <!-- CUSTOM PLAYER -->
-                        <div class="aanaya-player">
+                        <!-- VOLUME -->
+                        <div class="dream-music-volume">
 
-                            <!-- PLAY -->
-                            <button class="aanaya-play-btn">
+                            <i class="fas fa-volume-up"></i>
 
-                                <i class="fas fa-play"></i>
-
-                            </button>
-
-                            <!-- INFO -->
-                            <div class="aanaya-audio-info">
-
-                                <span>
-                                    {{ $music->title }}
-                                </span>
-
-                                <div class="aanaya-audio-wave">
-
-                                    <i></i>
-                                    <i></i>
-                                    <i></i>
-                                    <i></i>
-
-                                </div>
-
-                            </div>
-
-                            <!-- VOLUME -->
-                            <div class="aanaya-volume">
-
-                                <i class="fas fa-volume-up"></i>
-
-                                <input
-                                    type="range"
-                                    class="volume-slider"
-                                    min="0"
-                                    max="1"
-                                    step="0.01"
-                                    value="1">
-
-                            </div>
-
-                            <!-- AUDIO -->
-                            <audio class="custom-audio">
-
-                                <source
-                                    src="{{ asset($music->audio_file) }}"
-                                    type="audio/mpeg">
-
-                            </audio>
+                            <input
+                                type="range"
+                                class="dream-music-volume-slider"
+                                min="0"
+                                max="1"
+                                step="0.01"
+                                value="1">
 
                         </div>
+
+                        <!-- AUDIO -->
+                        <audio class="dream-music-audio">
+
+                            <source
+                                src="{{ asset($music->audio_file) }}"
+                                type="audio/mpeg">
+
+                        </audio>
 
                     </div>
 
                 </div>
 
-            @empty
+            </div>
 
-                <!-- EMPTY -->
-                <div class="dream-empty-box">
+        @empty
 
-                    <i class="fas fa-music"></i>
+            <!-- EMPTY -->
+            <div class="dream-music-empty-box">
 
-                    <h3>
-                        No Music Yet
-                    </h3>
+                <i class="fas fa-music"></i>
 
-                    <p>
-                        Upload your first dreamy soundtrack.
-                    </p>
+                <h3>
+                    No Music Yet
+                </h3>
 
-                </div>
+                <p>
+                    Upload your first dreamy soundtrack.
+                </p>
 
-            @endforelse
+            </div>
 
-        </div>
+        @endforelse
 
-    </section>
+    </div>
 
-</div>
+</section>
 
 <!-- =========================================
     AUDIO SCRIPT
@@ -232,13 +230,13 @@
         .forEach(card => {
 
             const playBtn =
-                card.querySelector('.aanaya-play-btn');
+                card.querySelector('.dream-music-play-btn');
 
             const floatingBtn =
-                card.querySelector('.floating-play-btn');
+                card.querySelector('.dream-music-floating-play-btn');
 
             const audio =
-                card.querySelector('.custom-audio');
+                card.querySelector('.dream-music-audio');
 
             const icon =
                 playBtn.querySelector('i');
@@ -247,7 +245,7 @@
                 floatingBtn.querySelector('i');
 
             const volumeSlider =
-                card.querySelector('.volume-slider');
+                card.querySelector('.dream-music-volume-slider');
 
             // =====================================
             // TOGGLE AUDIO
@@ -255,9 +253,8 @@
 
             function toggleAudio(){
 
-                // pause other audio
                 document
-                    .querySelectorAll('.custom-audio')
+                    .querySelectorAll('.dream-music-audio')
                     .forEach(otherAudio => {
 
                         if(otherAudio !== audio){
@@ -268,12 +265,12 @@
                                 otherAudio.closest('.dream-music-card');
 
                             parentCard
-                                .querySelector('.aanaya-play-btn i')
+                                .querySelector('.dream-music-play-btn i')
                                 .className =
                                 'fas fa-play';
 
                             parentCard
-                                .querySelector('.floating-play-btn i')
+                                .querySelector('.dream-music-floating-play-btn i')
                                 .className =
                                 'fas fa-play';
 
@@ -281,7 +278,6 @@
 
                     });
 
-                // current audio
                 if(audio.paused){
 
                     audio.play();

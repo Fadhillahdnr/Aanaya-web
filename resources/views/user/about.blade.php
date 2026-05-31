@@ -10,7 +10,8 @@
     <section class="about-hero">
 
         <div class="about-badge">
-            ✨ ABOUT AANAYA
+            <span class="badge-dot"></span>
+            ABOUT AANAYA
         </div>
 
         <h1>

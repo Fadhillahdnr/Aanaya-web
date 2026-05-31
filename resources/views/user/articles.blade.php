@@ -12,7 +12,8 @@
         <div class="articles-hero-content">
 
             <span class="articles-badge">
-                ✨ Aanaya Stories
+                <span class="badge-dot"></span>
+                Aanaya Stories
             </span>
 
             <h1>

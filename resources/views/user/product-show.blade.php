@@ -2,29 +2,24 @@
 
 <div class="user-product-detail-page">
 
-    <!-- BG -->
     <div class="user-products-bg glow-1"></div>
     <div class="user-products-bg glow-2"></div>
 
-    <section class="user-product-detail-container">
+    <section class="user-product-detail-container fade-in-up">
 
-        <!-- IMAGE -->
         <div class="user-product-detail-image-wrap">
-
-            <img
-                src="{{ asset('uploads/products/' . $product->image) }}"
-                alt="{{ $product->name }}"
+            <img 
+                src="{{ asset('uploads/products/' . $product->image) }}" 
+                alt="{{ $product->name }}" 
                 class="user-product-detail-image">
-
-            <div class="user-product-detail-overlay"></div>
-
+            
+            <div class="user-product-detail-overlay-light"></div>
         </div>
 
-        <!-- CONTENT -->
         <div class="user-product-detail-content">
 
             <span class="user-product-detail-badge">
-                ✨ DREAM PRODUCT
+                <i class="fas fa-sparkles"></i> DREAM PRODUCT
             </span>
 
             <h1>
@@ -32,43 +27,35 @@
             </h1>
 
             <div class="user-product-detail-price">
-
-                Rp {{ number_format($product->price, 0, ',', '.') }}
-
+                <span>Rp {{ number_format($product->price, 0, ',', '.') }}</span>
             </div>
 
             <div class="user-product-detail-meta">
-
-                <span>
-
-                    <i class="fas fa-layer-group"></i>
-
+                <span class="meta-item">
+                    <div class="meta-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
                     {{ $product->category ?? 'Dreamy Collection' }}
-
                 </span>
 
-                <span>
-
-                    <i class="fas fa-box"></i>
-
-                    {{ $product->stock }} Stock
-
+                <span class="meta-item">
+                    <div class="meta-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    {{ $product->stock }} Stock In
                 </span>
-
             </div>
 
-            <p>
+            <p class="user-product-description">
                 {{ $product->description }}
             </p>
 
-            <!-- BUTTON -->
             <div class="user-product-detail-actions">
-
                 <form action="{{ route('cart.add', $product->id) }}" method="POST" class="inline-form">
                     @csrf
                     <button type="submit" class="user-cart-btn-lg">
                         <i class="fas fa-cart-plus"></i>
-                        Add To Cart
+                        <span>Add To Cart</span>
                     </button>
                 </form>
 
@@ -76,7 +63,6 @@
                     <i class="fas fa-bag-shopping"></i>
                     View Cart
                 </a>
-
             </div>
 
         </div>
@@ -85,49 +71,42 @@
 
 </div>
 
-<!-- TOAST -->
 <div id="cart-toast" class="cart-toast">
-    <i class="fas fa-circle-check"></i>
-
-    <span>
-        Product successfully added to cart ✨
-    </span>
+    <div class="toast-icon">
+        <i class="fas fa-circle-check"></i>
+    </div>
+    <div class="toast-content">
+        <strong>Success!</strong>
+        <span>Product successfully added to cart ✨</span>
+    </div>
 </div>
 
 <script>
-
 document.addEventListener('DOMContentLoaded', () => {
-
     const forms = document.querySelectorAll('.inline-form');
-
     const toast = document.getElementById('cart-toast');
 
     forms.forEach(form => {
-
         form.addEventListener('submit', () => {
-
+            // Set flag before page reloads
             localStorage.setItem('showCartToast', 'true');
-
         });
-
     });
 
+    // Check flag on page load
     if(localStorage.getItem('showCartToast') === 'true'){
-
-        toast.classList.add('show');
-
+        // Show toast with slight delay for smooth UI
         setTimeout(() => {
+            toast.classList.add('show');
+        }, 300);
 
+        // Hide toast after 3.5 seconds
+        setTimeout(() => {
             toast.classList.remove('show');
-
             localStorage.removeItem('showCartToast');
-
-        }, 3000);
-
+        }, 3800);
     }
-
 });
-
 </script>
 
 </x-app-layout>

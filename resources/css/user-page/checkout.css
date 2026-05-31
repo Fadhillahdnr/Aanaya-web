@@ -1,487 +1,361 @@
 /* =========================================================
-   DREAMY CHECKOUT PAGE
+   CHECKOUT PAGE - GLASSMORPHISM THEME
 ========================================================= */
 
-.checkout-page{
+.checkout-page {
     position: relative;
-
     min-height: 100vh;
-
-    padding: 140px 24px 100px;
-
+    padding: 140px 24px 120px;
+    background: linear-gradient(
+        180deg,
+        #eb7eba 0%,
+        #f4c6f4 45%,
+        #fcf8ed 100__
+    );
     overflow: hidden;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    background:
-        radial-gradient(circle at top left, rgba(255,170,210,0.14), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(170,140,255,0.14), transparent 30%),
-        linear-gradient(
-            180deg,
-            #0f0b1a 0%,
-            #171224 40%,
-            #0d0b14 100%
-        );
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #2a1b22;
 }
 
 /* =========================================================
-   BACKGROUND GLOW
+   BACKGROUND GLOW EFFECTS
 ========================================================= */
 
-.checkout-page::before,
-.checkout-page::after{
-    content: "";
-
+.checkout-bg-glow {
     position: absolute;
-
     border-radius: 50%;
-
-    filter: blur(120px);
-
+    filter: blur(150px);
+    opacity: 0.5;
     pointer-events: none;
-
-    opacity: 0.35;
+    z-index: 1;
 }
 
-.checkout-page::before{
-    width: 420px;
-    height: 420px;
-
-    background: #ff8ec5;
-
-    top: -120px;
-    left: -120px;
+.checkout-bg-glow.glow-1 {
+    width: 450px;
+    height: 450px;
+    background: rgba(255, 255, 255, 0.85);
+    top: -50px;
+    left: -100px;
 }
 
-.checkout-page::after{
-    width: 420px;
-    height: 420px;
+.checkout-bg-glow.glow-2 {
+    width: 500px;
+    height: 500px;
+    background: #fcf8ed;
+    bottom: -100px;
+    right: -50px;
+}
 
-    background: #9f7cff;
+/* =========================================================
+   CONTAINER & ANIMATION
+========================================================= */
 
-    bottom: -150px;
-    right: -120px;
+.checkout-container {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* =========================================================
    CHECKOUT CARD
 ========================================================= */
 
-.checkout-card{
-    position: relative;
-
-    z-index: 2;
-
-    width: 100%;
-
-    max-width: 680px;
-
-    padding: 50px;
-
-    border-radius: 40px;
-
-    overflow: hidden;
-
-    background:
-        rgba(255,255,255,0.06);
-
-    backdrop-filter: blur(28px);
-
-    -webkit-backdrop-filter: blur(28px);
-
-    border:
-        1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-        0 30px 80px rgba(0,0,0,0.38);
-
-    transition: 0.4s ease;
+.checkout-card {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(25px);
+    border-radius: 32px;
+    padding: 45px;
+    box-shadow: 0 30px 60px rgba(235, 126, 186, 0.15);
 }
 
-.checkout-card:hover{
-    transform:
-        translateY(-4px);
-
-    box-shadow:
-        0 35px 90px rgba(255,142,197,0.12);
-}
-
-/* =========================================================
-   TOP GLOW
-========================================================= */
-
-.checkout-card::before{
-    content: "";
-
-    position: absolute;
-
-    width: 280px;
-    height: 280px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            rgba(255,255,255,0.18),
-            transparent
-        );
-
-    top: -140px;
-    right: -120px;
-
-    pointer-events: none;
-}
-
-/* =========================================================
-   TITLE
-========================================================= */
-
-.checkout-card h1{
-    position: relative;
-
-    z-index: 2;
-
+.checkout-header {
     text-align: center;
-
-    font-size: clamp(40px, 5vw, 58px);
-
-    line-height: 1.1;
-
-    font-weight: 800;
-
-    margin-bottom: 45px;
-
-    color: #fff;
-
-    letter-spacing: -2px;
+    margin-bottom: 35px;
 }
 
-/* =========================================================
-   FORM
-========================================================= */
-
-.checkout-card form{
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 26px;
+.checkout-header h1 {
+    font-size: clamp(32px, 4vw, 42px);
+    font-weight: 900;
+    color: #1a0f15;
+    margin-bottom: 8px;
+    letter-spacing: -1.5px;
 }
 
-/* =========================================================
-   FORM GROUP
-========================================================= */
-
-.form-group{
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 12px;
-}
-
-.form-group label{
-    color: #f1ebff;
-
+.checkout-header p {
     font-size: 15px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.4px;
+    color: #5b4551;
+    font-weight: 500;
 }
 
 /* =========================================================
-   INPUT
+   FORM INPUTS & LABELS
 ========================================================= */
+
+.modern-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media(min-width: 640px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .form-group:last-child {
+        grid-column: span 2;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #4a3440;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 4px;
+}
+
+.form-group label i {
+    color: #e01f42; /* Menyatu dengan aksen cerah */
+    font-size: 13px;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
 
 .form-group input,
-.form-group textarea{
+.form-group textarea {
     width: 100%;
-
-    border: none;
-
-    outline: none;
-
-    border-radius: 22px;
-
-    padding: 18px 22px;
-
-    background:
-        rgba(255,255,255,0.08);
-
-    border:
-        1px solid rgba(255,255,255,0.08);
-
-    color: #fff;
-
+    padding: 14px 20px;
     font-size: 15px;
-
-    font-weight: 500;
-
-    transition: 0.35s ease;
-
-    backdrop-filter: blur(12px);
+    font-weight: 600;
+    color: #1a0f15;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
 }
-
-.form-group textarea{
-    resize: none;
-
-    min-height: 140px;
-}
-
-/* =========================================================
-   PLACEHOLDER
-========================================================= */
 
 .form-group input::placeholder,
-.form-group textarea::placeholder{
-    color: #a9a3bb;
+.form-group textarea::placeholder {
+    color: #9c8390;
+    font-weight: 400;
 }
 
-/* =========================================================
-   FOCUS
-========================================================= */
-
+/* Input Focus States */
 .form-group input:focus,
-.form-group textarea:focus{
-    border:
-        1px solid rgba(255,170,210,0.4);
+.form-group textarea:focus {
+    background: #ffffff;
+    border-color: #eb7eba;
+    box-shadow: 0 0 0 4px rgba(235, 126, 186, 0.2), inset 0 2px 4px rgba(0,0,0,0.01);
+}
 
-    background:
-        rgba(255,255,255,0.12);
+.form-group textarea {
+    resize: none;
+    line-height: 1.6;
+}
 
-    box-shadow:
-        0 0 0 5px rgba(255,142,197,0.08);
+.mt-4 {
+    margin-top: 4px;
 }
 
 /* =========================================================
-   BUTTON
+   SUBMIT BUTTON
 ========================================================= */
 
-.checkout-submit-btn{
-    width: 100%;
-
-    margin-top: 10px;
-
-    border: none;
-
-    cursor: pointer;
-
-    padding: 20px;
-
-    border-radius: 24px;
-
-    font-size: 16px;
-
-    font-weight: 800;
-
-    letter-spacing: 0.5px;
-
-    color: #111;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff9fcf,
-            #c9a9ff
-        );
-
-    transition: 0.35s ease;
-
-    box-shadow:
-        0 18px 45px rgba(255,142,197,0.24);
-}
-
-.checkout-submit-btn:hover{
-    transform:
-        translateY(-4px)
-        scale(1.01);
-
-    box-shadow:
-        0 24px 60px rgba(255,142,197,0.34);
-}
-
-/* =========================================================
-   POPUP
-========================================================= */
-
-.checkout-popup{
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 9999;
-
-    display: flex;
-
+.checkout-submit-btn {
+    display: inline-flex;
     align-items: center;
-
     justify-content: center;
-
-    background:
-        rgba(0,0,0,0.45);
-
-    backdrop-filter: blur(10px);
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    transition: 0.35s ease;
+    gap: 12px;
+    background: linear-gradient(135deg, #f54351, #e01f42);
+    color: #ffffff;
+    padding: 18px 40px;
+    border-radius: 99px;
+    font-size: 16px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(224, 31, 66, 0.3);
+    transition: all 0.3s ease;
+    margin-top: 15px;
 }
 
-.checkout-popup.active{
-    opacity: 1;
+.checkout-submit-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(224, 31, 66, 0.4);
+}
 
+.checkout-submit-btn active {
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   SUCCESS POPUP MODAL
+========================================================= */
+
+.checkout-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    padding: 20px;
+}
+
+.checkout-popup.active {
+    opacity: 1;
     visibility: visible;
 }
 
-/* =========================================================
-   POPUP CARD
-========================================================= */
+.checkout-popup-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(42, 27, 34, 0.3);
+    backdrop-filter: blur(15px);
+}
 
-.checkout-popup-card{
-    width: 90%;
-
-    max-width: 420px;
-
-    padding: 42px 34px;
-
-    border-radius: 34px;
-
+.checkout-popup-card {
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+    border-radius: 30px;
+    padding: 40px 30px;
+    max-width: 440px;
+    width: 100%;
     text-align: center;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,0.14),
-            rgba(255,255,255,0.06)
-        );
-
-    border:
-        1px solid rgba(255,255,255,0.12);
-
-    backdrop-filter: blur(24px);
-
-    transform:
-        scale(0.9);
-
-    transition: 0.35s ease;
-
-    box-shadow:
-        0 30px 80px rgba(0,0,0,0.35);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.15);
+    transform: scale(0.85) translateY(20px);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.checkout-popup.active .checkout-popup-card{
-    transform:
-        scale(1);
+.checkout-popup.active .checkout-popup-card {
+    transform: scale(1) translateY(0);
 }
 
-/* =========================================================
-   POPUP ICON
-========================================================= */
+/* Circle Icon & Pulse Effect */
+.popup-icon-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+}
 
-.popup-icon{
-    width: 90px;
-    height: 90px;
-
-    margin:
-        0 auto 24px;
-
+.popup-icon {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: #eafff0;
     border-radius: 50%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff9fcf,
-            #c9a9ff
-        );
-
-    box-shadow:
-        0 20px 50px rgba(255,142,197,0.28);
-}
-
-.popup-icon i{
-    font-size: 34px;
-
-    color: #111;
-}
-
-/* =========================================================
-   POPUP TEXT
-========================================================= */
-
-.checkout-popup-card h2{
-    color: #fff;
-
+    color: #28c76f;
     font-size: 32px;
-
-    font-weight: 800;
-
-    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.checkout-popup-card p{
-    color: #d4cfe6;
+.popup-pulse {
+    position: absolute;
+    inset: 0;
+    background: #28c76f;
+    border-radius: 50%;
+    opacity: 0.25;
+    animation: popupPulse 1.6s infinite ease-out;
+    z-index: 1;
+}
 
+@keyframes popupPulse {
+    0% { transform: scale(1); opacity: 0.4; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+.checkout-popup-card h2 {
+    font-size: 26px;
+    font-weight: 850;
+    color: #1a0f15;
+    margin-bottom: 12px;
+}
+
+.checkout-popup-card p {
     font-size: 15px;
+    color: #6b5360;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
 
-    line-height: 1.8;
+/* Custom Progress Loader Bar */
+.popup-loader {
+    width: 100%;
+    height: 6px;
+    background: #f1edf0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.loader-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #eb7eba, #e01f42);
+    border-radius: 10px;
+    transition: width 1.8s linear;
+}
+
+.checkout-popup.active .loader-bar {
+    width: 100%;
 }
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE DESIGN
 ========================================================= */
 
-@media(max-width:768px){
-
-    .checkout-page{
-        padding:
-            120px 18px 80px;
+@media(max-width: 768px) {
+    .checkout-page {
+        padding: 110px 16px 80px;
     }
 
-    .checkout-card{
-        padding: 38px 24px;
-
-        border-radius: 30px;
+    .checkout-card {
+        padding: 30px 20px;
+        border-radius: 24px;
     }
 
-    .checkout-card h1{
-        font-size: 40px;
-
-        margin-bottom: 35px;
+    .checkout-header h1 {
+        font-size: 28px;
     }
 
-    .form-group input,
-    .form-group textarea{
-        padding: 16px 18px;
-
-        border-radius: 18px;
-    }
-
-    .checkout-submit-btn{
-        padding: 18px;
-
-        border-radius: 20px;
-    }
-
-    .checkout-popup-card{
-        padding: 34px 24px;
-
-        border-radius: 28px;
-    }
-
-    .checkout-popup-card h2{
-        font-size: 26px;
+    .checkout-submit-btn {
+        width: 100%;
     }
 }
