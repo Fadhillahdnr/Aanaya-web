@@ -12,7 +12,7 @@
           content="{{ csrf_token() }}">
 
     <title>
-        {{ config('app.name', 'AANAYA') }}
+        {{ config('app.name', 'Aanaya') }}
     </title>
 
     <!-- FONT -->

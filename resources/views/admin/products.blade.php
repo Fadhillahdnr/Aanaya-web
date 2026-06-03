@@ -36,9 +36,20 @@
                 <!-- IMAGE -->
                 <div class="product-image-wrapper">
 
-                    <img
-                        src="{{ asset('uploads/products/' . $product->image) }}"
-                        alt="{{ $product->name }}">
+                    @if($product->image)
+
+                        <img
+                            src="{{ $product->image }}"
+                            alt="{{ $product->name }}"
+                            loading="lazy">
+
+                    @else
+
+                        <img
+                            src="https://via.placeholder.com/500x500?text=No+Image"
+                            alt="No Image">
+
+                    @endif
 
                 </div>
 
@@ -80,7 +91,8 @@
 
                         <form
                             action="/admin/products/{{ $product->id }}"
-                            method="POST">
+                            method="POST"
+                            onsubmit="return confirm('Delete this product?')">
 
                             @csrf
                             @method('DELETE')

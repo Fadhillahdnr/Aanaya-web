@@ -21,7 +21,8 @@
 
         </div>
 
-        <a href="/admin/music/create" class="pink-btn">
+        <a href="{{ route('admin.music.create') }}"
+           class="pink-btn">
 
             <i class="fas fa-plus"></i>
 
@@ -34,24 +35,23 @@
     <!-- MUSIC GRID -->
     <div class="music-grid-admin">
 
-        @foreach($musics as $music)
+        @forelse($musics as $music)
 
         <div class="music-admin-card">
 
-            <!-- Glow -->
             <div class="music-card-bg"></div>
 
             <!-- COVER -->
             <div class="music-cover-wrapper">
 
                 <img
-                    src="{{ asset($music->cover_image) }}"
+                    src="{{ $music->cover_image }}"
                     alt="{{ $music->title }}"
                     class="music-cover">
 
-                <!-- PLAY BUTTON -->
-                <button class="play-btn"
-                        onclick="toggleAudio({{ $music->id }})">
+                <button
+                    class="play-btn"
+                    onclick="toggleAudio({{ $music->id }})">
 
                     <i class="fas fa-play"></i>
 
@@ -61,9 +61,11 @@
 
             <!-- AUDIO -->
             <audio id="audio-{{ $music->id }}">
+
                 <source
-                    src="{{ asset($music->audio_file) }}"
+                    src="{{ $music->audio_file }}"
                     type="audio/mpeg">
+
             </audio>
 
             <!-- INFO -->
@@ -77,9 +79,19 @@
                     {{ $music->title }}
                 </h2>
 
-                <p>
+                <p class="artist-name">
                     {{ $music->artist }}
                 </p>
+
+                @if($music->description)
+
+                <div class="music-description">
+
+                    {{ Str::limit($music->description, 120) }}
+
+                </div>
+
+                @endif
 
                 @if($music->release_date)
 
@@ -93,13 +105,49 @@
 
                 @endif
 
+                <!-- STREAMING LINKS -->
+                <div class="stream-links">
+
+                    @if($music->spotify_link)
+
+                    <a
+                        href="{{ $music->spotify_link }}"
+                        target="_blank"
+                        class="spotify-btn">
+
+                        <i class="fab fa-spotify"></i>
+
+                        Spotify
+
+                    </a>
+
+                    @endif
+
+                    @if($music->youtube_link)
+
+                    <a
+                        href="{{ $music->youtube_link }}"
+                        target="_blank"
+                        class="youtube-btn">
+
+                        <i class="fab fa-youtube"></i>
+
+                        YouTube
+
+                    </a>
+
+                    @endif
+
+                </div>
+
             </div>
 
             <!-- ACTION -->
             <div class="music-actions">
 
-                <a href="{{ route('admin.music.edit', $music->id) }}"
-                   class="edit-btn">
+                <a
+                    href="{{ route('admin.music.edit', $music->id) }}"
+                    class="edit-btn">
 
                     <i class="fas fa-pen"></i>
 
@@ -109,12 +157,15 @@
 
                 <form
                     action="{{ route('admin.music.destroy', $music->id) }}"
-                    method="POST">
+                    method="POST"
+                    onsubmit="return confirm('Hapus music ini?')">
 
                     @csrf
                     @method('DELETE')
 
-                    <button class="delete-btn">
+                    <button
+                        type="submit"
+                        class="delete-btn">
 
                         <i class="fas fa-trash"></i>
 
@@ -128,30 +179,51 @@
 
         </div>
 
-        @endforeach
+        @empty
+
+        <div class="empty-music">
+
+            <i class="fas fa-music"></i>
+
+            <h3>Belum ada music</h3>
+
+            <p>Upload music pertama kamu ✨</p>
+
+        </div>
+
+        @endforelse
 
     </div>
 
 </div>
 
-<!-- AUDIO SCRIPT -->
 <script>
 
 function toggleAudio(id)
 {
-    const audio = document.getElementById('audio-' + id);
+    const currentAudio =
+        document.getElementById(
+            'audio-' + id
+        );
 
-    if(audio.paused)
-    {
-        document.querySelectorAll('audio').forEach(a => {
-            a.pause();
+    document
+        .querySelectorAll('audio')
+        .forEach(audio => {
+
+            if(audio !== currentAudio)
+            {
+                audio.pause();
+                audio.currentTime = 0;
+            }
         });
 
-        audio.play();
+    if(currentAudio.paused)
+    {
+        currentAudio.play();
     }
     else
     {
-        audio.pause();
+        currentAudio.pause();
     }
 }
 

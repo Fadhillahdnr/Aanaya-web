@@ -55,6 +55,8 @@
 @import './admin-page/user-edit.css';
 @import './admin-page/music-vidio.css';
 @import './admin-page/music-vidio-create.css';
+@import './admin-page/orders.css';
+@import './admin-page/order-show.css';
 
 /* =========================================================
    RESET

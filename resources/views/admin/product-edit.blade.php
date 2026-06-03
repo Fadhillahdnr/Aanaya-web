@@ -109,26 +109,37 @@
 
                     <div class="current-product-image">
 
-                        <img
-                            src="{{ asset('uploads/products/' . $product->image) }}"
-                            alt="{{ $product->name }}">
+                        @if($product->image)
+
+                            <img
+                                id="currentPreview"
+                                src="{{ $product->image }}"
+                                alt="{{ $product->name }}">
+
+                        @else
+
+                            <img
+                                id="currentPreview"
+                                src="https://via.placeholder.com/500x500?text=No+Image"
+                                alt="No Image">
+
+                        @endif
 
                     </div>
 
                 </div>
 
-                <!-- NEW IMAGE -->
                 <div class="form-group full-width">
 
                     <label>Change Product Image</label>
 
                     <input
                         type="file"
-                        name="image">
+                        name="image"
+                        id="imageInput"
+                        accept="image/*">
 
                 </div>
-
-            </div>
 
             <!-- BUTTON -->
             <div class="submit-wrapper">
@@ -150,5 +161,27 @@
     </div>
 
 </div>
+
+<script>
+
+const imageInput =
+    document.getElementById('imageInput');
+
+const currentPreview =
+    document.getElementById('currentPreview');
+
+imageInput.addEventListener('change', function(){
+
+    const file = this.files[0];
+
+    if(file){
+
+        currentPreview.src =
+            URL.createObjectURL(file);
+    }
+
+});
+
+</script>
 
 @endsection

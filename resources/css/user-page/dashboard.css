@@ -1282,7 +1282,7 @@ body{
     }
 
     .floating-character{
-        left:50%;
+        left:20%;
         transform:translateX(-50%);
 
         top:-140px;

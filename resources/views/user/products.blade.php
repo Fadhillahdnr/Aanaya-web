@@ -49,9 +49,11 @@
                 <div class="user-product-image-wrap">
 
                     <img
-                        src="{{ asset('uploads/products/' . $product->image) }}"
+                        src="{{ $product->image }}"
                         alt="{{ $product->name }}"
-                        class="user-product-image">
+                        class="user-product-image"
+                        loading="lazy"
+                        onerror="this.src='https://placehold.co/600x600?text=No+Image'">
 
                     <div class="user-product-overlay"></div>
 

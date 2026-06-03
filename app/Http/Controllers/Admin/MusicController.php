@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Music;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Cloudinary\Cloudinary;
 
 class MusicController extends Controller
 {
@@ -42,75 +43,87 @@ class MusicController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'artist' => 'required',
-            'cover_image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'audio_file' => 'required|file|max:20480',
-            'spotify_link' => 'nullable',
-            'youtube_link' => 'nullable',
-            'description' => 'nullable',
-            'release_date' => 'nullable|date',
+            'title'         => 'required',
+            'artist'        => 'required',
+            'cover_image'   => 'required|image|mimes:jpg,jpeg,png,webp',
+            'audio_file'    => 'required|file|max:51200',
+            'spotify_link'  => 'nullable',
+            'youtube_link'  => 'nullable',
+            'description'   => 'nullable',
+            'release_date'  => 'nullable|date',
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | UPLOAD COVER
-        |--------------------------------------------------------------------------
-        */
-
-        $coverName = time() . '_cover.' .
-            $request->cover_image->extension();
-
-        $request->cover_image->move(
-            public_path('uploads/covers'),
-            $coverName
-        );
+        $cloudinary = app(Cloudinary::class);
 
         /*
         |--------------------------------------------------------------------------
-        | UPLOAD AUDIO
+        | Upload Cover
         |--------------------------------------------------------------------------
         */
 
-        $audioName = time() . '_audio.' .
-            $request->audio_file->extension();
-
-        $request->audio_file->move(
-            public_path('uploads/music'),
-            $audioName
-        );
+        $coverUpload = $cloudinary
+            ->uploadApi()
+            ->upload(
+                $request->file('cover_image')->getRealPath(),
+                [
+                    'folder' => 'music/covers'
+                ]
+            );
 
         /*
         |--------------------------------------------------------------------------
-        | SAVE DATABASE
+        | Upload Audio
         |--------------------------------------------------------------------------
         */
+
+        $audioUpload = $cloudinary
+            ->uploadApi()
+            ->upload(
+                $request->file('audio_file')->getRealPath(),
+                [
+                    'folder' => 'music/audio',
+                    'resource_type' => 'video'
+                ]
+            );
 
         Music::create([
+            'title' => $request->title,
 
-            'title'         => $request->title,
+            'artist' => $request->artist,
 
-            'artist'        => $request->artist,
+            'slug' => Str::slug($request->title),
 
-            'slug'          => Str::slug($request->title),
+            'cover_image' =>
+                $coverUpload['secure_url'],
 
-            'cover_image'   => 'uploads/covers/' . $coverName,
+            'cover_public_id' =>
+                $coverUpload['public_id'],
 
-            'audio_file'    => 'uploads/music/' . $audioName,
+            'audio_file' =>
+                $audioUpload['secure_url'],
 
-            'spotify_link'  => $request->spotify_link,
+            'audio_public_id' =>
+                $audioUpload['public_id'],
 
-            'youtube_link'  => $request->youtube_link,
+            'spotify_link' =>
+                $request->spotify_link,
 
-            'description'   => $request->description,
+            'youtube_link' =>
+                $request->youtube_link,
 
-            'release_date'  => $request->release_date,
+            'description' =>
+                $request->description,
 
+            'release_date' =>
+                $request->release_date,
         ]);
 
         return redirect()
             ->route('admin.music')
-            ->with('success', 'Music uploaded successfully ✨');
+            ->with(
+                'success',
+                'Music uploaded successfully ✨'
+            );
     }
 
     /*
@@ -136,18 +149,126 @@ class MusicController extends Controller
     {
         $music = Music::findOrFail($id);
 
-        $music->update([
-            'title'         => $request->title,
-            'artist'        => $request->artist,
-            'spotify_link'  => $request->spotify_link,
-            'youtube_link'  => $request->youtube_link,
-            'description'   => $request->description,
-            'release_date'  => $request->release_date,
+        $request->validate([
+            'title' => 'required',
+            'artist' => 'required',
+            'cover_image' => 'nullable|image',
+            'audio_file' => 'required|file|max:51200',
         ]);
+
+        $cloudinary = app(Cloudinary::class);
+
+        $data = [
+
+            'title' => $request->title,
+
+            'artist' => $request->artist,
+
+            'slug' => Str::slug($request->title),
+
+            'spotify_link' =>
+                $request->spotify_link,
+
+            'youtube_link' =>
+                $request->youtube_link,
+
+            'description' =>
+                $request->description,
+
+            'release_date' =>
+                $request->release_date,
+        ];
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update Cover
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->hasFile('cover_image')) {
+
+            if (!empty($music->cover_public_id)) {
+
+                try {
+
+                    $cloudinary
+                        ->uploadApi()
+                        ->destroy(
+                            $music->cover_public_id
+                        );
+
+                } catch (\Exception $e) {
+                }
+            }
+
+            $coverUpload = $cloudinary
+                ->uploadApi()
+                ->upload(
+                    $request->file('cover_image')
+                        ->getRealPath(),
+                    [
+                        'folder' => 'music/covers'
+                    ]
+                );
+
+            $data['cover_image'] =
+                $coverUpload['secure_url'];
+
+            $data['cover_public_id'] =
+                $coverUpload['public_id'];
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update Audio
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->hasFile('audio_file')) {
+
+            if (!empty($music->audio_public_id)) {
+
+                try {
+
+                    $cloudinary
+                        ->uploadApi()
+                        ->destroy(
+                            $music->audio_public_id,
+                            [
+                                'resource_type' => 'video'
+                            ]
+                        );
+
+                } catch (\Exception $e) {
+                }
+            }
+
+            $audioUpload = $cloudinary
+                ->uploadApi()
+                ->upload(
+                    $request->file('audio_file')
+                        ->getRealPath(),
+                    [
+                        'folder' => 'music/audio',
+                        'resource_type' => 'video'
+                    ]
+                );
+
+            $data['audio_file'] =
+                $audioUpload['secure_url'];
+
+            $data['audio_public_id'] =
+                $audioUpload['public_id'];
+        }
+
+        $music->update($data);
 
         return redirect()
             ->route('admin.music')
-            ->with('success', 'Music updated ✨');
+            ->with(
+                'success',
+                'Music updated ✨'
+            );
     }
 
     /*
@@ -160,12 +281,54 @@ class MusicController extends Controller
     {
         $music = Music::findOrFail($id);
 
+        $cloudinary = app(Cloudinary::class);
+
+        if (!empty($music->cover_public_id)) {
+
+            try {
+
+                $cloudinary
+                    ->uploadApi()
+                    ->destroy(
+                        $music->cover_public_id
+                    );
+
+            } catch (\Exception $e) {
+            }
+        }
+
+        if (!empty($music->audio_public_id)) {
+
+            try {
+
+                $cloudinary
+                    ->uploadApi()
+                    ->destroy(
+                        $music->audio_public_id,
+                        [
+                            'resource_type' => 'video'
+                        ]
+                    );
+
+            } catch (\Exception $e) {
+            }
+        }
+
         $music->delete();
 
         return redirect()
             ->route('admin.music')
-            ->with('success', 'Music deleted');
+            ->with(
+                'success',
+                'Music deleted'
+            );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | USER PAGE
+    |--------------------------------------------------------------------------
+    */
 
     public function userIndex()
     {

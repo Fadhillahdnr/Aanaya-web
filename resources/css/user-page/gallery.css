@@ -10,20 +10,13 @@
     padding: 150px 24px 120px;
 
     background:
-        radial-gradient(circle at top left,
-            rgba(235,126,186,.12),
-            transparent 35%),
-        radial-gradient(circle at bottom right,
-            rgba(224,31,66,.08),
-            transparent 40%),
         linear-gradient(
             180deg,
-            #eb7eba 0%,
-            #f4c6f4 45%,
-            #fcf8ed 100%
+                #eb7eba 0%,
+                #f4c6f4 45%,
+                #fcf8ed 100%
         );
 }
-
 /* =========================================================
    NOISE
 ========================================================= */

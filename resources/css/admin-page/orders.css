@@ -1,0 +1,438 @@
+/* =========================================================
+   ORDERS PAGE
+========================================================= */
+
+.orders-page{
+    position: relative;
+
+    width: 100%;
+
+    padding: 28px 18px 12px;
+}
+
+/* =========================================================
+   PAGE TOP
+========================================================= */
+
+.orders-top{
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:24px;
+
+    margin-bottom:34px;
+
+    padding:42px;
+
+    border-radius:34px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.52),
+            rgba(255,255,255,.18)
+        );
+
+    backdrop-filter:blur(24px);
+
+    border:
+        1px solid rgba(255,255,255,.20);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.08);
+}
+
+.orders-top::before{
+    content:"";
+
+    position:absolute;
+
+    top:-120px;
+    left:-120px;
+
+    width:280px;
+    height:280px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            rgba(255,210,230,.30),
+            transparent 70%
+        );
+}
+
+.orders-top::after{
+    content:"";
+
+    position:absolute;
+
+    right:-120px;
+    bottom:-120px;
+
+    width:320px;
+    height:320px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            rgba(210,220,255,.25),
+            transparent 70%
+        );
+}
+
+.orders-badge{
+    position:relative;
+
+    z-index:2;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px 20px;
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,.45);
+
+    border:
+        1px solid rgba(255,255,255,.22);
+
+    color:#c02666;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+    margin-bottom:16px;
+}
+
+.orders-heading h1{
+    position:relative;
+
+    z-index:2;
+
+    font-size:clamp(2rem,4vw,3.2rem);
+
+    font-weight:800;
+
+    color:#1f2937;
+
+    margin-bottom:12px;
+}
+
+.orders-heading p{
+    position:relative;
+
+    z-index:2;
+
+    color:#6b7280;
+
+    max-width:650px;
+
+    line-height:1.8;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.orders-stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:22px;
+
+    margin-bottom:32px;
+}
+
+.stat-card{
+    border-radius:28px;
+
+    padding:28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.46),
+            rgba(255,255,255,.18)
+        );
+
+    backdrop-filter:blur(24px);
+
+    border:
+        1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.08);
+
+    transition:.3s ease;
+}
+
+.stat-card:hover{
+    transform:translateY(-5px);
+}
+
+.stat-card h3{
+    font-size:14px;
+
+    color:#6b7280;
+
+    margin-bottom:10px;
+}
+
+.stat-card .value{
+    font-size:34px;
+
+    font-weight:800;
+
+    color:#1f2937;
+}
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.orders-table-card{
+    border-radius:34px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.46),
+            rgba(255,255,255,.18)
+        );
+
+    backdrop-filter:blur(24px);
+
+    border:
+        1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.08);
+}
+
+.orders-table{
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+.orders-table thead{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,212,230,.35),
+            rgba(216,201,255,.35)
+        );
+}
+
+.orders-table th{
+    padding:18px;
+
+    text-align:left;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    color:#374151;
+}
+
+.orders-table td{
+    padding:18px;
+
+    border-top:
+        1px solid rgba(255,255,255,.15);
+
+    color:#4b5563;
+
+    font-size:14px;
+}
+
+.orders-table tr:hover{
+    background:
+        rgba(255,255,255,.18);
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status{
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:10px 16px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:700;
+}
+
+.status.pending{
+    background:#fff7d6;
+    color:#b45309;
+}
+
+.status.processing{
+    background:#dbeafe;
+    color:#1d4ed8;
+}
+
+.status.completed{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.status.cancelled{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.order-view-btn{
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    padding:12px 18px;
+
+    border-radius:14px;
+
+    text-decoration:none;
+
+    color:#374151;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    background:
+        rgba(255,255,255,.34);
+
+    border:
+        1px solid rgba(255,255,255,.16);
+
+    transition:.3s ease;
+}
+
+.order-view-btn:hover{
+    transform:translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,215,230,.35),
+            rgba(220,205,255,.35)
+        );
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.orders-empty{
+    text-align:center;
+
+    padding:90px 30px;
+}
+
+.orders-empty i{
+    font-size:60px;
+
+    color:#c02666;
+
+    margin-bottom:20px;
+}
+
+.orders-empty h3{
+    font-size:28px;
+
+    font-weight:800;
+
+    color:#1f2937;
+
+    margin-bottom:10px;
+}
+
+.orders-empty p{
+    color:#6b7280;
+}
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.orders-pagination{
+    margin-top:24px;
+
+    display:flex;
+
+    justify-content:center;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:768px){
+
+    .orders-page{
+        padding:20px 14px 50px;
+    }
+
+    .orders-top{
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        padding:28px;
+    }
+
+    .orders-table-card{
+        overflow-x:auto;
+    }
+
+    .orders-table{
+        min-width:850px;
+    }
+
+    .stat-card .value{
+        font-size:28px;
+    }
+}

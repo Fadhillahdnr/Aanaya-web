@@ -48,6 +48,11 @@
                     <span>Music Videos</span>
                 </a>
 
+                <a href="/admin/orders" class="{{ request()->is('admin/orders*') ? 'active' : '' }}">
+                    <i class="fas fa-receipt"></i>
+                    <span>Orders</span>
+                </a>
+
             </div>
 
         </div>
@@ -122,6 +127,8 @@
             <i class="fas fa-video"></i> Music Videos
         </a>
 
-    </div>
+        <a href="/admin/orders" class="{{ request()->is('admin/orders*') ? 'active' : '' }}">
+            <i class="fas fa-receipt"></i> Orders
+        </a>
 
 </nav>

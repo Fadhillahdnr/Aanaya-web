@@ -1417,3 +1417,274 @@
     }
 
 }
+
+/* =========================================================
+   RELEASE DATE
+========================================================= */
+
+.dream-music-release{
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 12px;
+
+    color: #8c6a75;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.dream-music-release i{
+    color: #e01f42;
+}
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.dream-music-description{
+    margin-top: 16px;
+
+    color: #66525b;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    max-width: 700px;
+}
+
+/* =========================================================
+   STREAM LINKS
+========================================================= */
+
+.dream-music-stream-links{
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+.spotify-link,
+.youtube-link{
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px 18px;
+
+    border-radius: 999px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition: .3s ease;
+}
+
+/* Spotify */
+
+.spotify-link{
+    background: rgba(29,185,84,.12);
+
+    color: #1DB954;
+
+    border: 1px solid rgba(29,185,84,.18);
+}
+
+.spotify-link:hover{
+    background: #1DB954;
+
+    color: white;
+
+    transform: translateY(-2px);
+}
+
+/* Youtube */
+
+.youtube-link{
+    background: rgba(255,0,0,.08);
+
+    color: #ff0000;
+
+    border: 1px solid rgba(255,0,0,.15);
+}
+
+.youtube-link:hover{
+    background: #ff0000;
+
+    color: white;
+
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   PROGRESS BAR
+========================================================= */
+
+.dream-music-progress-wrap{
+    display: flex;
+
+    grid-template-columns:
+        55px
+        1fr
+        55px;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 18px;
+}
+
+.current-time,
+.duration{
+    font-size: 12px;
+
+    color: #8c6a75;
+
+    font-weight: 600;
+}
+
+.current-time{
+    text-align: left;
+}
+
+.duration{
+    text-align: right;
+}
+
+.dream-music-progress{
+    width: 100%;
+
+    cursor: pointer;
+
+    accent-color: #e01f42;
+}
+
+/* =========================================================
+   PLAYER IMPROVEMENT
+========================================================= */
+
+.dream-music-player{
+    margin-top: 10px;
+}
+
+/* =========================================================
+   PLAYING STATE
+========================================================= */
+
+.dream-music-card.playing{
+
+    border:
+        1px solid rgba(224,31,66,.25);
+
+    box-shadow:
+        0 30px 80px rgba(224,31,66,.18);
+
+    transform:
+        translateY(-3px);
+}
+
+.dream-music-card.playing
+.dream-music-image{
+    box-shadow:
+        0 20px 50px rgba(224,31,66,.25);
+}
+
+.dream-music-card.playing
+.dream-music-play-btn{
+    animation:
+        pulseMusic 2s infinite;
+}
+
+@keyframes pulseMusic{
+
+    0%{
+        box-shadow:
+            0 0 0 0 rgba(224,31,66,.35);
+    }
+
+    70%{
+        box-shadow:
+            0 0 0 18px rgba(224,31,66,0);
+    }
+
+    100%{
+        box-shadow:
+            0 0 0 0 rgba(224,31,66,0);
+    }
+
+}
+
+/* =========================================================
+   FLOATING PLAY IMPROVEMENT
+========================================================= */
+
+.dream-music-floating-play-btn{
+    z-index: 5;
+}
+
+.dream-music-card.playing
+.dream-music-floating-play-btn{
+    opacity: 1;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:768px){
+
+    .dream-music-stream-links{
+        width: 100%;
+    }
+
+    .spotify-link,
+    .youtube-link{
+        flex: 1;
+
+        justify-content: center;
+    }
+
+    .dream-music-progress-wrap{
+        grid-template-columns:
+            45px
+            1fr
+            45px;
+    }
+
+    .current-time,
+    .duration{
+        font-size: 11px;
+    }
+
+}
+
+@media(max-width:480px){
+
+    .dream-music-stream-links{
+        flex-direction: column;
+    }
+
+    .spotify-link,
+    .youtube-link{
+        width: 100%;
+    }
+
+    .dream-music-description{
+        font-size: 13px;
+    }
+
+}

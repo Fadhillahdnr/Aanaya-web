@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Cloudinary\Cloudinary;
 
 class ProductController extends Controller
 {
@@ -41,41 +42,31 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-
-            'name' => 'required',
+            'name'  => 'required',
             'image' => 'required|image|mimes:jpg,jpeg,png,webp',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
-
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | UPLOAD IMAGE
-        |--------------------------------------------------------------------------
-        */
+        $cloudinary = app(Cloudinary::class);
 
-        $imageName = time() . '.' .
-            $request->image->extension();
-
-        $request->image->move(
-            public_path('uploads/products'),
-            $imageName
-        );
-
-        /*
-        |--------------------------------------------------------------------------
-        | SAVE DATABASE
-        |--------------------------------------------------------------------------
-        */
+        $upload = $cloudinary
+            ->uploadApi()
+            ->upload(
+                $request->file('image')->getRealPath(),
+                [
+                    'folder' => 'products'
+                ]
+            );
 
         Product::create([
-
             'name' => $request->name,
 
             'slug' => Str::slug($request->name),
 
-            'image' => $imageName,
+            'image' => $upload['secure_url'],
+
+            'image_public_id' => $upload['public_id'],
 
             'description' => $request->description,
 
@@ -86,7 +77,6 @@ class ProductController extends Controller
             'category' => $request->category,
 
             'is_active' => true,
-
         ]);
 
         return redirect('/admin/products')
@@ -120,40 +110,13 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $request->validate([
-
-            'name' => 'required',
+            'name'  => 'required',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
-
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | IMAGE UPDATE
-        |--------------------------------------------------------------------------
-        */
-
-        if ($request->hasFile('image')) {
-
-            $imageName = time() . '.' .
-                $request->image->extension();
-
-            $request->image->move(
-                public_path('uploads/products'),
-                $imageName
-            );
-
-            $product->image = $imageName;
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | UPDATE DATA
-        |--------------------------------------------------------------------------
-        */
-
-        $product->update([
-
+        $data = [
             'name' => $request->name,
 
             'slug' => Str::slug($request->name),
@@ -165,10 +128,59 @@ class ProductController extends Controller
             'stock' => $request->stock,
 
             'category' => $request->category,
+        ];
 
-            'is_active' => true,
+        if ($request->hasFile('image')) {
 
-        ]);
+            $cloudinary = app(Cloudinary::class);
+
+            /*
+            |--------------------------------------------------------------------------
+            | DELETE OLD IMAGE
+            |--------------------------------------------------------------------------
+            */
+
+            if (!empty($product->image_public_id)) {
+
+                try {
+
+                    $cloudinary
+                        ->uploadApi()
+                        ->destroy(
+                            $product->image_public_id
+                        );
+
+                } catch (\Exception $e) {
+
+                    \Log::warning(
+                        'Cloudinary delete failed: '
+                        . $e->getMessage()
+                    );
+                }
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | UPLOAD NEW IMAGE
+            |--------------------------------------------------------------------------
+            */
+
+            $upload = $cloudinary
+                ->uploadApi()
+                ->upload(
+                    $request->file('image')->getRealPath(),
+                    [
+                        'folder' => 'products'
+                    ]
+                );
+
+            $data['image'] = $upload['secure_url'];
+
+            $data['image_public_id'] =
+                $upload['public_id'];
+        }
+
+        $product->update($data);
 
         return redirect('/admin/products')
             ->with('success', 'Product berhasil diupdate!');
@@ -184,11 +196,38 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
+        if (!empty($product->image_public_id)) {
+
+            try {
+
+                $cloudinary = app(Cloudinary::class);
+
+                $cloudinary
+                    ->uploadApi()
+                    ->destroy(
+                        $product->image_public_id
+                    );
+
+            } catch (\Exception $e) {
+
+                \Log::warning(
+                    'Cloudinary delete failed: '
+                    . $e->getMessage()
+                );
+            }
+        }
+
         $product->delete();
 
         return redirect('/admin/products')
             ->with('success', 'Product berhasil dihapus!');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | USER PRODUCT PAGE
+    |--------------------------------------------------------------------------
+    */
 
     public function userIndex()
     {
@@ -200,9 +239,18 @@ class ProductController extends Controller
         );
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | PRODUCT DETAIL
+    |--------------------------------------------------------------------------
+    */
+
     public function show($slug)
     {
-        $product = Product::where('slug', $slug)->firstOrFail();
+        $product = Product::where(
+            'slug',
+            $slug
+        )->firstOrFail();
 
         return view(
             'user.product-show',

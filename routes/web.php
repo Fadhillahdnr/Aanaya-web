@@ -12,6 +12,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\MusicVideoController;
+use App\Http\Controllers\Admin\OrderController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -330,6 +332,26 @@ Route::middleware(['auth', 'admin'])->group(function () {
         '/admin/mv/{mv}/delete',
         [MusicVideoController::class, 'destroy']
     )->name('admin.music-vidio.destroy');
+
+    /*
+    |--------------------------------------------------------------------------
+    | ORDERS ADMIN
+    |--------------------------------------------------------------------------
+    */
+    Route::get(
+        '/admin/orders',
+        [OrderController::class, 'index']
+    )->name('admin.orders');
+
+    Route::get(
+        '/admin/orders/{order}',
+        [OrderController::class, 'show']
+    )->name('admin.orders.show');
+
+    Route::put(
+        '/admin/orders/{order}/status',
+        [OrderController::class, 'updateStatus']
+    )->name('admin.orders.status');
 
 });
 

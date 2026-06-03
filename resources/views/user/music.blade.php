@@ -50,64 +50,63 @@
     </section>
 
     <!-- =========================================
-        MUSIC COLLECTION
-========================================== -->
-<section class="dream-music-section">
+         MUSIC COLLECTION
+    ========================================== -->
+    <section class="dream-music-section">
 
-    <!-- HEADING -->
-    <div class="dream-music-section-heading">
+        <!-- HEADING -->
+        <div class="dream-music-section-heading">
 
-        <div>
+            <div>
 
-            <span class="dream-music-section-mini-title">
-                MUSIC COLLECTION
-            </span>
+                <span class="dream-music-section-mini-title">
+                    MUSIC COLLECTION
+                </span>
 
-            <h2>
-                Recent Releases
-            </h2>
+                <h2>
+                    Recent Releases
+                </h2>
+
+            </div>
+
+            <!-- FILTER -->
+            <div class="dream-music-filter">
+
+                <button class="dream-music-filter-btn active">
+                    All
+                </button>
+
+                <button class="dream-music-filter-btn">
+                    Singles
+                </button>
+
+                <button class="dream-music-filter-btn">
+                    Albums
+                </button>
+
+            </div>
 
         </div>
 
-        <!-- FILTER -->
-        <div class="dream-music-filter">
+        <!-- GRID -->
+        <div class="dream-music-grid">
 
-            <button class="dream-music-filter-btn active">
-                All
-            </button>
+            @forelse($recentMusics as $music)
 
-            <button class="dream-music-filter-btn">
-                Singles
-            </button>
-
-            <button class="dream-music-filter-btn">
-                Albums
-            </button>
-
-        </div>
-
-    </div>
-
-    <!-- GRID -->
-    <div class="dream-music-grid">
-
-        @forelse($recentMusics as $music)
-
-            <!-- CARD -->
             <div class="dream-music-card"
-                 data-aos="fade-up">
+                data-aos="fade-up">
 
                 <!-- COVER -->
                 <div class="dream-music-image">
 
                     <img
-                        src="{{ asset($music->cover_image) }}"
+                        src="{{ $music->cover_image }}"
                         alt="{{ $music->title }}">
 
                     <div class="dream-music-image-overlay"></div>
 
-                    <!-- FLOATING PLAY -->
-                    <button class="dream-music-floating-play-btn">
+                    <button
+                        class="dream-music-floating-play-btn">
 
                         <i class="fas fa-play"></i>
 
@@ -118,13 +117,12 @@
                 <!-- CONTENT -->
                 <div class="dream-music-content">
 
-                    <!-- META -->
                     <div class="dream-music-meta">
 
                         <div>
 
                             <span class="dream-music-tag">
-                                Dream Pop
+                                Latest Release
                             </span>
 
                             <h3>
@@ -135,21 +133,67 @@
                                 {{ $music->artist }}
                             </p>
 
+                            @if($music->release_date)
+
+                            <div class="dream-music-release">
+
+                                <i class="fas fa-calendar"></i>
+
+                                {{ \Carbon\Carbon::parse($music->release_date)->format('d M Y') }}
+
+                            </div>
+
+                            @endif
+
+                            <!-- STREAMING LINKS -->
+                            <div class="dream-music-stream-links">
+
+                                @if($music->spotify_link)
+
+                                <a
+                                    href="{{ $music->spotify_link }}"
+                                    target="_blank"
+                                    class="spotify-link">
+
+                                    <i class="fab fa-spotify"></i>
+
+                                    Spotify
+
+                                </a>
+
+                                @endif
+
+                                @if($music->youtube_link)
+
+                                <a
+                                    href="{{ $music->youtube_link }}"
+                                    target="_blank"
+                                    class="youtube-link">
+
+                                    <i class="fab fa-youtube"></i>
+
+                                    YouTube
+
+                                </a>
+
+                                @endif
+
+                            </div>
+
                         </div>
 
                     </div>
 
-                    <!-- CUSTOM PLAYER -->
+                    <!-- PLAYER -->
                     <div class="dream-music-player">
 
-                        <!-- PLAY -->
-                        <button class="dream-music-play-btn">
+                        <button
+                            class="dream-music-play-btn">
 
                             <i class="fas fa-play"></i>
 
                         </button>
 
-                        <!-- INFO -->
                         <div class="dream-music-audio-info">
 
                             <span>
@@ -162,191 +206,360 @@
                                 <i></i>
                                 <i></i>
                                 <i></i>
-
+                                
                             </div>
-
                         </div>
+                        <!-- PROGRESS -->
+                        <div class="dream-music-progress-wrap">
 
-                        <!-- VOLUME -->
-                        <div class="dream-music-volume">
-
-                            <i class="fas fa-volume-up"></i>
+                            <span class="current-time">
+                                0:00
+                            </span>
 
                             <input
                                 type="range"
-                                class="dream-music-volume-slider"
+                                class="dream-music-progress"
+                                value="0"
                                 min="0"
-                                max="1"
-                                step="0.01"
-                                value="1">
+                                max="100">
 
                         </div>
-
-                        <!-- AUDIO -->
-                        <audio class="dream-music-audio">
-
-                            <source
-                                src="{{ asset($music->audio_file) }}"
-                                type="audio/mpeg">
-
-                        </audio>
+                        
 
                     </div>
+
+
+                    <!-- AUDIO -->
+                    <audio
+                        class="dream-music-audio">
+
+                        <source
+                            src="{{ $music->audio_file }}"
+                            type="audio/mpeg">
+
+                    </audio>
 
                 </div>
 
             </div>
 
-        @empty
+            @empty
 
-            <!-- EMPTY -->
             <div class="dream-music-empty-box">
 
                 <i class="fas fa-music"></i>
 
                 <h3>
+
                     No Music Yet
+
                 </h3>
 
                 <p>
+
                     Upload your first dreamy soundtrack.
+
                 </p>
 
             </div>
 
-        @endforelse
+            @endforelse
 
-    </div>
+        </div>
 
-</section>
+    </section>
 
 <!-- =========================================
     AUDIO SCRIPT
 ========================================== -->
 <script>
 
-    document
-        .querySelectorAll('.dream-music-card')
-        .forEach(card => {
+document
+    .querySelectorAll('.dream-music-card')
+    .forEach(card => {
 
-            const playBtn =
-                card.querySelector('.dream-music-play-btn');
+        const playBtn =
+            card.querySelector(
+                '.dream-music-play-btn'
+            );
 
-            const floatingBtn =
-                card.querySelector('.dream-music-floating-play-btn');
+        const floatingBtn =
+            card.querySelector(
+                '.dream-music-floating-play-btn'
+            );
 
-            const audio =
-                card.querySelector('.dream-music-audio');
+        const audio =
+            card.querySelector(
+                '.dream-music-audio'
+            );
 
-            const icon =
-                playBtn.querySelector('i');
+        const icon =
+            playBtn.querySelector('i');
 
-            const floatingIcon =
-                floatingBtn.querySelector('i');
+        const floatingIcon =
+            floatingBtn.querySelector('i');
 
-            const volumeSlider =
-                card.querySelector('.dream-music-volume-slider');
+        const volumeSlider =
+            card.querySelector(
+                '.dream-music-volume-slider'
+            );
 
-            // =====================================
-            // TOGGLE AUDIO
-            // =====================================
+        const progress =
+            card.querySelector(
+                '.dream-music-progress'
+            );
 
-            function toggleAudio(){
+        const currentTime =
+            card.querySelector(
+                '.current-time'
+            );
 
-                document
-                    .querySelectorAll('.dream-music-audio')
-                    .forEach(otherAudio => {
+        const duration =
+            card.querySelector(
+                '.duration'
+            );
 
-                        if(otherAudio !== audio){
+        /*
+        ==========================================
+        FORMAT TIME
+        ==========================================
+        */
 
-                            otherAudio.pause();
-
-                            const parentCard =
-                                otherAudio.closest('.dream-music-card');
-
-                            parentCard
-                                .querySelector('.dream-music-play-btn i')
-                                .className =
-                                'fas fa-play';
-
-                            parentCard
-                                .querySelector('.dream-music-floating-play-btn i')
-                                .className =
-                                'fas fa-play';
-
-                        }
-
-                    });
-
-                if(audio.paused){
-
-                    audio.play();
-
-                    icon.classList.remove('fa-play');
-                    icon.classList.add('fa-pause');
-
-                    floatingIcon.classList.remove('fa-play');
-                    floatingIcon.classList.add('fa-pause');
-
-                    card.classList.add('playing');
-
-                }else{
-
-                    audio.pause();
-
-                    icon.classList.remove('fa-pause');
-                    icon.classList.add('fa-play');
-
-                    floatingIcon.classList.remove('fa-pause');
-                    floatingIcon.classList.add('fa-play');
-
-                    card.classList.remove('playing');
-
-                }
-
+        function formatTime(seconds)
+        {
+            if (isNaN(seconds))
+            {
+                return "0:00";
             }
 
-            // =====================================
-            // BUTTON EVENTS
-            // =====================================
+            const mins =
+                Math.floor(seconds / 60);
 
-            playBtn.addEventListener(
-                'click',
-                toggleAudio
+            const secs =
+                Math.floor(seconds % 60);
+
+            return (
+                mins +
+                ':' +
+                String(secs)
+                    .padStart(2, '0')
             );
+        }
 
-            floatingBtn.addEventListener(
-                'click',
-                toggleAudio
-            );
+        /*
+        ==========================================
+        PLAY / PAUSE
+        ==========================================
+        */
 
-            // =====================================
-            // VOLUME
-            // =====================================
+        function toggleAudio()
+        {
+            document
+                .querySelectorAll(
+                    '.dream-music-audio'
+                )
+                .forEach(otherAudio => {
 
-            volumeSlider.addEventListener('input', () => {
+                    if(otherAudio !== audio)
+                    {
+                        otherAudio.pause();
 
-                audio.volume = volumeSlider.value;
+                        const otherCard =
+                            otherAudio.closest(
+                                '.dream-music-card'
+                            );
 
-            });
+                        otherCard
+                            .querySelector(
+                                '.dream-music-play-btn i'
+                            )
+                            .className =
+                            'fas fa-play';
 
-            // =====================================
-            // AUDIO ENDED
-            // =====================================
+                        otherCard
+                            .querySelector(
+                                '.dream-music-floating-play-btn i'
+                            )
+                            .className =
+                            'fas fa-play';
 
-            audio.addEventListener('ended', () => {
+                        otherCard
+                            .classList
+                            .remove(
+                                'playing'
+                            );
+                    }
 
-                icon.classList.remove('fa-pause');
-                icon.classList.add('fa-play');
+                });
 
-                floatingIcon.classList.remove('fa-pause');
-                floatingIcon.classList.add('fa-play');
+            if(audio.paused)
+            {
+                audio.play();
 
-                card.classList.remove('playing');
+                icon.classList.remove(
+                    'fa-play'
+                );
 
-            });
+                icon.classList.add(
+                    'fa-pause'
+                );
 
+                floatingIcon.classList.remove(
+                    'fa-play'
+                );
+
+                floatingIcon.classList.add(
+                    'fa-pause'
+                );
+
+                card.classList.add(
+                    'playing'
+                );
+            }
+            else
+            {
+                audio.pause();
+
+                icon.classList.remove(
+                    'fa-pause'
+                );
+
+                icon.classList.add(
+                    'fa-play'
+                );
+
+                floatingIcon.classList.remove(
+                    'fa-pause'
+                );
+
+                floatingIcon.classList.add(
+                    'fa-play'
+                );
+
+                card.classList.remove(
+                    'playing'
+                );
+            }
+        }
+
+        /*
+        ==========================================
+        BUTTON EVENTS
+        ==========================================
+        */
+
+        playBtn.addEventListener(
+            'click',
+            toggleAudio
+        );
+
+        floatingBtn.addEventListener(
+            'click',
+            toggleAudio
+        );
+
+        /*
+        ==========================================
+        AUDIO LOADED
+        ==========================================
+        */
+
+        audio.addEventListener(
+            'loadedmetadata',
+            () =>
+        {
+            duration.innerText =
+                formatTime(
+                    audio.duration
+                );
         });
+
+        /*
+        ==========================================
+        AUDIO PROGRESS
+        ==========================================
+        */
+
+        audio.addEventListener(
+            'timeupdate',
+            () =>
+        {
+            if(audio.duration)
+            {
+                progress.value =
+                    (
+                        audio.currentTime /
+                        audio.duration
+                    ) * 100;
+            }
+
+            currentTime.innerText =
+                formatTime(
+                    audio.currentTime
+                );
+        });
+
+        /*
+        ==========================================
+        SEEK AUDIO
+        ==========================================
+        */
+
+        progress.addEventListener(
+            'input',
+            () =>
+        {
+            if(audio.duration)
+            {
+                audio.currentTime =
+                    (
+                        progress.value / 100
+                    ) *
+                    audio.duration;
+            }
+        });
+
+        /*
+        ==========================================
+        VOLUME
+        ==========================================
+        */
+
+        volumeSlider.addEventListener(
+            'input',
+            () =>
+        {
+            audio.volume =
+                volumeSlider.value;
+        });
+
+        /*
+        ==========================================
+        AUDIO ENDED
+        ==========================================
+        */
+
+        audio.addEventListener(
+            'ended',
+            () =>
+        {
+            icon.className =
+                'fas fa-play';
+
+            floatingIcon.className =
+                'fas fa-play';
+
+            progress.value = 0;
+
+            currentTime.innerText =
+                '0:00';
+
+            card.classList.remove(
+                'playing'
+            );
+        });
+
+    });
 
 </script>
 

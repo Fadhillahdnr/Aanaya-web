@@ -9,9 +9,11 @@
 
         <div class="user-product-detail-image-wrap">
             <img 
-                src="{{ asset('uploads/products/' . $product->image) }}" 
+                src="{{ $product->image }}" 
                 alt="{{ $product->name }}" 
-                class="user-product-detail-image">
+                class="user-product-detail-image"
+                loading="lazy"
+                onerror="this.src='https://placehold.co/600x600?text=No+Image'">
             
             <div class="user-product-detail-overlay-light"></div>
         </div>

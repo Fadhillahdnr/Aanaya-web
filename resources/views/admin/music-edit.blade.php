@@ -50,7 +50,7 @@
                 <div class="current-image-preview">
 
                     <img
-                        src="{{ asset($music->cover_image) }}"
+                        src="{{ $music->cover_image }}"
                         alt="{{ $music->title }}">
 
                 </div>
@@ -64,13 +64,26 @@
 
                 <div class="upload-box">
 
+                    <img
+                        id="cover-preview"
+                        style="
+                            display:none;
+                            width:100%;
+                            max-height:250px;
+                            object-fit:cover;
+                            border-radius:15px;
+                            margin-bottom:15px;
+                        ">
+
                     <i class="fas fa-image"></i>
 
                     <p>Upload new cover image</p>
 
                     <input
                         type="file"
-                        name="cover_image">
+                        name="cover_image"
+                        accept="image/*"
+                        onchange="previewCover(event)">
 
                 </div>
 
@@ -134,7 +147,7 @@
                 <audio controls style="width:100%;">
 
                     <source
-                        src="{{ asset($music->audio_file) }}"
+                        src="{{ $music->audio_file }}"
                         type="audio/mpeg">
 
                 </audio>
@@ -150,11 +163,17 @@
 
                     <i class="fas fa-music"></i>
 
-                    <p>Upload new MP3 file</p>
+                    <p id="audio-name">
+
+                        Upload new MP3 file
+
+                    </p>
 
                     <input
                         type="file"
-                        name="audio_file">
+                        name="audio_file"
+                        accept="audio/*"
+                        onchange="showAudioName(event)">
 
                 </div>
 
@@ -166,10 +185,29 @@
                 <label>Spotify Link</label>
 
                 <input
-                    type="text"
+                    type="url"
                     name="spotify_link"
                     value="{{ old('spotify_link', $music->spotify_link) }}"
-                    placeholder="https://spotify.com/...">
+                    placeholder="https://open.spotify.com/...">
+
+                @if($music->spotify_link)
+
+                    <div class="stream-links">
+
+                        <a
+                            href="{{ $music->spotify_link }}"
+                            target="_blank"
+                            class="spotify-btn">
+
+                            <i class="fab fa-spotify"></i>
+
+                            Open Spotify
+
+                        </a>
+
+                    </div>
+
+                @endif
 
             </div>
 
@@ -179,10 +217,29 @@
                 <label>YouTube Link</label>
 
                 <input
-                    type="text"
+                    type="url"
                     name="youtube_link"
                     value="{{ old('youtube_link', $music->youtube_link) }}"
                     placeholder="https://youtube.com/...">
+
+                @if($music->youtube_link)
+
+                    <div class="stream-links">
+
+                        <a
+                            href="{{ $music->youtube_link }}"
+                            target="_blank"
+                            class="youtube-btn">
+
+                            <i class="fab fa-youtube"></i>
+
+                            Open YouTube
+
+                        </a>
+
+                    </div>
+
+                @endif
 
             </div>
 
@@ -204,5 +261,33 @@
     </div>
 
 </div>
+
+<script>
+
+function previewCover(event)
+{
+    const preview =
+        document.getElementById(
+            'cover-preview'
+        );
+
+    preview.src =
+        URL.createObjectURL(
+            event.target.files[0]
+        );
+
+    preview.style.display =
+        'block';
+}
+
+function showAudioName(event)
+{
+    document.getElementById(
+        'audio-name'
+    ).innerText =
+        event.target.files[0].name;
+}
+
+</script>
 
 @endsection

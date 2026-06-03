@@ -689,3 +689,88 @@
         padding: 18px;
     }
 }
+
+/* ==========================================
+   STREAMING LINKS
+========================================== */
+
+.stream-links{
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.stream-links a{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 14px;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: all .3s ease;
+}
+
+/* Spotify */
+
+.spotify-btn{
+    background: rgba(29, 185, 84, .12);
+    color: #1DB954;
+    border: 1px solid rgba(29, 185, 84, .25);
+}
+
+.spotify-btn:hover{
+    background: #1DB954;
+    color: #fff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(29,185,84,.35);
+}
+
+/* YouTube */
+
+.youtube-btn{
+    background: rgba(255, 0, 0, .10);
+    color: #FF0000;
+    border: 1px solid rgba(255, 0, 0, .20);
+}
+
+.youtube-btn:hover{
+    background: #FF0000;
+    color: #fff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(255,0,0,.30);
+}
+
+/* Icons */
+
+.stream-links i{
+    font-size: 16px;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .stream-links{
+        width: 100%;
+    }
+
+    .stream-links a{
+        flex: 1;
+        justify-content: center;
+    }
+
+}

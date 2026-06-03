@@ -26,6 +26,22 @@
 
     <div class="product-form-card">
 
+        @if ($errors->any())
+            <div class="alert alert-danger mb-4">
+
+                <ul>
+
+                    @foreach ($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                    @endforeach
+
+                </ul>
+
+            </div>
+        @endif
+
         <form
             action="/admin/products/store"
             method="POST"
@@ -42,6 +58,7 @@
                     <input
                         type="text"
                         name="name"
+                        value="{{ old('name') }}"
                         required>
 
                 </div>
@@ -52,7 +69,9 @@
 
                     <input
                         type="text"
-                        name="category">
+                        name="category"
+                        value="{{ old('category') }}"
+                        placeholder="T-Shirt, Hoodie, Album, etc">
 
                 </div>
 
@@ -63,6 +82,8 @@
                     <input
                         type="number"
                         name="price"
+                        value="{{ old('price') }}"
+                        min="0"
                         required>
 
                 </div>
@@ -74,6 +95,8 @@
                     <input
                         type="number"
                         name="stock"
+                        value="{{ old('stock') }}"
+                        min="0"
                         required>
 
                 </div>
@@ -84,7 +107,7 @@
 
                     <textarea
                         name="description"
-                        rows="6"></textarea>
+                        rows="6">{{ old('description') }}</textarea>
 
                 </div>
 
@@ -95,7 +118,23 @@
                     <input
                         type="file"
                         name="image"
+                        id="imageInput"
+                        accept="image/*"
                         required>
+
+                </div>
+
+                <div class="form-group full-width">
+
+                    <img
+                        id="previewImage"
+                        style="
+                            display:none;
+                            width:250px;
+                            border-radius:20px;
+                            margin-top:15px;
+                            box-shadow:0 10px 25px rgba(0,0,0,.12);
+                        ">
 
                 </div>
 
@@ -120,5 +159,27 @@
     </div>
 
 </div>
+
+<script>
+
+const imageInput = document.getElementById('imageInput');
+const previewImage = document.getElementById('previewImage');
+
+imageInput.addEventListener('change', function(){
+
+    const file = this.files[0];
+
+    if(file){
+
+        previewImage.src =
+            URL.createObjectURL(file);
+
+        previewImage.style.display =
+            'block';
+    }
+
+});
+
+</script>
 
 @endsection
