@@ -10,6 +10,24 @@
         Upload Music Video
     </h2>
 
+    @if ($errors->any())
+
+    <div class="alert alert-danger">
+
+        <ul>
+
+            @foreach ($errors->all() as $error)
+
+                <li>{{ $error }}</li>
+
+            @endforeach
+
+        </ul>
+
+    </div>
+
+    @endif
+
     <form method="POST"
           action="{{ route('admin.music-vidio.store') }}"
           enctype="multipart/form-data">
@@ -25,6 +43,7 @@
                 <input
                     type="text"
                     name="title"
+                    value="{{ old('title') }}"
                     required>
 
             </div>
@@ -36,7 +55,9 @@
                 <input
                     type="text"
                     name="artist"
-                    value="Aanaya">
+                    value="{{ old('artist') }}"
+                    value="Aanaya"
+                    required>
 
             </div>
 
@@ -46,7 +67,10 @@
 
                 <input
                     type="file"
-                    name="thumbnail">
+                    name="thumbnail"
+                    value="{{ old('thumbnail') }}"
+                    accept="image/*"
+                    required>
 
             </div>
 
@@ -57,6 +81,8 @@
                 <input
                     type="file"
                     name="video_file"
+                    value="{{ old('video_file') }}"
+                    accept="video/*"
                     required>
 
             </div>
@@ -65,9 +91,9 @@
 
                 <label>Description</label>
 
-                <textarea
-                    name="description"
-                    rows="5"></textarea>
+                <textarea name="description" rows="5">
+                {{ old('description') }}
+                </textarea>
 
             </div>
 
@@ -77,7 +103,9 @@
 
                     <input
                         type="checkbox"
-                        name="is_featured">
+                        name="is_featured"
+                        value="1"
+                        {{ old('is_featured') ? 'checked' : '' }}>
 
                     Set as featured video
 
@@ -89,7 +117,10 @@
 
         <div class="submit-wrapper">
 
-            <button type="submit" class="save-btn">
+            <button
+                type="submit"
+                class="save-btn"
+                id="uploadBtn">
 
                 <i class="fas fa-cloud-upload-alt"></i>
 
@@ -102,5 +133,19 @@
     </form>
 
 </div>
+
+<script>
+document.querySelector('form')
+.addEventListener('submit', function() {
+
+    const btn =
+        document.getElementById('uploadBtn');
+
+    btn.disabled = true;
+
+    btn.innerHTML =
+        '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+});
+</script>
 
 @endsection

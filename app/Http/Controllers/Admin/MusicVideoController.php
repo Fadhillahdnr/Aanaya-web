@@ -3,13 +3,37 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
 use App\Models\MusicVideo;
-
 use Illuminate\Http\Request;
+use Cloudinary\Cloudinary;
 
 class MusicVideoController extends Controller
 {
+    private function uploadToCloudinary(
+        $file,
+        $folder,
+        $resourceType = 'image'
+    ) {
+        $cloudinary = app(Cloudinary::class);
+
+        $upload = $cloudinary
+            ->uploadApi()
+            ->upload(
+                $file->getRealPath(),
+                [
+                    'folder' => $folder,
+                    'resource_type' => $resourceType
+                ]
+            );
+
+        return [
+
+            'url' => $upload['secure_url'],
+
+            'public_id' => $upload['public_id'],
+
+        ];
+    }
     /*
     |--------------------------------------------------------------------------
     | INDEX
@@ -48,11 +72,14 @@ class MusicVideoController extends Controller
 
             'artist' => 'required',
 
-            'video_file' => 'required|mimes:mp4,mov,avi,webm|max:512000',
+            'video_file' =>
+                'required|mimes:mp4,mov,avi,webm|max:512000',
 
-            'thumbnail' => 'nullable|image',
+            'thumbnail' =>
+                'nullable|image',
 
-            'description' => 'nullable',
+            'description' =>
+                'nullable',
 
         ]);
 
@@ -62,20 +89,23 @@ class MusicVideoController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $videoPath = null;
+        $videoUrl = null;
+        $videoPublicId = null;
 
         if ($request->hasFile('video_file')) {
 
-            $video = $request->file('video_file');
+            $videoUpload =
+                $this->uploadToCloudinary(
+                    $request->file('video_file'),
+                    'music-videos',
+                    'video'
+                );
 
-            $videoName = time() . '_' . $video->getClientOriginalName();
+            $videoUrl =
+                $videoUpload['url'];
 
-            $video->move(
-                public_path('uploads/videos'),
-                $videoName
-            );
-
-            $videoPath = 'uploads/videos/' . $videoName;
+            $videoPublicId =
+                $videoUpload['public_id'];
         }
 
         /*
@@ -84,21 +114,22 @@ class MusicVideoController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $thumbnailPath = null;
+        $thumbnailUrl = null;
+        $thumbnailPublicId = null;
 
         if ($request->hasFile('thumbnail')) {
 
-            $thumbnail = $request->file('thumbnail');
+            $thumbnailUpload =
+                $this->uploadToCloudinary(
+                    $request->file('thumbnail'),
+                    'music-video-thumbnails'
+                );
 
-            $thumbnailName = time() . '_' . $thumbnail->getClientOriginalName();
+            $thumbnailUrl =
+                $thumbnailUpload['url'];
 
-            $thumbnail->move(
-                public_path('uploads/video-thumbnails'),
-                $thumbnailName
-            );
-
-            $thumbnailPath =
-                'uploads/video-thumbnails/' . $thumbnailName;
+            $thumbnailPublicId =
+                $thumbnailUpload['public_id'];
         }
 
         /*
@@ -113,18 +144,206 @@ class MusicVideoController extends Controller
 
             'artist' => $request->artist,
 
-            'thumbnail' => $thumbnailPath,
+            'thumbnail' => $thumbnailUrl,
 
-            'video_file' => $videoPath,
+            'thumbnail_public_id' =>
+                $thumbnailPublicId,
 
-            'description' => $request->description,
+            'video_file' => $videoUrl,
 
-            'is_featured' => $request->is_featured ? true : false,
+            'video_public_id' =>
+                $videoPublicId,
+
+            'description' =>
+                $request->description,
+
+            'is_featured' =>
+                $request->is_featured
+                ? true
+                : false,
 
         ]);
 
         return redirect('/admin/mv')
-            ->with('success', 'Music video uploaded');
+            ->with(
+                'success',
+                'Music video uploaded'
+            );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | EDIT
+    |--------------------------------------------------------------------------
+    */
+
+    public function edit(MusicVideo $mv)
+    {
+        $video = $mv;
+
+        return view(
+            'admin.music-vidio-edit',
+            compact('video')
+        );
+    }
+    
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
+
+    public function update(
+        Request $request,
+        MusicVideo $mv
+    ) {
+        $request->validate([
+
+            'title' => 'required',
+
+            'artist' => 'required',
+
+            'video_file' =>
+                'nullable|mimes:mp4,mov,avi,webm|max:512000',
+
+            'thumbnail' =>
+                'nullable|image|mimes:jpg,jpeg,png,webp',
+
+            'description' =>
+                'nullable',
+        ]);
+
+        $cloudinary = app(\Cloudinary\Cloudinary::class);
+
+        /*
+        |--------------------------------------------------------------------------
+        | BASIC DATA
+        |--------------------------------------------------------------------------
+        */
+
+        $data = [
+
+            'title' => $request->title,
+
+            'artist' => $request->artist,
+
+            'description' => $request->description,
+
+            'is_featured' =>
+                $request->has('is_featured'),
+        ];
+
+        /*
+        |--------------------------------------------------------------------------
+        | REPLACE THUMBNAIL
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->hasFile('thumbnail')) {
+
+            if (!empty($mv->thumbnail_public_id)) {
+
+                try {
+
+                    $cloudinary
+                        ->uploadApi()
+                        ->destroy(
+                            $mv->thumbnail_public_id
+                        );
+
+                } catch (\Exception $e) {
+
+                    \Log::warning(
+                        'Thumbnail delete failed: '
+                        . $e->getMessage()
+                    );
+                }
+            }
+
+            $uploadThumbnail = $cloudinary
+                ->uploadApi()
+                ->upload(
+                    $request
+                        ->file('thumbnail')
+                        ->getRealPath(),
+                    [
+                        'folder' =>
+                            'music-videos/thumbnails'
+                    ]
+                );
+
+            $data['thumbnail'] =
+                $uploadThumbnail['secure_url'];
+
+            $data['thumbnail_public_id'] =
+                $uploadThumbnail['public_id'];
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | REPLACE VIDEO
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->hasFile('video_file')) {
+
+            if (!empty($mv->video_public_id)) {
+
+                try {
+
+                    $cloudinary
+                        ->uploadApi()
+                        ->destroy(
+                            $mv->video_public_id,
+                            [
+                                'resource_type' => 'video'
+                            ]
+                        );
+
+                } catch (\Exception $e) {
+
+                    \Log::warning(
+                        'Video delete failed: '
+                        . $e->getMessage()
+                    );
+                }
+            }
+
+            $uploadVideo = $cloudinary
+                ->uploadApi()
+                ->upload(
+                    $request
+                        ->file('video_file')
+                        ->getRealPath(),
+                    [
+                        'folder' =>
+                            'music-videos/videos',
+
+                        'resource_type' =>
+                            'video'
+                    ]
+                );
+
+            $data['video_file'] =
+                $uploadVideo['secure_url'];
+
+            $data['video_public_id'] =
+                $uploadVideo['public_id'];
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE
+        |--------------------------------------------------------------------------
+        */
+
+        $mv->update($data);
+
+        return redirect('/admin/mv')
+            ->with(
+                'success',
+                'Music video updated successfully ✨'
+            );
     }
 
     /*
@@ -135,8 +354,67 @@ class MusicVideoController extends Controller
 
     public function destroy(MusicVideo $mv)
     {
+        $cloudinary = app(Cloudinary::class);
+
+        /*
+        |--------------------------------------------------------------------------
+        | DELETE VIDEO
+        |--------------------------------------------------------------------------
+        */
+
+        if (!empty($mv->video_public_id)) {
+
+            try {
+
+                $cloudinary
+                    ->uploadApi()
+                    ->destroy(
+                        $mv->video_public_id,
+                        [
+                            'resource_type' => 'video'
+                        ]
+                    );
+
+            } catch (\Exception $e) {
+
+                \Log::warning(
+                    'Video delete failed: '
+                    . $e->getMessage()
+                );
+            }
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | DELETE THUMBNAIL
+        |--------------------------------------------------------------------------
+        */
+
+        if (!empty($mv->thumbnail_public_id)) {
+
+            try {
+
+                $cloudinary
+                    ->uploadApi()
+                    ->destroy(
+                        $mv->thumbnail_public_id
+                    );
+
+            } catch (\Exception $e) {
+
+                \Log::warning(
+                    'Thumbnail delete failed: '
+                    . $e->getMessage()
+                );
+            }
+        }
+
         $mv->delete();
 
-        return redirect('/admin/mv');
+        return redirect('/admin/mv')
+            ->with(
+                'success',
+                'Music video deleted'
+            );
     }
 }

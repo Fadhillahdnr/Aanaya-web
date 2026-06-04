@@ -70,10 +70,10 @@
                     <video
                         preload="metadata"
                         controls
-                        poster="{{ $video->thumbnail ? asset($video->thumbnail) : '' }}">
+                        poster="{{ $video->thumbnail ? $video->thumbnail : '' }}">
 
                         <source
-                            src="{{ asset($video->video_file) }}"
+                            src="{{ $video->video_file }}"
                             type="video/mp4">
 
                     </video>
@@ -149,14 +149,17 @@
                     <!-- ACTIONS -->
                     <div class="mv-actions">
 
-                        <a href="{{ asset($video->video_file) }}"
-                           target="_blank"
-                           class="mv-btn edit">
-
+                        <a href="{{ $video->video_file }}"
+                        target="_blank"
+                        class="mv-btn edit">
                             <i class="fas fa-play"></i>
-
                             Watch
+                        </a>
 
+                        <a href="{{ route('admin.music-vidio.edit', $video->id) }}"
+                        class="mv-btn edit">
+                            <i class="fas fa-edit"></i>
+                            Edit
                         </a>
 
                         <form
@@ -172,7 +175,6 @@
                                 class="mv-btn delete">
 
                                 <i class="fas fa-trash"></i>
-
                                 Delete
 
                             </button>

@@ -328,6 +328,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
         [MusicVideoController::class, 'store']
     )->name('admin.music-vidio.store');
 
+    Route::get(
+        '/admin/mv/{mv}/edit',
+        [MusicVideoController::class, 'edit']
+    )->name('admin.music-vidio.edit');
+
+    Route::put(
+        '/admin/mv/{mv}',
+        [MusicVideoController::class, 'update']
+    )->name('admin.music-vidio.update');
+
     Route::delete(
         '/admin/mv/{mv}/delete',
         [MusicVideoController::class, 'destroy']
