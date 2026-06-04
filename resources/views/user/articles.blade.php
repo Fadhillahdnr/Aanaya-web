@@ -44,7 +44,7 @@
         <!-- IMAGE -->
         <div class="featured-image">
 
-                <img src="{{ asset('uploads/articles/' . $featured->thumbnail) }}"
+                <img src="{{ $featured->thumbnail }}"
                     alt="{{ $featured->title }}">
     
                 <div class="featured-overlay"></div>
@@ -107,7 +107,9 @@
             <!-- IMAGE -->
             <div class="article-image">
 
-                <img src="{{ asset('uploads/articles/' . $article->thumbnail) }}" class="article-thumb">
+                <img
+                        src="{{ $article->thumbnail }}"
+                        alt="{{ $article->title }}">
 
                 <div class="article-overlay"></div>
 

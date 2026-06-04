@@ -21,7 +21,7 @@
             @if($comic->thumbnail)
 
                 <img
-                    src="{{ asset('uploads/articles/' . $comic->thumbnail) }}"
+                    src="{{ $comic->thumbnail }}"
                     alt="{{ $comic->title }}">
 
             @else
@@ -130,7 +130,7 @@
             <div class="comic-panel">
 
                 <img
-                    src="{{ asset('uploads/comics/' . $panel->image) }}"
+                    src="{{ $panel->image }}"
                     alt="Comic Panel {{ $loop->iteration }}">
 
                 <!-- PANEL NUMBER -->

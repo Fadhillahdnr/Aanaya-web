@@ -11,7 +11,7 @@
 
             <div class="article-detail-image-wrap">
                 <img
-                    src="{{ asset('uploads/articles/' . $article->thumbnail) }}"
+                    src="{{ $article->thumbnail }}"
                     alt="{{ $article->title }}"
                     class="article-detail-image"
                 >

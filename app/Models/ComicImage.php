@@ -12,6 +12,7 @@ class ComicImage extends Model
     protected $fillable = [
 
         'article_id',
+        'public_id',
         'image',
         'sort_order',
 

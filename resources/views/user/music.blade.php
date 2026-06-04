@@ -218,10 +218,14 @@
 
                             <input
                                 type="range"
-                                class="dream-music-progress"
+                                class="dream-music-progress dream-music-volume-slider"
                                 value="0"
                                 min="0"
                                 max="100">
+
+                            <span class="duration">
+                                0:00
+                            </span>
 
                         </div>
                         
@@ -319,6 +323,34 @@ document
                 '.duration'
             );
 
+        if(volumeSlider){
+
+            volumeSlider.addEventListener(
+                'input',
+                () => {
+
+                    audio.volume =
+                        volumeSlider.value;
+
+                }
+            );
+
+        }
+
+        if(progress){
+
+            progress.addEventListener(
+                'input',
+                () => {
+
+                    audio.currentTime =
+                        (progress.value / 100) *
+                        audio.duration;
+
+                }
+            );
+
+        }
         /*
         ==========================================
         FORMAT TIME

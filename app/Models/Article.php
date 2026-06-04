@@ -25,6 +25,7 @@ class Article extends Model
         'category',
 
         'thumbnail',
+        'thumbnail_public_id',
 
         'content',
 

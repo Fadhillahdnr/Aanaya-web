@@ -244,7 +244,9 @@
                             <div class="edit-thumbnail-preview">
 
                                 <img
-                                    src="{{ asset('uploads/articles/' . $article->thumbnail) }}"
+                                    src="{{ Str::startsWith($article->thumbnail, 'http')
+                                        ? $article->thumbnail
+                                        : asset('uploads/articles/' . $article->thumbnail) }}"
                                     alt="{{ $article->title }}">
 
                             </div>
@@ -335,7 +337,9 @@
                                     <div class="edit-comic-preview-card">
 
                                         <img
-                                            src="{{ asset('uploads/comics/' . $comic->image) }}"
+                                            src="{{ Str::startsWith($comic->image, 'http')
+                                                ? $comic->image
+                                                : asset('uploads/comics/' . $comic->image) }}"
                                             alt="Comic">
 
                                     </div>

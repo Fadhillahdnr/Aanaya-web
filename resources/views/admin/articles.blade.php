@@ -41,8 +41,8 @@
                 <div class="article-thumb-wrapper">
 
                     <img
-                        src="{{ asset('uploads/articles/' . $article->thumbnail) }}"
-                        class="article-thumb">
+                        src="{{ $article->thumbnail }}"
+                        alt="{{ $article->title }}">
 
                 </div>
 

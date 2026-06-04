@@ -9,9 +9,59 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Cloudinary\Cloudinary;
 
 class ArticleController extends Controller
 {
+
+    private function uploadToCloudinary(
+        $file,
+        $folder
+    )
+    {
+        $cloudinary = app(Cloudinary::class);
+
+        $upload = $cloudinary
+            ->uploadApi()
+            ->upload(
+                $file->getRealPath(),
+                [
+                    'folder' => $folder
+                ]
+            );
+
+        return [
+
+            'url' => $upload['secure_url'],
+
+            'public_id' => $upload['public_id'],
+
+        ];
+    }
+
+    private function deleteFromCloudinary($publicId)
+    {
+        if (empty($publicId)) {
+            return;
+        }
+
+        try {
+
+            $cloudinary = app(Cloudinary::class);
+
+            $cloudinary
+                ->uploadApi()
+                ->destroy($publicId);
+
+        } catch (\Exception $e) {
+
+            \Log::warning(
+                'Cloudinary delete failed: '
+                . $e->getMessage()
+            );
+        }
+    }
+
     /*
     |--------------------------------------------------------------------------
     | ADMIN INDEX
@@ -113,17 +163,21 @@ class ArticleController extends Controller
             */
 
             $thumbnail = null;
+            $thumbnailPublicId = null;
 
             if ($request->hasFile('thumbnail')) {
 
-                $thumbnail =
-                    time() . '_' .
-                    $request->thumbnail->getClientOriginalName();
+                $thumbnailUpload =
+                    $this->uploadToCloudinary(
+                        $request->file('thumbnail'),
+                        'articles/thumbnails'
+                    );
 
-                $request->thumbnail->move(
-                    public_path('uploads/articles'),
-                    $thumbnail
-                );
+                $thumbnail =
+                    $thumbnailUpload['url'];
+
+                $thumbnailPublicId =
+                    $thumbnailUpload['public_id'];
             }
 
             /*
@@ -149,6 +203,7 @@ class ArticleController extends Controller
                 */
 
                 'thumbnail' => $thumbnail,
+                'thumbnail_public_id' => $thumbnailPublicId,
 
                 'author_id' => Auth::id(),
 
@@ -194,21 +249,20 @@ class ArticleController extends Controller
                     as $index => $image
                 ) {
 
-                    $imageName =
-                        time() . '_' .
-                        uniqid() . '_' .
-                        $image->getClientOriginalName();
-
-                    $image->move(
-                        public_path('uploads/comics'),
-                        $imageName
-                    );
+                    $comicUpload =
+                        $this->uploadToCloudinary(
+                            $image,
+                            'articles/comics'
+                        );
 
                     ComicImage::create([
 
                         'article_id' => $article->id,
 
-                        'image' => $imageName,
+                        'image' => $comicUpload['url'],
+
+                        'public_id' =>
+                            $comicUpload['public_id'],
 
                         'sort_order' => $index,
                     ]);
@@ -319,40 +373,74 @@ class ArticleController extends Controller
 
                 /*
                 |--------------------------------------------------------------------------
-                | DELETE OLD
+                | DELETE OLD THUMBNAIL
                 |--------------------------------------------------------------------------
                 */
 
-                if ($article->thumbnail) {
+                if (!empty($article->thumbnail_public_id)) {
 
-                    $oldThumbnail =
-                        public_path(
-                            'uploads/articles/' .
-                            $article->thumbnail
+                    try {
+
+                        $this->deleteFromCloudinary(
+                            $article->thumbnail_public_id
                         );
 
-                    if (file_exists($oldThumbnail)) {
-                        unlink($oldThumbnail);
+                    } catch (\Exception $e) {
+
+                        \Log::warning(
+                            'Cloudinary thumbnail delete failed: '
+                            . $e->getMessage()
+                        );
                     }
                 }
 
                 /*
                 |--------------------------------------------------------------------------
-                | UPLOAD NEW
+                | UPLOAD NEW THUMBNAIL
                 |--------------------------------------------------------------------------
                 */
 
-                $thumbnail =
-                    time() . '_' .
-                    $request->thumbnail->getClientOriginalName();
+                $thumbnailUpload =
+                    $this->uploadToCloudinary(
+                        $request->file('thumbnail'),
+                        'articles/thumbnails'
+                    );
 
-                $request->thumbnail->move(
-                    public_path('uploads/articles'),
-                    $thumbnail
-                );
+                $article->thumbnail =
+                    $thumbnailUpload['url'];
 
-                $article->thumbnail = $thumbnail;
+                $article->thumbnail_public_id =
+                    $thumbnailUpload['public_id'];
             }
+
+            /*
+            |--------------------------------------------------------------------------
+            | UPDATE MAIN DATA
+            |--------------------------------------------------------------------------
+            */
+
+            $article->category = $request->category;
+
+            $article->title = $request->title;
+
+            $article->slug = Str::slug(
+                $request->title . '-' . time()
+            );
+
+            $article->content =
+                $request->category === 'article'
+                ? $request->content
+                : '';
+
+            $article->description =
+                $request->category === 'comic'
+                ? $request->description
+                : null;
+
+            $article->published_at =
+                $request->published_at;
+
+            $article->save();
 
             /*
             |--------------------------------------------------------------------------
@@ -424,21 +512,20 @@ class ArticleController extends Controller
                     as $index => $image
                 ) {
 
-                    $imageName =
-                        time() . '_' .
-                        uniqid() . '_' .
-                        $image->getClientOriginalName();
-
-                    $image->move(
-                        public_path('uploads/comics'),
-                        $imageName
-                    );
+                    $comicUpload =
+                        $this->uploadToCloudinary(
+                            $image,
+                            'articles/comics'
+                        );
 
                     ComicImage::create([
 
                         'article_id' => $article->id,
 
-                        'image' => $imageName,
+                        'image' => $comicUpload['url'],
+
+                        'public_id' =>
+                            $comicUpload['public_id'],
 
                         'sort_order' =>
                             $lastOrder + $index,
@@ -476,62 +563,68 @@ class ArticleController extends Controller
         $article = Article::with('comicImages')
             ->findOrFail($id);
 
-        /*
-        |--------------------------------------------------------------------------
-        | DELETE COMIC IMAGES
-        |--------------------------------------------------------------------------
-        */
+        DB::beginTransaction();
 
-        foreach ($article->comicImages as $comicImage) {
+        try {
 
-            $imagePath =
-                public_path(
-                    'uploads/comics/' .
-                    $comicImage->image
-                );
+            /*
+            |--------------------------------------------------------------------------
+            | DELETE COMIC IMAGES FROM CLOUDINARY
+            |--------------------------------------------------------------------------
+            */
 
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
+            foreach ($article->comicImages as $comicImage) {
+
+                if (!empty($comicImage->public_id)) {
+
+                    $this->deleteFromCloudinary(
+                        $comicImage->public_id
+                    );
+                }
+
+                $comicImage->delete();
             }
 
-            $comicImage->delete();
-        }
+            /*
+            |--------------------------------------------------------------------------
+            | DELETE THUMBNAIL FROM CLOUDINARY
+            |--------------------------------------------------------------------------
+            */
 
-        /*
-        |--------------------------------------------------------------------------
-        | DELETE THUMBNAIL
-        |--------------------------------------------------------------------------
-        */
+            if (!empty($article->thumbnail_public_id)) {
 
-        if ($article->thumbnail) {
+                $this->deleteFromCloudinary(
+                    $article->thumbnail_public_id
+                );
+            }
 
-            $thumbnailPath =
-                public_path(
-                    'uploads/articles/' .
-                    $article->thumbnail
+            /*
+            |--------------------------------------------------------------------------
+            | DELETE ARTICLE
+            |--------------------------------------------------------------------------
+            */
+
+            $article->delete();
+
+            DB::commit();
+
+            return redirect('/admin/articles')
+                ->with(
+                    'success',
+                    ucfirst($article->category)
+                    . ' deleted successfully ✨'
                 );
 
-            if (file_exists($thumbnailPath)) {
-                unlink($thumbnailPath);
-            }
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return back()
+                ->withErrors(
+                    'Delete failed: ' . $e->getMessage()
+                );
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | DELETE ARTICLE
-        |--------------------------------------------------------------------------
-        */
-
-        $article->delete();
-
-        return redirect('/admin/articles')
-            ->with(
-                'success',
-                ucfirst($article->category)
-                . ' deleted successfully ✨'
-            );
     }
-
     /*
     |--------------------------------------------------------------------------
     | USER INDEX

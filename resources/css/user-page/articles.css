@@ -404,33 +404,62 @@
 .article-image{
     position: relative;
 
-    height: 260px;
+    height: 320px;
 
     overflow: hidden;
-}
 
-.article-thumb{
-    width: 100%;
-    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    object-fit: cover;
-
-    transition: .7s ease;
-}
-
-.article-card:hover .article-thumb{
-    transform: scale(1.08);
-}
-
-.article-overlay{
-    position: absolute;
-    inset: 0;
+    border-radius: 28px;
 
     background:
         linear-gradient(
-            180deg,
-            rgba(0,0,0,0),
-            rgba(0,0,0,.30)
+            135deg,
+            #fafafa,
+            #f2f2f2
+        );
+}
+
+/* =========================================================
+   THUMBNAIL
+========================================================= */
+
+.article-image img{
+    width: auto;
+    height: auto;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+
+    transition:
+        transform .7s ease,
+        filter .4s ease;
+}
+
+.article-card:hover .article-image img{
+    transform: scale(1.04);
+}
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.article-overlay{
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.18),
+            rgba(0,0,0,0) 45%
         );
 }
 
