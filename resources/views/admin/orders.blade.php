@@ -54,6 +54,57 @@
 
 </div>
 
+<div class="orders-kpi-grid">
+
+    <div class="orders-kpi-card">
+
+        <span>Total Revenue</span>
+
+        <h2>
+            Rp {{ number_format($totalRevenue,0,',','.') }}
+        </h2>
+
+    </div>
+
+    <div class="orders-kpi-card">
+
+        <span>Total Orders</span>
+
+        <h2>
+            {{ number_format($totalOrders) }}
+        </h2>
+
+    </div>
+
+    <div class="orders-kpi-card">
+
+        <span>Average Order</span>
+
+        <h2>
+            Rp {{ number_format($averageOrderValue,0,',','.') }}
+        </h2>
+
+    </div>
+
+</div>
+
+<div class="orders-chart-card">
+
+    <div class="orders-chart-header">
+
+        <h3>
+            Sales Revenue
+        </h3>
+
+    </div>
+    
+    <div class="orders-chart-container">
+
+        <canvas id="salesChart"></canvas>
+
+    </div>
+</div>
+
 <!-- =========================
      TABLE
 ========================== -->
@@ -163,5 +214,71 @@
 @endif
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const salesData = @json($monthlySales);
+
+const labels = salesData.map(item => {
+
+    const months = [
+        '',
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
+    ];
+
+    return months[item.month];
+
+});
+
+const revenue = salesData.map(item => item.revenue);
+
+new Chart(
+    document.getElementById('salesChart'),
+    {
+        type:'line',
+
+        data:{
+            labels:labels,
+
+            datasets:[{
+
+                label:'Revenue',
+
+                data:revenue,
+
+                tension:.4,
+
+                fill:true,
+
+                borderWidth:3,
+
+                borderColor:'#ff4f95',
+
+                backgroundColor:'rgba(255,79,149,.1)'
+
+            }]
+        },
+
+        options:{
+            responsive:true,
+            maintainAspectRatio:false
+        }
+    }
+);
+
+</script>
 
 @endsection

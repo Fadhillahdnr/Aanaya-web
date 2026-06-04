@@ -33,6 +33,25 @@ class OrderController extends Controller
 
         $cancelled = Order::where('status','cancelled')->count();
 
+        $totalRevenue = Order::where('status','completed')
+        ->sum('total_price');
+
+        $totalOrders = Order::count();
+
+        $averageOrderValue = $totalOrders
+        ? $totalRevenue / $totalOrders
+        : 0;
+
+        $monthlySales = Order::selectRaw('
+            MONTH(created_at) as month,
+            SUM(total_price) as revenue
+        ')
+        ->whereYear('created_at', now()->year)
+        ->groupBy('month')
+        ->orderBy('month')
+        ->get();
+
+
         return view(
             'admin.orders',
             compact(
@@ -40,7 +59,11 @@ class OrderController extends Controller
                 'pending',
                 'processing',
                 'completed',
-                'cancelled'
+                'cancelled',
+                'totalRevenue',
+                'totalOrders',
+                'averageOrderValue',
+                'monthlySales'
             )
         );
     }
@@ -67,9 +90,12 @@ class OrderController extends Controller
                 $request->status
         ]);
 
-        return back()->with(
+        return redirect()
+        ->route('admin.orders')
+        ->with(
             'success',
-            'Status updated'
+            'Status updated successfully.'
         );
+        
     }
 }
