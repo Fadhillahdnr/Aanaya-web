@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\ComicImage;
-
+use App\Models\ArticleBlock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -91,59 +91,66 @@ class ArticleController extends Controller
 
     /*
     |--------------------------------------------------------------------------
+    | EDIT PAGE
+    |--------------------------------------------------------------------------
+    */
+
+    public function edit($id)
+    {
+        $article = Article::with([
+            'comicImages',
+            'blocks'
+        ])->findOrFail($id);
+
+        return view(
+            'admin.article-edit',
+            compact('article')
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | STORE
     |--------------------------------------------------------------------------
     */
 
     public function store(Request $request)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | VALIDATION
-        |--------------------------------------------------------------------------
-        */
-
         $request->validate([
 
             /*
-            |--------------------------------------------------------------------------
+            |------------------------------------------------------------------
             | COMMON
-            |--------------------------------------------------------------------------
+            |------------------------------------------------------------------
             */
 
             'category' => 'required|in:article,comic',
 
             'title' => 'required|max:255',
 
-            /*
-            |--------------------------------------------------------------------------
-            | THUMBNAIL
-            |--------------------------------------------------------------------------
-            */
-
             'thumbnail' =>
                 'required|image|mimes:jpg,jpeg,png,webp',
-
-            /*
-            |--------------------------------------------------------------------------
-            | ARTICLE
-            |--------------------------------------------------------------------------
-            */
-
-            'content' =>
-                'required_if:category,article|nullable',
 
             'published_at' =>
                 'nullable|date',
 
             /*
-            |--------------------------------------------------------------------------
+            |------------------------------------------------------------------
+            | ARTICLE
+            |------------------------------------------------------------------
+            */
+            'blocks' => 'required_if:category,article|array',
+            'blocks.*.type' => 'required_with:blocks|in:text,image',
+            'blocks.*.content' => 'nullable|string',
+            'blocks.*.image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+
+            /*
+            |------------------------------------------------------------------
             | COMIC
-            |--------------------------------------------------------------------------
+            |------------------------------------------------------------------
             */
 
-            'description' =>
-                'required_if:category,comic|nullable',
+            'description' => 'nullable:category,comic|string',
 
             'comic_images' =>
                 'required_if:category,comic|array',
@@ -157,12 +164,13 @@ class ArticleController extends Controller
         try {
 
             /*
-            |--------------------------------------------------------------------------
+            |------------------------------------------------------------------
             | UPLOAD THUMBNAIL
-            |--------------------------------------------------------------------------
+            |------------------------------------------------------------------
             */
 
             $thumbnail = null;
+
             $thumbnailPublicId = null;
 
             if ($request->hasFile('thumbnail')) {
@@ -181,9 +189,9 @@ class ArticleController extends Controller
             }
 
             /*
-            |--------------------------------------------------------------------------
-            | CREATE CONTENT
-            |--------------------------------------------------------------------------
+            |------------------------------------------------------------------
+            | CREATE ARTICLE
+            |------------------------------------------------------------------
             */
 
             $article = Article::create([
@@ -196,35 +204,23 @@ class ArticleController extends Controller
                     $request->title . '-' . time()
                 ),
 
-                /*
-                |--------------------------------------------------------------------------
-                | COMMON
-                |--------------------------------------------------------------------------
-                */
-
                 'thumbnail' => $thumbnail,
-                'thumbnail_public_id' => $thumbnailPublicId,
+
+                'thumbnail_public_id' =>
+                    $thumbnailPublicId,
 
                 'author_id' => Auth::id(),
 
-                'published_at' => $request->published_at,
+                'published_at' =>
+                    $request->published_at,
 
                 /*
-                |--------------------------------------------------------------------------
-                | ARTICLE
-                |--------------------------------------------------------------------------
+                |--------------------------------------------------------------
+                | LEGACY FIELD
+                |--------------------------------------------------------------
                 */
 
-                'content' =>
-                    $request->category === 'article'
-                    ? $request->content
-                    : '',
-
-                /*
-                |--------------------------------------------------------------------------
-                | COMIC
-                |--------------------------------------------------------------------------
-                */
+                'content' => '',
 
                 'description' =>
                     $request->category === 'comic'
@@ -233,9 +229,104 @@ class ArticleController extends Controller
             ]);
 
             /*
-            |--------------------------------------------------------------------------
+            |------------------------------------------------------------------
+            | ARTICLE BLOCKS
+            |------------------------------------------------------------------
+            */
+
+            if (
+                $request->category === 'article'
+                &&
+                is_array($request->blocks)
+            ) {
+
+                foreach (
+                    array_values($request->blocks)
+                    as $index => $block
+                ) {
+
+                    /*
+                    |----------------------------------------------------------
+                    | TEXT BLOCK
+                    |----------------------------------------------------------
+                    */
+
+                    if (
+                        isset($block['type'])
+                        &&
+                        $block['type'] === 'text'
+                    ) {
+
+                        if (
+                            !empty($block['content'])
+                        ) {
+
+                            ArticleBlock::create([
+
+                                'article_id' =>
+                                    $article->id,
+
+                                'type' => 'text',
+
+                                'content' =>
+                                    $block['content'],
+
+                                'sort_order' =>
+                                    $index,
+                            ]);
+                        }
+                    }
+
+                    /*
+                    |----------------------------------------------------------
+                    | IMAGE BLOCK
+                    |----------------------------------------------------------
+                    */
+
+                    if (
+                        isset($block['type'])
+                        &&
+                        $block['type'] === 'image'
+                    ) {
+
+                        if (
+                            isset($block['image'])
+                            &&
+                            $block['image']
+                            instanceof \Illuminate\Http\UploadedFile
+                        ) {
+
+                            $imageUpload =
+                                $this->uploadToCloudinary(
+                                    $block['image'],
+                                    'articles/blocks'
+                                );
+
+                            ArticleBlock::create([
+
+                                'article_id' =>
+                                    $article->id,
+
+                                'type' => 'image',
+
+                                'image' =>
+                                    $imageUpload['url'],
+
+                                'image_public_id' =>
+                                    $imageUpload['public_id'],
+
+                                'sort_order' =>
+                                    $index,
+                            ]);
+                        }
+                    }
+                }
+            }
+
+            /*
+            |------------------------------------------------------------------
             | COMIC IMAGES
-            |--------------------------------------------------------------------------
+            |------------------------------------------------------------------
             */
 
             if (
@@ -257,14 +348,17 @@ class ArticleController extends Controller
 
                     ComicImage::create([
 
-                        'article_id' => $article->id,
+                        'article_id' =>
+                            $article->id,
 
-                        'image' => $comicUpload['url'],
+                        'image' =>
+                            $comicUpload['url'],
 
                         'public_id' =>
                             $comicUpload['public_id'],
 
-                        'sort_order' => $index,
+                        'sort_order' =>
+                            $index,
                     ]);
                 }
             }
@@ -283,26 +377,11 @@ class ArticleController extends Controller
             DB::rollBack();
 
             return back()
-                ->withErrors($e->getMessage())
+                ->withErrors(
+                    $e->getMessage()
+                )
                 ->withInput();
         }
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | EDIT PAGE
-    |--------------------------------------------------------------------------
-    */
-
-    public function edit($id)
-    {
-        $article = Article::with('comicImages')
-            ->findOrFail($id);
-
-        return view(
-            'admin.article-edit',
-            compact('article')
-        );
     }
 
     /*
@@ -313,29 +392,19 @@ class ArticleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $article = Article::with('comicImages')
-            ->findOrFail($id);
-
-        /*
-        |--------------------------------------------------------------------------
-        | VALIDATION
-        |--------------------------------------------------------------------------
-        */
+        $article = Article::with([
+            'blocks',
+            'comicImages'
+        ])->findOrFail($id);
 
         $request->validate([
 
             'category' => 'required|in:article,comic',
 
-            'title' => 'required|max:255',
-
-            /*
-            |--------------------------------------------------------------------------
-            | THUMBNAIL
-            |--------------------------------------------------------------------------
-            */
+            'title' => 'required|string|max:255',
 
             'thumbnail' =>
-                'nullable|image|mimes:jpg,jpeg,png,webp',
+                'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
 
             /*
             |--------------------------------------------------------------------------
@@ -343,8 +412,20 @@ class ArticleController extends Controller
             |--------------------------------------------------------------------------
             */
 
-            'content' =>
-                'required_if:category,article|nullable',
+            'blocks' =>
+                'nullable|array',
+
+            'blocks.*.id' =>
+                'nullable|integer',
+
+            'blocks.*.type' =>
+                'required_with:blocks|in:text,image',
+
+            'blocks.*.content' =>
+                'nullable|string',
+
+            'blocks.*.image' =>
+                'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
 
             /*
             |--------------------------------------------------------------------------
@@ -353,10 +434,13 @@ class ArticleController extends Controller
             */
 
             'description' =>
-                'required_if:category,comic|nullable',
+                'nullable|string',
 
             'comic_images.*' =>
-                'image|mimes:jpg,jpeg,png,webp',
+                'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+
+            'published_at' =>
+                'nullable|date',
         ]);
 
         DB::beginTransaction();
@@ -365,40 +449,18 @@ class ArticleController extends Controller
 
             /*
             |--------------------------------------------------------------------------
-            | UPDATE THUMBNAIL
+            | THUMBNAIL
             |--------------------------------------------------------------------------
             */
 
             if ($request->hasFile('thumbnail')) {
 
-                /*
-                |--------------------------------------------------------------------------
-                | DELETE OLD THUMBNAIL
-                |--------------------------------------------------------------------------
-                */
-
                 if (!empty($article->thumbnail_public_id)) {
 
-                    try {
-
-                        $this->deleteFromCloudinary(
-                            $article->thumbnail_public_id
-                        );
-
-                    } catch (\Exception $e) {
-
-                        \Log::warning(
-                            'Cloudinary thumbnail delete failed: '
-                            . $e->getMessage()
-                        );
-                    }
+                    $this->deleteFromCloudinary(
+                        $article->thumbnail_public_id
+                    );
                 }
-
-                /*
-                |--------------------------------------------------------------------------
-                | UPLOAD NEW THUMBNAIL
-                |--------------------------------------------------------------------------
-                */
 
                 $thumbnailUpload =
                     $this->uploadToCloudinary(
@@ -415,27 +477,34 @@ class ArticleController extends Controller
 
             /*
             |--------------------------------------------------------------------------
-            | UPDATE MAIN DATA
+            | BASIC DATA
             |--------------------------------------------------------------------------
             */
 
-            $article->category = $request->category;
+            $oldCategory =
+                $article->category;
 
-            $article->title = $request->title;
+            $oldTitle =
+                $article->title;
 
-            $article->slug = Str::slug(
-                $request->title . '-' . time()
-            );
+            $article->category =
+                $request->category;
 
-            $article->content =
-                $request->category === 'article'
-                ? $request->content
-                : '';
+            $article->title =
+                $request->title;
+
+            if ($oldTitle !== $request->title) {
+
+                $article->slug =
+                    Str::slug($request->title)
+                    . '-'
+                    . time();
+            }
 
             $article->description =
                 $request->category === 'comic'
-                ? $request->description
-                : null;
+                    ? $request->description
+                    : null;
 
             $article->published_at =
                 $request->published_at;
@@ -444,54 +513,299 @@ class ArticleController extends Controller
 
             /*
             |--------------------------------------------------------------------------
-            | UPDATE MAIN DATA
+            | COMIC -> ARTICLE
             |--------------------------------------------------------------------------
             */
 
-            $article->category = $request->category;
-
-            $article->title = $request->title;
-
-            $article->slug = Str::slug(
-                $request->title . '-' . time()
-            );
-
-            /*
-            |--------------------------------------------------------------------------
-            | ARTICLE
-            |--------------------------------------------------------------------------
-            */
-
-            $article->content =
+            if (
+                $oldCategory === 'comic'
+                &&
                 $request->category === 'article'
-                ? $request->content
-                : '';
+            ) {
+
+                foreach ($article->comicImages as $comicImage) {
+
+                    if (!empty($comicImage->public_id)) {
+
+                        $this->deleteFromCloudinary(
+                            $comicImage->public_id
+                        );
+                    }
+
+                    $comicImage->delete();
+                }
+            }
 
             /*
             |--------------------------------------------------------------------------
-            | COMIC
+            | ARTICLE -> COMIC
             |--------------------------------------------------------------------------
             */
 
-            $article->description =
+            if (
+                $oldCategory === 'article'
+                &&
                 $request->category === 'comic'
-                ? $request->description
-                : null;
+            ) {
+
+                foreach ($article->blocks as $block) {
+
+                    if (
+                        $block->type === 'image'
+                        &&
+                        !empty($block->image_public_id)
+                    ) {
+
+                        $this->deleteFromCloudinary(
+                            $block->image_public_id
+                        );
+                    }
+
+                    $block->delete();
+                }
+            }
 
             /*
             |--------------------------------------------------------------------------
-            | COMMON
+            | ARTICLE BLOCKS
             |--------------------------------------------------------------------------
             */
 
-            $article->published_at =
-                $request->published_at;
+            if ($request->category === 'article') {
 
-            $article->save();
+                $submittedBlockIds = [];
+
+                if (is_array($request->blocks)) {
+
+                    foreach (
+                        array_values($request->blocks)
+                        as $sortOrder => $blockData
+                    ) {
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | UPDATE EXISTING BLOCK
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (!empty($blockData['id'])) {
+
+                            $block =
+                                ArticleBlock::where(
+                                    'article_id',
+                                    $article->id
+                                )
+                                ->find($blockData['id']);
+
+                            if (!$block) {
+                                continue;
+                            }
+
+                            $submittedBlockIds[] =
+                                $block->id;
+
+                            $block->sort_order =
+                                $sortOrder;
+
+                            /*
+                            |--------------------------------------------------------------------------
+                            | TEXT BLOCK
+                            |--------------------------------------------------------------------------
+                            */
+
+                            if (
+                                $blockData['type']
+                                === 'text'
+                            ) {
+
+                                $block->type =
+                                    'text';
+
+                                $block->content =
+                                    $blockData['content'] ?? null;
+
+                                $block->save();
+                            }
+
+                            /*
+                            |--------------------------------------------------------------------------
+                            | IMAGE BLOCK
+                            |--------------------------------------------------------------------------
+                            */
+
+                            if (
+                                $blockData['type']
+                                === 'image'
+                            ) {
+
+                                $block->type =
+                                    'image';
+
+                                if (
+                                    isset($blockData['image'])
+                                    &&
+                                    $blockData['image']
+                                    instanceof \Illuminate\Http\UploadedFile
+                                ) {
+
+                                    if (
+                                        !empty(
+                                            $block->image_public_id
+                                        )
+                                    ) {
+
+                                        $this->deleteFromCloudinary(
+                                            $block->image_public_id
+                                        );
+                                    }
+
+                                    $upload =
+                                        $this->uploadToCloudinary(
+                                            $blockData['image'],
+                                            'articles/blocks'
+                                        );
+
+                                    $block->image =
+                                        $upload['url'];
+
+                                    $block->image_public_id =
+                                        $upload['public_id'];
+                                }
+
+                                $block->save();
+                            }
+
+                            continue;
+                        }
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | NEW TEXT BLOCK
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (
+                            $blockData['type']
+                            === 'text'
+                        ) {
+
+                            if (
+                                empty(
+                                    trim(
+                                        $blockData['content']
+                                        ?? ''
+                                    )
+                                )
+                            ) {
+                                continue;
+                            }
+
+                            $newBlock =
+                                ArticleBlock::create([
+
+                                    'article_id' =>
+                                        $article->id,
+
+                                    'type' =>
+                                        'text',
+
+                                    'content' =>
+                                        $blockData['content'],
+
+                                    'sort_order' =>
+                                        $sortOrder,
+                                ]);
+
+                            $submittedBlockIds[] =
+                                $newBlock->id;
+                        }
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | NEW IMAGE BLOCK
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (
+                            $blockData['type']
+                            === 'image'
+                            &&
+                            isset($blockData['image'])
+                            &&
+                            $blockData['image']
+                            instanceof \Illuminate\Http\UploadedFile
+                        ) {
+
+                            $upload =
+                                $this->uploadToCloudinary(
+                                    $blockData['image'],
+                                    'articles/blocks'
+                                );
+
+                            $newBlock =
+                                ArticleBlock::create([
+
+                                    'article_id' =>
+                                        $article->id,
+
+                                    'type' =>
+                                        'image',
+
+                                    'image' =>
+                                        $upload['url'],
+
+                                    'image_public_id' =>
+                                        $upload['public_id'],
+
+                                    'sort_order' =>
+                                        $sortOrder,
+                                ]);
+
+                            $submittedBlockIds[] =
+                                $newBlock->id;
+                        }
+                    }
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | DELETE REMOVED BLOCKS
+                |--------------------------------------------------------------------------
+                */
+
+                $deletedBlocks =
+                    ArticleBlock::where(
+                        'article_id',
+                        $article->id
+                    )
+                    ->whereNotIn(
+                        'id',
+                        $submittedBlockIds
+                    )
+                    ->get();
+
+                foreach ($deletedBlocks as $block) {
+
+                    if (
+                        $block->type === 'image'
+                        &&
+                        !empty(
+                            $block->image_public_id
+                        )
+                    ) {
+
+                        $this->deleteFromCloudinary(
+                            $block->image_public_id
+                        );
+                    }
+
+                    $block->delete();
+                }
+            }
 
             /*
             |--------------------------------------------------------------------------
-            | ADD NEW COMIC IMAGES
+            | COMIC IMAGES
             |--------------------------------------------------------------------------
             */
 
@@ -505,14 +819,14 @@ class ArticleController extends Controller
                     ComicImage::where(
                         'article_id',
                         $article->id
-                    )->count();
+                    )->max('sort_order') ?? -1;
 
                 foreach (
                     $request->file('comic_images')
                     as $index => $image
                 ) {
 
-                    $comicUpload =
+                    $upload =
                         $this->uploadToCloudinary(
                             $image,
                             'articles/comics'
@@ -520,15 +834,17 @@ class ArticleController extends Controller
 
                     ComicImage::create([
 
-                        'article_id' => $article->id,
+                        'article_id' =>
+                            $article->id,
 
-                        'image' => $comicUpload['url'],
+                        'image' =>
+                            $upload['url'],
 
                         'public_id' =>
-                            $comicUpload['public_id'],
+                            $upload['public_id'],
 
                         'sort_order' =>
-                            $lastOrder + $index,
+                            $lastOrder + $index + 1,
                     ]);
                 }
             }
@@ -542,12 +858,16 @@ class ArticleController extends Controller
                     . ' updated successfully ✨'
                 );
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
 
             DB::rollBack();
 
+            report($e);
+
             return back()
-                ->withErrors($e->getMessage())
+                ->withErrors(
+                    'Failed to update content. Please try again.'
+                )
                 ->withInput();
         }
     }
@@ -560,17 +880,41 @@ class ArticleController extends Controller
 
     public function destroy($id)
     {
-        $article = Article::with('comicImages')
-            ->findOrFail($id);
+        $article = Article::with([
+            'comicImages',
+            'blocks'
+        ])->findOrFail($id);
 
         DB::beginTransaction();
 
         try {
 
             /*
-            |--------------------------------------------------------------------------
-            | DELETE COMIC IMAGES FROM CLOUDINARY
-            |--------------------------------------------------------------------------
+            |----------------------------------------------------------------------
+            | DELETE ARTICLE BLOCK IMAGES
+            |----------------------------------------------------------------------
+            */
+
+            foreach ($article->blocks as $block) {
+
+                if (
+                    $block->type === 'image'
+                    &&
+                    !empty($block->image_public_id)
+                ) {
+
+                    $this->deleteFromCloudinary(
+                        $block->image_public_id
+                    );
+                }
+
+                $block->delete();
+            }
+
+            /*
+            |----------------------------------------------------------------------
+            | DELETE COMIC IMAGES
+            |----------------------------------------------------------------------
             */
 
             foreach ($article->comicImages as $comicImage) {
@@ -586,9 +930,9 @@ class ArticleController extends Controller
             }
 
             /*
-            |--------------------------------------------------------------------------
-            | DELETE THUMBNAIL FROM CLOUDINARY
-            |--------------------------------------------------------------------------
+            |----------------------------------------------------------------------
+            | DELETE THUMBNAIL
+            |----------------------------------------------------------------------
             */
 
             if (!empty($article->thumbnail_public_id)) {
@@ -599,9 +943,9 @@ class ArticleController extends Controller
             }
 
             /*
-            |--------------------------------------------------------------------------
+            |----------------------------------------------------------------------
             | DELETE ARTICLE
-            |--------------------------------------------------------------------------
+            |----------------------------------------------------------------------
             */
 
             $article->delete();
@@ -619,9 +963,15 @@ class ArticleController extends Controller
 
             DB::rollBack();
 
+            \Log::error(
+                'Article delete failed: '
+                . $e->getMessage()
+            );
+
             return back()
                 ->withErrors(
-                    'Delete failed: ' . $e->getMessage()
+                    'Delete failed: '
+                    . $e->getMessage()
                 );
         }
     }
@@ -651,6 +1001,7 @@ class ArticleController extends Controller
     {
         $article = Article::with([
             'comicImages',
+            'blocks',
             'author'
         ])
         ->where('slug', $slug)

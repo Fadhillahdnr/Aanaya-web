@@ -79,4 +79,11 @@ class Article extends Model
     {
         return $this->category === 'article';
     }
+
+    public function blocks()
+    {
+        return $this->hasMany(
+            ArticleBlock::class
+        )->orderBy('sort_order');
+    }
 }

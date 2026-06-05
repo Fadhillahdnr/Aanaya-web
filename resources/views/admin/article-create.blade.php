@@ -56,7 +56,8 @@
         <form
             action="/admin/articles/store"
             method="POST"
-            enctype="multipart/form-data">
+            enctype="multipart/form-data"
+            autocomplete="off">
 
             @csrf
 
@@ -96,6 +97,8 @@
                         name="category"
                         value="comic">
 
+                    <div id="comicCount"></div>
+
                     <div class="category-icon">
                         <i class="fas fa-images"></i>
                     </div>
@@ -124,8 +127,17 @@
                         <input
                             type="text"
                             name="title"
+                            value="{{ old('title') }}"
                             placeholder="Dreamscape"
                             required>
+                        
+                        <div class="article-stats">
+
+                            <span id="wordCount">
+                                0 words
+                            </span>
+
+                        </div>
 
                     </div>
 
@@ -138,7 +150,8 @@
 
                         <input
                             type="datetime-local"
-                            name="published_at">
+                            name="published_at"
+                            value="{{ old('published_at') }}">
 
                     </div>
 
@@ -151,11 +164,36 @@
                                 Article Content
                             </label>
 
-                            <textarea
-                                rows="12"
-                                name="content"
-                                placeholder="Write dreamy story..."
-                            ></textarea>
+                            <div class="block-editor">
+
+                                <div id="blocksContainer">
+
+                                    <div class="editor-empty">
+
+                                        Click "Text Block"
+                                        to start writing ✨
+
+                                    </div>
+
+                                </div>
+
+                                <button
+                                    type="button"
+                                    id="addTextBlock">
+
+                                    + Text Block
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    id="addImageBlock">
+
+                                    + Image Block
+
+                                </button>
+
+                            </div>
 
                         </div>
 
@@ -176,7 +214,7 @@
                                 rows="8"
                                 name="description"
                                 placeholder="Describe your comic..."
-                            ></textarea>
+                            >{{ old('description') }}</textarea>
 
                         </div>
 
@@ -200,7 +238,21 @@
 
                         <input
                             type="file"
-                            name="thumbnail">
+                            name="thumbnail"
+                            accept="image/*"
+                            required>
+
+                        <img
+                            id="thumbnailPreview"
+                            alt="Thumbnail Preview"
+                            style="
+                                display:none;
+                                width:100%;
+                                max-height:250px;
+                                object-fit:cover;
+                                border-radius:16px;
+                                margin-top:15px;
+                            ">
 
                     </div>
 
@@ -220,9 +272,12 @@
 
                         <input
                             type="file"
+                            id="comicImagesInput"
                             name="comic_images[]"
+                            accept="image/*"
                             multiple>
 
+                        <div id="comicPreviewGrid"></div>
                     </div>
 
                     <!-- PREVIEW -->
@@ -267,195 +322,530 @@
 
 </div>
 
-<!-- JS -->
 <script>
 
-/*
-|--------------------------------------------------------------------------
-| ELEMENTS
-|--------------------------------------------------------------------------
-*/
+document.addEventListener('DOMContentLoaded', () => {
 
-const articleCard =
-    document.getElementById('articleCard');
+    let blockIndex = 0;
 
-const comicCard =
-    document.getElementById('comicCard');
+    const container =
+        document.getElementById(
+            'blocksContainer'
+        );
 
-const articleFields =
-    document.getElementById('articleFields');
+    const previewTitle =
+        document.getElementById(
+            'previewTitle'
+        );
 
-const comicFields =
-    document.getElementById('comicFields');
+    const previewDescription =
+        document.getElementById(
+            'previewDescription'
+        );
 
-const thumbnailBox =
-    document.getElementById('thumbnailBox');
+    const comicCount =
+        document.getElementById(
+            'comicCount'
+        );
 
-const comicBox =
-    document.getElementById('comicBox');
+    const comicImagesInput =
+        document.getElementById(
+            'comicImagesInput'
+        );
 
-const publishDateGroup =
-    document.getElementById('publishDateGroup');
+    const comicPreviewGrid =
+        document.getElementById(
+            'comicPreviewGrid'
+        );
 
-const categoryInputs =
-    document.querySelectorAll(
+    comicImagesInput.addEventListener(
+        'change',
+        function()
+        {
+            comicPreviewGrid.innerHTML = '';
+
+            Array.from(this.files)
+            .forEach(file =>
+            {
+                const reader =
+                    new FileReader();
+
+                reader.onload = e =>
+                {
+                    comicPreviewGrid
+                    .insertAdjacentHTML(
+                        'beforeend',
+                        `
+                        <img
+                            src="${e.target.result}"
+                            alt="Comic Preview"
+                            class="comic-preview-image">
+                        `
+                    );
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | ADD TEXT BLOCK
+    |--------------------------------------------------------------------------
+    */
+
+    function addTextBlock()
+    {
+        const empty =
+            container.querySelector(
+                '.editor-empty'
+            );
+
+        if(empty)
+        {
+            empty.remove();
+        }        
+        container.insertAdjacentHTML(
+            'beforeend',
+
+            `
+            <div class="content-block">
+
+                <button
+                    type="button"
+                    class="remove-block">
+                    ×
+                </button>
+
+                <input
+                    type="hidden"
+                    name="blocks[${blockIndex}][type]"
+                    value="text">
+
+                <textarea
+                    class="article-text-block"
+                    name="blocks[${blockIndex}][content]"
+                    rows="6"
+                    placeholder="Write paragraph...">
+                </textarea>
+
+            </div>
+            `
+        );
+
+        blockIndex++;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ADD IMAGE BLOCK
+    |--------------------------------------------------------------------------
+    */
+
+    function addImageBlock()
+    {
+        container.insertAdjacentHTML(
+            'beforeend',
+
+            `
+            <div class="content-block">
+
+                <button
+                    type="button"
+                    class="remove-block">
+                    ×
+                </button>
+
+                <input
+                    type="hidden"
+                    name="blocks[${blockIndex}][type]"
+                    value="image">
+
+                <input
+                    type="file"
+                    class="block-image-input"
+                    name="blocks[${blockIndex}][image]"
+                    accept="image/*">
+
+                <img
+                    class="block-image-preview"
+                    alt="Block Preview"
+                    style="
+                        display:none;
+                        width:100%;
+                        margin-top:15px;
+                        border-radius:12px;
+                    ">
+
+            </div>
+            `
+        );
+
+        blockIndex++;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | DEFAULT BLOCK
+    |--------------------------------------------------------------------------
+    */
+
+    addTextBlock();
+
+    /*
+    |--------------------------------------------------------------------------
+    | BUTTON EVENTS
+    |--------------------------------------------------------------------------
+    */
+
+    document
+    .getElementById('addTextBlock')
+    .addEventListener(
+        'click',
+        addTextBlock
+    );
+
+    document
+    .getElementById('addImageBlock')
+    .addEventListener(
+        'click',
+        addImageBlock
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | REMOVE BLOCK
+    |--------------------------------------------------------------------------
+    */
+
+    document.addEventListener(
+        'click',
+        function(e)
+        {
+            if(
+                e.target.classList.contains(
+                    'remove-block'
+                )
+            )
+            {
+                e.target
+                .closest('.content-block')
+                .remove();
+
+                const totalBlocks =
+                    container.querySelectorAll(
+                        '.content-block'
+                    ).length;
+
+                if(totalBlocks === 0)
+                {
+                    container.innerHTML =
+                    `
+                    <div class="editor-empty">
+                        Click "Text Block"
+                        to start writing ✨
+                    </div>
+                    `;
+                }
+
+                updatePreview();
+            }
+        }
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | IMAGE BLOCK PREVIEW
+    |--------------------------------------------------------------------------
+    */
+
+    document.addEventListener(
+        'change',
+        function(e)
+        {
+            if(
+                e.target.classList.contains(
+                    'block-image-input'
+                )
+            )
+            {
+                const file =
+                    e.target.files[0];
+
+                if(!file) return;
+
+                const reader =
+                    new FileReader();
+
+                reader.onload =
+                    function(event)
+                    {
+                        const preview =
+                            e.target
+                            .parentElement
+                            .querySelector(
+                                '.block-image-preview'
+                            );
+
+                        preview.src =
+                            event.target.result;
+
+                        preview.style.display =
+                            'block';
+                    };
+
+                reader.readAsDataURL(file);
+            }
+        }
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | COMIC COUNTER
+    |--------------------------------------------------------------------------
+    */
+
+    const comicInput =
+        document.querySelector(
+            'input[name="comic_images[]"]'
+        );
+
+    if(comicInput)
+    {
+        comicInput.addEventListener(
+            'change',
+            function()
+            {
+                comicCount.innerText =
+                    this.files.length +
+                    ' images selected';
+            }
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | THUMBNAIL PREVIEW
+    |--------------------------------------------------------------------------
+    */
+
+    const thumbInput =
+        document.querySelector(
+            'input[name="thumbnail"]'
+        );
+
+    const thumbPreview =
+        document.getElementById(
+            'thumbnailPreview'
+        );
+
+    thumbInput.addEventListener(
+        'change',
+        function()
+        {
+            if(!this.files[0]) return;
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                function(e)
+                {
+                    thumbPreview.src =
+                        e.target.result;
+
+                    thumbPreview.style.display =
+                        'block';
+                };
+
+            reader.readAsDataURL(
+                this.files[0]
+            );
+        }
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | LIVE PREVIEW
+    |--------------------------------------------------------------------------
+    */
+
+    function updatePreview()
+    {
+        const title =
+            document.querySelector(
+                'input[name="title"]'
+            ).value;
+
+        previewTitle.innerText =
+            title ||
+            'Your title will appear here';
+
+        let text = '';
+
+        document
+        .querySelectorAll(
+            '.article-text-block'
+        )
+        .forEach(block => {
+
+            text +=
+                block.value + ' ';
+        });
+
+        const comicDesc =
+            document.querySelector(
+                'textarea[name="description"]'
+            );
+
+        if(comicDesc &&
+           comicDesc.value.length)
+        {
+            text =
+                comicDesc.value;
+        }
+
+        previewDescription.innerText =
+            text.substring(0, 150)
+            ||
+            'Start writing something dreamy ✨';
+        
+        const words =
+            text
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+        document.getElementById(
+            'wordCount'
+        ).innerText =
+            words.length + ' words';
+    }
+
+    document.addEventListener(
+        'input',
+        updatePreview
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | CATEGORY TOGGLE
+    |--------------------------------------------------------------------------
+    */
+
+    const articleCard =
+        document.getElementById(
+            'articleCard'
+        );
+
+    const comicCard =
+        document.getElementById(
+            'comicCard'
+        );
+
+    const articleFields =
+        document.getElementById(
+            'articleFields'
+        );
+
+    const comicFields =
+        document.getElementById(
+            'comicFields'
+        );
+
+    const comicBox =
+        document.getElementById(
+            'comicBox'
+        );
+
+    const thumbnailBox =
+        document.getElementById(
+            'thumbnailBox'
+        );
+
+    const publishDateGroup =
+        document.getElementById(
+            'publishDateGroup'
+        );
+
+    function toggleContentType(type)
+    {
+        articleCard.classList.remove(
+            'active-category'
+        );
+
+        comicCard.classList.remove(
+            'active-category'
+        );
+
+        if(type === 'comic')
+        {
+            articleFields.style.display =
+                'none';
+
+            comicFields.style.display =
+                'block';
+
+            comicBox.style.display =
+                'flex';
+
+            thumbnailBox.style.display =
+                'flex';
+
+            publishDateGroup.style.display =
+                'none';
+
+            comicCard.classList.add(
+                'active-category'
+            );
+        }
+        else
+        {
+            articleFields.style.display =
+                'block';
+
+            comicFields.style.display =
+                'none';
+
+            comicBox.style.display =
+                'none';
+
+            thumbnailBox.style.display =
+                'flex';
+
+            publishDateGroup.style.display =
+                'block';
+
+            articleCard.classList.add(
+                'active-category'
+            );
+        }
+
+        updatePreview();
+    }
+
+    document
+    .querySelectorAll(
         'input[name="category"]'
-    );
+    )
+    .forEach(input => {
 
-const titleInput =
-    document.querySelector(
-        'input[name="title"]'
-    );
-
-const contentTextarea =
-    document.querySelector(
-        'textarea[name="content"]'
-    );
-
-const descriptionTextarea =
-    document.querySelector(
-        'textarea[name="description"]'
-    );
-
-const previewTitle =
-    document.getElementById('previewTitle');
-
-const previewDescription =
-    document.getElementById('previewDescription');
-
-/*
-|--------------------------------------------------------------------------
-| TOGGLE CATEGORY
-|--------------------------------------------------------------------------
-*/
-
-function toggleContentType(type)
-{
-    articleCard.classList.remove(
-        'active-category'
-    );
-
-    comicCard.classList.remove(
-        'active-category'
-    );
-
-    /*
-    |--------------------------------------------------------------------------
-    | COMIC
-    |--------------------------------------------------------------------------
-    */
-
-    if(type === 'comic')
-    {
-        comicFields.style.display = 'block';
-
-        articleFields.style.display = 'none';
-
-        comicBox.style.display = 'flex';
-
-        /*
-        |----------------------------------------------------------------------
-        | THUMBNAIL TETAP TAMPIL
-        |----------------------------------------------------------------------
-        */
-
-        thumbnailBox.style.display = 'flex';
-
-        publishDateGroup.style.display = 'none';
-
-        comicCard.classList.add(
-            'active-category'
+        input.addEventListener(
+            'change',
+            () =>
+            toggleContentType(
+                input.value
+            )
         );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | ARTICLE
-    |--------------------------------------------------------------------------
-    */
-
-    else
-    {
-        comicFields.style.display = 'none';
-
-        articleFields.style.display = 'block';
-
-        comicBox.style.display = 'none';
-
-        thumbnailBox.style.display = 'flex';
-
-        publishDateGroup.style.display = 'block';
-
-        articleCard.classList.add(
-            'active-category'
-        );
-    }
-}
-
-/*
-|--------------------------------------------------------------------------
-| CATEGORY CHANGE
-|--------------------------------------------------------------------------
-*/
-
-categoryInputs.forEach(input => {
-
-    input.addEventListener('change', () => {
-
-        toggleContentType(input.value);
 
     });
 
+    toggleContentType('article');
+
+    updatePreview();
+
 });
-
-/*
-|--------------------------------------------------------------------------
-| TITLE PREVIEW
-|--------------------------------------------------------------------------
-*/
-
-titleInput.addEventListener('input', function()
-{
-    previewTitle.innerText =
-        this.value ||
-        'Your title will appear here';
-});
-
-/*
-|--------------------------------------------------------------------------
-| ARTICLE PREVIEW
-|--------------------------------------------------------------------------
-*/
-
-contentTextarea.addEventListener('input', function()
-{
-    previewDescription.innerText =
-        this.value.substring(0, 120)
-        ||
-        'Start writing something dreamy ✨';
-});
-
-/*
-|--------------------------------------------------------------------------
-| COMIC PREVIEW
-|--------------------------------------------------------------------------
-*/
-
-descriptionTextarea.addEventListener('input', function()
-{
-    previewDescription.innerText =
-        this.value.substring(0, 120)
-        ||
-        'Start writing something dreamy ✨';
-});
-
-/*
-|--------------------------------------------------------------------------
-| INIT
-|--------------------------------------------------------------------------
-*/
-
-toggleContentType('article');
 
 </script>
 

@@ -74,6 +74,7 @@
     grid-template-columns:
         520px 1fr;
 
+        
     gap: 40px;
 
     align-items: center;
@@ -484,4 +485,255 @@
     font-size: 17px;
 
     line-height: 1.8;
+}
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1200px){
+
+    .comic-hero{
+        grid-template-columns:
+            420px 1fr;
+
+        padding: 32px;
+    }
+
+    .comic-hero-image{
+        height: 620px;
+    }
+
+    .comic-hero-content h1{
+        font-size: clamp(36px,4vw,58px);
+    }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 992px){
+
+    .comic-read-page{
+        padding:
+            120px 20px 80px;
+    }
+
+    .comic-hero{
+        grid-template-columns: 1fr;
+
+        gap: 32px;
+
+        padding: 30px;
+
+        border-radius: 32px;
+    }
+
+    .comic-hero-image{
+        height: 550px;
+    }
+
+    .comic-hero-content{
+        text-align: center;
+    }
+
+    .comic-meta{
+        justify-content: center;
+    }
+
+    .comic-actions{
+        justify-content: center;
+    }
+
+    .comic-description{
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .comic-reader{
+        max-width: 100%;
+    }
+}
+
+/* =========================================================
+   MOBILE LARGE
+========================================================= */
+
+@media (max-width: 768px){
+
+    .comic-read-page{
+        padding:
+            110px 16px 70px;
+    }
+
+    .comic-hero{
+        padding: 24px;
+
+        border-radius: 28px;
+    }
+
+    .comic-hero-image{
+        height: 460px;
+
+        border-radius: 24px;
+    }
+
+    .comic-hero-content h1{
+        font-size: 42px;
+
+        letter-spacing: -1px;
+    }
+
+    .comic-description{
+        font-size: 16px;
+
+        line-height: 1.9;
+    }
+
+    .comic-meta{
+        gap: 12px;
+    }
+
+    .comic-meta span{
+        padding: 12px 16px;
+
+        font-size: 13px;
+    }
+
+    .comic-panel{
+        border-radius: 24px;
+    }
+
+    .panel-number{
+        width: 42px;
+        height: 42px;
+
+        font-size: 14px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 576px){
+
+    .comic-read-page{
+        padding:
+            100px 14px 60px;
+    }
+
+    .comic-hero{
+        padding: 18px;
+
+        border-radius: 24px;
+
+        gap: 24px;
+    }
+
+    .comic-hero-image{
+        height: 340px;
+
+        border-radius: 20px;
+    }
+
+    .comic-badge{
+        padding: 10px 16px;
+
+        font-size: 11px;
+
+        letter-spacing: 1px;
+    }
+
+    .comic-hero-content h1{
+        font-size: 32px;
+
+        line-height: 1.15;
+    }
+
+    .comic-description{
+        font-size: 15px;
+
+        line-height: 1.8;
+
+        margin-bottom: 30px;
+    }
+
+    .comic-meta{
+        gap: 10px;
+    }
+
+    .comic-meta span{
+        width: 100%;
+
+        justify-content: center;
+
+        padding: 12px 14px;
+    }
+
+    .comic-actions{
+        flex-direction: column;
+    }
+
+    .back-btn,
+    .start-reading-btn{
+        width: 100%;
+
+        padding: 16px 20px;
+    }
+
+    .comic-panel{
+        border-radius: 20px;
+    }
+
+    .panel-number{
+        top: 14px;
+        left: 14px;
+
+        width: 38px;
+        height: 38px;
+
+        font-size: 13px;
+    }
+
+    .empty-comic{
+        padding: 50px 24px;
+    }
+
+    .empty-comic h2{
+        font-size: 26px;
+    }
+
+    .empty-comic p{
+        font-size: 15px;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px){
+
+    .comic-hero-content h1{
+        font-size: 28px;
+    }
+
+    .comic-hero-image{
+        height: 280px;
+    }
+
+    .comic-description{
+        font-size: 14px;
+    }
+
+    .comic-meta span{
+        font-size: 12px;
+    }
+
+    .back-btn,
+    .start-reading-btn{
+        font-size: 14px;
+    }
 }

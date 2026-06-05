@@ -167,6 +167,12 @@
 
                     </div>
 
+                    <div class="edit-article-stats">
+                        <span id="editWordCount">
+                            0 words
+                        </span>
+                    </div>
+
                     <!-- PUBLISH DATE -->
                     <div
                         class="edit-form-group"
@@ -184,7 +190,6 @@
 
                     </div>
 
-                    <!-- ARTICLE -->
                     <div
                         id="edit-articleFields"
                         style="{{ $article->category === 'comic' ? 'display:none;' : '' }}">
@@ -195,10 +200,115 @@
                                 Article Content
                             </label>
 
-                            <textarea
-                                rows="14"
-                                name="content"
-                                placeholder="Write your article here...">{{ old('content', $article->content) }}</textarea>
+                            <div class="block-editor">
+
+                                <div id="editBlocksContainer">
+
+                                    @if($article->blocks->count())
+
+                                        {{-- blocks --}}
+
+                                    @else
+
+                                        <div class="edit-empty-state">
+
+                                            Click "Text Block"
+                                            to start writing ✨
+
+                                        </div>
+
+                                    @endif
+
+                                    @foreach( $article->blocks ->sortBy('sort_order') as $index => $block )
+
+                                        @if($block->type === 'text')
+
+                                            <div class="edit-content-block">
+
+                                                <button
+                                                    type="button"
+                                                    class="edit-remove-block">
+                                                    ×
+                                                </button>
+
+                                                <input
+                                                    type="hidden"
+                                                    name="blocks[{{ $index }}][id]"
+                                                    value="{{ $block->id }}">
+
+                                                <input
+                                                    type="hidden"
+                                                    name="blocks[{{ $index }}][type]"
+                                                    value="text">
+
+                                                <textarea
+                                                    class="edit-article-text-block"
+                                                    name="blocks[{{ $index }}][content]"
+                                                    rows="6">{{ $block->content }}</textarea>
+
+                                            </div>
+
+                                        @endif
+
+                                        @if($block->type === 'image')
+
+                                            <div class="edit-content-block">
+
+                                                <button
+                                                    type="button"
+                                                    class="edit-remove-block">
+                                                    ×
+                                                </button>
+
+                                                <input
+                                                    type="hidden"
+                                                    name="blocks[{{ $index }}][id]"
+                                                    value="{{ $block->id }}">
+
+                                                <input
+                                                    type="hidden"
+                                                    name="blocks[{{ $index }}][type]"
+                                                    value="image">
+
+                                                <img
+                                                    src="{{ $block->image }}"
+                                                    class="edit-block-image-preview"
+                                                    style="
+                                                        width:100%;
+                                                        border-radius:12px;
+                                                        margin-bottom:15px;
+                                                    ">
+
+                                                <input
+                                                    type="file"
+                                                    name="blocks[{{ $index }}][image]"
+                                                    class="edit-block-image-input">
+
+                                            </div>
+
+                                        @endif
+
+                                    @endforeach
+
+                                </div>
+
+                                <button
+                                    type="button"
+                                    id="editAddTextBlock">
+
+                                    + Text Block
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    id="editAddImageBlock">
+
+                                    + Image Block
+
+                                </button>
+
+                            </div>
 
                         </div>
 
@@ -276,8 +386,23 @@
 
                         <input
                             type="file"
+                            id="editThumbnailInput"
                             name="thumbnail"
                             accept="image/*">
+
+                        <img
+                            id="editThumbnailPreview"
+                            src="{{ Str::startsWith($article->thumbnail, 'http')
+                                ? $article->thumbnail
+                                : asset('uploads/articles/' . $article->thumbnail) }}"
+                            alt="Thumbnail Preview"
+                            style="
+                                width:100%;
+                                max-height:250px;
+                                object-fit:cover;
+                                border-radius:16px;
+                                margin-top:15px;
+                            ">
 
                     </div>
 
@@ -306,6 +431,42 @@
                             name="comic_images[]"
                             multiple
                             accept="image/*">
+
+                        <div id="editComicPreviewGrid"></div>
+
+                    </div>
+
+                    <div class="edit-live-preview">
+
+                        <span class="edit-preview-badge">
+                            LIVE PREVIEW
+                        </span>
+
+                        <h2 id="editPreviewTitle">
+
+                            {{ $article->title }}
+
+                        </h2>
+
+                        <p id="editPreviewDescription">
+
+                            @if($article->category === 'comic')
+
+                                {{ Str::limit($article->description, 180) }}
+
+                            @else
+
+                                {{ Str::limit(
+                                    $article->blocks
+                                        ->where('type','text')
+                                        ->pluck('content')
+                                        ->implode(' '),
+                                    180
+                                ) }}
+
+                            @endif
+
+                        </p>
 
                     </div>
 
@@ -379,94 +540,551 @@
 
 <script>
 
-const editArticleCard =
-    document.getElementById('edit-articleCard');
+document.addEventListener('DOMContentLoaded', () => {
 
-const editComicCard =
-    document.getElementById('edit-comicCard');
+    const editArticleCard =
+        document.getElementById(
+            'edit-articleCard'
+        );
 
-const editArticleFields =
-    document.getElementById('edit-articleFields');
+    const editComicCard =
+        document.getElementById(
+            'edit-comicCard'
+        );
 
-const editComicFields =
-    document.getElementById('edit-comicFields');
+    const editArticleFields =
+        document.getElementById(
+            'edit-articleFields'
+        );
 
-const editComicBox =
-    document.getElementById('edit-comicBox');
+    const editComicFields =
+        document.getElementById(
+            'edit-comicFields'
+        );
 
-const editPublishDateGroup =
-    document.getElementById('edit-publishDateGroup');
+    const editComicBox =
+        document.getElementById(
+            'edit-comicBox'
+        );
 
-const editCategoryInputs =
-    document.querySelectorAll(
-        'input[name="category"]'
+    const editPublishDateGroup =
+        document.getElementById(
+            'edit-publishDateGroup'
+        );
+
+    const editBlocksContainer =
+    document.getElementById(
+        'editBlocksContainer'
     );
 
-function editToggleContentType(type)
-{
-    if(type === 'comic')
+    let editBlockIndex = Date.now();
+
+    /*
+    |--------------------------------------------------------------------------
+    | CATEGORY TOGGLE
+    |--------------------------------------------------------------------------
+    */
+
+    function addEditTextBlock()
     {
-        editArticleFields.style.display =
-            'none';
+        document
+            .querySelector('.edit-empty-state')
+            ?.remove();
 
-        editComicFields.style.display =
-            'block';
+        editBlocksContainer.insertAdjacentHTML(
+            'beforeend',
 
-        editComicBox.style.display =
-            'flex';
+            `
+            <div class="edit-content-block">
 
-        editPublishDateGroup.style.display =
-            'none';
+                <button
+                    type="button"
+                    class="edit-remove-block">
+                    ×
+                </button>
 
-        editArticleCard.classList.remove(
-            'edit-active-category'
+                <input
+                    type="hidden"
+                    name="blocks[${editBlockIndex}][type]"
+                    value="text">
+
+                <textarea
+                    class="edit-article-text-block"
+                    name="blocks[${editBlockIndex}][content]"
+                    rows="6"
+                    placeholder="Write paragraph...">
+                </textarea>
+
+            </div>
+            `
         );
 
-        editComicCard.classList.add(
-            'edit-active-category'
-        );
+        editBlockIndex++;
+
+        updateEditWordCount();
     }
-    else
+
+    function addEditImageBlock()
     {
-        editArticleFields.style.display =
-            'block';
+        document
+            .querySelector('.edit-empty-state')
+            ?.remove();
+        editBlocksContainer.insertAdjacentHTML(
+            'beforeend',
 
-        editComicFields.style.display =
-            'none';
+            `
+            <div class="edit-content-block">
 
-        editComicBox.style.display =
-            'none';
+                <button
+                    type="button"
+                    class="edit-remove-block">
+                    ×
+                </button>
 
-        editPublishDateGroup.style.display =
-            'block';
+                <input
+                    type="hidden"
+                    name="blocks[${editBlockIndex}][type]"
+                    value="image">
 
-        editArticleCard.classList.add(
-            'edit-active-category'
+                <input
+                    type="file"
+                    class="edit-block-image-input"
+                    name="blocks[${editBlockIndex}][image]"
+                    accept="image/*">
+
+                <img
+                    src=""
+                    class="edit-block-image-preview"
+                    style="
+                        display:none;
+                        width:100%;
+                        margin-top:15px;
+                        border-radius:12px;
+                    "
+                    alt="">
+
+            </div>
+            `
         );
 
-        editComicCard.classList.remove(
-            'edit-active-category'
-        );
+        editBlockIndex++;
     }
-}
 
-editCategoryInputs.forEach(input => {
+    function editToggleContentType(type)
+    {
+        if(type === 'comic')
+        {
+            editArticleFields.style.display =
+                'none';
 
-    input.addEventListener('change', () => {
+            editComicFields.style.display =
+                'block';
 
-        editToggleContentType(
-            input.value
+            editComicBox.style.display =
+                'flex';
+
+            editPublishDateGroup.style.display =
+                'none';
+
+            editArticleCard.classList.remove(
+                'edit-active-category'
+            );
+
+            editComicCard.classList.add(
+                'edit-active-category'
+            );
+        }
+        else
+        {
+            editArticleFields.style.display =
+                'block';
+
+            editComicFields.style.display =
+                'none';
+
+            editComicBox.style.display =
+                'none';
+
+            editPublishDateGroup.style.display =
+                'block';
+
+            editArticleCard.classList.add(
+                'edit-active-category'
+            );
+
+            editComicCard.classList.remove(
+                'edit-active-category'
+            );
+        }
+
+        updateLivePreview();
+    }
+
+    document
+    .getElementById(
+        'editAddTextBlock'
+    )
+    .addEventListener(
+        'click',
+        addEditTextBlock
+    );
+
+    document
+    .getElementById(
+        'editAddImageBlock'
+    )
+    .addEventListener(
+        'click',
+        addEditImageBlock
+    );
+
+    document
+    .querySelectorAll(
+        'input[name="category"]'
+    )
+    .forEach(input => {
+
+        input.addEventListener(
+            'change',
+            () =>
+            editToggleContentType(
+                input.value
+            )
         );
 
     });
 
-});
+    document.addEventListener(
+    'click',
+    function(e)
+    {
+        if(
+            e.target.classList.contains(
+                'edit-remove-block'
+            )
+        )
+        {
+            const block =
+                e.target.closest(
+                    '.edit-content-block'
+                );
 
-editToggleContentType(
-    document.querySelector(
-        'input[name="category"]:checked'
-    ).value
-);
+            if(block)
+            {
+                block.remove();
+            }
+
+            updateEditWordCount();
+            updateLivePreview();
+        }
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | THUMBNAIL PREVIEW
+    |--------------------------------------------------------------------------
+    */
+
+    const thumbnailInput =
+        document.querySelector(
+            'input[name="thumbnail"]'
+        );
+
+    const thumbnailPreview =
+        document.getElementById(
+            'editThumbnailPreview'
+        );
+
+    if(
+        thumbnailInput &&
+        thumbnailPreview
+    )
+    {
+        thumbnailInput.addEventListener(
+            'change',
+            function()
+            {
+                if(!this.files[0])
+                {
+                    return;
+                }
+
+                const reader =
+                    new FileReader();
+
+                reader.onload =
+                    function(e)
+                    {
+                        thumbnailPreview.src =
+                            e.target.result;
+
+                        thumbnailPreview.style.display =
+                            'block';
+                    };
+
+                reader.readAsDataURL(
+                    this.files[0]
+                );
+            }
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | COMIC IMAGE PREVIEW
+    |--------------------------------------------------------------------------
+    */
+
+    const comicInput =
+        document.querySelector(
+            'input[name="comic_images[]"]'
+        );
+
+    const comicPreviewGrid =
+        document.getElementById(
+            'editComicPreviewGrid'
+        );
+
+    if(
+        comicInput &&
+        comicPreviewGrid
+    )
+    {
+        comicInput.addEventListener(
+            'change',
+            function()
+            {
+                comicPreviewGrid.innerHTML =
+                    '';
+
+                Array
+                .from(this.files)
+                .forEach(file => {
+
+                    const reader =
+                        new FileReader();
+
+                    reader.onload =
+                        function(e)
+                        {
+                            comicPreviewGrid
+                            .insertAdjacentHTML(
+                                'beforeend',
+
+                                `
+                                <img
+                                    src="${e.target.result}"
+                                    class="edit-comic-preview-image">
+                                `
+                            );
+                        };
+
+                    reader.readAsDataURL(
+                        file
+                    );
+                });
+            }
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | REMOVE BLOCK
+    |--------------------------------------------------------------------------
+    */
+
+    document.addEventListener(
+        'change',
+        function(e)
+        {
+            if(
+                e.target.classList.contains(
+                    'edit-block-image-input'
+                )
+            )
+            {
+                const file =
+                    e.target.files[0];
+
+                if(!file) return;
+
+                const reader =
+                    new FileReader();
+
+                reader.onload =
+                    function(event)
+                    {
+                        const preview =
+                            e.target
+                            .parentElement
+                            .querySelector(
+                                '.edit-block-image-preview'
+                            );
+
+                        preview.src =
+                            event.target.result;
+
+                        preview.style.display =
+                            'block';
+                    };
+
+                reader.readAsDataURL(file);
+            }
+        }
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | LIVE PREVIEW
+    |--------------------------------------------------------------------------
+    */
+
+    const previewTitle =
+        document.getElementById(
+            'editPreviewTitle'
+        );
+
+    const previewText =
+        document.getElementById(
+            'editPreviewDescription'
+        );
+
+    const wordCounter =
+        document.getElementById(
+            'editWordCount'
+        );
+
+    function updateEditWordCount()
+    {
+        let text = '';
+
+        document
+        .querySelectorAll(
+            '.edit-article-text-block'
+        )
+        .forEach(block =>
+        {
+            text +=
+                block.value + ' ';
+        });
+
+        const words =
+            text
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+        const counter =
+            document.getElementById(
+                'editWordCount'
+            );
+
+        if(counter)
+        {
+            counter.innerText =
+                words.length + ' words';
+        }
+    }
+
+    document.addEventListener(
+        'input',
+        updateEditWordCount
+    );
+
+    updateEditWordCount();
+
+    function updateLivePreview()
+    {
+        const title =
+            document.querySelector(
+                'input[name="title"]'
+            )?.value || '';
+
+        if(previewTitle)
+        {
+            previewTitle.innerText =
+                title ||
+                'Your title will appear here';
+        }
+
+        let content = '';
+
+        document
+        .querySelectorAll(
+            '.edit-article-text-block'
+        )
+        .forEach(block => {
+
+            content +=
+                block.value + ' ';
+        });
+
+        const comicDesc =
+            document.querySelector(
+                'textarea[name="description"]'
+            );
+
+        const selectedCategory =
+            document.querySelector(
+                'input[name="category"]:checked'
+            )?.value;
+
+        if(
+            selectedCategory === 'comic' &&
+            comicDesc
+        )
+        {
+            content = comicDesc.value;
+        }
+
+        if(previewText)
+        {
+            previewText.innerText =
+                content.substring(0, 180)
+                ||
+                'Start writing something dreamy ✨';
+        }
+
+        const words =
+            content
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+        if(wordCounter)
+        {
+            wordCounter.innerText =
+                words.length +
+                ' words';
+        }
+    }
+
+    document.addEventListener(
+        'input',
+        updateLivePreview
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | INITIALIZE
+    |--------------------------------------------------------------------------
+    */
+
+    const checkedCategory =
+        document.querySelector(
+            'input[name="category"]:checked'
+        );
+
+    if(checkedCategory)
+    {
+        editToggleContentType(
+            checkedCategory.value
+        );
+    }
+
+    updateLivePreview();
+
+});
 
 </script>
 
