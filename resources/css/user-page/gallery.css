@@ -1,28 +1,29 @@
 /* =========================================================
-   USER GALLERY PAGE
+   GALLERY PAGE
 ========================================================= */
 
 .user-gallery-page{
     position: relative;
-    overflow: hidden;
+
     min-height: 100vh;
 
-    padding: 150px 24px 120px;
+    background: #fcf8ed;
 
-    background:
-        linear-gradient(
-            180deg,
-                #eb7eba 0%,
-                #f4c6f4 45%,
-                #fcf8ed 100%
-        );
+    overflow: hidden;
+
+    padding:
+        140px
+        20px
+        100px;
 }
+
 /* =========================================================
    NOISE
 ========================================================= */
 
 .gallery-noise{
-    position: absolute;
+    position: fixed;
+
     inset: 0;
 
     opacity: .03;
@@ -30,7 +31,14 @@
     pointer-events: none;
 
     background-image:
-        url("https://www.transparenttextures.com/patterns/noise.png");
+        radial-gradient(
+            rgba(0,0,0,.35) 1px,
+            transparent 1px
+        );
+
+    background-size: 8px 8px;
+
+    z-index: 0;
 }
 
 /* =========================================================
@@ -42,31 +50,31 @@
 
     border-radius: 50%;
 
-    filter: blur(180px);
+    filter: blur(140px);
 
-    opacity: .4;
+    opacity: .22;
 
     pointer-events: none;
 }
 
-.gallery-bg.glow-1{
+.user-gallery-page .glow-1{
     width: 500px;
     height: 500px;
 
     background: #eb7eba;
 
-    top: -180px;
-    left: -180px;
+    top: -150px;
+    left: -150px;
 }
 
-.gallery-bg.glow-2{
+.user-gallery-page .glow-2{
     width: 450px;
     height: 450px;
 
     background: #f54351;
 
-    bottom: -180px;
-    right: -180px;
+    right: -120px;
+    bottom: -100px;
 }
 
 /* =========================================================
@@ -75,79 +83,79 @@
 
 .gallery-hero{
     position: relative;
-    z-index: 5;
+    z-index: 2;
 
-    max-width: 950px;
+    max-width: 900px;
 
     margin: 0 auto 90px;
 
     text-align: center;
 }
 
+/* =========================================================
+   BADGE
+========================================================= */
+
 .gallery-badge{
     display: inline-flex;
 
     align-items: center;
 
-    justify-content: center;
+    gap: 12px;
 
-    padding: 12px 22px;
-
-    margin-bottom: 30px;
+    padding:
+        12px
+        24px;
 
     border-radius: 999px;
 
     background:
-        rgba(255,255,255,.45);
+        rgba(255,255,255,.8);
 
-    backdrop-filter: blur(18px);
-
-    border:
-        1px solid rgba(235,126,186,.2);
+    backdrop-filter: blur(15px);
 
     color: #e01f42;
 
-    font-size: 12px;
-
     font-weight: 700;
 
-    letter-spacing: 2px;
-
-    text-transform: uppercase;
+    letter-spacing: 1px;
 
     box-shadow:
-        0 10px 40px rgba(224,31,66,.08);
+        0 10px 25px rgba(0,0,0,.05);
+
+    margin-bottom: 25px;
 }
 
-.badge-dot{
-    width: 8px;
-    height: 8px;
-
-    margin-right: 10px;
-
-    text-align: center;
+.gallery-badge .badge-dot{
+    width: 10px;
+    height: 10px;
 
     border-radius: 50%;
 
     background: #e01f42;
-
-    box-shadow:
-        0 0 16px rgba(224,31,66,.5);
 }
 
+/* =========================================================
+   TITLE
+========================================================= */
+
 .gallery-hero h1{
+    font-family:
+        'Playfair Display',
+        serif;
+
     font-size:
-        clamp(60px,8vw,115px);
+        clamp(
+            3rem,
+            8vw,
+            6rem
+        );
 
-    line-height: .92;
+    line-height: 1;
 
-    letter-spacing: -5px;
+    margin-bottom: 20px;
 
-    font-weight: 900;
-
-    color: #2a1b24;
-
-    margin-bottom: 24px;
+    color: #222;
 }
 
 .gallery-hero h1 span{
@@ -162,33 +170,37 @@
     -webkit-text-fill-color: transparent;
 }
 
+/* =========================================================
+   TEXT
+========================================================= */
+
 .gallery-hero p{
-    max-width: 760px;
+    max-width: 700px;
 
     margin: auto;
 
-    color: rgba(42,27,36,.72);
+    color: #555;
 
-    font-size: 17px;
+    line-height: 1.9;
 
-    line-height: 2;
+    font-size: 1.05rem;
 }
 
 /* =========================================================
-   MASONRY GRID
+   MASONRY
 ========================================================= */
 
 .gallery-masonry{
     position: relative;
-    z-index: 3;
+    z-index: 2;
 
-    max-width: 1700px;
+    columns: 4 300px;
+
+    column-gap: 25px;
+
+    max-width: 1500px;
 
     margin: auto;
-
-    column-count: 4;
-
-    column-gap: 24px;
 }
 
 /* =========================================================
@@ -196,63 +208,34 @@
 ========================================================= */
 
 .gallery-card{
-    position: relative;
-
     break-inside: avoid;
 
-    margin-bottom: 24px;
-}
+    margin-bottom: 25px;
 
-/* =========================================================
-   IMAGE BOX
-========================================================= */
+    position: relative;
+}
 
 .gallery-image-box{
     position: relative;
 
     overflow: hidden;
 
-    border-radius: 32px;
+    border-radius: 28px;
 
-    background: rgba(255,255,255,.7);
-
-    backdrop-filter: blur(18px);
-
-    border:
-        1px solid rgba(235,126,186,.12);
+    background: white;
 
     box-shadow:
-        0 20px 50px rgba(0,0,0,.08);
+        0 20px 45px rgba(0,0,0,.08);
 
-    transition:
-        transform .45s ease,
-        box-shadow .45s ease;
-}
-
-.gallery-image-box::before{
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.15),
-            transparent
-        );
-
-    z-index: 1;
-
-    pointer-events: none;
+    transition: .45s ease;
 }
 
 .gallery-image-box:hover{
     transform:
-        translateY(-10px);
+        translateY(-8px);
 
     box-shadow:
-        0 30px 80px rgba(224,31,66,.15);
+        0 35px 65px rgba(224,31,66,.15);
 }
 
 /* =========================================================
@@ -264,63 +247,11 @@
 
     display: block;
 
-    height: auto;
-
-    object-fit: cover;
-
-    transition:
-        transform .8s ease,
-        filter .5s ease;
+    transition: .8s ease;
 }
 
 .gallery-image-box:hover .gallery-image{
-    transform: scale(1.05);
-
-    filter:
-        brightness(.78);
-}
-
-/* =========================================================
-   FLOATING TAG
-========================================================= */
-
-.gallery-floating-top{
-    position: absolute;
-
-    top: 18px;
-    left: 18px;
-
-    z-index: 10;
-}
-
-.gallery-tag{
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 10px 16px;
-
-    border-radius: 999px;
-
-    background:
-        rgba(255,255,255,.88);
-
-    backdrop-filter: blur(16px);
-
-    border:
-        1px solid rgba(235,126,186,.12);
-
-    color: #e01f42;
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-    letter-spacing: 1px;
-
-    text-transform: uppercase;
+    transform: scale(1.08);
 }
 
 /* =========================================================
@@ -336,18 +267,19 @@
 
     align-items: flex-end;
 
-    padding: 24px;
+    padding: 25px;
 
     background:
         linear-gradient(
-            180deg,
-            rgba(0,0,0,0) 35%,
-            rgba(42,27,36,.92) 100%
+            to top,
+            rgba(0,0,0,.75),
+            rgba(0,0,0,.2),
+            transparent
         );
 
     opacity: 0;
 
-    transition: .45s ease;
+    transition: .4s ease;
 }
 
 .gallery-image-box:hover .gallery-overlay{
@@ -363,45 +295,31 @@
 
     display: flex;
 
-    align-items: flex-end;
-
     justify-content: space-between;
 
-    gap: 18px;
+    align-items: flex-end;
 
-    transform:
-        translateY(30px);
-
-    transition: .45s ease;
+    gap: 20px;
 }
-
-.gallery-image-box:hover .gallery-content{
-    transform:
-        translateY(0);
-}
-
-/* =========================================================
-   TEXT
-========================================================= */
 
 .gallery-text h2{
-    color: #fff;
+    color: white;
 
-    font-size: 24px;
-
-    font-weight: 800;
-
-    line-height: 1.2;
+    font-family:
+        'Playfair Display',
+        serif;
 
     margin-bottom: 10px;
+
+    font-size: 1.5rem;
 }
 
 .gallery-text p{
-    color: rgba(255,255,255,.76);
+    color: rgba(255,255,255,.85);
 
-    font-size: 14px;
+    line-height: 1.7;
 
-    line-height: 1.8;
+    font-size: .92rem;
 }
 
 /* =========================================================
@@ -409,35 +327,18 @@
 ========================================================= */
 
 .gallery-action-btn{
-    width: 56px;
-    height: 56px;
-
-    min-width: 56px;
+    width: 52px;
+    height: 52px;
 
     border: none;
 
     border-radius: 50%;
 
-    background:
-        rgba(255,255,255,.14);
-
-    backdrop-filter: blur(18px);
-
-    border:
-        1px solid rgba(255,255,255,.14);
-
-    color: #fff;
-
-    font-size: 16px;
-
     cursor: pointer;
 
-    transition: .35s ease;
-}
+    color: white;
 
-.gallery-action-btn:hover{
-    transform:
-        scale(1.08);
+    font-size: 1rem;
 
     background:
         linear-gradient(
@@ -447,88 +348,31 @@
         );
 
     box-shadow:
-        0 10px 30px rgba(224,31,66,.35);
+        0 10px 25px rgba(224,31,66,.35);
+
+    transition: .3s;
+}
+
+.gallery-action-btn:hover{
+    transform:
+        scale(1.1);
 }
 
 /* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:1400px){
-    .gallery-masonry{
-        column-count: 3;
-    }
-}
-
-@media(max-width:992px){
-    .gallery-masonry{
-        column-count: 2;
-    }
-}
-
-@media(max-width:768px){
-
-    .user-gallery-page{
-        padding: 120px 16px 80px;
-    }
-
-    .gallery-hero h1{
-        letter-spacing: -2px;
-    }
-
-    .gallery-hero p{
-        font-size: 15px;
-    }
-
-    .gallery-masonry{
-        column-count: 1;
-    }
-
-    .gallery-image-box{
-        border-radius: 24px;
-    }
-
-    .gallery-content{
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .gallery-action-btn{
-        width: 50px;
-        height: 50px;
-    }
-}
-
-/* =========================================================
-   EMPTY GALLERY
+   EMPTY
 ========================================================= */
 
 .empty-gallery{
-    width: 100%;
-
-    padding: 120px 40px;
-
     text-align: center;
 
-    border-radius: 40px;
-
-    background:
-        rgba(255,255,255,.72);
-
-    backdrop-filter: blur(24px);
-
-    border:
-        1px solid rgba(235,126,186,.12);
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.08);
+    padding: 100px 20px;
 }
 
 .empty-icon{
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
 
-    margin: 0 auto 30px;
+    margin: auto auto 25px;
 
     display: flex;
 
@@ -541,124 +385,33 @@
     background:
         linear-gradient(
             135deg,
-            rgba(235,126,186,.18),
-            rgba(224,31,66,.18)
+            #eb7eba,
+            #f4c6f4
         );
+}
 
-    color: #e01f42;
+.empty-icon i{
+    font-size: 3rem;
 
-    font-size: 44px;
-
-    box-shadow:
-        0 15px 40px rgba(224,31,66,.15);
+    color: white;
 }
 
 .empty-gallery h2{
-    color: #2a1b24;
+    font-family:
+        'Playfair Display',
+        serif;
 
-    font-size: 42px;
+    color: #222;
 
-    font-weight: 800;
-
-    margin-bottom: 16px;
+    margin-bottom: 10px;
 }
 
 .empty-gallery p{
-    color: rgba(42,27,36,.72);
-
-    font-size: 16px;
-
-    line-height: 2;
-
-    max-width: 650px;
-
-    margin: auto;
+    color: #666;
 }
 
 /* =========================================================
-   TABLET
-========================================================= */
-
-@media(max-width:1300px){
-
-    .gallery-masonry{
-        column-count: 3;
-    }
-}
-
-@media(max-width:900px){
-
-    .gallery-masonry{
-        column-count: 2;
-    }
-
-    .gallery-hero{
-        margin-bottom: 70px;
-    }
-
-    .gallery-hero h1{
-        letter-spacing: -3px;
-    }
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:640px){
-
-    .user-gallery-page{
-        padding: 120px 14px 90px;
-    }
-
-    .gallery-masonry{
-        column-count: 1;
-        column-gap: 0;
-    }
-
-    .gallery-hero h1{
-        font-size: clamp(52px,14vw,72px);
-        letter-spacing: -2px;
-    }
-
-    .gallery-hero p{
-        font-size: 15px;
-        line-height: 1.9;
-    }
-
-    .gallery-overlay{
-        opacity: 1;
-    }
-
-    .gallery-content{
-        transform: translateY(0);
-    }
-
-    .gallery-text h2{
-        font-size: 20px;
-    }
-
-    .gallery-image-box{
-        border-radius: 24px;
-    }
-
-    .gallery-action-btn{
-        width: 48px;
-        height: 48px;
-        min-width: 48px;
-    }
-
-    .empty-gallery{
-        padding: 80px 24px;
-    }
-
-    .empty-gallery h2{
-        font-size: 32px;
-    }
-}
-
-/* =========================================================
-   GALLERY MODAL
+   MODAL
 ========================================================= */
 
 .gallery-modal{
@@ -666,31 +419,26 @@
 
     inset: 0;
 
-    z-index: 99999;
-
     display: flex;
-
-    align-items: center;
 
     justify-content: center;
 
-    padding: 40px;
+    align-items: center;
 
     opacity: 0;
 
     visibility: hidden;
 
-    transition: .4s ease;
+    transition: .35s;
+
+    z-index: 9999;
 }
 
 .gallery-modal.active{
     opacity: 1;
+
     visibility: visible;
 }
-
-/* =========================================================
-   MODAL BACKDROP
-========================================================= */
 
 .gallery-modal-backdrop{
     position: absolute;
@@ -698,9 +446,38 @@
     inset: 0;
 
     background:
-        rgba(42,27,36,.82);
+        rgba(0,0,0,.85);
 
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
+}
+
+/* =========================================================
+   CLOSE
+========================================================= */
+
+.gallery-modal-close{
+    position: absolute;
+
+    top: 30px;
+    right: 30px;
+
+    width: 55px;
+    height: 55px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    color: white;
+
+    background:
+        rgba(255,255,255,.15);
+
+    backdrop-filter: blur(10px);
+
+    z-index: 3;
 }
 
 /* =========================================================
@@ -709,182 +486,242 @@
 
 .gallery-modal-content{
     position: relative;
-
     z-index: 2;
 
+    width: min(1200px, 95vw);
+
+    display: grid;
+
+    grid-template-columns:
+        1.2fr
+        .8fr;
+
+    overflow: hidden;
+
+    border-radius: 30px;
+
+    background: white;
+}
+
+.gallery-modal-image{
     width: 100%;
+    height: 80vh;
 
-    max-width: 1300px;
+    object-fit: cover;
 
-    max-height: 92vh;
+    display: block;
+}
+
+.gallery-modal-info{
+    padding: 45px;
 
     display: flex;
 
     flex-direction: column;
 
-    align-items: center;
-
     justify-content: center;
-
-    animation:
-        galleryZoom .45s ease;
-}
-
-/* =========================================================
-   MODAL IMAGE
-========================================================= */
-
-.gallery-modal-image{
-    max-width: 100%;
-
-    max-height: 78vh;
-
-    border-radius: 30px;
-
-    object-fit: contain;
-
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-        0 35px 100px rgba(0,0,0,.45);
-}
-
-/* =========================================================
-   MODAL INFO
-========================================================= */
-
-.gallery-modal-info{
-    width: 100%;
-
-    max-width: 900px;
-
-    margin-top: 28px;
-
-    text-align: center;
 }
 
 .gallery-modal-info h2{
-    color: #ffffff;
+    font-family:
+        'Playfair Display',
+        serif;
 
-    font-size: 36px;
+    font-size: 2.4rem;
 
-    font-weight: 800;
+    color: #222;
 
-    margin-bottom: 12px;
+    margin-bottom: 20px;
 }
 
 .gallery-modal-info p{
-    color: rgba(255,255,255,.78);
-
-    font-size: 15px;
+    color: #666;
 
     line-height: 1.9;
 }
 
 /* =========================================================
-   CLOSE BUTTON
+   RESPONSIVE
 ========================================================= */
 
-.gallery-modal-close{
-    position: absolute;
+@media(max-width:992px){
 
-    top: 24px;
-    right: 24px;
-
-    z-index: 10;
-
-    width: 60px;
-    height: 60px;
-
-    border-radius: 50%;
-
-    border:
-        1px solid rgba(255,255,255,.12);
-
-    background:
-        rgba(255,255,255,.10);
-
-    backdrop-filter: blur(20px);
-
-    color: #fff;
-
-    font-size: 18px;
-
-    cursor: pointer;
-
-    transition: .35s ease;
-}
-
-.gallery-modal-close:hover{
-    transform:
-        rotate(90deg)
-        scale(1.08);
-
-    background:
-        linear-gradient(
-            135deg,
-            #eb7eba,
-            #e01f42
-        );
-
-    box-shadow:
-        0 10px 30px rgba(224,31,66,.35);
-}
-
-/* =========================================================
-   ANIMATION
-========================================================= */
-
-@keyframes galleryZoom{
-
-    from{
-        opacity: 0;
-
-        transform:
-            scale(.9)
-            translateY(30px);
+    .gallery-modal-content{
+        grid-template-columns: 1fr;
     }
 
-    to{
-        opacity: 1;
-
-        transform:
-            scale(1)
-            translateY(0);
+    .gallery-modal-image{
+        height: 55vh;
     }
 
+    .gallery-modal-info{
+        padding: 30px;
+    }
 }
-
-/* =========================================================
-   MOBILE MODAL
-========================================================= */
 
 @media(max-width:768px){
+
+    .user-gallery-page{
+        padding-top: 110px;
+    }
+
+    .gallery-masonry{
+        columns: 2 180px;
+    }
+
+    .gallery-overlay{
+        opacity: 1;
+    }
+
+    .gallery-text p{
+        display: none;
+    }
+
+    .gallery-modal-close{
+        top: 15px;
+        right: 15px;
+    }
+}
+
+@media(max-width:500px){
+
+    .gallery-masonry{
+        columns: 1;
+    }
+
+    .gallery-hero h1{
+        font-size: 3rem;
+    }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 992px){
+
+    .gallery-modal-content{
+        width: 92vw;
+
+        max-height: 90vh;
+
+        grid-template-columns: 1fr;
+
+        overflow-y: auto;
+    }
+
+    .gallery-modal-image{
+        height: 50vh;
+    }
+
+    .gallery-modal-info{
+        padding: 30px;
+    }
+
+    .gallery-modal-info h2{
+        font-size: 2rem;
+    }
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px){
 
     .gallery-modal{
         padding: 20px;
     }
 
-    .gallery-modal-image{
-        border-radius: 22px;
+    .gallery-modal-content{
+        width: 100%;
 
-        max-height: 72vh;
+        max-height: 92vh;
+
+        border-radius: 24px;
+
+        grid-template-columns: 1fr;
+
+        overflow-y: auto;
+    }
+
+    .gallery-modal-image{
+        width: 100%;
+
+        height: 40vh;
+
+        object-fit: cover;
+    }
+
+    .gallery-modal-info{
+        padding: 24px;
     }
 
     .gallery-modal-info h2{
-        font-size: 26px;
+        font-size: 1.8rem;
+
+        margin-bottom: 12px;
     }
 
     .gallery-modal-info p{
-        font-size: 14px;
+        font-size: .95rem;
+
+        line-height: 1.8;
     }
 
     .gallery-modal-close{
-        width: 50px;
-        height: 50px;
+        top: 15px;
+        right: 15px;
 
-        top: 18px;
-        right: 18px;
+        width: 45px;
+        height: 45px;
+
+        font-size: .9rem;
     }
+
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px){
+
+    .gallery-modal{
+        padding: 12px;
+    }
+
+    .gallery-modal-content{
+        border-radius: 20px;
+
+        max-height: 95vh;
+    }
+
+    .gallery-modal-image{
+        height: 35vh;
+    }
+
+    .gallery-modal-info{
+        padding: 20px;
+    }
+
+    .gallery-modal-info h2{
+        font-size: 1.5rem;
+    }
+
+    .gallery-modal-info p{
+        font-size: .9rem;
+
+        line-height: 1.7;
+    }
+
+    .gallery-modal-close{
+        width: 40px;
+        height: 40px;
+
+        top: 10px;
+        right: 10px;
+    }
+
 }

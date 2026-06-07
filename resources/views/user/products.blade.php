@@ -11,7 +11,7 @@
 
         <span class="user-products-badge">
             <span class="badge-dot"></span>
-            Aanaya COLLECTION
+            AANAYA COLLECTION
         </span>
 
         <h1>
