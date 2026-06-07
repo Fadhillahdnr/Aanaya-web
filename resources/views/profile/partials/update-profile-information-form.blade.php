@@ -9,11 +9,46 @@
     </form>
 
     <form method="post"
-          action="{{ route('profile.update') }}"
-          class="user-profile-form">
+        action="{{ route('profile.update') }}"
+        enctype="multipart/form-data"
+        class="user-profile-form">
 
         @csrf
         @method('patch')
+
+        <!-- PHOTO -->
+
+        <div class="user-profile-group">
+
+            <label>Profile Photo</label>
+
+            <div class="profile-photo-upload">
+
+                @if($user->profile_photo)
+
+                    <img
+                        src="{{ asset('storage/'.$user->profile_photo) }}"
+                        class="profile-photo-preview">
+
+                @else
+
+                    <div class="profile-photo-placeholder">
+
+                        {{ strtoupper(substr($user->name,0,1)) }}
+
+                    </div>
+
+                @endif
+
+            </div>
+
+            <input
+                type="file"
+                name="profile_photo"
+                accept="image/*"
+                class="user-profile-input">
+
+        </div>
 
         <!-- NAME -->
         <div class="user-profile-group">

@@ -1,4 +1,8 @@
 <x-app-layout>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <div class="dream-dashboard">
 
@@ -191,6 +195,72 @@
 
         </div>
         
+
+        <!-- =========================================================
+            AANAYA SIGNATURE VIDEO
+        ========================================================= -->
+        <section class="aanaya-signature-section">
+
+            <div class="aanaya-signature-container">
+
+                <!-- VIDEO -->
+                <div class="aanaya-signature-video">
+
+                    <video
+                        autoplay
+                        muted
+                        loop
+                        playsinline>
+
+                        <source
+                            src="{{ asset('assets/video/logo.mp4') }}"
+                            type="video/mp4">
+
+                    </video>
+
+                </div>
+
+                <!-- CONTENT -->
+                <div class="aanaya-signature-content">
+
+                    <span class="aanaya-signature-badge">
+
+                        AANAYA VISUAL IDENTITY
+
+                    </span>
+
+                    <h2>
+
+                        A Dream
+                        <span>
+                            In Motion
+                        </span>
+
+                    </h2>
+
+                    <p>
+
+                        Every frame carries the essence of Aanaya —
+                        dreamy visuals, emotional storytelling,
+                        and cinematic atmospheres blended into
+                        a single experience.
+
+                    </p>
+
+                    <a href="/gallery"
+                    class="aanaya-signature-btn">
+
+                        <i class="fas fa-images"></i>
+
+                        Explore Gallery
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
         <!-- =========================================================
             DISCOVER
         ========================================================= -->
@@ -331,6 +401,182 @@
         </section>
 
         <!-- =========================================================
+            MEMBERS SECTION
+        ========================================================= -->
+        <section class="members-section reveal-section">
+
+            <div class="section-heading reveal reveal-up">
+
+                <div>
+
+                    <span class="section-mini-title">
+                        OUR MEMBERS
+                    </span>
+
+                    <h2>
+                        Meet The Souls Behind Aanaya
+                    </h2>
+
+                    <p>
+                        Every melody begins with a heartbeat.
+                        Meet the dreamers who bring Aanaya's
+                        cinematic universe to life.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- FEATURED MEMBER -->
+            <div class="featured-member reveal reveal-up">
+
+                <div class="featured-member-image">
+
+                    <img
+                        src="{{ asset('assets/members/member1.jpg') }}"
+                        alt="Aanaya">
+
+                </div>
+
+                <div class="featured-member-content">
+
+                    <span class="member-role">
+
+                        Lead Vocalist • Songwriter
+
+                    </span>
+
+                    <h3>
+                        Aanaya
+                    </h3>
+
+                    <p>
+
+                        The emotional voice behind Aanaya.
+                        Through intimate lyrics and dreamy
+                        melodies, she transforms feelings
+                        into cinematic stories.
+
+                    </p>
+
+                    <div class="member-tags">
+
+                        <span>Dream Pop</span>
+
+                        <span>Lyrics</span>
+
+                        <span>Vocals</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- MEMBER GRID -->
+            <div class="members-grid">
+
+                <!-- MEMBER -->
+                <div class="member-card reveal reveal-up">
+
+                    <div class="member-image">
+
+                        <img
+                            src="{{ asset('assets/members/member2.png') }}"
+                            alt="Falisha">
+
+                    </div>
+
+                    <div class="member-content">
+
+                        <span class="member-role">
+
+                            Singer • Visual Artist
+
+                        </span>
+
+                        <h4>
+                            Falisha
+                        </h4>
+
+                        <p>
+                            Creates dreamy visuals
+                            and aesthetic concepts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- MEMBER -->
+                <div class="member-card reveal reveal-up">
+
+                    <div class="member-image">
+
+                        <img
+                            src="{{ asset('assets/members/member3.png') }}"
+                            alt="Ren">
+
+                    </div>
+
+                    <div class="member-content">
+
+                        <span class="member-role">
+
+                            Producer
+
+                        </span>
+
+                        <h4>
+                            Keanu
+                        </h4>
+
+                        <p>
+                            Architect of cinematic
+                            soundscapes and ambience.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- MEMBER -->
+                <div class="member-card reveal reveal-up">
+
+                    <div class="member-image">
+
+                        <img
+                            src="{{ asset('assets/members/member4.png') }}"
+                            alt="Mika">
+
+                    </div>
+
+                    <div class="member-content">
+
+                        <span class="member-role">
+
+                            Composer
+
+                        </span>
+
+                        <h4>
+                            Rangga
+                        </h4>
+
+                        <p>
+                            Turns emotions into
+                            unforgettable melodies.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================================================
             MUSIC SECTION
         ========================================================= -->
         <section class="dashboard-dream-section-music reveal-section">
@@ -351,6 +597,12 @@
                 </div>
 
             </div>
+
+            <a href="/music"
+                class="dream-btn dream-btn-msc primary-btn magnetic-btn">
+                    <i class="fas fa-play"></i>
+                    Listen Music
+            </a>
 
             <!-- GRID -->
             <div class="dashboard-music-showcase-grid">
@@ -436,6 +688,148 @@
                     </div>
 
                 </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================================================
+            VISUAL UNIVERSE
+        ========================================================= -->
+        <section class="visual-universe-section reveal-section">
+
+            <div class="section-heading reveal reveal-up">
+
+                <div>
+
+                    <span class="section-mini-title">
+                        VISUAL UNIVERSE
+                    </span>
+
+                    <h2>
+                        The World Of Aanaya
+                    </h2>
+
+                    <p>
+                        Every song has a visual soul.
+                        Explore the cinematic aesthetics,
+                        dreamy colors, and emotional atmosphere
+                        that shape the Aanaya universe.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="visual-universe-grid">
+
+                <!-- BIG -->
+                <div class="visual-card visual-large">
+
+                    <img
+                        src="{{ asset('assets/visual/visual1.png') }}"
+                        alt="Aanaya Visual">
+
+                    <div class="visual-overlay">
+
+                        <span>
+                            Dream Pop Aesthetic
+                        </span>
+
+                        <h3>
+                            Soft Colors & Endless Feelings
+                        </h3>
+
+                    </div>
+
+                </div>
+
+                <!-- SMALL -->
+                <div class="visual-card">
+
+                    <img
+                        src="{{ asset('assets/visual/visual2.png') }}"
+                        alt="Aanaya Visual">
+
+                    <div class="visual-overlay">
+
+                        <span>
+                            Cinematic
+                        </span>
+
+                        <h3>
+                            Midnight Memories
+                        </h3>
+
+                    </div>
+
+                </div>
+
+                <!-- SMALL -->
+                <div class="visual-card">
+
+                    <img
+                        src="{{ asset('assets/visual/visual3.png') }}"
+                        alt="Aanaya Visual">
+
+                    <div class="visual-overlay">
+
+                        <span>
+                            Emotional
+                        </span>
+
+                        <h3>
+                            Stories Between Notes
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        {{-- visual vidio --}}
+
+        <section class="aanaya-visual-section">
+
+            <div class="aanaya-visual-video">
+
+                <video
+                    autoplay
+                    muted
+                    loop
+                    playsinline>
+
+                    <source
+                        src="{{ asset('assets/visual/visualaanaya.mp4') }}"
+                        type="video/mp4">
+
+                </video>
+
+                <div class="aanaya-visual-overlay"></div>
+
+            </div>
+
+            <div class="aanaya-visual-content">
+
+                <span>
+                    VISUAL IDENTITY
+                </span>
+
+                <h2>
+                    Dreams Have Colors.
+                    Music Has Shapes.
+                </h2>
+
+                <p>
+                    Aanaya is more than music.
+                    It is a visual experience built
+                    from soft pink tones, cinematic
+                    storytelling, floating emotions,
+                    and dreamlike memories.
+                </p>
 
             </div>
 

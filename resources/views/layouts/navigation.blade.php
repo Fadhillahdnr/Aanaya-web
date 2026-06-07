@@ -123,25 +123,24 @@
                         @click="dropdown = !dropdown"
                         class="user-btn">
 
-                        <div class="user-avatar">
+                        <div class="navbar-user">
 
-                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            @if(Auth::user()->profile_photo)
 
-                        </div>
+                                <img
+                                    src="{{ asset('storage/' . Auth::user()->profile_photo) }}"
+                                    alt="Profile"
+                                    class="navbar-profile-photo">
 
-                        <div class="user-info">
+                            @else
 
-                            <span class="user-name">
+                                <div class="navbar-profile-placeholder">
 
-                                {{ Auth::user()->name }}
+                                    {{ strtoupper(substr(Auth::user()->name,0,1)) }}
 
-                            </span>
+                                </div>
 
-                            <span class="user-role">
-
-                                {{ ucfirst(Auth::user()->role) }}
-
-                            </span>
+                            @endif
 
                         </div>
 
@@ -223,6 +222,7 @@
                     </a>
 
                 </div>
+
 
             @endauth
 

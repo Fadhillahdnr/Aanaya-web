@@ -6,6 +6,8 @@
     <div class="user-profile-bg blur-1"></div>
     <div class="user-profile-bg blur-2"></div>
 
+
+    
     <!-- HERO -->
     <section class="user-profile-hero">
 
