@@ -703,29 +703,220 @@
     }
 }
 
-.navbar-user{
+/* =========================================================
+   USER NAVBAR
+========================================================= */
+
+.aanaya-navbar-user{
+    display: flex;
+    align-items: center;
+}
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.aanaya-user-trigger{
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding:
+        8px
+        14px;
+
+    border: none;
+
+    cursor: pointer;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,.75);
+
+    backdrop-filter: blur(18px);
+
+    transition: .35s ease;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.05);
+}
+
+.aanaya-user-trigger:hover{
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 15px 35px rgba(224,31,66,.12);
+}
+
+/* =========================================================
+   AVATAR
+========================================================= */
+
+.aanaya-user-avatar{
+
+    position: relative;
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eb7eba,
+            #e01f42
+        );
+
+    padding: 2px;
+}
+
+.aanaya-user-avatar img{
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    display: block;
+}
+
+.aanaya-user-avatar span{
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: white;
+
+    color: #e01f42;
+
+    font-weight: 800;
+
+    font-size: 1.1rem;
+}
+
+/* =========================================================
+   ONLINE GLOW
+========================================================= */
+
+.aanaya-user-avatar::after{
+
+    content: '';
+
+    position: absolute;
+
+    bottom: 4px;
+    right: 4px;
+
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: #3ad46f;
+
+    border: 2px solid white;
+}
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.aanaya-user-info{
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+}
+
+.aanaya-user-name{
+
+    color: #222;
+
+    font-weight: 700;
+
+    font-size: .95rem;
+
+    line-height: 1;
+}
+
+.aanaya-user-info small{
+
+    color: #777;
+
+    font-size: .75rem;
+
+    margin-top: 4px;
+}
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.aanaya-user-trigger i{
+
+    color: #777;
+
+    font-size: .85rem;
+}
+
+/* =========================================================
+   USER AVATAR
+========================================================= */
+
+.navbar-user-trigger{
     display:flex;
     align-items:center;
     gap:12px;
+
+    background:none;
+    border:none;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    color:#222;
 }
 
-.navbar-profile-photo{
-    width:42px;
-    height:42px;
+.navbar-user-avatar{
+    width:44px;
+    height:44px;
 
     border-radius:50%;
 
     object-fit:cover;
 
-    border:2px solid #eb7eba;
+    border:3px solid rgba(235,126,186,.3);
 
     box-shadow:
-        0 5px 15px rgba(235,126,186,.35);
+        0 10px 25px rgba(235,126,186,.25);
 }
 
-.navbar-profile-placeholder{
-    width:42px;
-    height:42px;
+.navbar-user-avatar-fallback{
+    width:44px;
+    height:44px;
 
     border-radius:50%;
 
@@ -733,14 +924,14 @@
     align-items:center;
     justify-content:center;
 
-    font-weight:700;
-
-    color:white;
-
     background:
         linear-gradient(
             135deg,
             #eb7eba,
-            #f4c6f4
+            #e01f42
         );
+
+    color:white;
+
+    font-weight:700;
 }

@@ -19,7 +19,7 @@ return [
     ],
 
     'resend' => [
-        'key' => env('RESEND_API_KEY'),
+        'key' => env('RESEND_KEY'),
     ],
 
     'ses' => [
@@ -33,6 +33,16 @@ return [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
+    ],
+
+    'google' => [
+
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
+
     ],
 
 ];

@@ -18,6 +18,8 @@ class User extends Authenticatable
         'password',
         'profile_photo',
         'role',
+        'google_id',
+        'avatar',
 
     ];
 
@@ -52,5 +54,25 @@ class User extends Authenticatable
     public function isUser()
     {
         return $this->role === 'user';
+    }
+
+    public function getAvatarUrlAttribute()
+    {
+        if ($this->profile_photo) {
+
+            return asset(
+                'storage/' .
+                $this->profile_photo
+            );
+        }
+
+        if ($this->avatar) {
+
+            return $this->avatar;
+        }
+
+        return asset(
+            'assets/default-avatar.png'
+        );
     }
 }

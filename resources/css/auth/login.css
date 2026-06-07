@@ -4,7 +4,7 @@
 
 .auth-page{
     position: relative;
-    overflow: hidden;
+
     min-height: 100vh;
 
     display: flex;
@@ -12,33 +12,12 @@
     justify-content: center;
 
     padding:
-        110px
-        24px
-        60px;
+        120px
+        20px;
 
-    background:
-        linear-gradient(
-            180deg,
-            #fcf8ed 0%,
-            #f4c6f4 45%,
-            #eb7eba 100%
-        );
-}
+    overflow: hidden;
 
-/* =========================================================
-   NOISE
-========================================================= */
-
-.auth-page::before{
-    content: "";
-    position: absolute;
-    inset: 0;
-
-    opacity: .04;
-    pointer-events: none;
-
-    background-image:
-        url("https://www.transparenttextures.com/patterns/noise.png");
+    background: #fcf8ed;
 }
 
 /* =========================================================
@@ -47,202 +26,144 @@
 
 .auth-blur{
     position: absolute;
+
     border-radius: 50%;
+
     filter: blur(140px);
+
+    opacity: .25;
+
     pointer-events: none;
 }
 
-/* LEFT */
-
 .auth-blur-1{
-    width: 420px;
-    height: 420px;
+    width: 500px;
+    height: 500px;
 
-    top: -120px;
-    left: -120px;
+    background: #eb7eba;
 
-    background:
-        rgba(224,31,66,.18);
+    top: -150px;
+    left: -150px;
 }
 
-/* RIGHT */
-
 .auth-blur-2{
-    width: 420px;
-    height: 420px;
+    width: 450px;
+    height: 450px;
 
-    bottom: -120px;
-    right: -120px;
+    background: #f54351;
 
-    background:
-        rgba(235,126,186,.24);
+    right: -100px;
+    bottom: -100px;
 }
 
 /* =========================================================
-   AUTH CARD
+   CARD
 ========================================================= */
 
 .auth-card{
     position: relative;
     z-index: 5;
-    margin-top: -5%;
 
     width: 100%;
-    max-width: 1280px;
-    min-height: 760px;
+    max-width: 1250px;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 500px;
 
     overflow: hidden;
 
-    border-radius: 42px;
+    border-radius: 40px;
 
     background:
-        rgba(255,255,255,.45);
+        rgba(255,255,255,.75);
 
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(25px);
 
     border:
-        1px solid rgba(255,255,255,.4);
+        1px solid rgba(255,255,255,.8);
 
     box-shadow:
-        0 30px 80px rgba(224,31,66,.15);
+        0 30px 70px rgba(0,0,0,.08);
 }
 
 /* =========================================================
-   LEFT SIDE
+   LEFT
 ========================================================= */
 
 .auth-left{
-    position: relative;
-    overflow: hidden;
-
-    padding: 90px 80px;
+    padding: 70px;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.55),
-            rgba(255,255,255,.18)
-        );
 }
-
-/* glow */
-
-.auth-left::before{
-    content: "";
-
-    position: absolute;
-
-    width: 420px;
-    height: 420px;
-
-    top: -140px;
-    right: -140px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(235,126,186,.25);
-
-    filter: blur(120px);
-}
-
-/* =========================================================
-   AUTH TAG
-========================================================= */
 
 .auth-tag{
     display: inline-flex;
+
     align-items: center;
-    width: fit-content;
 
     padding:
         12px
         22px;
 
-    margin-bottom: 34px;
-
     border-radius: 999px;
 
     background:
-        rgba(255,255,255,.55);
+        linear-gradient(
+            135deg,
+            #f7d2f1,
+            #ffe4ea
+        );
 
-    border:
-        1px solid rgba(235,126,186,.2);
+    color: #b03c67;
 
-    backdrop-filter: blur(18px);
-
-    color: #e01f42;
-
-    font-size: 12px;
     font-weight: 700;
 
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    width: fit-content;
 
-    box-shadow:
-        0 10px 40px rgba(224,31,66,.08);
+    margin-bottom: 30px;
 }
-
-/* =========================================================
-   LEFT TITLE
-========================================================= */
 
 .auth-left h1{
-    position: relative;
-    z-index: 2;
+    font-family:
+        'Playfair Display',
+        serif;
 
     font-size:
-        clamp(56px,6vw,82px);
+        clamp(
+            3rem,
+            5vw,
+            5rem
+        );
 
-    line-height: .95;
+    line-height: 1.05;
 
-    font-weight: 900;
+    color: #222;
 
-    letter-spacing: -4px;
-
-    color: #2b1f25;
-
-    margin-bottom: 28px;
+    margin-bottom: 25px;
 }
-
-/* gradient */
 
 .auth-left h1 span{
     background:
         linear-gradient(
             135deg,
-            #e01f42,
-            #eb7eba
+            #eb7eba,
+            #e01f42
         );
 
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-/* =========================================================
-   LEFT DESCRIPTION
-========================================================= */
-
 .auth-left p{
-    position: relative;
-    z-index: 2;
+    color: #555;
 
-    max-width: 520px;
+    line-height: 1.9;
 
-    color:
-        rgba(43,31,37,.75);
+    max-width: 550px;
 
-    font-size: 17px;
-
-    line-height: 2;
+    font-size: 1.05rem;
 }
 
 /* =========================================================
@@ -251,103 +172,83 @@
 
 .music-bars{
     display: flex;
-    align-items: flex-end;
 
     gap: 10px;
 
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 .music-bars span{
-    width: 10px;
+    width: 8px;
+
+    height: 45px;
 
     border-radius: 999px;
 
     background:
         linear-gradient(
             180deg,
-            #f54351,
-            #eb7eba
+            #eb7eba,
+            #e01f42
         );
 
     animation:
-        musicWave 1.2s infinite ease-in-out;
-}
-
-.music-bars span:nth-child(1){
-    height: 35px;
-    animation-delay: 0s;
+        musicBar 1.6s ease-in-out infinite;
 }
 
 .music-bars span:nth-child(2){
-    height: 60px;
     animation-delay: .2s;
 }
 
 .music-bars span:nth-child(3){
-    height: 45px;
     animation-delay: .4s;
 }
 
 .music-bars span:nth-child(4){
-    height: 70px;
     animation-delay: .6s;
 }
 
-@keyframes musicWave{
+@keyframes musicBar{
 
     0%,100%{
-        transform: scaleY(1);
+        height: 30px;
     }
 
     50%{
-        transform: scaleY(1.4);
+        height: 70px;
     }
 
 }
 
 /* =========================================================
-   RIGHT SIDE
+   RIGHT
 ========================================================= */
 
 .auth-right{
-    padding: 80px 70px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
     background:
-        rgba(255,255,255,.22);
+        rgba(255,255,255,.88);
+
+    padding: 60px;
 }
 
 /* =========================================================
-   LOGIN HEADER
+   HEADER
 ========================================================= */
 
 .login-header{
-    margin-bottom: 42px;
+    margin-bottom: 35px;
 }
 
 .login-header h2{
-    color: #2b1f25;
+    font-size: 2rem;
 
-    font-size: 46px;
+    color: #222;
 
-    font-weight: 800;
-
-    letter-spacing: -2px;
-
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 .login-header p{
-    color:
-        rgba(43,31,37,.7);
-
-    font-size: 15px;
-
-    line-height: 1.8;
+    color: #777;
 }
 
 /* =========================================================
@@ -357,107 +258,73 @@
 .auth-form{
     display: flex;
     flex-direction: column;
-    gap: 24px;
-}
 
-/* =========================================================
-   GROUP
-========================================================= */
-
-.form-group{
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    gap: 22px;
 }
 
 .form-group label{
-    color:
-        rgba(43,31,37,.85);
+    display: block;
 
-    font-size: 13px;
+    margin-bottom: 8px;
 
-    font-weight: 700;
+    font-weight: 600;
 
-    letter-spacing: 1px;
-
-    text-transform: uppercase;
+    color: #444;
 }
 
 /* =========================================================
    INPUT
 ========================================================= */
 
+.auth-input-wrapper{
+    position: relative;
+}
+
 .auth-input{
     width: 100%;
 
+    height: 58px;
+
     padding:
-        20px
-        22px;
+        0
+        50px
+        0
+        18px;
 
-    padding-right: 56px;
-
-    border-radius: 22px;
+    border-radius: 16px;
 
     border:
-        1px solid rgba(235,126,186,.2);
+        1px solid rgba(0,0,0,.08);
 
-    background:
-        rgba(255,255,255,.55);
+    background: #fff;
 
-    backdrop-filter: blur(18px);
-
-    color: #2b1f25;
-
-    font-size: 15px;
-
-    outline: none;
-
-    transition: .35s ease;
-}
-
-.auth-input::placeholder{
-    color:
-        rgba(43,31,37,.4);
+    transition: .3s;
 }
 
 .auth-input:focus{
-    border-color:
-        rgba(224,31,66,.4);
+    outline: none;
 
-    background:
-        rgba(255,255,255,.75);
+    border-color: #eb7eba;
 
     box-shadow:
-        0 0 0 5px rgba(235,126,186,.15);
+        0 0 0 4px rgba(235,126,186,.15);
 }
-
-/* =========================================================
-   PASSWORD TOGGLE
-========================================================= */
 
 .auth-password-toggle{
     position: absolute;
 
     top: 50%;
-    right: 20px;
+    right: 15px;
 
     transform: translateY(-50%);
 
     border: none;
+
     background: transparent;
 
-    color:
-        rgba(43,31,37,.45);
-
-    font-size: 15px;
+    color: #888;
 
     cursor: pointer;
-
-    transition: .3s ease;
-}
-
-.auth-password-toggle:hover{
-    color: #e01f42;
 }
 
 /* =========================================================
@@ -466,105 +333,165 @@
 
 .auth-options{
     display: flex;
-    align-items: center;
+
     justify-content: space-between;
 
-    gap: 20px;
-}
+    align-items: center;
 
-/* remember */
+    gap: 15px;
+}
 
 .remember-box{
     display: flex;
+
     align-items: center;
 
     gap: 10px;
 
-    color:
-        rgba(43,31,37,.75);
+    color: #555;
 
-    font-size: 14px;
-
-    cursor: pointer;
+    font-size: .95rem;
 }
-
-.remember-box input{
-    accent-color: #e01f42;
-}
-
-/* forgot */
 
 .forgot-link{
     color: #e01f42;
 
-    font-size: 14px;
-
-    font-weight: 700;
-
     text-decoration: none;
 
-    transition: .3s ease;
-}
-
-.forgot-link:hover{
-    opacity: .7;
+    font-weight: 600;
 }
 
 /* =========================================================
-   BUTTON
+   LOGIN BUTTON
 ========================================================= */
 
 .login-btn-main{
     width: 100%;
 
-    padding: 20px;
+    height: 58px;
 
     border: none;
 
-    border-radius: 22px;
+    border-radius: 16px;
 
     cursor: pointer;
 
+    font-weight: 700;
+
     color: white;
-
-    font-size: 15px;
-
-    font-weight: 800;
-
-    transition: .35s ease;
 
     background:
         linear-gradient(
             135deg,
-            #e01f42,
-            #f54351
+            #eb7eba,
+            #e01f42
         );
 
-    box-shadow:
-        0 18px 40px rgba(224,31,66,.22);
+    transition: .35s;
 }
 
 .login-btn-main:hover{
-    transform:
-        translateY(-4px);
+    transform: translateY(-3px);
 
     box-shadow:
-        0 24px 50px rgba(224,31,66,.28);
+        0 15px 35px rgba(224,31,66,.25);
 }
 
 /* =========================================================
-   REGISTER
+   DIVIDER
 ========================================================= */
 
-.register-link{
-    margin-top: 6px;
+.auth-divider{
+    position: relative;
 
     text-align: center;
 
-    color:
-        rgba(43,31,37,.65);
+    margin: 5px 0;
+}
 
-    font-size: 14px;
+.auth-divider::before{
+    content: '';
+
+    position: absolute;
+
+    top: 50%;
+    left: 0;
+
+    width: 100%;
+    height: 1px;
+
+    background: rgba(0,0,0,.08);
+}
+
+.auth-divider span{
+    position: relative;
+
+    background: white;
+
+    padding: 0 15px;
+
+    color: #999;
+}
+
+/* =========================================================
+   GOOGLE LOGIN
+========================================================= */
+
+.auth-google-btn{
+    width: 100%;
+
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    border-radius: 16px;
+
+    background: white;
+
+    border:
+        1px solid rgba(0,0,0,.08);
+
+    text-decoration: none;
+
+    color: #333;
+
+    font-weight: 600;
+
+    transition: .3s;
+}
+
+.auth-google-btn img{
+    width: 24px;
+}
+
+.auth-google-btn:hover{
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.08);
+}
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+.forgot-back-btn{
+    text-align: center;
+
+    color: #666;
+
+    text-decoration: none;
+}
+
+.register-link{
+    text-align: center;
+
+    color: #666;
 }
 
 .register-link a{
@@ -573,75 +500,303 @@
     font-weight: 700;
 
     text-decoration: none;
-
-    margin-left: 4px;
 }
 
 /* =========================================================
-   ERROR
+   RESPONSIVE
 ========================================================= */
 
-.text-red-600{
-    color: #e01f42 !important;
-
-    font-size: 13px;
-
-    margin-top: 4px;
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:1024px){
+@media(max-width:1100px){
 
     .auth-card{
         grid-template-columns: 1fr;
-        min-height: auto;
     }
 
     .auth-left{
         display: none;
     }
-
-    .auth-right{
-        padding: 60px 40px;
-    }
-
 }
 
-@media(max-width:640px){
+@media(max-width:768px){
 
     .auth-page{
         padding:
-            95px
-            16px
-            40px;
-    }
-
-    .auth-card{
-        border-radius: 30px;
+            90px
+            15px;
     }
 
     .auth-right{
-        padding: 40px 24px;
+        padding: 35px;
     }
 
     .login-header h2{
-        font-size: 34px;
+        font-size: 1.8rem;
     }
 
     .auth-options{
         flex-direction: column;
         align-items: flex-start;
     }
+}
+
+@media(max-width:480px){
+
+    .auth-right{
+        padding: 25px;
+    }
+
+    .login-header h2{
+        font-size: 1.6rem;
+    }
+
+    .auth-input,
+    .login-btn-main,
+    .auth-google-btn{
+        height: 54px;
+    }
+}
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1200px){
+
+    .auth-card{
+        width: 95%;
+    }
+
+    .auth-left{
+        padding: 60px 40px;
+    }
+
+    .auth-right{
+        padding: 60px 40px;
+    }
+
+    .auth-left h1{
+        font-size: 3rem;
+    }
+
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 992px){
+
+    .auth-card{
+
+        grid-template-columns:
+            1fr
+            1.2fr;
+
+        min-height: auto;
+    }
+
+    .auth-left{
+
+        padding:
+            50px
+            35px;
+    }
+
+    .auth-right{
+
+        padding:
+            50px
+            35px;
+    }
+
+    .auth-left h1{
+
+        font-size:
+            clamp(
+                2.3rem,
+                6vw,
+                3.5rem
+            );
+    }
+
+    .music-bars{
+        margin-top: 40px;
+    }
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px){
+
+    .auth-page{
+
+        padding:
+            100px
+            15px
+            40px;
+    }
+
+    .auth-card{
+
+        grid-template-columns: 1fr;
+
+        border-radius: 30px;
+
+        overflow: hidden;
+    }
+
+    .auth-left{
+
+        text-align: center;
+
+        padding:
+            45px
+            25px;
+    }
+
+    .auth-right{
+
+        padding:
+            40px
+            25px;
+    }
+
+    .auth-tag{
+
+        font-size: .75rem;
+
+        margin-bottom: 20px;
+    }
+
+    .auth-left h1{
+
+        font-size:
+            clamp(
+                2rem,
+                10vw,
+                3rem
+            );
+
+        margin-bottom: 18px;
+    }
+
+    .auth-left p{
+
+        font-size: .95rem;
+
+        line-height: 1.8;
+    }
+
+    .login-header{
+
+        text-align: center;
+
+        margin-bottom: 30px;
+    }
+
+    .login-header h2{
+
+        font-size: 2rem;
+    }
+
+    .auth-options{
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+    .login-btn-main{
+        width: 100%;
+    }
+
+    .auth-google-btn{
+        width: 100%;
+    }
+
+    .forgot-back-btn{
+        width: 100%;
+    }
+
+    .register-link{
+
+        text-align: center;
+
+        margin-top: 20px;
+    }
+
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px){
+
+    .auth-page{
+        padding-top: 90px;
+    }
+
+    .auth-left{
+
+        padding:
+            35px
+            20px;
+    }
+
+    .auth-right{
+
+        padding:
+            30px
+            20px;
+    }
+
+    .auth-left h1{
+
+        font-size: 2rem;
+    }
+
+    .login-header h2{
+
+        font-size: 1.8rem;
+    }
 
     .auth-input{
-        padding:
-            18px
-            18px;
 
-        padding-right: 52px;
+        height: 54px;
+
+        font-size: .95rem;
+    }
+
+    .login-btn-main,
+    .auth-google-btn,
+    .forgot-back-btn{
+
+        height: 54px;
+
+        font-size: .95rem;
+    }
+
+    .music-bars{
+
+        justify-content: center;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .auth-left{
+        display: none;
+    }
+
+    .auth-card{
+        grid-template-columns: 1fr;
     }
 
 }

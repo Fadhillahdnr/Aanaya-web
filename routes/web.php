@@ -14,7 +14,6 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\MusicVideoController;
 use App\Http\Controllers\Admin\OrderController;
 
-
 /*
 |--------------------------------------------------------------------------
 | PUBLIC PAGES

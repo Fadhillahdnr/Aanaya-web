@@ -269,6 +269,23 @@
                         Create Account
 
                     </button>
+                    
+                    <div class="auth-divider">
+
+                        <span>OR</span>
+
+                    </div>
+
+                    <a href="{{ route('google.login') }}"
+                        class="auth-google-btn">
+
+                        <img
+                            src="https://www.svgrepo.com/show/475656/google-color.svg"
+                            alt="Google">
+
+                        Continue with Google
+
+                    </a>
 
                     <!-- BACK BUTTON -->
                     <a href="{{ route('home') }}"

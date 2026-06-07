@@ -5,51 +5,23 @@
 .auth-regis-page{
     position: relative;
 
-    overflow: hidden;
-
     min-height: 100vh;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     padding:
-        110px
-        24px
-        60px;
+        120px
+        25px;
 
-    background:
-        linear-gradient(
-            180deg,
-            #fcf8ed 0%,
-            #f4c6f4 45%,
-            #eb7eba 100%
-        );
+    overflow: hidden;
+
+    background: #fcf8ed;
 }
 
 /* =========================================================
-   NOISE
-========================================================= */
-
-.auth-regis-page::before{
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    opacity: .04;
-
-    pointer-events: none;
-
-    background-image:
-        url("https://www.transparenttextures.com/patterns/noise.png");
-}
-
-/* =========================================================
-   BLUR
+   BLUR BACKGROUND
 ========================================================= */
 
 .auth-regis-blur{
@@ -59,33 +31,29 @@
 
     filter: blur(140px);
 
+    opacity: .25;
+
     pointer-events: none;
 }
 
-/* LEFT */
-
 .auth-regis-blur-1{
-    width: 420px;
-    height: 420px;
+    width: 500px;
+    height: 500px;
 
-    top: -160px;
-    left: -140px;
+    background: #eb7eba;
 
-    background:
-        rgba(224,31,66,.16);
+    top: -150px;
+    left: -150px;
 }
 
-/* RIGHT */
-
 .auth-regis-blur-2{
-    width: 420px;
-    height: 420px;
+    width: 450px;
+    height: 450px;
 
-    bottom: -180px;
-    right: -140px;
+    background: #f54351;
 
-    background:
-        rgba(235,126,186,.22);
+    right: -120px;
+    bottom: -100px;
 }
 
 /* =========================================================
@@ -94,37 +62,28 @@
 
 .auth-regis-card{
     position: relative;
-
-    margin-top:-5%;
-
     z-index: 5;
 
     width: 100%;
-
-    max-width: 1320px;
-
-    min-height: 780px;
+    max-width: 1400px;
 
     display: grid;
-
-    grid-template-columns: 1fr .92fr;
+    grid-template-columns: 1fr 520px;
 
     overflow: hidden;
 
-    border-radius: 42px;
+    border-radius: 40px;
 
     background:
-        rgba(255,255,255,.45);
+        rgba(255,255,255,.75);
 
-    backdrop-filter: blur(30px);
-
-    -webkit-backdrop-filter: blur(30px);
-
-    border:
-        1px solid rgba(255,255,255,.35);
+    backdrop-filter: blur(25px);
 
     box-shadow:
-        0 30px 80px rgba(224,31,66,.12);
+        0 30px 70px rgba(0,0,0,.08);
+
+    border:
+        1px solid rgba(255,255,255,.8);
 }
 
 /* =========================================================
@@ -132,113 +91,61 @@
 ========================================================= */
 
 .auth-regis-left{
-    position: relative;
-
-    overflow: hidden;
-
-    padding: 90px 80px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.55),
-            rgba(255,255,255,.18)
-        );
+    padding: 70px;
 }
-
-/* glow */
-
-.auth-regis-left::before{
-    content: "";
-
-    position: absolute;
-
-    width: 500px;
-    height: 500px;
-
-    top: -180px;
-    right: -140px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(235,126,186,.24);
-
-    filter: blur(120px);
-}
-
-/* =========================================================
-   TAG
-========================================================= */
 
 .auth-regis-tag{
     display: inline-flex;
 
     align-items: center;
 
-    width: fit-content;
-
     padding:
         12px
         22px;
 
-    margin-bottom: 34px;
-
     border-radius: 999px;
 
     background:
-        rgba(255,255,255,.55);
+        linear-gradient(
+            135deg,
+            #f7d2f1,
+            #ffe4ea
+        );
 
-    border:
-        1px solid rgba(235,126,186,.2);
-
-    backdrop-filter: blur(18px);
-
-    color: #e01f42;
-
-    font-size: 12px;
+    color: #b03c67;
 
     font-weight: 700;
 
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 
-    text-transform: uppercase;
-
-    box-shadow:
-        0 10px 40px rgba(224,31,66,.08);
+    margin-bottom: 30px;
 }
 
-/* =========================================================
-   TITLE
-========================================================= */
-
 .auth-regis-left h1{
+    font-family:
+        'Playfair Display',
+        serif;
+
     font-size:
-        clamp(56px,6vw,84px);
+        clamp(
+            3rem,
+            5vw,
+            5rem
+        );
 
-    line-height: .95;
+    line-height: 1.05;
 
-    font-weight: 900;
+    color: #222;
 
-    letter-spacing: -4px;
-
-    color: #2b1f25;
-
-    margin-bottom: 28px;
+    margin-bottom: 25px;
 }
 
 .auth-regis-left h1 span{
     background:
         linear-gradient(
             135deg,
-            #e01f42,
-            #eb7eba
+            #eb7eba,
+            #e01f42
         );
 
     -webkit-background-clip: text;
@@ -246,21 +153,16 @@
     -webkit-text-fill-color: transparent;
 }
 
-/* =========================================================
-   DESCRIPTION
-========================================================= */
+.auth-regis-left > p{
+    color: #555;
 
-.auth-regis-left p{
-    max-width: 540px;
+    line-height: 1.9;
 
-    color:
-        rgba(43,31,37,.75);
+    font-size: 1.05rem;
 
-    font-size: 17px;
+    max-width: 650px;
 
-    line-height: 2;
-
-    margin-bottom: 42px;
+    margin-bottom: 45px;
 }
 
 /* =========================================================
@@ -268,119 +170,57 @@
 ========================================================= */
 
 .auth-regis-features{
-    display: grid;
+    display: flex;
+    flex-direction: column;
 
-    gap: 18px;
-
-    margin-bottom: 55px;
+    gap: 25px;
 }
 
-/* =========================================================
-   FEATURE ITEM
-========================================================= */
-
 .auth-regis-feature-item{
-    position: relative;
-
-    overflow: hidden;
-
     display: flex;
-
     align-items: flex-start;
 
     gap: 18px;
-
-    padding: 24px;
-
-    border-radius: 30px;
-
-    background:
-        rgba(255,255,255,.45);
-
-    backdrop-filter: blur(18px);
-
-    border:
-        1px solid rgba(235,126,186,.15);
-
-    box-shadow:
-        0 15px 40px rgba(224,31,66,.06);
-
-    transition: .4s ease;
 }
-
-.auth-regis-feature-item:hover{
-    transform:
-        translateY(-6px);
-
-    background:
-        rgba(255,255,255,.65);
-
-    box-shadow:
-        0 25px 55px rgba(224,31,66,.12);
-}
-
-/* =========================================================
-   ICON
-========================================================= */
 
 .auth-regis-feature-item i{
-    flex-shrink: 0;
-
-    width: 64px;
-    height: 64px;
+    width: 55px;
+    height: 55px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
-    border-radius: 22px;
+    border-radius: 18px;
 
     background:
         linear-gradient(
             135deg,
-            #f54351,
-            #eb7eba
+            #eb7eba,
+            #f54351
         );
 
-    color: white;
+    color: #fff;
 
-    font-size: 24px;
+    font-size: 1.1rem;
 
-    box-shadow:
-        0 12px 30px rgba(224,31,66,.18);
-}
-
-/* =========================================================
-   FEATURE CONTENT
-========================================================= */
-
-.auth-regis-feature-content{
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 8px;
+    flex-shrink: 0;
 }
 
 .auth-regis-feature-content h4{
-    color: #2b1f25;
+    color: #222;
 
-    font-size: 18px;
+    margin-bottom: 8px;
 
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .auth-regis-feature-content p{
-    margin: 0;
-
-    color:
-        rgba(43,31,37,.7);
-
-    font-size: 14px;
+    color: #666;
 
     line-height: 1.8;
+
+    font-size: .95rem;
 }
 
 /* =========================================================
@@ -390,54 +230,48 @@
 .auth-regis-music-bars{
     display: flex;
 
-    align-items: flex-end;
-
     gap: 10px;
+
+    margin-top: 40px;
 }
 
 .auth-regis-music-bars span{
-    width: 10px;
+    width: 8px;
+    height: 50px;
 
     border-radius: 999px;
 
     background:
         linear-gradient(
             180deg,
-            #f54351,
-            #eb7eba
+            #eb7eba,
+            #e01f42
         );
 
     animation:
-        regisMusicWave 1.2s infinite ease-in-out;
-}
-
-.auth-regis-music-bars span:nth-child(1){
-    height: 36px;
+        authBars 1.6s ease-in-out infinite;
 }
 
 .auth-regis-music-bars span:nth-child(2){
-    height: 70px;
     animation-delay: .2s;
 }
 
 .auth-regis-music-bars span:nth-child(3){
-    height: 48px;
     animation-delay: .4s;
 }
 
 .auth-regis-music-bars span:nth-child(4){
-    height: 82px;
     animation-delay: .6s;
 }
 
-@keyframes regisMusicWave{
+@keyframes authBars{
 
     0%,100%{
-        transform: scaleY(1);
+        height: 30px;
     }
 
     50%{
-        transform: scaleY(1.35);
+        height: 70px;
     }
 
 }
@@ -447,47 +281,26 @@
 ========================================================= */
 
 .auth-regis-right{
-    padding: 70px 60px;
-
-    display: flex;
-
-    margin-top: -55%;
-
-    flex-direction: column;
-
-    justify-content: center;
-
     background:
-        rgba(255,255,255,.22);
+        rgba(255,255,255,.85);
+
+    padding: 60px;
 }
 
-/* =========================================================
-   HEADER
-========================================================= */
-
 .auth-regis-header{
-    margin-bottom: 38px;
+    margin-bottom: 35px;
 }
 
 .auth-regis-header h2{
-    font-size: 44px;
+    font-size: 2rem;
 
-    font-weight: 800;
+    color: #222;
 
-    letter-spacing: -2px;
-
-    color: #2b1f25;
-
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 .auth-regis-header p{
-    color:
-        rgba(43,31,37,.7);
-
-    font-size: 15px;
-
-    line-height: 1.8;
+    color: #777;
 }
 
 /* =========================================================
@@ -496,139 +309,80 @@
 
 .auth-regis-form{
     display: flex;
-
     flex-direction: column;
 
-    gap: 22px;
-}
-
-/* =========================================================
-   FORM GROUP
-========================================================= */
-
-.auth-regis-group{
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 10px;
+    gap: 20px;
 }
 
 .auth-regis-group label{
-    color:
-        rgba(43,31,37,.85);
+    display: block;
 
-    font-size: 13px;
+    margin-bottom: 8px;
 
-    font-weight: 700;
+    color: #444;
 
-    letter-spacing: 1px;
-
-    text-transform: uppercase;
+    font-weight: 600;
 }
-
-/* =========================================================
-   INPUT WRAPPER
-========================================================= */
 
 .auth-regis-input-wrapper{
     position: relative;
 }
 
-.auth-regis-input-wrapper i{
+.auth-regis-input-wrapper i:first-child{
     position: absolute;
 
     top: 50%;
-    left: 20px;
+    left: 18px;
 
     transform: translateY(-50%);
 
-    color:
-        rgba(43,31,37,.4);
-
-    font-size: 14px;
+    color: #999;
 }
-
-/* =========================================================
-   PASSWORD TOGGLE
-========================================================= */
-
-.auth-regis-password-toggle{
-    position: absolute;
-
-    top: 50%;
-    right: 18px;
-
-    transform: translateY(-50%);
-
-    border: none;
-
-    background: transparent;
-
-    cursor: pointer;
-
-    color:
-        rgba(43,31,37,.45);
-
-    font-size: 15px;
-
-    transition: .3s ease;
-}
-
-.auth-regis-password-toggle:hover{
-    color: #e01f42;
-}
-
-/* =========================================================
-   INPUT
-========================================================= */
 
 .auth-regis-input{
     width: 100%;
 
-    padding:
-        20px
-        22px
-        20px
-        56px;
+    height: 58px;
 
-    border-radius: 22px;
+    border-radius: 16px;
 
     border:
-        1px solid rgba(235,126,186,.18);
+        1px solid rgba(0,0,0,.08);
 
-    background:
-        rgba(255,255,255,.55);
+    background: #fff;
 
-    backdrop-filter: blur(18px);
+    padding:
+        0
+        50px
+        0
+        50px;
 
-    color: #2b1f25;
-
-    font-size: 15px;
-
-    outline: none;
-
-    transition: .35s ease;
+    transition: .3s;
 }
-
-/* placeholder */
-
-.auth-regis-input::placeholder{
-    color:
-        rgba(43,31,37,.4);
-}
-
-/* focus */
 
 .auth-regis-input:focus{
-    border-color:
-        rgba(224,31,66,.35);
+    outline: none;
 
-    background:
-        rgba(255,255,255,.78);
+    border-color: #eb7eba;
 
     box-shadow:
-        0 0 0 5px rgba(235,126,186,.15);
+        0 0 0 4px rgba(235,126,186,.15);
+}
+
+.auth-regis-password-toggle{
+    position: absolute;
+
+    right: 15px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    color: #888;
 }
 
 /* =========================================================
@@ -636,66 +390,131 @@
 ========================================================= */
 
 .auth-regis-btn{
-    width: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 12px;
-
-    padding: 20px;
-
-    margin-top: 10px;
+    height: 58px;
 
     border: none;
 
-    border-radius: 22px;
-
-    cursor: pointer;
-
-    color: white;
-
-    font-size: 15px;
-
-    font-weight: 800;
-
-    transition: .35s ease;
+    border-radius: 16px;
 
     background:
         linear-gradient(
             135deg,
-            #e01f42,
-            #f54351
+            #eb7eba,
+            #e01f42
         );
 
-    box-shadow:
-        0 18px 40px rgba(224,31,66,.18);
+    color: white;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .35s;
 }
 
 .auth-regis-btn:hover{
-    transform:
-        translateY(-4px);
+    transform: translateY(-3px);
 
     box-shadow:
-        0 24px 50px rgba(224,31,66,.24);
+        0 15px 35px rgba(224,31,66,.25);
 }
 
 /* =========================================================
-   LOGIN LINK
+   DIVIDER
 ========================================================= */
 
-.auth-regis-login-link{
-    margin-top: 10px;
+.auth-divider{
+    position: relative;
 
     text-align: center;
 
-    color:
-        rgba(43,31,37,.65);
+    margin: 15px 0;
+}
 
-    font-size: 14px;
+.auth-divider::before{
+    content: '';
+
+    position: absolute;
+
+    top: 50%;
+    left: 0;
+
+    width: 100%;
+    height: 1px;
+
+    background: rgba(0,0,0,.08);
+}
+
+.auth-divider span{
+    position: relative;
+
+    background: #fff;
+
+    padding: 0 15px;
+
+    color: #888;
+}
+
+/* =========================================================
+   GOOGLE
+========================================================= */
+
+.auth-google-btn{
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    border-radius: 16px;
+
+    text-decoration: none;
+
+    background: white;
+
+    border:
+        1px solid rgba(0,0,0,.08);
+
+    color: #333;
+
+    font-weight: 600;
+
+    transition: .3s;
+}
+
+.auth-google-btn img{
+    width: 24px;
+}
+
+.auth-google-btn:hover{
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.08);
+}
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+.forgot-back-btn{
+    text-align: center;
+
+    color: #666;
+
+    text-decoration: none;
+
+    margin-top: 10px;
+}
+
+.auth-regis-login-link{
+    text-align: center;
+
+    margin-top: 15px;
+
+    color: #666;
 }
 
 .auth-regis-login-link a{
@@ -710,43 +529,52 @@
    RESPONSIVE
 ========================================================= */
 
-@media(max-width:1100px){
+@media(max-width:1200px){
 
     .auth-regis-card{
         grid-template-columns: 1fr;
-
-        min-height: auto;
     }
 
     .auth-regis-left{
         display: none;
     }
-
-    .auth-regis-right{
-        padding: 60px 42px;
-    }
-
 }
 
-@media(max-width:640px){
+@media(max-width:768px){
 
     .auth-regis-page{
         padding:
-            95px
-            16px
-            40px;
-    }
-
-    .auth-regis-card{
-        border-radius: 30px;
+            90px
+            15px;
     }
 
     .auth-regis-right{
-        padding: 38px 22px;
+        padding: 30px;
     }
 
     .auth-regis-header h2{
-        font-size: 34px;
+        font-size: 1.8rem;
     }
 
+    .auth-regis-input,
+    .auth-regis-btn,
+    .auth-google-btn{
+        height: 54px;
+    }
+}
+
+@media(max-width:480px){
+
+    .auth-regis-right{
+        padding: 25px;
+    }
+
+    .auth-regis-header h2{
+        font-size: 1.6rem;
+    }
+
+    .auth-regis-btn,
+    .auth-google-btn{
+        font-size: .9rem;
+    }
 }

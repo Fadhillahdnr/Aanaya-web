@@ -123,18 +123,23 @@
                         @click="dropdown = !dropdown"
                         class="user-btn">
 
-                        <div class="navbar-user">
+                        @auth
 
-                            @if(Auth::user()->profile_photo)
+                        <a
+                            href="{{ route('profile.edit') }}"
+                            class="navbar-avatar-link">
+
+                            @if(Auth::user()->avatar_url)
 
                                 <img
-                                    src="{{ asset('storage/' . Auth::user()->profile_photo) }}"
-                                    alt="Profile"
-                                    class="navbar-profile-photo">
+                                    src="{{ Auth::user()->avatar_url }}"
+                                    class="navbar-user-avatar"
+                                    alt="{{ Auth::user()->name }}">
 
                             @else
 
-                                <div class="navbar-profile-placeholder">
+                                <div
+                                    class="navbar-user-avatar-fallback">
 
                                     {{ strtoupper(substr(Auth::user()->name,0,1)) }}
 
@@ -142,7 +147,9 @@
 
                             @endif
 
-                        </div>
+                        </a>
+
+                        @endauth
 
                         <i class="fas fa-chevron-down"></i>
 
