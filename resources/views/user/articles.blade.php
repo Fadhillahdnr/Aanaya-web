@@ -147,7 +147,7 @@
                 </p>
 
                 <a href="{{ route('articles.show', $article->slug) }}"
-                   class="article-read-btn">
+                   class="featured-btn">
 
                     Read More
 

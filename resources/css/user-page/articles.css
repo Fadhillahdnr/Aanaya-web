@@ -226,6 +226,25 @@
     font-weight: 700;
 }
 
+.featured-tag-r{
+    display: inline-block;
+
+    padding: 10px 20px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e01f42,
+            #f54351
+        );
+
+    color: white;
+
+    font-weight: 700;
+}
+
 .featured-content h2{
     margin: 25px 0;
 
@@ -395,6 +414,7 @@
     color: #e01f42;
 }
 
+
 .article-body h2{
     font-size: 1.4rem;
 
@@ -504,4 +524,201 @@
     .featured-image img{
         height: 350px;
     }
+}
+
+/* =========================================================
+   ARTICLE HERO RESPONSIVE
+========================================================= */
+
+@media (max-width: 1200px){
+
+    .article-hero{
+        gap: 50px;
+    }
+
+    .article-hero-image img{
+        max-height: 500px;
+    }
+
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 992px){
+
+    .article-hero{
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 40px;
+
+        text-align: center;
+    }
+
+    .article-hero-image{
+
+        width: 100%;
+    }
+
+    .article-hero-image img{
+
+        width: 100%;
+
+        max-width: 700px;
+
+        margin: auto;
+
+        display: block;
+    }
+
+    .article-hero-content{
+
+        width: 100%;
+    }
+
+    .article-hero-content h1{
+
+        font-size:
+            clamp(
+                2.5rem,
+                7vw,
+                4rem
+            );
+
+        line-height: 1.15;
+    }
+
+    .article-meta{
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+
+        gap: 15px;
+    }
+
+    .comic-actions{
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+    }
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px){
+
+    .article-hero{
+
+        gap: 30px;
+
+        padding-top: 30px;
+    }
+
+    .article-hero-image img{
+
+        width: 100%;
+
+        max-height: 400px;
+
+        object-fit: contain;
+    }
+
+    .article-category-badge{
+
+        font-size: .75rem;
+
+        padding: 10px 18px;
+    }
+
+    .article-hero-content h1{
+
+        font-size:
+            clamp(
+                2rem,
+                10vw,
+                3rem
+            );
+
+        line-height: 1.15;
+    }
+
+    .article-meta{
+
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 12px;
+
+        margin-top: 25px;
+    }
+
+    .article-meta span{
+
+        width: fit-content;
+    }
+
+    .comic-actions{
+
+        margin-top: 30px;
+
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+    .back-btn,
+    .start-reading-btn{
+
+        width: 100%;
+
+        justify-content: center;
+    }
+
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px){
+
+    .article-hero{
+
+        gap: 25px;
+    }
+
+    .article-hero-image img{
+
+        max-height: 300px;
+    }
+
+    .article-hero-content h1{
+
+        font-size: 1.9rem;
+    }
+
+    .article-meta{
+
+        font-size: .85rem;
+    }
+
+    .back-btn,
+    .start-reading-btn{
+
+        padding:
+            14px
+            20px;
+
+        font-size: .9rem;
+    }
+
 }

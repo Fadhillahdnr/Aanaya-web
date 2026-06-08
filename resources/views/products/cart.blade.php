@@ -27,7 +27,13 @@
                 <div class="cart-card">
 
                     <div class="cart-img-wrap">
-                        <img src="{{ asset('uploads/products/' . $item['image']) }}" alt="{{ $item['name'] }}">
+
+                        <img
+                            src="{{ $item['image'] }}"
+                            alt="{{ $item['name'] }}"
+                            loading="lazy"
+                            onerror="this.src='https://placehold.co/300x300?text=No+Image'">
+
                     </div>
 
                     <div class="cart-info">
