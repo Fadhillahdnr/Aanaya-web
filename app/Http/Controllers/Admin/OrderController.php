@@ -31,10 +31,10 @@ class OrderController extends Controller
                 'completed'
             )->count();
 
-        $cancelled = Order::where('status','cancelled')->count();
+        $cancelled = Order::where('status', 'cancelled')->count();
 
-        $totalRevenue = Order::where('status','completed')
-        ->sum('total_price');
+        $totalRevenue = Order::where('status', 'completed')
+            ->sum('total_price');
 
         $totalOrders = Order::count();
 
@@ -42,15 +42,17 @@ class OrderController extends Controller
         ? $totalRevenue / $totalOrders
         : 0;
 
-        $monthlySales = Order::selectRaw('
-            MONTH(created_at) as month,
-            SUM(total_price) as revenue
-        ')
-        ->whereYear('created_at', now()->year)
-        ->groupBy('month')
-        ->orderBy('month')
-        ->get();
+        $monthExpression = match (Order::query()->getConnection()->getDriverName()) {
+            'pgsql' => 'EXTRACT(MONTH FROM created_at)',
+            'sqlite' => "CAST(strftime('%m', created_at) AS INTEGER)",
+            default => 'MONTH(created_at)',
+        };
 
+        $monthlySales = Order::selectRaw("{$monthExpression} as month, SUM(total_price) as revenue")
+            ->whereYear('created_at', now()->year)
+            ->groupByRaw($monthExpression)
+            ->orderByRaw($monthExpression)
+            ->get();
 
         return view(
             'admin.orders',
@@ -83,19 +85,18 @@ class OrderController extends Controller
     public function updateStatus(
         Request $request,
         Order $order
-    ){
+    ) {
 
         $order->update([
-            'status' =>
-                $request->status
+            'status' => $request->status,
         ]);
 
         return redirect()
-        ->route('admin.orders')
-        ->with(
-            'success',
-            'Status updated successfully.'
-        );
-        
+            ->route('admin.orders')
+            ->with(
+                'success',
+                'Status updated successfully.'
+            );
+
     }
 }
