@@ -1435,6 +1435,415 @@ body{
 
 }
 
+/* =========================================================
+   DASHBOARD RESPONSIVE FOUNDATION
+========================================================= */
+
+.dream-dashboard img,
+.dream-dashboard video,
+.dream-dashboard iframe{
+    max-width:100%;
+}
+
+.dream-card{
+    margin-bottom:0;
+}
+
+.dashboard-dream-section-music{
+    width:min(100% - 64px, 1350px);
+    margin:0 auto 120px;
+}
+
+@media(max-width:1280px){
+
+    .hero-container{
+        padding-inline:40px;
+        gap:40px;
+    }
+
+    .hero-left{
+        padding-left:80px;
+    }
+
+    .dream-title{
+        font-size:clamp(54px,7vw,88px);
+    }
+
+    .visual-universe-grid{
+        grid-template-columns:1.5fr 1fr;
+    }
+
+    .visual-large{
+        grid-row:span 2;
+    }
+
+    .visual-card,
+    .visual-large{
+        min-height:420px;
+    }
+}
+
+@media(max-width:1100px){
+
+    .dream-hero{
+        min-height:auto;
+    }
+
+    .hero-container{
+        padding-top:150px;
+        padding-bottom:120px;
+    }
+
+    .hero-left{
+        padding-left:0;
+    }
+
+    .hero-right{
+        width:100%;
+    }
+
+    .hero-video-card{
+        width:min(100%, 420px);
+        max-width:none;
+        height:auto;
+        aspect-ratio:4 / 5;
+    }
+
+    .discover-section{
+        padding-left:32px;
+        margin-top:170px;
+    }
+
+    .featured-member{
+        grid-template-columns:minmax(0, .9fr) minmax(0, 1.1fr);
+        gap:36px;
+    }
+
+    .featured-member-image img{
+        height:500px;
+    }
+
+    .featured-member-content h3{
+        font-size:clamp(3rem,7vw,4rem);
+    }
+
+    .aanaya-signature-section{
+        padding:90px 40px;
+    }
+
+    .visual-universe-section,
+    .aanaya-visual-section{
+        margin-block:100px;
+    }
+}
+
+@media(max-width:900px){
+
+    .featured-member{
+        grid-template-columns:1fr;
+    }
+
+    .featured-member-image img{
+        height:auto;
+        max-height:560px;
+        aspect-ratio:4 / 5;
+    }
+
+    .members-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .members-grid .member-card:last-child{
+        grid-column:1 / -1;
+        width:min(100%, 420px);
+        justify-self:center;
+    }
+
+    .visual-universe-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .visual-large{
+        grid-column:1 / -1;
+        grid-row:auto;
+    }
+
+    .visual-card,
+    .visual-large{
+        min-height:380px;
+    }
+}
+
+@media(max-width:768px){
+
+    .dream-dashboard{
+        overflow:clip;
+    }
+
+    .dream-hero{
+        margin-top:0;
+    }
+
+    .hero-container{
+        padding:130px 20px 110px;
+        gap:36px;
+    }
+
+    .dream-badge{
+        max-width:100%;
+        padding:10px 15px;
+        font-size:9px;
+        letter-spacing:1.2px;
+        text-align:left;
+    }
+
+    .dream-title{
+        overflow-wrap:anywhere;
+        font-size:clamp(42px,13vw,68px);
+        line-height:.96;
+    }
+
+    .dream-description{
+        max-width:36rem;
+    }
+
+    .hero-video-card{
+        width:min(100%, 340px);
+        height:auto;
+    }
+
+    .hero-navigation{
+        right:16px;
+        bottom:16px;
+    }
+
+    .hero-nav-btn{
+        width:46px;
+        height:46px;
+    }
+
+    .dream-section,
+    .members-section,
+    .visual-universe-section,
+    .aanaya-visual-section{
+        width:100%;
+        padding-inline:20px;
+    }
+
+    .discover-section{
+        margin-top:110px;
+        margin-bottom:80px;
+        padding-left:20px;
+    }
+
+    .section-heading,
+    .dashboard-section-heading-music{
+        align-items:center;
+        text-align:center;
+    }
+
+    .section-heading h2,
+    .dashboard-section-heading-music h2{
+        font-size:clamp(34px,10vw,46px);
+        letter-spacing:-1.5px;
+    }
+
+    .dream-grid{
+        margin-top:32px;
+    }
+
+    .dream-card{
+        border-radius:26px;
+    }
+
+    .members-section{
+        margin-block:80px;
+    }
+
+    .featured-member{
+        margin:40px 0 50px;
+        padding:22px;
+        border-radius:28px;
+    }
+
+    .featured-member-content{
+        text-align:center;
+    }
+
+    .featured-member-content h3{
+        font-size:clamp(2.6rem,12vw,3.5rem);
+    }
+
+    .member-tags{
+        justify-content:center;
+    }
+
+    .members-grid{
+        grid-template-columns:1fr;
+    }
+
+    .members-grid .member-card:last-child{
+        grid-column:auto;
+        width:100%;
+    }
+
+    .member-image img{
+        height:auto;
+        aspect-ratio:4 / 3;
+    }
+
+    .dashboard-dream-section-music{
+        width:100%;
+        margin-bottom:80px;
+        padding:20px;
+    }
+
+    .dream-btn-msc{
+        width:100%;
+        margin-top:0;
+    }
+
+    .dashboard-music-showcase-grid{
+        gap:20px;
+    }
+
+    .dashboard-spotify-card{
+        min-width:0;
+        padding:22px;
+    }
+
+    .dashboard-spotify-embed iframe{
+        height:152px;
+        border-radius:18px;
+    }
+
+    .aanaya-signature-section{
+        padding:80px 20px;
+    }
+
+    .aanaya-signature-container{
+        gap:36px;
+    }
+
+    .aanaya-signature-video,
+    .aanaya-visual-video{
+        border-radius:24px;
+    }
+
+    .aanaya-signature-content h2,
+    .aanaya-visual-content h2{
+        font-size:clamp(2.4rem,12vw,3.6rem);
+    }
+
+    .visual-universe-section{
+        margin-block:80px;
+    }
+
+    .visual-universe-grid{
+        grid-template-columns:1fr;
+        gap:18px;
+        margin-top:34px;
+    }
+
+    .visual-large{
+        grid-column:auto;
+    }
+
+    .visual-card,
+    .visual-large{
+        min-height:0;
+        height:auto;
+        aspect-ratio:4 / 5;
+        border-radius:26px;
+    }
+
+    .visual-overlay{
+        padding:26px 22px;
+    }
+
+    .visual-overlay h3{
+        font-size:1.6rem;
+    }
+
+    .aanaya-visual-section{
+        margin-block:80px;
+        gap:36px;
+    }
+
+    .dream-quote-section{
+        margin-bottom:80px;
+        padding-inline:20px;
+    }
+
+    .dream-quote-card{
+        padding:56px 22px;
+        border-radius:30px;
+    }
+}
+
+@media(max-width:480px){
+
+    .hero-container{
+        padding-inline:16px;
+    }
+
+    .dream-title{
+        font-size:clamp(38px,14vw,56px);
+    }
+
+    .dream-buttons{
+        gap:12px;
+    }
+
+    .dream-btn{
+        padding:15px 20px;
+        border-radius:16px;
+    }
+
+    .floating-character{
+        left:50%;
+        width:220px;
+        height:310px;
+    }
+
+    .section-mini-title,
+    .dashboard-section-mini-title-music{
+        max-width:100%;
+        font-size:9px;
+        letter-spacing:1.2px;
+    }
+
+    .dream-card,
+    .dashboard-spotify-card,
+    .member-card{
+        border-radius:22px;
+    }
+
+    .member-content{
+        padding:22px;
+    }
+
+    .dashboard-spotify-content h3{
+        font-size:28px;
+    }
+
+    .visual-overlay h3{
+        font-size:1.4rem;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    .dream-dashboard *,
+    .dream-dashboard *::before,
+    .dream-dashboard *::after{
+        scroll-behavior:auto !important;
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+    }
+}
+
 @media(max-width:480px){
 
     .featured-member-content h3{
@@ -2741,4 +3150,99 @@ body{
             18px;
     }
 
+}
+
+/* =========================================================
+   FINAL RESPONSIVE CASCADE
+========================================================= */
+
+@media(max-width:1280px){
+
+    .visual-universe-grid{
+        grid-template-columns:1.5fr 1fr;
+    }
+
+    .visual-large{
+        grid-row:span 2;
+    }
+
+    .visual-card,
+    .visual-large{
+        min-height:420px;
+    }
+}
+
+@media(max-width:900px){
+
+    .visual-universe-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .visual-large{
+        grid-column:1 / -1;
+        grid-row:auto;
+    }
+
+    .visual-card,
+    .visual-large{
+        min-height:380px;
+    }
+}
+
+@media(max-width:768px){
+
+    .dashboard-dream-section-music{
+        width:100%;
+        margin-bottom:80px;
+        padding:20px;
+    }
+
+    .dashboard-spotify-embed iframe{
+        height:152px;
+        border-radius:18px;
+    }
+
+    .aanaya-signature-section{
+        padding:80px 20px;
+    }
+
+    .visual-universe-section{
+        margin-block:80px;
+        padding-inline:20px;
+    }
+
+    .visual-universe-grid{
+        grid-template-columns:1fr;
+        gap:18px;
+        margin-top:34px;
+    }
+
+    .visual-large{
+        grid-column:auto;
+    }
+
+    .visual-card,
+    .visual-large{
+        min-height:0;
+        height:auto;
+        aspect-ratio:4 / 5;
+        border-radius:26px;
+    }
+
+    .visual-overlay{
+        padding:26px 22px;
+    }
+}
+
+@media(max-width:480px){
+
+    .featured-member-image img{
+        height:auto;
+        max-height:520px;
+        aspect-ratio:4 / 5;
+    }
+
+    .dashboard-spotify-embed iframe{
+        height:152px;
+    }
 }
