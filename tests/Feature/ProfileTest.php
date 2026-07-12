@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Cloudinary\Cloudinary;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Mockery;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
@@ -60,7 +62,23 @@ class ProfileTest extends TestCase
 
     public function test_uploaded_profile_photo_replaces_google_avatar(): void
     {
-        Storage::fake('public');
+        $uploadApi = Mockery::mock();
+        $uploadApi->shouldReceive('upload')
+            ->once()
+            ->with(Mockery::type('string'), [
+                'folder' => 'aanaya/profile-photos',
+            ])
+            ->andReturn([
+                'secure_url' => 'https://res.cloudinary.com/demo/image/upload/avatar.jpg',
+                'public_id' => 'aanaya/profile-photos/avatar',
+            ]);
+
+        $cloudinary = Mockery::mock();
+        $cloudinary->shouldReceive('uploadApi')
+            ->once()
+            ->andReturn($uploadApi);
+
+        $this->app->instance(Cloudinary::class, $cloudinary);
 
         $user = User::factory()->create([
             'avatar' => 'https://example.com/google-avatar.jpg',
@@ -78,10 +96,13 @@ class ProfileTest extends TestCase
 
         $user->refresh();
 
-        Storage::disk('public')->assertExists($user->profile_photo);
         $this->assertSame(
-            '/storage/' . $user->profile_photo,
+            'https://res.cloudinary.com/demo/image/upload/avatar.jpg',
             $user->avatar_url
+        );
+        $this->assertSame(
+            'aanaya/profile-photos/avatar',
+            $user->profile_photo_public_id
         );
     }
 

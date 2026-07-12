@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,6 +17,7 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_photo',
+        'profile_photo_public_id',
         'role',
         'google_id',
         'avatar',
@@ -68,7 +68,7 @@ class User extends Authenticatable
             // container rebuild. Only render it when the file still exists,
             // otherwise continue to the Google avatar fallback below.
             if (Storage::disk('public')->exists($this->profile_photo)) {
-                return '/storage/' . ltrim($this->profile_photo, '/');
+                return '/storage/'.ltrim($this->profile_photo, '/');
             }
         }
 
