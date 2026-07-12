@@ -59,11 +59,10 @@ class User extends Authenticatable
     public function getAvatarUrlAttribute()
     {
         if ($this->profile_photo) {
-
-            return asset(
-                'storage/' .
-                $this->profile_photo
-            );
+            // Keep locally uploaded photos on the current host. Using asset()
+            // here can point to the wrong port when APP_URL differs from the
+            // URL used to access the application during local development.
+            return '/storage/' . ltrim($this->profile_photo, '/');
         }
 
         if ($this->avatar) {

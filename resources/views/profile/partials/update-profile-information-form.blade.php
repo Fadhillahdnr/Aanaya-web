@@ -24,11 +24,12 @@
 
             <div class="profile-photo-upload">
 
-                @if($user->profile_photo)
+                @if($user->profile_photo || $user->avatar)
 
                     <img
-                        src="{{ asset('storage/'.$user->profile_photo) }}"
-                        class="profile-photo-preview">
+                        src="{{ $user->avatar_url }}"
+                        class="profile-photo-preview"
+                        alt="{{ $user->name }}">
 
                 @else
 

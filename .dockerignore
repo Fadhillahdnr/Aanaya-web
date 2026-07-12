@@ -1,0 +1,29 @@
+# Git
+.git
+.gitignore
+
+# Dependencies
+vendor
+node_modules
+
+# Laravel cache
+storage/logs
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+
+# Environment
+.env
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+
+# NPM
+npm-debug.log
