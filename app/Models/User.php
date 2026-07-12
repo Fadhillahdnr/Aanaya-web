@@ -6,6 +6,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -59,10 +60,16 @@ class User extends Authenticatable
     public function getAvatarUrlAttribute()
     {
         if ($this->profile_photo) {
-            // Keep locally uploaded photos on the current host. Using asset()
-            // here can point to the wrong port when APP_URL differs from the
-            // URL used to access the application during local development.
-            return '/storage/' . ltrim($this->profile_photo, '/');
+            if (filter_var($this->profile_photo, FILTER_VALIDATE_URL)) {
+                return $this->profile_photo;
+            }
+
+            // A database record can outlive a local file after a deploy or
+            // container rebuild. Only render it when the file still exists,
+            // otherwise continue to the Google avatar fallback below.
+            if (Storage::disk('public')->exists($this->profile_photo)) {
+                return '/storage/' . ltrim($this->profile_photo, '/');
+            }
         }
 
         if ($this->avatar) {

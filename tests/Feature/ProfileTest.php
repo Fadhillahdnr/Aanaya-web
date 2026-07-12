@@ -85,6 +85,21 @@ class ProfileTest extends TestCase
         );
     }
 
+    public function test_google_avatar_is_used_when_uploaded_photo_file_is_missing(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create([
+            'avatar' => 'https://example.com/google-avatar.jpg',
+            'profile_photo' => 'profile-photos/missing.jpg',
+        ]);
+
+        $this->assertSame(
+            'https://example.com/google-avatar.jpg',
+            $user->avatar_url
+        );
+    }
+
     public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
     {
         $user = User::factory()->create();
