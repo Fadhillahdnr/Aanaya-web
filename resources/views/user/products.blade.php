@@ -142,7 +142,7 @@
 </div>
 
 <!-- TOAST -->
-<div id="cart-toast" class="cart-toast">
+<div id="cart-toast" class="cart-toast products-cart-toast" role="status" aria-live="polite">
     <i class="fas fa-circle-check"></i>
 
     <span>

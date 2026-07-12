@@ -148,8 +148,10 @@ document
                 }
             );
 
-        const result =
-            await response.json();
+        const contentType = response.headers.get('content-type') || '';
+        const result = contentType.includes('application/json')
+            ? await response.json()
+            : { success: false, message: 'Server mengembalikan respons yang tidak valid.' };
 
         /*
         ==========================================
@@ -157,10 +159,14 @@ document
         ==========================================
         */
 
-        if(!result.success){
+        if(!response.ok || !result.success){
+
+            const validationMessage = result.errors
+                ? Object.values(result.errors).flat()[0]
+                : null;
 
             throw new Error(
-                result.message ||
+                validationMessage || result.message ||
                 'Checkout gagal'
             );
 

@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class CheckoutController extends Controller
 {
@@ -13,7 +16,7 @@ class CheckoutController extends Controller
     {
         $cart = session()->get('cart', []);
 
-        if(empty($cart)) {
+        if (empty($cart)) {
             return redirect('/cart');
         }
 
@@ -24,98 +27,94 @@ class CheckoutController extends Controller
     {
         $cart = session()->get('cart', []);
 
-        if(empty($cart)){
+        if (empty($cart)) {
             return response()->json([
-                'success' => false
-            ]);
+                'success' => false,
+                'message' => 'Keranjang belanja kosong.',
+            ], 422);
         }
 
-        $total = 0;
-
-        foreach($cart as $item){
-
-            $total +=
-                $item['price']
-                *
-                $item['quantity'];
-
-        }
-
-        $order = Order::create([
-
-            'user_id' => Auth::id(),
-
-            'name' => $request->name,
-
-            'email' => $request->email,
-
-            'phone' => $request->phone,
-
-            'address' => $request->address,
-
-            'total_price' => $total,
-
-            'status' => 'pending'
-
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['required', 'string', 'max:30'],
+            'address' => ['required', 'string', 'min:10', 'max:1000'],
         ]);
 
-        $message =
-            "✨ NEW DREAM ORDER ✨\n\n";
+        [$order, $items, $total] = DB::transaction(function () use ($cart, $validated) {
+            $products = Product::query()
+                ->whereIn('id', array_keys($cart))
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('id');
 
-        $message .=
-            "👤 Name: {$request->name}\n";
+            $items = [];
+            $total = 0;
 
-        $message .=
-            "📧 Email: {$request->email}\n";
+            foreach ($cart as $productId => $cartItem) {
+                $product = $products->get((int) $productId);
+                $quantity = max(1, (int) ($cartItem['quantity'] ?? 1));
 
-        $message .=
-            "📱 Phone: {$request->phone}\n\n";
+                if (! $product || ! $product->is_active) {
+                    throw ValidationException::withMessages([
+                        'cart' => 'Salah satu produk sudah tidak tersedia.',
+                    ]);
+                }
 
-        $message .=
-            "📍 Address:\n{$request->address}\n\n";
+                if ($product->stock < $quantity) {
+                    throw ValidationException::withMessages([
+                        'cart' => "Stok {$product->name} tidak mencukupi.",
+                    ]);
+                }
 
-        $message .=
-            "🛍 Products:\n";
+                $price = (int) round((float) $product->price);
+                $subtotal = $price * $quantity;
+                $total += $subtotal;
 
-        foreach($cart as $productId => $item){
+                $items[] = compact('product', 'quantity', 'price', 'subtotal');
+            }
 
-            OrderItem::create([
-
-                'order_id' => $order->id,
-
-                'product_id' => $productId,
-
-                'price' => $item['price'],
-
-                'quantity' => $item['quantity'],
-
-                'subtotal' =>
-                    $item['price']
-                    *
-                    $item['quantity']
-
+            $order = Order::create([
+                'user_id' => Auth::id(),
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+                'address' => $validated['address'],
+                'total_price' => $total,
+                'status' => 'pending',
             ]);
 
-            $message .=
-                "- {$item['name']} x {$item['quantity']}\n";
+            foreach ($items as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['product']->id,
+                    'price' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'subtotal' => $item['subtotal'],
+                ]);
+
+                $item['product']->decrement('stock', $item['quantity']);
+            }
+
+            return [$order, $items, $total];
+        });
+
+        $message = "✨ NEW DREAM ORDER ✨\n\n";
+        $message .= "👤 Name: {$validated['name']}\n";
+        $message .= "📧 Email: {$validated['email']}\n";
+        $message .= "📱 Phone: {$validated['phone']}\n\n";
+        $message .= "📍 Address:\n{$validated['address']}\n\n";
+        $message .= "🛍 Products:\n";
+
+        foreach ($items as $item) {
+            $message .= "- {$item['product']->name} x {$item['quantity']}\n";
         }
 
-        $message .=
-            "\n💰 Total: Rp "
-            .
-            number_format(
-                $total,
-                0,
-                ',',
-                '.'
-            );
+        $message .= "\n💰 Total: Rp ".number_format($total, 0, ',', '.');
 
         session()->forget('cart');
 
-        $waUrl =
-            'https://wa.me/6289646363117?text='
-            .
-            urlencode($message);
+        $waUrl = 'https://wa.me/6289646363117?text='.urlencode($message);
 
         return response()->json([
 
@@ -123,8 +122,7 @@ class CheckoutController extends Controller
 
             'order_id' => $order->id,
 
-            'whatsapp_url' => $waUrl
-
+            'whatsapp_url' => $waUrl,
         ]);
     }
 }

@@ -73,7 +73,7 @@
 
 </div>
 
-<div id="cart-toast" class="cart-toast">
+<div id="cart-toast" class="cart-toast product-detail-cart-toast" role="status" aria-live="polite">
     <div class="toast-icon">
         <i class="fas fa-circle-check"></i>
     </div>
