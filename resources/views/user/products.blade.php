@@ -108,9 +108,9 @@
 
                         <form action="{{ route('cart.add', $product->id) }}" method="POST" class="inline-form">
                             @csrf
-                            <button type="submit" class="user-cart-btn">
+                            <button type="submit" class="user-cart-btn" @disabled($product->stock < 1)>
                                 <i class="fas fa-cart-plus"></i>
-                                Add Cart
+                                {{ $product->stock > 0 ? 'Add Cart' : 'Out of Stock' }}
                             </button>
                         </form>
 

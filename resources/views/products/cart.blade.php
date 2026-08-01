@@ -17,6 +17,12 @@
         @endphp
 
         <div class="cart-items-wrapper">
+            @if($errors->has('cart'))
+                <div class="direct-upload-status direct-upload-status--error">
+                    {{ $errors->first('cart') }}
+                </div>
+            @endif
+
             @forelse($cart as $id => $item)
 
                 @php
@@ -43,13 +49,17 @@
                             Rp {{ number_format($subtotal, 0, ',', '.') }}
                         </div>
 
+                        <small>
+                            {{ $item['available'] ? 'Stok tersedia: '.$item['stock'] : 'Produk tidak tersedia' }}
+                        </small>
+
                         <div class="cart-actions-row">
                             <div class="cart-qty-control">
                                 <button class="qty-btn qty-minus" data-id="{{ $id }}" data-price="{{ $item['price'] }}">
                                     <i class="fas fa-minus"></i>
                                 </button>
-                                <input type="number" class="qty-input" data-id="{{ $id }}" data-price="{{ $item['price'] }}" value="{{ $item['quantity'] }}" min="1">
-                                <button class="qty-btn qty-plus" data-id="{{ $id }}" data-price="{{ $item['price'] }}">
+                                <input type="number" class="qty-input" data-id="{{ $id }}" data-price="{{ $item['price'] }}" value="{{ $item['quantity'] }}" min="1" max="{{ max(1, $item['stock']) }}" @disabled(! $item['available'])>
+                                <button class="qty-btn qty-plus" data-id="{{ $id }}" data-price="{{ $item['price'] }}" @disabled(! $item['available'] || $item['quantity'] >= $item['stock'])>
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
@@ -83,7 +93,7 @@
                 <h2>Rp {{ number_format($total, 0, ',', '.') }}</h2>
             </div>
 
-            <a href="/checkout" class="checkout-btn">
+            <a href="/checkout" class="checkout-btn" @if(collect($cart)->contains(fn ($item) => ! $item['available'] || $item['quantity'] > $item['stock'])) aria-disabled="true" onclick="return false" @endif>
                 <span>Checkout Now</span>
                 <i class="fas fa-arrow-right"></i>
             </a>
@@ -147,7 +157,18 @@
                 },
                 body: JSON.stringify({ quantity: quantity })
             })
-            .then(response => response.json())
+            .then(async response => {
+                const data = await response.json();
+
+                if (!response.ok) {
+                    const message = data.errors
+                        ? Object.values(data.errors).flat()[0]
+                        : data.message;
+                    throw new Error(message || 'Jumlah produk gagal diperbarui.');
+                }
+
+                return data;
+            })
             .then(data => {
                 if(data.success) {
                     // Update subtotal
@@ -160,7 +181,10 @@
                     totalElement.textContent = 'Rp ' + data.total.toLocaleString('id-ID');
                 }
             })
-            .catch(error => console.error('Error:', error))
+            .catch(error => {
+                alert(error.message);
+                window.location.reload();
+            })
             .finally(() => {
                 card.style.opacity = '1';
             });

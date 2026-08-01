@@ -23,4 +23,10 @@ class Product extends Model
         'is_active',
 
     ];
+
+    protected $casts = [
+        'stock' => 'integer',
+        'price' => 'decimal:2',
+        'is_active' => 'boolean',
+    ];
 }
