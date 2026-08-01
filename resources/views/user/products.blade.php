@@ -33,6 +33,13 @@
 
             </a>
 
+            @auth
+                <a href="{{ route('orders.index') }}" class="user-checkout-btn">
+                    <i class="fas fa-receipt"></i>
+                    <span>My Orders</span>
+                </a>
+            @endauth
+
         </div>
 
     </section>

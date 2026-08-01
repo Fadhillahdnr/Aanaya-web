@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Concerns\HasMedia;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasMedia;
+    use HasFactory, HasMedia, Notifiable;
 
     protected $fillable = [
 
@@ -56,6 +56,11 @@ class User extends Authenticatable
     public function isUser()
     {
         return $this->role === 'user';
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
     public function getAvatarUrlAttribute()

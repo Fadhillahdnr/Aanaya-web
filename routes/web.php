@@ -1,19 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\MusicController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\GalleryController;
-use App\Http\Controllers\UserDashboardController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\MusicController;
 use App\Http\Controllers\Admin\MusicVideoController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\MediaUploadController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\UserOrderController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,7 +108,6 @@ Route::view(
     'user.about'
 )->name('about');
 
-
 /*
 |--------------------------------------------------------------------------
 | AUTH REQUIRED
@@ -116,6 +116,15 @@ Route::view(
 */
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/orders', [UserOrderController::class, 'index'])
+        ->name('orders.index');
+
+    Route::get('/orders/{order}', [UserOrderController::class, 'show'])
+        ->name('orders.show');
+
+    Route::get('/orders/{order}/status', [UserOrderController::class, 'status'])
+        ->name('orders.status');
 
     Route::post('/media/uploads/sign', [MediaUploadController::class, 'sign'])
         ->middleware('throttle:30,1')

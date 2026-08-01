@@ -126,6 +126,8 @@ class CheckoutController extends Controller
             'order_id' => $order->id,
 
             'whatsapp_url' => $waUrl,
+
+            'order_url' => route('orders.show', $order),
         ]);
     }
 }

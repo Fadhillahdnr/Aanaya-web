@@ -43,7 +43,9 @@ class CheckoutTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertJsonPath('success', true);
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('order_url', route('orders.show', $response->json('order_id')))
+            ->assertJsonStructure(['whatsapp_url']);
 
         $this->assertDatabaseHas('orders', [
             'user_id' => $user->id,
