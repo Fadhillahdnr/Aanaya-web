@@ -1,0 +1,6 @@
+[mcp_servers.aanaya_cloudinary]
+command = "php"
+args = ["/Users/muhamad.dinurahman/Projects/Aanaya-web/tools/cloudinary-mcp.php"]
+cwd = "/Users/muhamad.dinurahman/Projects/Aanaya-web"
+startup_timeout_sec = 15
+tool_timeout_sec = 120
