@@ -23,6 +23,19 @@ class ProfileTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_profile_page_exposes_camera_and_gallery_photo_actions(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get('/profile')
+            ->assertOk()
+            ->assertSee('data-open-profile-camera', false)
+            ->assertSee('data-choose-profile-photo', false)
+            ->assertSee('data-profile-camera-dialog', false)
+            ->assertSee('capture="user"', false);
+    }
+
     public function test_profile_information_can_be_updated(): void
     {
         $user = User::factory()->create();

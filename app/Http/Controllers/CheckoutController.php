@@ -93,7 +93,10 @@ class CheckoutController extends Controller
                     'subtotal' => $item['subtotal'],
                 ]);
 
-                $item['product']->decrement('stock', $item['quantity']);
+                // save() deliberately runs model events so cached public product
+                // data is invalidated immediately after a successful checkout.
+                $item['product']->stock -= $item['quantity'];
+                $item['product']->save();
             }
 
             return [$order, $items, $total];

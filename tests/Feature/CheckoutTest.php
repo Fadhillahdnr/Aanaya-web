@@ -70,4 +70,76 @@ class CheckoutTest extends TestCase
                 'message' => 'Keranjang belanja kosong.',
             ]);
     }
+
+    public function test_checkout_rejects_insufficient_stock_without_creating_order(): void
+    {
+        $user = User::factory()->create();
+        $product = Product::create([
+            'name' => 'Limited Aanaya Shirt',
+            'slug' => 'limited-aanaya-shirt',
+            'image' => 'https://example.com/limited.jpg',
+            'price' => 200000,
+            'stock' => 1,
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($user)
+            ->withSession([
+                'cart' => [
+                    $product->id => [
+                        'name' => $product->name,
+                        'price' => $product->price,
+                        'image' => $product->image,
+                        'quantity' => 2,
+                    ],
+                ],
+            ])
+            ->postJson('/checkout/process', [
+                'name' => 'Test Customer',
+                'email' => 'customer@example.com',
+                'phone' => '08123456789',
+                'address' => 'Jalan Test Nomor 123, Jakarta',
+            ]);
+
+        $response
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('cart');
+
+        $this->assertDatabaseCount('orders', 0);
+        $this->assertDatabaseCount('order_items', 0);
+        $this->assertSame(1, $product->refresh()->stock);
+        $this->assertNotEmpty(session('cart', []));
+    }
+
+    public function test_cart_cannot_be_updated_beyond_available_stock(): void
+    {
+        $user = User::factory()->create();
+        $product = Product::create([
+            'name' => 'Aanaya Tote Bag',
+            'slug' => 'aanaya-tote-bag',
+            'image' => 'https://example.com/tote.jpg',
+            'price' => 100000,
+            'stock' => 2,
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($user)
+            ->withSession([
+                'cart' => [
+                    $product->id => [
+                        'name' => $product->name,
+                        'price' => $product->price,
+                        'image' => $product->image,
+                        'quantity' => 1,
+                    ],
+                ],
+            ])
+            ->postJson("/cart/update/{$product->id}", ['quantity' => 3]);
+
+        $response
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('quantity');
+
+        $this->assertSame(1, session("cart.{$product->id}.quantity"));
+    }
 }

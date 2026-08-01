@@ -50,12 +50,18 @@
                 {{ $product->description }}
             </p>
 
+            @if($errors->has('cart'))
+                <div class="direct-upload-status direct-upload-status--error">
+                    {{ $errors->first('cart') }}
+                </div>
+            @endif
+
             <div class="user-product-detail-actions">
                 <form action="{{ route('cart.add', $product->id) }}" method="POST" class="inline-form">
                     @csrf
-                    <button type="submit" class="user-cart-btn-lg">
+                    <button type="submit" class="user-cart-btn-lg" @disabled($product->stock < 1)>
                         <i class="fas fa-cart-plus"></i>
-                        <span>Add To Cart</span>
+                        <span>{{ $product->stock > 0 ? 'Add To Cart' : 'Out of Stock' }}</span>
                     </button>
                 </form>
 

@@ -20,16 +20,16 @@
 
         <div class="user-profile-group">
 
-            <label>Profile Photo</label>
+            <label id="profile-photo-label">Profile Photo</label>
 
-            <div class="profile-photo-upload">
+            <div class="profile-photo-upload" data-profile-photo-preview>
 
                 @if($user->profile_photo || $user->avatar)
 
                     <img
                         src="{{ $user->avatar_url }}"
                         class="profile-photo-preview"
-                        alt="{{ $user->name }}">
+                        alt="Current profile photo for {{ $user->name }}">
 
                 @else
 
@@ -43,11 +43,50 @@
 
             </div>
 
+            <div class="profile-photo-actions" aria-labelledby="profile-photo-label">
+                <button
+                    type="button"
+                    class="profile-photo-action profile-photo-action--primary"
+                    data-open-profile-camera>
+                    <i class="fas fa-camera" aria-hidden="true"></i>
+                    <span>Open Camera</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="profile-photo-action"
+                    data-choose-profile-photo>
+                    <i class="fas fa-images" aria-hidden="true"></i>
+                    <span>Choose from Gallery</span>
+                </button>
+            </div>
+
             <input
+                id="profile_photo"
                 type="file"
                 name="profile_photo"
                 accept="image/*"
-                class="user-profile-input">
+                class="profile-photo-file-input"
+                aria-describedby="profile-photo-help">
+
+            <input
+                type="file"
+                accept="image/*"
+                capture="user"
+                class="profile-photo-file-input"
+                data-camera-capture-fallback
+                tabindex="-1"
+                aria-hidden="true">
+
+            <p id="profile-photo-help" class="profile-photo-help">
+                Take a new photo or choose JPG, PNG, or WebP. The image will be previewed before saving.
+            </p>
+
+            <p class="profile-photo-feedback" data-profile-photo-feedback aria-live="polite"></p>
+
+            <x-input-error
+                class="mt-2"
+                :messages="$errors->get('profile_photo')" />
 
         </div>
 
@@ -141,5 +180,40 @@
         </div>
 
     </form>
+
+    <dialog class="profile-camera-dialog" data-profile-camera-dialog aria-labelledby="profile-camera-title">
+        <div class="profile-camera-shell">
+            <div class="profile-camera-header">
+                <div>
+                    <h3 id="profile-camera-title">Take Profile Photo</h3>
+                    <p>Position your face inside the frame, then capture the photo.</p>
+                </div>
+
+                <button type="button" class="profile-camera-close" data-close-profile-camera aria-label="Close camera">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="profile-camera-viewport">
+                <video data-profile-camera-video autoplay muted playsinline></video>
+                <div class="profile-camera-guide" aria-hidden="true"></div>
+                <div class="profile-camera-state" data-profile-camera-state role="status">
+                    Preparing camera…
+                </div>
+            </div>
+
+            <canvas data-profile-camera-canvas hidden></canvas>
+
+            <div class="profile-camera-actions">
+                <button type="button" class="profile-camera-secondary" data-close-profile-camera>
+                    Cancel
+                </button>
+                <button type="button" class="profile-camera-capture" data-capture-profile-photo disabled>
+                    <i class="fas fa-camera" aria-hidden="true"></i>
+                    Capture Photo
+                </button>
+            </div>
+        </div>
+    </dialog>
 
 </section>

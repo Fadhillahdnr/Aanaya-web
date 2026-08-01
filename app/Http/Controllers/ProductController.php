@@ -45,7 +45,7 @@ class ProductController extends Controller
             'name' => 'required',
             'uploaded_media.image' => 'required|string|exists:media,id',
             'price' => 'required|numeric',
-            'stock' => 'required|numeric',
+            'stock' => ['required', 'integer', 'min:0'],
         ]);
 
         $media = $mediaService->fromRequest($request, 'image', true);
@@ -105,7 +105,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required|numeric',
-            'stock' => 'required|numeric',
+            'stock' => ['required', 'integer', 'min:0'],
             'uploaded_media.image' => 'nullable|string|exists:media,id',
         ]);
 
@@ -184,7 +184,7 @@ class ProductController extends Controller
         $product = Product::where(
             'slug',
             $slug
-        )->firstOrFail();
+        )->where('is_active', true)->firstOrFail();
 
         return view(
             'user.product-show',
