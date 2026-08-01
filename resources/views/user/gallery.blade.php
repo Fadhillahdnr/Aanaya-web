@@ -76,10 +76,12 @@
                             </div>
 
                             <button
+                                type="button"
                                 class="gallery-action-btn open-gallery-modal"
                                 data-image="{{ \App\Support\MediaUrl::image(filter_var($gallery->image, FILTER_VALIDATE_URL) ? $gallery->image : asset('uploads/gallery/' . $gallery->image), 1600) }}"
                                 data-title="{{ $gallery->title }}"
-                                data-description="{{ $gallery->description }}">
+                                data-description="{{ $gallery->description }}"
+                                aria-label="Open {{ $gallery->title ?? 'Dreamy Moment' }} in full view">
                                 
                                 <i class="fas fa-expand"></i>
 
@@ -122,11 +124,19 @@
     <!-- =========================================
         FULLSCREEN MODAL
     ========================================== -->
-    <div class="gallery-modal" id="galleryModal">
+    <div
+        class="gallery-modal"
+        id="galleryModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="galleryModalTitle"
+        aria-describedby="galleryModalDescription"
+        aria-hidden="true"
+    >
 
         <!-- CLOSE -->
-        <button class="gallery-modal-close" id="closeGalleryModal">
-            <i class="fas fa-times"></i>
+        <button type="button" class="gallery-modal-close" id="closeGalleryModal" aria-label="Close photo">
+            <i class="fas fa-times" aria-hidden="true"></i>
         </button>
 
         <!-- BACKDROP -->
@@ -179,6 +189,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const openButtons = document.querySelectorAll(".open-gallery-modal");
 
+    let lastFocusedElement = null;
+
+    let previousBodyOverflow = "";
+
     // OPEN MODAL
     openButtons.forEach(button => {
 
@@ -190,7 +204,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const description = button.dataset.description;
 
+            lastFocusedElement = button;
+
+            previousBodyOverflow = document.body.style.overflow;
+
             modalImage.src = image;
+
+            modalImage.alt = title || "Aanaya gallery photo";
 
             modalTitle.innerText = title || "Dreamy Moment";
 
@@ -199,7 +219,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             modal.classList.add("active");
 
+            modal.setAttribute("aria-hidden", "false");
+
             document.body.style.overflow = "hidden";
+
+            closeBtn.focus();
 
         });
 
@@ -222,19 +246,32 @@ document.addEventListener("DOMContentLoaded", () => {
     // ESC
     document.addEventListener("keydown", (e) => {
 
-        if(e.key === "Escape"){
+        if(e.key === "Escape" && modal.classList.contains("active")){
             closeModal();
+        }
+
+        if(e.key === "Tab" && modal.classList.contains("active")){
+            e.preventDefault();
+            closeBtn.focus();
         }
 
     });
 
     function closeModal(){
 
+        if(!modal.classList.contains("active")) return;
+
         modal.classList.remove("active");
 
-        document.body.style.overflow = "";
+        modal.setAttribute("aria-hidden", "true");
+
+        document.body.style.overflow = previousBodyOverflow;
 
         modalImage.removeAttribute("src");
+
+        modalImage.alt = "";
+
+        lastFocusedElement?.focus();
 
     }
 

@@ -16,7 +16,7 @@
         #fcf8ed 100%
     );
     color: #2a1b22; /* Teks warna gelap agar terbaca jelas di background cerah */
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--font-body);
 }
 
 /* =========================================================

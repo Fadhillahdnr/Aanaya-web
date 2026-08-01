@@ -1,9 +1,4 @@
 <x-app-layout>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
     <div class="dream-dashboard">
 
         <!-- =========================================================
@@ -199,7 +194,7 @@
             </div>
 
         </div>
-        
+
 
         <!-- =========================================================
             AANAYA SIGNATURE VIDEO
@@ -713,100 +708,90 @@
         ========================================================= -->
         <section class="visual-universe-section reveal-section">
 
-            <div class="section-heading reveal reveal-up">
-
-                <div>
-
-                    <span class="section-mini-title">
-                        VISUAL UNIVERSE
-                    </span>
-
-                    <h2>
-                        The World Of Aanaya
-                    </h2>
-
-                    <p>
-                        Every song has a visual soul.
-                        Explore the cinematic aesthetics,
-                        dreamy colors, and emotional atmosphere
-                        that shape the Aanaya universe.
-                    </p>
-
+            <header class="visual-universe-header reveal reveal-up">
+                <div class="visual-universe-heading">
+                    <span class="section-mini-title">VISUAL UNIVERSE</span>
+                    <h2>The World <em>Of Aanaya</em></h2>
                 </div>
 
-            </div>
+                <div class="visual-universe-intro">
+                    <span class="visual-universe-count" aria-hidden="true">01 — 04</span>
+                    <p>
+                        Every song has a visual soul. Explore the cinematic aesthetics,
+                        dreamy colors, and emotional atmosphere that shape our universe.
+                    </p>
+                </div>
+            </header>
 
             <div class="visual-universe-grid">
+                <div class="visual-universe-column visual-universe-column--wide">
+                    <figure class="visual-card visual-card--dream visual-large">
+                        <picture>
+                            <source srcset="{{ asset('assets/visual/visual1.webp') }}" type="image/webp">
+                            <img src="{{ asset('assets/visual/visual1.png') }}"
+                                alt="Dreamlike pink Aanaya visual artwork" width="1080" height="1080"
+                                loading="lazy" decoding="async">
+                        </picture>
+                        <figcaption class="visual-overlay">
+                            <span class="visual-card-number" aria-hidden="true">01</span>
+                            <div class="visual-card-copy">
+                                <span class="visual-card-category">Dream Pop Aesthetic</span>
+                                <h3>Soft Colors &amp; Endless Feelings</h3>
+                                <p>A quiet world where color carries every unspoken emotion.</p>
+                            </div>
+                        </figcaption>
+                    </figure>
 
-                <!-- BIG -->
-                <div class="visual-card visual-large">
-
-                    <img
-                        src="{{ asset('assets/visual/visual1.png') }}"
-                        alt="Aanaya Visual"
-                        loading="lazy"
-                        decoding="async">
-
-                    <div class="visual-overlay">
-
-                        <span>
-                            Dream Pop Aesthetic
-                        </span>
-
-                        <h3>
-                            Soft Colors & Endless Feelings
-                        </h3>
-
-                    </div>
-
+                    <figure class="visual-card visual-card--emotional">
+                        <picture>
+                            <source srcset="{{ asset('assets/visual/visual3.webp') }}" type="image/webp">
+                            <img src="{{ asset('assets/visual/visual3.png') }}"
+                                alt="Emotional landscape artwork representing stories between notes"
+                                width="1376" height="768" loading="lazy" decoding="async">
+                        </picture>
+                        <figcaption class="visual-overlay">
+                            <span class="visual-card-number" aria-hidden="true">02</span>
+                            <div class="visual-card-copy">
+                                <span class="visual-card-category">Emotional</span>
+                                <h3>Stories Between Notes</h3>
+                            </div>
+                        </figcaption>
+                    </figure>
                 </div>
 
-                <!-- SMALL -->
-                <div class="visual-card">
+                <div class="visual-universe-column visual-universe-column--portrait">
+                    <figure class="visual-card visual-card--cinematic">
+                        <picture>
+                            <source srcset="{{ asset('assets/visual/visual2.webp') }}" type="image/webp">
+                            <img src="{{ asset('assets/visual/visual2.png') }}"
+                                alt="Cinematic portrait from the Aanaya visual universe"
+                                width="1545" height="1999" loading="lazy" decoding="async">
+                        </picture>
+                        <figcaption class="visual-overlay">
+                            <span class="visual-card-number" aria-hidden="true">03</span>
+                            <div class="visual-card-copy">
+                                <span class="visual-card-category">Cinematic</span>
+                                <h3>Midnight Memories</h3>
+                            </div>
+                        </figcaption>
+                    </figure>
 
-                    <img
-                        src="{{ asset('assets/visual/visual2.png') }}"
-                        alt="Aanaya Visual"
-                        loading="lazy"
-                        decoding="async">
-
-                    <div class="visual-overlay">
-
-                        <span>
-                            Cinematic
-                        </span>
-
-                        <h3>
-                            Midnight Memories
-                        </h3>
-
-                    </div>
-
+                    <figure class="visual-card visual-card--paper-dreams">
+                        <picture>
+                            <source srcset="{{ asset('assets/visual/visual4.webp') }}" type="image/webp">
+                            <img src="{{ asset('assets/visual/visual4.png') }}"
+                                alt="Aanaya members surrounded by paper planes and illustrated memories"
+                                width="896" height="1194" loading="lazy" decoding="async">
+                        </picture>
+                        <figcaption class="visual-overlay">
+                            <span class="visual-card-number" aria-hidden="true">04</span>
+                            <div class="visual-card-copy">
+                                <span class="visual-card-category">Paper Dreams</span>
+                                <h3>Letters We Never Sent</h3>
+                            </div>
+                        </figcaption>
+                    </figure>
                 </div>
-
-                <!-- SMALL -->
-                <div class="visual-card">
-
-                    <img
-                        src="{{ asset('assets/visual/visual3.png') }}"
-                        alt="Aanaya Visual"
-                        loading="lazy"
-                        decoding="async">
-
-                    <div class="visual-overlay">
-
-                        <span>
-                            Emotional
-                        </span>
-
-                        <h3>
-                            Stories Between Notes
-                        </h3>
-
-                    </div>
-
-                </div>
-
             </div>
 
         </section>
