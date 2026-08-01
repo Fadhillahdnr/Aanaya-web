@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Concerns\HasMedia;
+use App\Models\Concerns\InvalidatesPublicContentCache;
+use Illuminate\Database\Eloquent\Model;
 
 class Gallery extends Model
 {
-    use HasMedia;
+    use HasMedia, InvalidatesPublicContentCache;
+
     protected $fillable = [
 
         'title',
         'image',
-        'description'
+        'description',
 
     ];
 }

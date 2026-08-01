@@ -46,10 +46,12 @@
                 <!-- IMAGE -->
                 <div class="gallery-image-box">
 
-                    <img
-                        src="{{ filter_var($gallery->image, FILTER_VALIDATE_URL) ? $gallery->image : asset('uploads/gallery/' . $gallery->image) }}"
-                        alt="{{ $gallery->title }}"
-                        class="gallery-image">
+                    <x-media-image
+                        :src="filter_var($gallery->image, FILTER_VALIDATE_URL) ? $gallery->image : asset('uploads/gallery/' . $gallery->image)"
+                        :alt="$gallery->title ?? 'Aanaya gallery image'"
+                        :width="720"
+                        sizes="(max-width: 640px) 94vw, (max-width: 1100px) 48vw, 25vw"
+                        class="gallery-image" />
 
 
                     <!-- OVERLAY -->
@@ -75,7 +77,7 @@
 
                             <button
                                 class="gallery-action-btn open-gallery-modal"
-                                data-image="{{ filter_var($gallery->image, FILTER_VALIDATE_URL) ? $gallery->image : asset('uploads/gallery/' . $gallery->image) }}"
+                                data-image="{{ \App\Support\MediaUrl::image(filter_var($gallery->image, FILTER_VALIDATE_URL) ? $gallery->image : asset('uploads/gallery/' . $gallery->image), 1600) }}"
                                 data-title="{{ $gallery->title }}"
                                 data-description="{{ $gallery->description }}">
                                 
@@ -115,6 +117,8 @@
 
     </section>
 
+    <div class="media-pagination">{{ $galleries->onEachSide(1)->links() }}</div>
+
     <!-- =========================================
         FULLSCREEN MODAL
     ========================================== -->
@@ -134,6 +138,7 @@
             <img
                 src=""
                 alt=""
+                decoding="async"
                 class="gallery-modal-image"
                 id="galleryModalImage">
 
@@ -228,6 +233,8 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.classList.remove("active");
 
         document.body.style.overflow = "";
+
+        modalImage.removeAttribute("src");
 
     }
 

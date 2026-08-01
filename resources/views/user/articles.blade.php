@@ -44,8 +44,8 @@
         <!-- IMAGE -->
         <div class="featured-image">
 
-                <img src="{{ $featured->thumbnail }}"
-                    alt="{{ $featured->title }}">
+                <x-media-image :src="$featured->thumbnail" :alt="$featured->title"
+                    :width="1280" :height="720" crop="fill" sizes="100vw" priority />
     
                 <div class="featured-overlay"></div>
 
@@ -107,9 +107,9 @@
             <!-- IMAGE -->
             <div class="article-image">
 
-                <img
-                        src="{{ $article->thumbnail }}"
-                        alt="{{ $article->title }}">
+                <x-media-image :src="$article->thumbnail" :alt="$article->title"
+                    :width="720" :height="450" crop="fill"
+                    sizes="(max-width: 700px) 94vw, 33vw" />
 
                 <div class="article-overlay"></div>
 
@@ -179,6 +179,8 @@
         @endforelse
 
     </section>
+
+    <div class="media-pagination">{{ $articles->onEachSide(1)->links() }}</div>
 
 </div>
 

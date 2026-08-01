@@ -142,7 +142,9 @@ class ArticleController extends Controller
 
     public function userIndex()
     {
-        return view('user.articles', ['articles' => Article::latest()->get()]);
+        return view('user.articles', [
+            'articles' => Article::with('author')->latest()->paginate(10),
+        ]);
     }
 
     public function show($slug)

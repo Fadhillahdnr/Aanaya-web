@@ -20,9 +20,8 @@
 
             @if($comic->thumbnail)
 
-                <img
-                    src="{{ $comic->thumbnail }}"
-                    alt="{{ $comic->title }}">
+                <x-media-image :src="$comic->thumbnail" :alt="$comic->title"
+                    :width="1280" :height="720" crop="fill" sizes="100vw" priority />
 
             @else
 
@@ -129,9 +128,9 @@
 
             <div class="comic-panel">
 
-                <img
-                    src="{{ $panel->image }}"
-                    alt="Comic Panel {{ $loop->iteration }}">
+                <x-media-image :src="$panel->image"
+                    alt="Comic Panel {{ $loop->iteration }}"
+                    :width="1200" sizes="(max-width: 800px) 100vw, 900px" />
 
                 <!-- PANEL NUMBER -->
                 <div class="panel-number">

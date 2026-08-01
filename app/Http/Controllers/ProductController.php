@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Services\MediaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Services\MediaService;
 
 class ProductController extends Controller
 {
@@ -42,7 +42,7 @@ class ProductController extends Controller
     public function store(Request $request, MediaService $mediaService)
     {
         $request->validate([
-            'name'  => 'required',
+            'name' => 'required',
             'uploaded_media.image' => 'required|string|exists:media,id',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
@@ -103,7 +103,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $request->validate([
-            'name'  => 'required',
+            'name' => 'required',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
             'uploaded_media.image' => 'nullable|string|exists:media,id',
@@ -165,7 +165,7 @@ class ProductController extends Controller
 
     public function userIndex()
     {
-        $products = Product::latest()->get();
+        $products = Product::where('is_active', true)->latest()->paginate(12);
 
         return view(
             'user.products',

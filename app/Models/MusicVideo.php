@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Concerns\HasMedia;
+use App\Models\Concerns\InvalidatesPublicContentCache;
+use Illuminate\Database\Eloquent\Model;
 
 class MusicVideo extends Model
 {
-    use HasMedia;
+    use HasMedia, InvalidatesPublicContentCache;
+
     protected $table = 'music_videos';
-    
+
     protected $fillable = [
 
         'title',

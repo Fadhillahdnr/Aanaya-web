@@ -108,9 +108,9 @@
                 <!-- COVER -->
                 <div class="dream-music-image">
 
-                    <img
-                        src="{{ $music->cover_image }}"
-                        alt="{{ $music->title }}">
+                    <x-media-image :src="$music->cover_image" :alt="$music->title"
+                        :width="640" :height="640" crop="fill"
+                        sizes="(max-width: 700px) 92vw, 33vw" />
 
                     <div class="dream-music-image-overlay"></div>
 
@@ -244,10 +244,12 @@
 
                     <!-- AUDIO -->
                     <audio
-                        class="dream-music-audio">
+                        class="dream-music-audio"
+                        preload="none"
+                        data-src="{{ $music->audio_file }}">
 
                         <source
-                            src="{{ $music->audio_file }}"
+                            data-src="{{ $music->audio_file }}"
                             type="audio/mpeg">
 
                     </audio>
@@ -435,6 +437,14 @@ document
 
             if(audio.paused)
             {
+                if(audio.dataset.loaded !== 'true')
+                {
+                    const source = audio.querySelector('source[data-src]');
+                    if(source) source.src = source.dataset.src;
+                    audio.dataset.loaded = 'true';
+                    audio.load();
+                }
+
                 audio.play();
 
                 icon.classList.remove(

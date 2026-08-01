@@ -73,6 +73,8 @@
                     <img
                         src="{{ asset('images/about-image.png') }}"
                         alt="About Aanaya"
+                        loading="lazy"
+                        decoding="async"
                         class="about-image">
 
                     <div class="about-image-overlay"></div>

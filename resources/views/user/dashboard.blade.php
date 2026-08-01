@@ -18,19 +18,19 @@
             <div class="hero-slider">
 
                 <div class="hero-slide active">
-                    <img src="{{ asset('assets/bg/bg1.png') }}">
+                    <img src="{{ asset('assets/bg/bg1.png') }}" alt="" fetchpriority="high" decoding="async">
                 </div>
 
                 <div class="hero-slide">
-                    <img src="{{ asset('assets/bg/bg2.jpeg') }}">
+                    <img data-src="{{ asset('assets/bg/bg2.jpeg') }}" alt="" decoding="async">
                 </div>
 
                 <div class="hero-slide">
-                    <img src="{{ asset('assets/bg/bg3.png') }}">
+                    <img data-src="{{ asset('assets/bg/bg3.png') }}" alt="" decoding="async">
                 </div>
 
                 <div class="hero-slide">
-                    <img src="{{ asset('assets/bg/bg4.png') }}">
+                    <img data-src="{{ asset('assets/bg/bg4.png') }}" alt="" decoding="async">
                 </div>
 
             </div>
@@ -126,11 +126,12 @@
                                     id="heroVideo"
                                     autoplay
                                     muted
+                                    preload="metadata"
                                     playsinline
                                     class="hero-video">
 
                                     <source
-                                        src="{{ asset($latestVideos[0]->video_file) }}"
+                                        src="{{ \App\Support\MediaUrl::video($latestVideos[0]->video_file) }}"
                                         type="video/mp4">
 
                                 </video>
@@ -177,18 +178,20 @@
                 <div class="floating-character-glow"></div>
 
                 <video
-                    autoplay
                     muted
                     loop
                     playsinline
+                    preload="none"
+                    data-lazy-video
+                    data-autoplay="true"
                     class="floating-character-video">
 
                     <source
-                        src="{{ asset('assets/character/aanaya.webm') }}"
+                        data-src="{{ asset('assets/character/aanaya.webm') }}"
                         type="video/webm">
 
                     <source
-                        src="{{ asset('assets/character/aanaya.mp4') }}"
+                        data-src="{{ asset('assets/character/aanaya.mp4') }}"
                         type="video/mp4">
 
                 </video>
@@ -209,13 +212,15 @@
                 <div class="aanaya-signature-video">
 
                     <video
-                        autoplay
                         muted
                         loop
-                        playsinline>
+                        playsinline
+                        preload="none"
+                        data-lazy-video
+                        data-autoplay="true">
 
                         <source
-                            src="{{ asset('assets/video/logo.mp4') }}"
+                            data-src="{{ asset('assets/video/logo.mp4') }}"
                             type="video/mp4">
 
                     </video>
@@ -436,7 +441,9 @@
 
                     <img
                         src="{{ asset('assets/members/member1.jpg') }}"
-                        alt="Aanaya">
+                        alt="Aanaya"
+                        loading="lazy"
+                        decoding="async">
 
                 </div>
 
@@ -485,7 +492,9 @@
 
                         <img
                             src="{{ asset('assets/members/member2.png') }}"
-                            alt="Falisha">
+                            alt="Falisha"
+                            loading="lazy"
+                            decoding="async">
 
                     </div>
 
@@ -517,7 +526,9 @@
 
                         <img
                             src="{{ asset('assets/members/member3.png') }}"
-                            alt="Ren">
+                            alt="Ren"
+                            loading="lazy"
+                            decoding="async">
 
                     </div>
 
@@ -549,7 +560,9 @@
 
                         <img
                             src="{{ asset('assets/members/member4.png') }}"
-                            alt="Mika">
+                            alt="Mika"
+                            loading="lazy"
+                            decoding="async">
 
                     </div>
 
@@ -730,7 +743,9 @@
 
                     <img
                         src="{{ asset('assets/visual/visual1.png') }}"
-                        alt="Aanaya Visual">
+                        alt="Aanaya Visual"
+                        loading="lazy"
+                        decoding="async">
 
                     <div class="visual-overlay">
 
@@ -751,7 +766,9 @@
 
                     <img
                         src="{{ asset('assets/visual/visual2.png') }}"
-                        alt="Aanaya Visual">
+                        alt="Aanaya Visual"
+                        loading="lazy"
+                        decoding="async">
 
                     <div class="visual-overlay">
 
@@ -772,7 +789,9 @@
 
                     <img
                         src="{{ asset('assets/visual/visual3.png') }}"
-                        alt="Aanaya Visual">
+                        alt="Aanaya Visual"
+                        loading="lazy"
+                        decoding="async">
 
                     <div class="visual-overlay">
 
@@ -799,13 +818,15 @@
             <div class="aanaya-visual-video">
 
                 <video
-                    autoplay
                     muted
                     loop
-                    playsinline>
+                    playsinline
+                    preload="none"
+                    data-lazy-video
+                    data-autoplay="true">
 
                     <source
-                        src="{{ asset('assets/visual/visualaanaya.mp4') }}"
+                        data-src="{{ asset('assets/visual/visualaanaya.mp4') }}"
                         type="video/mp4">
 
                 </video>
@@ -884,6 +905,12 @@
 
         function showSlide(index){
 
+            const image = slides[index].querySelector('img[data-src]');
+            if(image){
+                image.src = image.dataset.src;
+                image.removeAttribute('data-src');
+            }
+
             slides.forEach(slide => {
                 slide.classList.remove('active');
             });
@@ -891,6 +918,14 @@
             slides[index].classList.add('active');
 
         }
+
+        window.requestIdleCallback?.(() => {
+            const nextImage = slides[1]?.querySelector('img[data-src]');
+            if(nextImage){
+                nextImage.src = nextImage.dataset.src;
+                nextImage.removeAttribute('data-src');
+            }
+        });
 
         function nextSlide(){
 
@@ -1068,19 +1103,11 @@
 
             @foreach($latestVideos as $video)
 
-                "{{ asset($video->video_file) }}",
+                @json(\App\Support\MediaUrl::video($video->video_file)),
 
             @endforeach
 
         ];
-
-        /*
-        =========================================================
-        DEBUG
-        =========================================================
-        */
-
-        console.log(videoList);
 
         /*
         =========================================================
@@ -1089,6 +1116,10 @@
         */
 
         let currentVideo = 0;
+
+        const shouldReduceMedia =
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+            navigator.connection?.saveData === true;
 
         /*
         =========================================================
@@ -1123,7 +1154,9 @@
             /*
             PLAY VIDEO BARU
             */
-            heroVideo.play();
+            if (!shouldReduceMedia) {
+                heroVideo.play().catch(() => {});
+            }
 
         }
 
@@ -1135,9 +1168,26 @@
 
         heroVideo.onended = function(){
 
-            nextVideo();
+            if (!shouldReduceMedia && videoList.length > 1) {
+                nextVideo();
+            }
 
         };
+
+        if (shouldReduceMedia) {
+            heroVideo.removeAttribute('autoplay');
+            heroVideo.pause();
+        } else {
+            const heroObserver = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) {
+                    heroVideo.play().catch(() => {});
+                } else {
+                    heroVideo.pause();
+                }
+            }, { threshold: 0.15 });
+
+            heroObserver.observe(heroVideo);
+        }
 
     </script>
 

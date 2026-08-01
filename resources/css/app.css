@@ -98,3 +98,22 @@ body{
     background: #fff0f0;
     color: #a11d1d;
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.media-pagination {
+    width: min(100% - 32px, 1200px);
+    margin: 32px auto 56px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

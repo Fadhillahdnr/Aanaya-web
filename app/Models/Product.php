@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Concerns\HasMedia;
+use App\Models\Concerns\InvalidatesPublicContentCache;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasMedia;
+    use HasMedia, InvalidatesPublicContentCache;
+
     protected $fillable = [
 
         'name',
@@ -18,7 +20,7 @@ class Product extends Model
         'price',
         'stock',
         'category',
-        'is_active'
+        'is_active',
 
     ];
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gallery;
-use Illuminate\Http\Request;
 use App\Services\MediaService;
+use Illuminate\Http\Request;
 
 class GalleryController extends Controller
 {
@@ -164,7 +164,7 @@ class GalleryController extends Controller
 
     public function userIndex()
     {
-        $galleries = Gallery::latest()->get();
+        $galleries = Gallery::latest()->paginate(16);
 
         return view(
             'user.gallery',

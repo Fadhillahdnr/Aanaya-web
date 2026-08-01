@@ -8,12 +8,10 @@
     <section class="user-product-detail-container fade-in-up">
 
         <div class="user-product-detail-image-wrap">
-            <img 
-                src="{{ $product->image }}" 
-                alt="{{ $product->name }}" 
-                class="user-product-detail-image"
-                loading="lazy"
-                onerror="this.src='https://placehold.co/600x600?text=No+Image'">
+            <x-media-image :src="$product->image" :alt="$product->name"
+                :width="960" :height="960" crop="fill" sizes="(max-width: 800px) 94vw, 50vw"
+                class="user-product-detail-image" priority
+                onerror="this.src='https://placehold.co/600x600?text=No+Image'" />
             
             <div class="user-product-detail-overlay-light"></div>
         </div>

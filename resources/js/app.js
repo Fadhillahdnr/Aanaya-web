@@ -7,3 +7,4 @@ window.Alpine = Alpine;
 Alpine.start();
 
 import './direct-cloudinary-upload';
+import './media-performance';

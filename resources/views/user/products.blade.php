@@ -48,12 +48,11 @@
                 <!-- IMAGE -->
                 <div class="user-product-image-wrap">
 
-                    <img
-                        src="{{ $product->image }}"
-                        alt="{{ $product->name }}"
+                    <x-media-image :src="$product->image" :alt="$product->name"
+                        :width="640" :height="640" crop="fill"
+                        sizes="(max-width: 700px) 94vw, 25vw"
                         class="user-product-image"
-                        loading="lazy"
-                        onerror="this.src='https://placehold.co/600x600?text=No+Image'">
+                        onerror="this.src='https://placehold.co/600x600?text=No+Image'" />
 
                     <div class="user-product-overlay"></div>
 
@@ -138,6 +137,8 @@
         @endforelse
 
     </section>
+
+    <div class="media-pagination">{{ $products->onEachSide(1)->links() }}</div>
 
 </div>
 

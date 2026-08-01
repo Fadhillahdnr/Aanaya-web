@@ -14,9 +14,8 @@
 
             <div class="article-hero-image">
 
-                <img
-                    src="{{ $article->thumbnail }}"
-                    alt="{{ $article->title }}">
+                <x-media-image :src="$article->thumbnail" :alt="$article->title"
+                    :width="1280" :height="720" crop="fill" sizes="100vw" priority />
 
             </div>
 
@@ -171,9 +170,8 @@
 
                                 <div class="story-image-card depth-card">
 
-                                    <img
-                                        src="{{ $left->image }}"
-                                        alt="Image">
+                                    <x-media-image :src="$left->image" alt="Article illustration"
+                                        :width="1100" sizes="(max-width: 800px) 94vw, 50vw" />
 
                                 </div>
 
@@ -201,9 +199,8 @@
 
                                     <div class="story-image-card depth-card">
 
-                                        <img
-                                            src="{{ $left->image }}"
-                                            alt="Image">
+                                        <x-media-image :src="$left->image" alt="Article illustration"
+                                            :width="900" sizes="(max-width: 800px) 94vw, 50vw" />
 
                                     </div>
 
@@ -227,9 +224,8 @@
 
                                     <div class="story-image-card depth-card">
 
-                                        <img
-                                            src="{{ $right->image }}"
-                                            alt="Image">
+                                        <x-media-image :src="$right->image" alt="Article illustration"
+                                            :width="900" sizes="(max-width: 800px) 94vw, 50vw" />
 
                                     </div>
 
@@ -275,9 +271,8 @@
 
                         <div class="comic-panel-card reveal-item depth-card">
 
-                            <img
-                                src="{{ $comic->image }}"
-                                alt="Comic">
+                            <x-media-image :src="$comic->image" alt="Comic panel"
+                                :width="1200" sizes="(max-width: 800px) 100vw, 900px" />
 
                         </div>
 

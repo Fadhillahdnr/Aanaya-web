@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Concerns\HasMedia;
+use App\Models\Concerns\InvalidatesPublicContentCache;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    use HasFactory, HasMedia;
+    use HasFactory, HasMedia, InvalidatesPublicContentCache;
 
     protected $table = 'articles';
 
@@ -62,7 +63,7 @@ class Article extends Model
     public function comicImages()
     {
         return $this->hasMany(ComicImage::class)
-                    ->orderBy('sort_order');
+            ->orderBy('sort_order');
     }
 
     /*
