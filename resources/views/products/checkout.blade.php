@@ -66,7 +66,9 @@
                         <a href="{{ route('cart.index') }}">Edit cart</a>
                     </div>
 
-                    @php($checkoutTotal = 0)
+                    @php
+                        $checkoutTotal = 0;
+                    @endphp
                     @foreach($cart as $item)
                         @php
                             $lineTotal = $item['price'] * $item['quantity'];

@@ -11,6 +11,35 @@ class CheckoutTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_checkout_page_can_be_rendered_with_order_summary(): void
+    {
+        $user = User::factory()->create();
+        $product = Product::create([
+            'name' => 'Aanaya Shirt',
+            'slug' => 'aanaya-shirt-checkout-page',
+            'image' => 'https://example.com/shirt.jpg',
+            'price' => 150000,
+            'stock' => 5,
+            'is_active' => true,
+        ]);
+
+        $this->actingAs($user)
+            ->withSession([
+                'cart' => [
+                    $product->id => [
+                        'name' => $product->name,
+                        'price' => $product->price,
+                        'image' => $product->image,
+                        'quantity' => 2,
+                    ],
+                ],
+            ])
+            ->get('/checkout')
+            ->assertOk()
+            ->assertSee('Order Summary')
+            ->assertSee('Rp 300.000');
+    }
+
     public function test_user_can_checkout_cart_successfully(): void
     {
         $user = User::factory()->create();
