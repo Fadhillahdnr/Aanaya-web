@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    public const STATUSES = ['pending', 'processing', 'shipped', 'completed', 'cancelled'];
+
     protected $fillable = [
         'user_id',
         'name',
@@ -13,7 +15,7 @@ class Order extends Model
         'phone',
         'address',
         'total_price',
-        'status'
+        'status',
     ];
 
     public function items()

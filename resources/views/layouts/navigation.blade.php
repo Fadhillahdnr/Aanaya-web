@@ -89,7 +89,7 @@
 
             <a
                 href="{{ route('merchandise') }}"
-                class="nav-link {{ request()->routeIs('merchandise') ? 'active-link' : '' }}">
+                class="nav-link {{ request()->routeIs('merchandise*') || request()->routeIs('orders.*') ? 'active-link' : '' }}">
 
                 <i class="fas fa-bag-shopping"></i>
 
@@ -172,6 +172,14 @@
                             <i class="fas fa-user"></i>
 
                             Profile
+
+                        </a>
+
+                        <a href="{{ route('orders.index') }}">
+
+                            <i class="fas fa-receipt"></i>
+
+                            My Orders
 
                         </a>
 
@@ -301,6 +309,14 @@
         </a>
 
         @auth
+
+            <a href="{{ route('orders.index') }}">
+
+                <i class="fas fa-receipt"></i>
+
+                My Orders
+
+            </a>
 
             <a href="{{ route('profile.edit') }}">
 
