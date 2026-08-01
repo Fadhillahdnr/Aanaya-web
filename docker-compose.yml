@@ -1,42 +1,59 @@
 services:
   app:
-    build: .
-    container_name: aanaya-app
-
-    ports:
-      - "8000:8000"
-
-    volumes:
-      - .:/var/www
-      - /var/www/vendor
-      - /var/www/node_modules
-
+    build:
+      context: .
+      target: app
+    image: aanaya-php-fpm
     env_file:
       - .env
+    expose:
+      - "9000"
+    volumes:
+      - aanaya-storage:/var/www/storage
+    restart: unless-stopped
 
-    stdin_open: true
-    tty: true
+  nginx:
+    build:
+      context: .
+      target: nginx
+    image: aanaya-nginx
+    depends_on:
+      - app
+    ports:
+      - "${APP_PORT:-8000}:80"
+    volumes:
+      - aanaya-storage:/var/www/storage:ro
+    restart: unless-stopped
 
   queue:
-    build: .
-    container_name: aanaya-queue
+    image: aanaya-php-fpm
+    build:
+      context: .
+      target: app
     command: php artisan queue:work database --sleep=3 --tries=3 --timeout=120
-    volumes:
-      - .:/var/www
-      - /var/www/vendor
-      - /var/www/node_modules
     env_file:
       - .env
+    depends_on:
+      - app
+    volumes:
+      - aanaya-storage:/var/www/storage
+    stop_grace_period: 2m
     restart: unless-stopped
 
   scheduler:
-    build: .
-    container_name: aanaya-scheduler
+    image: aanaya-php-fpm
+    build:
+      context: .
+      target: app
     command: php artisan schedule:work
-    volumes:
-      - .:/var/www
-      - /var/www/vendor
-      - /var/www/node_modules
     env_file:
       - .env
+    depends_on:
+      - app
+    volumes:
+      - aanaya-storage:/var/www/storage
+    stop_grace_period: 1m
     restart: unless-stopped
+
+volumes:
+  aanaya-storage:

@@ -3381,3 +3381,528 @@ body{
         height:152px;
     }
 }
+
+/* =========================================================
+   RESPONSIVE STABILIZATION — TABLET & MOBILE
+   Kept last intentionally to resolve legacy breakpoint overlap.
+========================================================= */
+
+@media (max-width: 1024px){
+    .dream-dashboard{
+        overflow-x: clip;
+    }
+
+    .dream-hero{
+        min-height: auto;
+        margin-top: 0;
+    }
+
+    .hero-container{
+        grid-template-columns: minmax(0, 1fr);
+        gap: 48px;
+        width: min(100%, 760px);
+        padding: 140px 32px 88px;
+        text-align: center;
+    }
+
+    .hero-left{
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        flex-direction: column;
+        padding-left: 0;
+    }
+
+    .dream-title{
+        max-width: 100%;
+        font-size: clamp(3.7rem, 10vw, 6rem);
+        letter-spacing: -.045em;
+        overflow-wrap: break-word;
+    }
+
+    .dream-description{
+        max-width: 640px;
+        margin-inline: auto;
+    }
+
+    .dream-buttons{
+        justify-content: center;
+    }
+
+    .hero-video-card{
+        width: min(100%, 330px);
+        max-width: 330px;
+        height: auto;
+        aspect-ratio: 4 / 5;
+    }
+
+    .character-section-wrapper{
+        display: none;
+    }
+
+    .aanaya-signature-section,
+    .dream-section,
+    .members-section,
+    .dashboard-dream-section-music,
+    .aanaya-visual-section,
+    .dream-quote-section{
+        width: min(100%, 900px);
+        margin-inline: auto;
+    }
+
+    .aanaya-signature-section{
+        padding: 80px 32px;
+    }
+
+    .aanaya-signature-container{
+        grid-template-columns: minmax(0, 1fr);
+        gap: 44px;
+    }
+
+    .aanaya-signature-video{
+        width: min(100%, 720px);
+        margin-inline: auto;
+    }
+
+    .aanaya-signature-content{
+        text-align: center;
+    }
+
+    .aanaya-signature-content p{
+        margin-inline: auto;
+    }
+
+    .discover-section{
+        margin-top: 40px;
+        margin-bottom: 88px;
+        padding-inline: 32px;
+    }
+
+    .section-heading,
+    .dashboard-section-heading-music{
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0;
+        text-align: center;
+    }
+
+    .dream-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .dream-card{
+        min-width: 0;
+        min-height: 290px;
+        margin-bottom: 0;
+    }
+
+    .members-section{
+        margin-block: 88px;
+        padding-inline: 32px;
+    }
+
+    .featured-member{
+        grid-template-columns: minmax(0, 1fr);
+        gap: 34px;
+        padding: 30px;
+    }
+
+    .featured-member-image{
+        width: min(100%, 640px);
+        margin-inline: auto;
+    }
+
+    .featured-member-image img{
+        width: 100%;
+        height: auto;
+        max-height: 620px;
+        aspect-ratio: 4 / 5;
+    }
+
+    .featured-member-content{
+        max-width: 680px;
+        margin-inline: auto;
+        text-align: center;
+    }
+
+    .member-tags{
+        justify-content: center;
+    }
+
+    .members-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .members-grid .member-card:last-child{
+        grid-column: 1 / -1;
+        width: min(100%, 430px);
+        justify-self: center;
+    }
+
+    .dashboard-dream-section-music{
+        margin-bottom: 88px;
+        padding-inline: 32px;
+    }
+
+    .dashboard-music-showcase-grid{
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .dashboard-spotify-card{
+        min-width: 0;
+    }
+
+    .aanaya-visual-section{
+        grid-template-columns: minmax(0, 1fr);
+        gap: 44px;
+        margin-block: 88px;
+        padding-inline: 32px;
+    }
+
+    .aanaya-visual-video{
+        width: min(100%, 760px);
+        margin-inline: auto;
+    }
+
+    .aanaya-visual-content{
+        text-align: center;
+    }
+
+    .aanaya-visual-content p{
+        margin-inline: auto;
+    }
+
+    .aanaya-visual-content::before{
+        margin-inline: auto;
+    }
+
+    .dream-quote-section{
+        padding-inline: 32px;
+    }
+}
+
+@media (max-width: 767px){
+    .reveal-left,
+    .reveal-right{
+        transform: translateY(36px);
+    }
+
+    .reveal-left.active,
+    .reveal-right.active{
+        transform: translateY(0);
+    }
+
+    .hero-container{
+        gap: 36px;
+        padding: 116px 18px 80px;
+    }
+
+    .hero-overlay{
+        background: linear-gradient(180deg, rgba(252,248,237,.9), rgba(252,248,237,.7));
+    }
+
+    .dream-badge{
+        justify-content: center;
+        max-width: calc(100vw - 36px);
+        margin-bottom: 20px;
+        padding: 10px 14px;
+        font-size: .625rem;
+        letter-spacing: .1em;
+        text-align: center;
+    }
+
+    .dream-title{
+        margin-bottom: 20px;
+        font-size: clamp(2.85rem, 14vw, 4.5rem);
+        line-height: .95;
+        letter-spacing: -.04em;
+    }
+
+    .dream-description{
+        margin-bottom: 28px;
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+
+    .dream-buttons{
+        display: grid;
+        width: 100%;
+        max-width: 420px;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .dream-btn,
+    .aanaya-signature-btn{
+        width: 100%;
+        min-height: 48px;
+        justify-content: center;
+        touch-action: manipulation;
+    }
+
+    .hero-video-card{
+        width: min(74vw, 290px);
+        height: auto;
+        aspect-ratio: 4 / 5;
+        border-radius: 26px;
+    }
+
+    .hero-navigation{
+        right: 14px;
+        bottom: 14px;
+        gap: 10px;
+    }
+
+    .hero-nav-btn{
+        width: 48px;
+        height: 48px;
+        touch-action: manipulation;
+    }
+
+    .aanaya-signature-section{
+        padding: 64px 18px;
+    }
+
+    .aanaya-signature-container{
+        gap: 32px;
+    }
+
+    .aanaya-signature-video,
+    .aanaya-visual-video{
+        border-radius: 22px;
+    }
+
+    .aanaya-signature-content h2,
+    .aanaya-visual-content h2{
+        font-size: clamp(2.45rem, 12vw, 3.4rem);
+    }
+
+    .aanaya-signature-content p,
+    .aanaya-visual-content p{
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+
+    .discover-section{
+        margin-top: 24px;
+        margin-bottom: 72px;
+        padding-inline: 18px;
+    }
+
+    .section-heading,
+    .dashboard-section-heading-music{
+        align-items: center;
+        margin: 0 auto 28px;
+        text-align: center;
+    }
+
+    .section-heading h2,
+    .dashboard-section-heading-music h2{
+        font-size: clamp(2.2rem, 10vw, 3rem);
+        line-height: 1.08;
+        letter-spacing: -.035em;
+        text-wrap: balance;
+    }
+
+    .dream-grid{
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        margin-top: 26px;
+    }
+
+    .dream-card{
+        min-height: 250px;
+        padding: 26px 22px;
+        border-radius: 24px;
+    }
+
+    .dream-card-content p,
+    .member-content p,
+    .dashboard-spotify-content p{
+        font-size: 1rem;
+        line-height: 1.65;
+    }
+
+    .members-section{
+        margin-block: 72px;
+        padding-inline: 18px;
+    }
+
+    .featured-member{
+        gap: 26px;
+        margin: 34px 0 44px;
+        padding: 16px;
+        border-radius: 24px;
+    }
+
+    .featured-member-image{
+        border-radius: 19px;
+    }
+
+    .featured-member-image img{
+        height: auto;
+        max-height: none;
+        aspect-ratio: 4 / 5;
+    }
+
+    .featured-member-content{
+        padding: 4px 6px 10px;
+    }
+
+    .featured-member-content h3{
+        font-size: clamp(2.35rem, 12vw, 3.1rem);
+    }
+
+    .featured-member-content p{
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+
+    .member-tags{
+        gap: 8px;
+    }
+
+    .member-tags span{
+        padding: 9px 14px;
+        font-size: .875rem;
+    }
+
+    .members-grid{
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .members-grid .member-card:last-child{
+        grid-column: auto;
+        width: 100%;
+    }
+
+    .member-image img{
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
+    }
+
+    .dashboard-dream-section-music{
+        margin-bottom: 72px;
+        padding-inline: 18px;
+    }
+
+    .dashboard-spotify-card{
+        padding: 18px;
+        border-radius: 24px;
+    }
+
+    .dashboard-card-top{
+        margin-bottom: 20px;
+    }
+
+    .dashboard-music-type{
+        padding: 9px 13px;
+        font-size: .625rem;
+        letter-spacing: .1em;
+    }
+
+    .dashboard-spotify-content h3{
+        font-size: clamp(1.8rem, 9vw, 2.25rem);
+        letter-spacing: -.03em;
+    }
+
+    .dashboard-spotify-embed iframe{
+        height: 152px;
+        border-radius: 16px;
+    }
+
+    .visual-universe-section{
+        width: calc(100% - 24px);
+        margin-block: 72px;
+        padding: 24px 14px 14px;
+        border-radius: 26px;
+    }
+
+    .visual-universe-header{
+        gap: 18px;
+        padding: 0 4px 24px;
+        text-align: center;
+    }
+
+    .visual-universe-heading h2{
+        margin-inline: auto;
+        font-size: clamp(2.65rem, 13vw, 4rem);
+        line-height: .94;
+    }
+
+    .visual-universe-intro{
+        justify-items: center;
+    }
+
+    .visual-universe-grid{
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+        margin-top: 22px;
+    }
+
+    .visual-card{
+        min-height: 0;
+        height: auto;
+        border-radius: 20px;
+    }
+
+    .visual-overlay{
+        grid-template-columns: 38px minmax(0, 1fr);
+        gap: 11px;
+        padding: 18px 16px;
+    }
+
+    .visual-card-number{
+        width: 38px;
+        height: 38px;
+    }
+
+    .visual-overlay h3{
+        font-size: clamp(1.25rem, 6.6vw, 1.7rem);
+    }
+
+    .aanaya-visual-section{
+        gap: 32px;
+        margin-block: 72px;
+        padding-inline: 18px;
+    }
+
+    .dream-quote-section{
+        margin-bottom: 72px;
+        padding-inline: 18px;
+    }
+
+    .dream-quote-card{
+        padding: 48px 20px;
+        border-radius: 26px;
+    }
+
+    .dream-quote-card h2{
+        font-size: clamp(1.75rem, 8vw, 2.4rem);
+        line-height: 1.35;
+    }
+}
+
+@media (max-width: 380px){
+    .hero-container{
+        padding-inline: 14px;
+    }
+
+    .dream-title{
+        font-size: clamp(2.55rem, 14vw, 3.25rem);
+    }
+
+    .visual-overlay{
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .visual-card-number{
+        display: none;
+    }
+}

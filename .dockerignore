@@ -10,6 +10,7 @@ node_modules
 docs
 
 # Laravel cache
+public/hot
 storage/logs
 storage/framework/cache
 storage/framework/sessions

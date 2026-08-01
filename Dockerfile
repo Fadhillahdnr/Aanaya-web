@@ -1,80 +1,84 @@
-FROM php:8.2-cli
+# syntax=docker/dockerfile:1
 
-# ==========================
-# Install system packages
-# ==========================
-RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    curl \
-    zip \
-    libzip-dev \
-    libpq-dev \
-    libicu-dev \
-    libonig-dev \
-    libxml2-dev \
-    sqlite3 \
-    libsqlite3-dev \
-    && docker-php-ext-install \
-        pdo \
+# =========================================================
+# Frontend assets
+# =========================================================
+FROM node:22-alpine AS frontend
+
+WORKDIR /build
+
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+
+COPY . .
+RUN npm run build
+
+# =========================================================
+# Laravel + PHP-FPM
+# =========================================================
+FROM php:8.2-fpm-bookworm AS app
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        git \
+        unzip \
+        libicu-dev \
+        libonig-dev \
+        libpq-dev \
+        libxml2-dev \
+        libzip-dev \
+    && docker-php-ext-install -j"$(nproc)" \
+        bcmath \
+        intl \
+        mbstring \
+        opcache \
+        pcntl \
         pdo_pgsql \
         pgsql \
         zip \
-        intl \
-        mbstring \
-        bcmath \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# ==========================
-# Install Composer
-# ==========================
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# ==========================
-# Install Node.js 22
-# ==========================
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
-    && apt-get install -y nodejs
-
-# ==========================
-# Working Directory
-# ==========================
 WORKDIR /var/www
 
-# ==========================
-# Copy seluruh project
-# ==========================
 COPY . .
+COPY --from=frontend /build/public/build ./public/build
+COPY docker/php/production.ini /usr/local/etc/php/conf.d/99-aanaya.ini
+COPY docker/php/www.conf /usr/local/etc/php-fpm.d/zz-aanaya.conf
 
-# ==========================
-# Install PHP Dependency
-# ==========================
-RUN composer install --no-interaction
+RUN composer install \
+        --no-dev \
+        --no-interaction \
+        --no-progress \
+        --prefer-dist \
+        --optimize-autoloader \
+    && rm -f public/hot \
+    && mkdir -p \
+        storage/app/public \
+        storage/framework/cache/data \
+        storage/framework/sessions \
+        storage/framework/views \
+        storage/logs \
+        bootstrap/cache \
+    && if [ ! -e public/storage ]; then ln -s ../storage/app/public public/storage; fi \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R ug+rwX storage bootstrap/cache
 
-# ==========================
-# Install Node Dependency
-# ==========================
-RUN npm install
+EXPOSE 9000
 
-RUN npm run build
+CMD ["php-fpm", "--nodaemonize"]
 
-# ==========================
-# Permission
-# ==========================
-RUN mkdir -p \
-    storage/framework/cache/data \
-    storage/framework/sessions \
-    storage/framework/views \
-    bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
+# =========================================================
+# Nginx: only public assets and FastCGI routing
+# =========================================================
+FROM nginx:1.28-alpine AS nginx
 
-# ==========================
-# Port
-# ==========================
-EXPOSE 8000
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=app /var/www/public /var/www/public
 
-# ==========================
-# Run Laravel
-# ==========================
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+    CMD wget -q -O /dev/null http://127.0.0.1/up || exit 1

@@ -623,3 +623,213 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* =========================================================
+   ARTICLE / BLOCK STORY — RESPONSIVE STABILIZATION
+========================================================= */
+
+@media (max-width: 1024px){
+    .article-detail-page{
+        overflow-x:clip;
+        padding:128px 28px 88px;
+    }
+
+    .article-detail-page .article-container{ width:min(100%,860px); }
+
+    .article-detail-page .article-hero{
+        grid-template-columns:minmax(0,1fr);
+        gap:34px;
+        margin-bottom:80px;
+        padding:30px;
+        border-radius:32px;
+        text-align:center;
+    }
+
+    .article-detail-page .article-hero-image{
+        width:min(100%,720px);
+        margin-inline:auto;
+        border-radius:26px;
+    }
+
+    .article-detail-page .article-hero-image img{
+        width:100%;
+        height:auto;
+        aspect-ratio:16 / 9;
+    }
+
+    .article-detail-page .article-hero-content{ min-width:0; }
+
+    .article-detail-page .article-hero-content h1{
+        margin:18px 0 24px;
+        font-size:clamp(2.8rem,8vw,4.6rem);
+        line-height:1.05;
+        letter-spacing:-.04em;
+        overflow-wrap:break-word;
+    }
+
+    .article-detail-page .article-meta,
+    .article-detail-page .comic-actions{ justify-content:center; }
+
+    .article-detail-page .article-3d-wrapper{ gap:56px; }
+    .article-detail-page #articleReader{ scroll-margin-top:96px; }
+
+    .article-detail-page .article-intro-card,
+    .article-detail-page .story-single{ width:min(100%,760px); }
+
+    .article-detail-page .article-intro-card{
+        margin-bottom:64px;
+        padding:42px;
+    }
+
+    .article-detail-page .article-intro-content,
+    .article-detail-page .story-text-card,
+    .article-detail-page .comic-description-card{
+        font-size:1.05rem;
+        line-height:1.85;
+    }
+
+    .article-detail-page .story-row{
+        grid-template-columns:minmax(0,1fr);
+        gap:30px;
+    }
+
+    .article-detail-page .story-row.reverse{ direction:ltr; }
+    .article-detail-page .story-column{ min-width:0; }
+
+    .article-detail-page .story-text-card,
+    .article-detail-page .story-image-card{
+        width:min(100%,760px);
+        margin-inline:auto;
+    }
+
+    .article-detail-page .story-image-card{
+        height:auto;
+        min-height:0;
+        padding:0;
+    }
+
+    .article-detail-page .story-image-card img{
+        width:auto;
+        height:auto;
+        max-width:100%;
+        max-height:75dvh;
+        object-fit:contain;
+    }
+
+    .article-detail-page .comic-grid{ grid-template-columns:minmax(0,1fr); }
+
+    .article-detail-page .comic-panel-card{
+        width:min(100%,820px);
+        margin-inline:auto;
+    }
+
+    .article-detail-page .back-btn,
+    .article-detail-page .start-reading-btn,
+    .article-detail-page .article-back-btn{
+        min-height:48px;
+        justify-content:center;
+        touch-action:manipulation;
+    }
+}
+
+@media (max-width: 767px){
+    .article-detail-page{ padding:106px 14px 72px; }
+
+    .article-detail-page .article-hero{
+        gap:24px;
+        margin-bottom:58px;
+        padding:14px 14px 24px;
+        border-radius:24px;
+    }
+
+    .article-detail-page .article-hero-image{ border-radius:18px; }
+
+    .article-detail-page .article-hero-image img{
+        max-height:none;
+        aspect-ratio:4 / 3;
+        object-fit:cover;
+    }
+
+    .article-detail-page .article-hero-content{ padding-inline:6px; }
+
+    .article-detail-page .article-category-badge,
+    .article-detail-page .article-mini-badge{
+        padding:9px 14px;
+        font-size:.7rem;
+        letter-spacing:.08em;
+    }
+
+    .article-detail-page .article-hero-content h1{
+        margin:16px 0 20px;
+        font-size:clamp(2.2rem,11vw,3.25rem);
+        line-height:1.08;
+    }
+
+    .article-detail-page .article-meta{
+        align-items:stretch;
+        flex-direction:column;
+        gap:8px;
+        margin-top:0;
+    }
+
+    .article-detail-page .article-meta span{
+        width:100%;
+        min-height:44px;
+        justify-content:center;
+        padding:10px 14px;
+        font-size:.8125rem;
+    }
+
+    .article-detail-page .comic-actions{
+        display:grid;
+        width:100%;
+        grid-template-columns:minmax(0,1fr);
+        gap:10px;
+        margin-top:22px;
+    }
+
+    .article-detail-page .back-btn,
+    .article-detail-page .start-reading-btn{
+        width:100%;
+        padding:13px 18px;
+    }
+
+    .article-detail-page .article-3d-wrapper{ gap:34px; }
+
+    .article-detail-page .article-intro-card{
+        margin-bottom:42px;
+        padding:26px 20px;
+        border-radius:24px;
+    }
+
+    .article-detail-page .article-intro-card h2{
+        margin-bottom:20px;
+        font-size:clamp(1.8rem,9vw,2.5rem);
+        line-height:1.2;
+    }
+
+    .article-detail-page .article-intro-content,
+    .article-detail-page .story-text-card,
+    .article-detail-page .comic-description-card{
+        font-size:1rem;
+        line-height:1.75;
+    }
+
+    .article-detail-page .story-row{
+        gap:20px;
+    }
+
+    .article-detail-page .story-text-card,
+    .article-detail-page .comic-description-card{
+        padding:24px 20px;
+        border-radius:22px;
+    }
+
+    .article-detail-page .story-image-card,
+    .article-detail-page .comic-panel-card{ border-radius:20px; }
+
+    .article-detail-page .story-image-card img{ max-height:none; }
+    .article-detail-page .comic-grid{ gap:18px; }
+    .article-detail-page .article-footer-action{ margin-top:64px; }
+    .article-detail-page .article-back-btn{ width:100%; }
+}

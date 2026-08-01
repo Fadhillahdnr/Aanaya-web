@@ -737,3 +737,164 @@
         font-size: 14px;
     }
 }
+
+/* =========================================================
+   COMIC READER — RESPONSIVE STABILIZATION
+========================================================= */
+
+@media (max-width: 1024px){
+    .comic-read-page{
+        overflow-x:clip;
+        padding:128px 28px 88px;
+    }
+
+    .comic-read-page .comic-hero{
+        width:min(100%,860px);
+        grid-template-columns:minmax(0,1fr);
+        gap:34px;
+        margin-bottom:70px;
+        padding:30px;
+        border-radius:32px;
+    }
+
+    .comic-read-page .comic-hero-image{
+        width:min(100%,680px);
+        height:auto;
+        max-height:70dvh;
+        margin-inline:auto;
+        border-radius:26px;
+    }
+
+    .comic-read-page .comic-hero-image img{
+        width:100%;
+        height:auto;
+        max-height:70dvh;
+        object-fit:contain;
+    }
+
+    .comic-read-page .comic-no-thumbnail{ min-height:420px; }
+
+    .comic-read-page .comic-hero-content{
+        min-width:0;
+        text-align:center;
+    }
+
+    .comic-read-page .comic-hero-content h1{
+        font-size:clamp(2.8rem,8vw,4.5rem);
+        letter-spacing:-.04em;
+        overflow-wrap:break-word;
+    }
+
+    .comic-read-page .comic-description{
+        margin-inline:auto;
+        font-size:1.05rem;
+        line-height:1.8;
+    }
+
+    .comic-read-page .comic-meta,
+    .comic-read-page .comic-actions{ justify-content:center; }
+
+    .comic-read-page .comic-reader{
+        width:min(100%,860px);
+        gap:28px;
+        scroll-margin-top:96px;
+    }
+
+    .comic-read-page .comic-panel img{
+        width:auto;
+        max-width:100%;
+        height:auto;
+        margin-inline:auto;
+    }
+
+    .comic-read-page .back-btn,
+    .comic-read-page .start-reading-btn{
+        min-height:48px;
+        touch-action:manipulation;
+    }
+}
+
+@media (max-width: 767px){
+    .comic-read-page{ padding:106px 12px 64px; }
+
+    .comic-read-page .comic-hero{
+        gap:24px;
+        margin-bottom:52px;
+        padding:14px 14px 24px;
+        border-radius:24px;
+    }
+
+    .comic-read-page .comic-hero-image{
+        max-height:62dvh;
+        border-radius:18px;
+    }
+
+    .comic-read-page .comic-hero-image img{ max-height:62dvh; }
+    .comic-read-page .comic-no-thumbnail{ min-height:300px; }
+    .comic-read-page .comic-hero-content{ padding-inline:6px; }
+
+    .comic-read-page .comic-badge{
+        margin-bottom:18px;
+        padding:9px 14px;
+        font-size:.7rem;
+        letter-spacing:.08em;
+    }
+
+    .comic-read-page .comic-hero-content h1{
+        margin-bottom:18px;
+        font-size:clamp(2.2rem,11vw,3.2rem);
+        line-height:1.08;
+    }
+
+    .comic-read-page .comic-description{
+        margin-bottom:24px;
+        font-size:1rem;
+        line-height:1.7;
+    }
+
+    .comic-read-page .comic-meta{
+        display:grid;
+        grid-template-columns:minmax(0,1fr);
+        gap:8px;
+        margin-bottom:24px;
+    }
+
+    .comic-read-page .comic-meta span{
+        width:100%;
+        min-height:44px;
+        justify-content:center;
+        padding:10px 14px;
+        font-size:.8125rem;
+    }
+
+    .comic-read-page .comic-actions{
+        display:grid;
+        width:100%;
+        grid-template-columns:minmax(0,1fr);
+        gap:10px;
+    }
+
+    .comic-read-page .back-btn,
+    .comic-read-page .start-reading-btn{
+        width:100%;
+        padding:13px 18px;
+    }
+
+    .comic-read-page .comic-reader{ gap:18px; }
+    .comic-read-page .comic-panel{ border-radius:16px; }
+
+    .comic-read-page .panel-number{
+        top:10px;
+        left:10px;
+        width:38px;
+        height:38px;
+        font-size:.75rem;
+    }
+
+    .comic-read-page .empty-comic{
+        padding:48px 20px;
+        border-radius:22px;
+    }
+
+    .comic-read-page .empty-comic p{ font-size:1rem; }
+}

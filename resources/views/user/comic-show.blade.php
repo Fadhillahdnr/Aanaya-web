@@ -21,7 +21,7 @@
             @if($comic->thumbnail)
 
                 <x-media-image :src="$comic->thumbnail" :alt="$comic->title"
-                    :width="1280" :height="720" crop="fill" sizes="100vw" priority />
+                    :width="1200" sizes="(max-width: 992px) 94vw, 520px" priority />
 
             @else
 

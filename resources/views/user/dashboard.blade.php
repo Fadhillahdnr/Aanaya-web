@@ -144,17 +144,21 @@
             <!-- NAV -->
             <div class="hero-navigation">
 
-                <button class="hero-nav-btn"
-                        id="prevSlide">
+                <button type="button"
+                        class="hero-nav-btn"
+                        id="prevSlide"
+                        aria-label="Previous background">
 
-                    <i class="fas fa-chevron-left"></i>
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
 
                 </button>
 
-                <button class="hero-nav-btn"
-                        id="nextSlide">
+                <button type="button"
+                        class="hero-nav-btn"
+                        id="nextSlide"
+                        aria-label="Next background">
 
-                    <i class="fas fa-chevron-right"></i>
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
 
                 </button>
 
