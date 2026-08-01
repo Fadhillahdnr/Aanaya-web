@@ -19,13 +19,17 @@
 
 </head>
 
-<body>
+<body class="admin-shell">
+
+    <a href="#admin-main-content" class="admin-skip-link">
+        Skip to main content
+    </a>
 
     {{-- ADMIN NAVBAR --}}
     @include('admin.layouts.admin-navbar')
 
     {{-- CONTENT --}}
-    <main>
+    <main id="admin-main-content" class="admin-main">
 
         @yield('content')
 

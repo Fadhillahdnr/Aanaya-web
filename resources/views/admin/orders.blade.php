@@ -100,7 +100,11 @@
     
     <div class="orders-chart-container">
 
-        <canvas id="salesChart"></canvas>
+        <canvas
+            id="salesChart"
+            role="img"
+            aria-label="Monthly sales revenue trend">
+        </canvas>
 
     </div>
 </div>
@@ -132,25 +136,25 @@
 
                 <tr>
 
-                    <td>
+                    <td data-label="Order">
                         #{{ $order->id }}
                     </td>
 
-                    <td>
+                    <td data-label="Customer">
                         <strong>{{ $order->name }}</strong>
                         <br>
                         <small>{{ $order->email }}</small>
                     </td>
 
-                    <td>
+                    <td data-label="Phone">
                         {{ $order->phone }}
                     </td>
 
-                    <td>
+                    <td data-label="Total">
                         Rp {{ number_format($order->total_price,0,',','.') }}
                     </td>
 
-                    <td>
+                    <td data-label="Status">
 
                         <span class="status {{ $order->status }}">
                             {{ ucfirst($order->status) }}
@@ -158,11 +162,11 @@
 
                     </td>
 
-                    <td>
+                    <td data-label="Date">
                         {{ $order->created_at->format('d M Y') }}
                     </td>
 
-                    <td>
+                    <td data-label="Action">
 
                         <a
                             href="{{ route('admin.orders.show',$order->id) }}"

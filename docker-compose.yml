@@ -6,6 +6,21 @@ services:
     image: aanaya-php-fpm
     env_file:
       - .env
+    environment:
+      APP_URL: "http://localhost:${APP_PORT:-8000}"
+      GOOGLE_REDIRECT_URI: "http://localhost:${APP_PORT:-8000}/auth/google/callback"
+      CACHE_STORE: redis
+      SESSION_DRIVER: redis
+      SESSION_CONNECTION: default
+      QUEUE_CONNECTION: redis
+      REDIS_CLIENT: phpredis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+      REDIS_CACHE_DB: 1
+    depends_on:
+      redis:
+        condition: service_healthy
     expose:
       - "9000"
     volumes:
@@ -30,11 +45,26 @@ services:
     build:
       context: .
       target: app
-    command: php artisan queue:work database --sleep=3 --tries=3 --timeout=120
+    command: php artisan queue:work redis --sleep=3 --tries=3 --timeout=120
     env_file:
       - .env
+    environment:
+      APP_URL: "http://localhost:${APP_PORT:-8000}"
+      GOOGLE_REDIRECT_URI: "http://localhost:${APP_PORT:-8000}/auth/google/callback"
+      CACHE_STORE: redis
+      SESSION_DRIVER: redis
+      SESSION_CONNECTION: default
+      QUEUE_CONNECTION: redis
+      REDIS_CLIENT: phpredis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+      REDIS_CACHE_DB: 1
     depends_on:
-      - app
+      app:
+        condition: service_started
+      redis:
+        condition: service_healthy
     volumes:
       - aanaya-storage:/var/www/storage
     stop_grace_period: 2m
@@ -48,12 +78,41 @@ services:
     command: php artisan schedule:work
     env_file:
       - .env
+    environment:
+      APP_URL: "http://localhost:${APP_PORT:-8000}"
+      GOOGLE_REDIRECT_URI: "http://localhost:${APP_PORT:-8000}/auth/google/callback"
+      CACHE_STORE: redis
+      SESSION_DRIVER: redis
+      SESSION_CONNECTION: default
+      QUEUE_CONNECTION: redis
+      REDIS_CLIENT: phpredis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+      REDIS_CACHE_DB: 1
     depends_on:
-      - app
+      app:
+        condition: service_started
+      redis:
+        condition: service_healthy
     volumes:
       - aanaya-storage:/var/www/storage
     stop_grace_period: 1m
     restart: unless-stopped
 
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --appendfsync everysec
+    volumes:
+      - aanaya-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
 volumes:
   aanaya-storage:
+  aanaya-redis:

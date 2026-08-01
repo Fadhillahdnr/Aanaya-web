@@ -56,7 +56,7 @@
 
                     <tr>
 
-                        <td>
+                        <td data-label="User">
 
                             <div class="user-info">
 
@@ -76,9 +76,9 @@
 
                         </td>
 
-                        <td>{{ $user->email }}</td>
+                        <td data-label="Email">{{ $user->email }}</td>
 
-                        <td>
+                        <td data-label="Role">
 
                             <span class="role-badge {{ $user->role }}">
 
@@ -88,13 +88,13 @@
 
                         </td>
 
-                        <td>
+                        <td data-label="Joined">
 
                             {{ $user->created_at->format('d M Y') }}
 
                         </td>
 
-                        <td>
+                        <td data-label="Action">
 
                             <div class="table-actions">
 

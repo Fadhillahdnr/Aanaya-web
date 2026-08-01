@@ -36,6 +36,8 @@ RUN apt-get update \
         pdo_pgsql \
         pgsql \
         zip \
+    && pecl install redis-6.3.0 \
+    && docker-php-ext-enable redis \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

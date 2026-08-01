@@ -1,0 +1,653 @@
+/* =========================================================
+   ADMIN RESPONSIVE FOUNDATION
+   Shared overrides for every admin page. Scoped to admin-shell
+   because app.css is also loaded by public pages.
+========================================================= */
+
+.admin-shell {
+    --admin-page-gutter: clamp(14px, 3vw, 40px);
+    --admin-card-radius: clamp(22px, 3vw, 34px);
+    --admin-control-height: 46px;
+    min-width: 320px;
+}
+
+.admin-shell [x-cloak] {
+    display: none !important;
+}
+
+.admin-shell .admin-main {
+    width: 100%;
+    min-width: 0;
+}
+
+.admin-shell .admin-skip-link {
+    position: fixed;
+    top: 8px;
+    left: 12px;
+    z-index: 10000;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #1f2937;
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    transform: translateY(-160%);
+    transition: transform 180ms ease-out;
+}
+
+.admin-shell .admin-skip-link:focus {
+    transform: translateY(0);
+}
+
+.admin-shell img,
+.admin-shell video,
+.admin-shell canvas {
+    max-width: 100%;
+}
+
+.admin-shell :where(a, button, input, select, textarea):focus-visible {
+    outline: 3px solid rgba(192, 38, 102, .34);
+    outline-offset: 3px;
+}
+
+.admin-shell :where(a, button, input, select, textarea) {
+    touch-action: manipulation;
+}
+
+/* Common page boundaries */
+.admin-shell :where(
+    .dashboard-wrapper,
+    .music-management-page,
+    .music-page-admin,
+    .form-page,
+    .articles-page,
+    .article-form-page,
+    .edit-article-form-page,
+    .gallery-page,
+    .gallery-form-page,
+    .products-page,
+    .product-form-page,
+    .users-page,
+    .user-form-page,
+    .mv-page,
+    .orders-page,
+    .order-show-page
+) {
+    width: min(100%, 1480px);
+    min-width: 0;
+    margin-inline: auto;
+    padding-left: var(--admin-page-gutter);
+    padding-right: var(--admin-page-gutter);
+}
+
+/* Common page hero/header */
+.admin-shell :where(
+    .page-top,
+    .form-header,
+    .edit-page-top,
+    .mv-page-top,
+    .orders-top,
+    .order-show-top
+) {
+    min-width: 0;
+}
+
+.admin-shell :where(
+    .page-top h1,
+    .form-header h1,
+    .edit-page-top h1,
+    .mv-page-heading h1,
+    .orders-heading h1,
+    .order-show-heading h1
+) {
+    overflow-wrap: anywhere;
+}
+
+.admin-shell :where(
+    .page-subtitle,
+    .edit-page-subtitle,
+    .mv-page-subtitle,
+    .orders-heading p,
+    .order-show-subtitle
+) {
+    text-wrap: pretty;
+}
+
+/* Inputs and touch targets */
+.admin-shell :where(
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea
+) {
+    width: 100%;
+    max-width: 100%;
+    min-height: var(--admin-control-height);
+    font-size: 16px;
+}
+
+.admin-shell input[type="file"] {
+    min-width: 0;
+}
+
+.admin-shell :where(
+    .pink-btn,
+    .mv-pink-btn,
+    .back-btn,
+    .save-btn,
+    .save-btn-admin,
+    .mv-edit-save-btn,
+    .order-show-btn,
+    .order-view-btn,
+    .edit-btn,
+    .delete-btn,
+    .spotify-btn,
+    .youtube-btn
+) {
+    min-height: 44px;
+}
+
+.admin-shell :where(.edit-btn, .delete-btn, .order-view-btn) {
+    white-space: nowrap;
+}
+
+/* Keep long content from forcing the viewport wider */
+.admin-shell :where(
+    .music-form-card,
+    .music-form-card-admin,
+    .article-form-card,
+    .edit-article-form-card,
+    .gallery-form-card,
+    .product-form-card,
+    .mv-edit-form-card,
+    .order-show-card,
+    .orders-table-card,
+    .users-table-card,
+    .form-left,
+    .form-left-admin,
+    .edit-form-left
+) {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.admin-shell :where(
+    .article-content,
+    .product-content,
+    .music-info,
+    .mv-content,
+    .latest-info,
+    .order-show-info-box
+) {
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   TABLET — navigation and two-column content
+========================================================= */
+@media (max-width: 1024px) {
+    .admin-shell .admin-navbar {
+        top: 8px;
+        margin: 10px var(--admin-page-gutter);
+        padding: 11px 14px;
+        border-radius: 22px;
+    }
+
+    .admin-shell .admin-container {
+        grid-template-columns: auto 1fr auto;
+        gap: 12px;
+    }
+
+    .admin-shell .admin-nav-center {
+        display: none;
+    }
+
+    .admin-shell .admin-mobile-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .admin-shell .admin-links-mobile {
+        max-height: min(72vh, 620px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 12px;
+        gap: 6px;
+    }
+
+    .admin-shell .admin-links-mobile > :where(a, .admin-dropdown > button) {
+        width: 100%;
+        min-height: 48px;
+        justify-content: flex-start;
+    }
+
+    .admin-shell .admin-links-mobile .admin-dropdown-menu {
+        position: static;
+        width: 100%;
+        min-width: 0;
+        margin-top: 6px;
+        transform: none;
+        box-shadow: none;
+        background: rgba(255, 255, 255, .46);
+    }
+
+    .admin-shell .dashboard-wrapper {
+        gap: 26px;
+        padding-top: 24px;
+    }
+
+    .admin-shell .dashboard-hero {
+        grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+        gap: 20px;
+    }
+
+    .admin-shell .dashboard-text {
+        padding: 34px;
+    }
+
+    .admin-shell .dashboard-text h1 {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+    }
+
+    .admin-shell :where(.stats-grid, .quick-grid) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .admin-shell :where(
+        .articles-grid,
+        .product-grid,
+        .gallery-grid,
+        .music-grid-admin,
+        .mv-grid
+    ) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .admin-shell :where(
+        .form-grid,
+        .form-grid-admin,
+        .edit-form-grid,
+        .mv-edit-form-grid
+    ) {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-shell :where(.orders-stats, .orders-kpi-grid) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .admin-shell .order-show-customer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-shell :where(.users-table-card, .orders-table-card, .order-show-table-wrapper) {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-gutter: stable;
+    }
+}
+
+/* =========================================================
+   MOBILE — stacked cards, compact spacing, 44px controls
+========================================================= */
+@media (max-width: 767px) {
+    .admin-shell {
+        --admin-page-gutter: 12px;
+        --admin-card-radius: 22px;
+    }
+
+    .admin-shell .admin-navbar {
+        position: sticky;
+        top: 6px;
+        margin: 8px;
+        padding: 8px 10px;
+        border-radius: 20px;
+    }
+
+    .admin-shell .admin-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .admin-shell .admin-user {
+        display: none;
+    }
+
+    .admin-shell :where(.logout-btn, .admin-mobile-toggle) {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+    }
+
+    .admin-shell .admin-links-mobile {
+        margin-top: 10px;
+        border-radius: 18px;
+    }
+
+    .admin-shell :where(
+        .dashboard-wrapper,
+        .music-management-page,
+        .music-page-admin,
+        .form-page,
+        .articles-page,
+        .article-form-page,
+        .edit-article-form-page,
+        .gallery-page,
+        .gallery-form-page,
+        .products-page,
+        .product-form-page,
+        .users-page,
+        .user-form-page,
+        .mv-page,
+        .orders-page,
+        .order-show-page
+    ) {
+        padding-top: 16px;
+        padding-bottom: 42px;
+    }
+
+    .admin-shell :where(
+        .page-top,
+        .form-header,
+        .edit-page-top,
+        .mv-page-top,
+        .orders-top,
+        .order-show-top
+    ) {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+        margin-bottom: 20px;
+        padding: 22px 18px;
+        border-radius: var(--admin-card-radius);
+    }
+
+    .admin-shell :where(
+        .page-top h1,
+        .form-header h1,
+        .edit-page-top h1,
+        .mv-page-heading h1,
+        .orders-heading h1,
+        .order-show-heading h1
+    ) {
+        font-size: clamp(1.8rem, 9vw, 2.35rem);
+        line-height: 1.12;
+    }
+
+    .admin-shell :where(
+        .page-subtitle,
+        .edit-page-subtitle,
+        .mv-page-subtitle,
+        .orders-heading p,
+        .order-show-subtitle
+    ) {
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .admin-shell :where(.pink-btn, .mv-pink-btn, .back-btn) {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .admin-shell .dashboard-wrapper {
+        gap: 20px;
+    }
+
+    .admin-shell .dashboard-hero {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .admin-shell .dashboard-text,
+    .admin-shell .dashboard-hero-card {
+        padding: 22px 18px;
+        border-radius: var(--admin-card-radius);
+    }
+
+    .admin-shell .dashboard-text h1 {
+        font-size: clamp(2.25rem, 12vw, 3.2rem);
+        letter-spacing: -1px;
+    }
+
+    .admin-shell .dashboard-text p {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .admin-shell :where(.stats-grid, .quick-grid, .orders-stats, .orders-kpi-grid) {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .admin-shell :where(.stats-card, .quick-card, .stat-card, .orders-kpi-card) {
+        padding: 20px;
+        border-radius: 22px;
+    }
+
+    .admin-shell .quick-title h2 {
+        font-size: 2rem;
+    }
+
+    .admin-shell :where(
+        .articles-grid,
+        .product-grid,
+        .gallery-grid,
+        .music-grid-admin,
+        .mv-grid
+    ) {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .admin-shell :where(
+        .article-card,
+        .product-card,
+        .gallery-card,
+        .music-admin-card,
+        .mv-card
+    ) {
+        width: 100%;
+        min-width: 0;
+        border-radius: 22px;
+    }
+
+    .admin-shell :where(
+        .music-form-card,
+        .music-form-card-admin,
+        .article-form-card,
+        .edit-article-form-card,
+        .gallery-form-card,
+        .product-form-card,
+        .mv-edit-form-card,
+        .order-show-card
+    ) {
+        padding: 20px 16px;
+        border-radius: var(--admin-card-radius);
+    }
+
+    .admin-shell :where(
+        .form-grid,
+        .form-grid-admin,
+        .edit-form-grid,
+        .category-grid,
+        .edit-category-selector,
+        .mv-edit-form-grid,
+        .order-show-customer-grid
+    ) {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .admin-shell :where(.form-actions, .submit-wrapper, .submit-wrapper-admin, .mv-edit-submit-wrapper) {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .admin-shell :where(.save-btn, .save-btn-admin, .mv-edit-save-btn, .order-show-btn) {
+        width: 100%;
+        min-height: 48px;
+        justify-content: center;
+    }
+
+    .admin-shell :where(.card-actions, .music-actions, .gallery-actions, .mv-actions, .table-actions) {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .admin-shell :where(.card-actions, .music-actions, .gallery-actions, .mv-actions, .table-actions) > * {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .admin-shell :where(.card-actions, .music-actions, .gallery-actions, .mv-actions, .table-actions) :where(a, button) {
+        width: 100%;
+        min-height: 44px;
+        justify-content: center;
+    }
+
+    .admin-shell .orders-chart-container {
+        height: 280px;
+    }
+
+    .admin-shell .orders-chart-card {
+        padding: 18px 12px;
+        border-radius: 22px;
+    }
+
+    /* Users and orders become readable cards instead of 900px tables. */
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) {
+        min-width: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .admin-shell :where(.users-table, .orders-table, .order-show-table),
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) tbody,
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) tr,
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) td {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) tbody {
+        padding: 10px;
+    }
+
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) tr {
+        margin-bottom: 12px;
+        padding: 8px 14px;
+        border: 1px solid rgba(255, 255, 255, .48);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, .42);
+    }
+
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) tr:last-child {
+        margin-bottom: 0;
+    }
+
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) td {
+        display: grid;
+        grid-template-columns: minmax(82px, .7fr) minmax(0, 1.3fr);
+        align-items: center;
+        gap: 14px;
+        padding: 12px 0;
+        border: 0;
+        border-bottom: 1px solid rgba(107, 114, 128, .12);
+        text-align: right;
+        overflow-wrap: anywhere;
+    }
+
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) td:last-child {
+        border-bottom: 0;
+    }
+
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) td::before {
+        content: attr(data-label);
+        color: #6b7280;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .06em;
+        text-align: left;
+        text-transform: uppercase;
+    }
+
+    .admin-shell :where(.users-table, .orders-table) td:first-child {
+        padding-top: 14px;
+    }
+
+    .admin-shell :where(.users-table, .orders-table) :where(.user-info, strong, small) {
+        min-width: 0;
+    }
+
+    .admin-shell .user-info,
+    .admin-shell .order-show-product {
+        justify-content: flex-end;
+        text-align: right;
+    }
+
+    .admin-shell .table-actions {
+        justify-self: stretch;
+    }
+
+    .admin-shell .orders-empty {
+        padding: 52px 18px;
+    }
+
+    .admin-shell .orders-pagination {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 6px;
+    }
+}
+
+@media (max-width: 420px) {
+    .admin-shell .admin-right {
+        gap: 7px;
+    }
+
+    .admin-shell :where(.card-actions, .music-actions, .gallery-actions, .mv-actions) {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-shell :where(.users-table, .orders-table, .order-show-table) td {
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 10px;
+    }
+}
+
+@media (hover: none) {
+    .admin-shell :where(.stats-card, .quick-card, .article-card, .product-card, .gallery-card, .music-admin-card, .mv-card):hover {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .admin-shell *,
+    .admin-shell *::before,
+    .admin-shell *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="admin-navbar">
+<nav x-data="{ open: false }" class="admin-navbar" aria-label="Admin navigation">
 
     <div class="admin-container">
 
@@ -41,6 +41,8 @@
                 <button
                     type="button"
                     @click="uploadOpen = !uploadOpen"
+                    :aria-expanded="uploadOpen.toString()"
+                    aria-haspopup="true"
                     class="admin-dropdown-btn">
 
                     <i class="fas fa-cloud-arrow-up"></i>
@@ -148,7 +150,9 @@
 
                 <button
                     type="submit"
-                    class="logout-btn">
+                    class="logout-btn"
+                    aria-label="Log out"
+                    title="Log out">
 
                     <i class="fas fa-right-from-bracket"></i>
 
@@ -160,7 +164,10 @@
             <button
                 @click="open = ! open"
                 class="admin-mobile-toggle"
-                :class="{ 'is-open': open }">
+                :class="{ 'is-open': open }"
+                :aria-expanded="open.toString()"
+                aria-controls="admin-mobile-menu"
+                aria-label="Toggle admin menu">
 
                 <i
                     class="fas fa-bars"
@@ -183,17 +190,18 @@
          MOBILE MENU
     ========================================== --}}
     <div
+        id="admin-mobile-menu"
         x-show="open"
         x-transition
         class="admin-links-mobile"
         style="display:none;">
 
-        <a href="/admin">
+        <a href="/admin" class="{{ request()->is('admin') ? 'active' : '' }}">
             <i class="fas fa-chart-line"></i>
             Dashboard
         </a>
 
-        <a href="/admin/music">
+        <a href="/admin/music" class="{{ request()->is('admin/music*') ? 'active' : '' }}">
             <i class="fas fa-music"></i>
             Music
         </a>
@@ -205,6 +213,8 @@
             <button
                 type="button"
                 @click="uploadOpen = !uploadOpen"
+                :aria-expanded="uploadOpen.toString()"
+                aria-haspopup="true"
                 class="admin-dropdown-btn">
 
                 <i class="fas fa-cloud-arrow-up"></i>
@@ -262,12 +272,12 @@
 
         </div>
 
-        <a href="/admin/users">
+        <a href="/admin/users" class="{{ request()->is('admin/users*') ? 'active' : '' }}">
             <i class="fas fa-users"></i>
             Users
         </a>
 
-        <a href="/admin/orders">
+        <a href="/admin/orders" class="{{ request()->is('admin/orders*') ? 'active' : '' }}">
             <i class="fas fa-receipt"></i>
             Orders
         </a>

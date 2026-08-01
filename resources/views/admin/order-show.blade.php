@@ -148,7 +148,7 @@
 
                     <tr>
 
-                        <td>
+                        <td data-label="Product">
 
                             <div class="order-show-product">
 
@@ -168,19 +168,19 @@
 
                         </td>
 
-                        <td>
+                        <td data-label="Quantity">
 
                             {{ $item->quantity }}
 
                         </td>
 
-                        <td>
+                        <td data-label="Price">
 
                             Rp {{ number_format($item->price) }}
 
                         </td>
 
-                        <td>
+                        <td data-label="Subtotal">
 
                             <strong>
 
