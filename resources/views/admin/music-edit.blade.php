@@ -35,6 +35,7 @@
     <div class="music-form-card">
 
         <form
+            data-cloudinary-direct-upload
             method="POST"
             action="{{ route('admin.music.update', $music->id) }}"
             enctype="multipart/form-data">

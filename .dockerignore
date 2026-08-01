@@ -6,6 +6,9 @@
 vendor
 node_modules
 
+# Local project knowledge base
+docs
+
 # Laravel cache
 storage/logs
 storage/framework/cache

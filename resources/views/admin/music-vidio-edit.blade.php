@@ -81,6 +81,7 @@
     @endif
 
     <form
+        data-cloudinary-direct-upload
         method="POST"
         action="{{ route('admin.music-vidio.update', $video->id) }}"
         enctype="multipart/form-data">

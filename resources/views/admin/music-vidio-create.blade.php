@@ -28,7 +28,7 @@
 
     @endif
 
-    <form method="POST"
+    <form method="POST" data-cloudinary-direct-upload
           action="{{ route('admin.music-vidio.store') }}"
           enctype="multipart/form-data">
 

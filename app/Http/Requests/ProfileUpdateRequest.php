@@ -24,6 +24,11 @@ class ProfileUpdateRequest extends FormRequest
                 'mimes:jpg,jpeg,png,webp',
                 'max:2048'
             ],
+            'uploaded_media.profile_photo' => [
+                'nullable',
+                'string',
+                'exists:media,id',
+            ],
             'email' => [
                 'required',
                 'string',

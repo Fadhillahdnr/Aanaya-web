@@ -21,6 +21,7 @@
     <div class="gallery-form-card">
 
         <form
+            data-cloudinary-direct-upload
             action="/admin/gallery/store"
             method="POST"
             enctype="multipart/form-data">

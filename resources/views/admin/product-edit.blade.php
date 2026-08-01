@@ -31,6 +31,7 @@
     <div class="product-form-card">
 
         <form
+            data-cloudinary-direct-upload
             action="/admin/products/{{ $product->id }}"
             method="POST"
             enctype="multipart/form-data">

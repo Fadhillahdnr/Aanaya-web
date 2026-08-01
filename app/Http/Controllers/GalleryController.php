@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gallery;
 use Illuminate\Http\Request;
+use App\Services\MediaService;
 
 class GalleryController extends Controller
 {
@@ -40,11 +41,11 @@ class GalleryController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function store(Request $request)
+    public function store(Request $request, MediaService $mediaService)
     {
         $request->validate([
 
-            'image' => 'required|image|mimes:jpg,jpeg,png,webp',
+            'uploaded_media.image' => 'required|string|exists:media,id',
 
         ]);
 
@@ -54,13 +55,7 @@ class GalleryController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $imageName = time() . '.' .
-            $request->image->extension();
-
-        $request->image->move(
-            public_path('uploads/gallery'),
-            $imageName
-        );
+        $media = $mediaService->fromRequest($request, 'image', true);
 
         /*
         |--------------------------------------------------------------------------
@@ -68,15 +63,17 @@ class GalleryController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        Gallery::create([
+        $gallery = Gallery::create([
 
             'title' => $request->title,
 
-            'image' => $imageName,
+            'image' => $media->secure_url,
 
             'description' => $request->description,
 
         ]);
+
+        $mediaService->claim($media, $gallery, 'image');
 
         return redirect('/admin/gallery')
             ->with('success', 'Photo uploaded!');
@@ -104,7 +101,7 @@ class GalleryController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, MediaService $mediaService)
     {
         $gallery = Gallery::findOrFail($id);
 
@@ -114,17 +111,9 @@ class GalleryController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        if ($request->hasFile('image')) {
-
-            $imageName = time() . '.' .
-                $request->image->extension();
-
-            $request->image->move(
-                public_path('uploads/gallery'),
-                $imageName
-            );
-
-            $gallery->image = $imageName;
+        if ($media = $mediaService->fromRequest($request, 'image')) {
+            $oldMedia = $gallery->media()->where('purpose', 'image')->latest()->first();
+            $gallery->image = $media->secure_url;
         }
 
         /*
@@ -143,6 +132,12 @@ class GalleryController extends Controller
 
         $gallery->save();
 
+        if (isset($media)) {
+            $mediaService->claim($media, $gallery, 'image');
+            $mediaService->queueDelete($oldMedia?->public_id);
+            $oldMedia?->delete();
+        }
+
         return redirect('/admin/gallery')
             ->with('success', 'Gallery updated!');
     }
@@ -153,10 +148,14 @@ class GalleryController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function destroy($id)
+    public function destroy($id, MediaService $mediaService)
     {
         $gallery = Gallery::findOrFail($id);
 
+        foreach ($gallery->media as $media) {
+            $mediaService->queueDelete($media->public_id, $media->resource_type);
+            $media->delete();
+        }
         $gallery->delete();
 
         return redirect('/admin/gallery')

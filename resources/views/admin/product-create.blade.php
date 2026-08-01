@@ -43,6 +43,7 @@
         @endif
 
         <form
+            data-cloudinary-direct-upload
             action="/admin/products/store"
             method="POST"
             enctype="multipart/form-data">

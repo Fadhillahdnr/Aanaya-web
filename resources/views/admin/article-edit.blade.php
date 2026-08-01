@@ -64,6 +64,7 @@
         @endif
 
         <form
+            data-cloudinary-direct-upload
             action="/admin/articles/{{ $article->id }}"
             method="POST"
             enctype="multipart/form-data">
@@ -82,6 +83,7 @@
                         <label class="edit-group-label">
                             Content Type
                         </label>
+                        <p class="edit-field-help">Changing content type removes blocks or panels belonging to the previous format.</p>
 
                         <div class="edit-category-selector">
 
@@ -196,9 +198,13 @@
 
                         <div class="edit-form-group">
 
-                            <label>
-                                Article Content
-                            </label>
+                            <div class="edit-editor-heading">
+                                <div>
+                                    <label>Article Content</label>
+                                    <p class="edit-field-help">Manage each block and choose what happens to existing images.</p>
+                                </div>
+                                <span class="edit-editor-tip"><i class="fas fa-layer-group"></i> Block editor</span>
+                            </div>
 
                             <div class="block-editor">
 
@@ -224,6 +230,8 @@
                                         @if($block->type === 'text')
 
                                             <div class="edit-content-block">
+
+                                                <div class="edit-block-kind"><i class="fas fa-align-left"></i> Text block</div>
 
                                                 <button
                                                     type="button"
@@ -254,6 +262,8 @@
 
                                             <div class="edit-content-block">
 
+                                                <div class="edit-block-kind"><i class="fas fa-image"></i> Image block</div>
+
                                                 <button
                                                     type="button"
                                                     class="edit-remove-block">
@@ -270,6 +280,16 @@
                                                     name="blocks[{{ $index }}][type]"
                                                     value="image">
 
+                                                <label for="block-action-{{ $block->id }}">Tindakan gambar</label>
+                                                <select
+                                                    id="block-action-{{ $block->id }}"
+                                                    name="blocks[{{ $index }}][action]"
+                                                    class="edit-media-action">
+                                                    <option value="keep" selected>Pertahankan</option>
+                                                    <option value="replace">Ganti</option>
+                                                    <option value="delete">Hapus</option>
+                                                </select>
+
                                                 <img
                                                     src="{{ $block->image }}"
                                                     class="edit-block-image-preview"
@@ -282,6 +302,8 @@
                                                 <input
                                                     type="file"
                                                     name="blocks[{{ $index }}][image]"
+                                                    multiple
+                                                    accept="image/*"
                                                     class="edit-block-image-input">
 
                                             </div>
@@ -292,21 +314,10 @@
 
                                 </div>
 
-                                <button
-                                    type="button"
-                                    id="editAddTextBlock">
-
-                                    + Text Block
-
-                                </button>
-
-                                <button
-                                    type="button"
-                                    id="editAddImageBlock">
-
-                                    + Image Block
-
-                                </button>
+                                <div class="edit-block-toolbar">
+                                    <button type="button" id="editAddTextBlock"><i class="fas fa-align-left"></i> Add text</button>
+                                    <button type="button" id="editAddImageBlock"><i class="fas fa-image"></i> Add images</button>
+                                </div>
 
                             </div>
 
@@ -380,14 +391,13 @@
                             Change Thumbnail
                         </h3>
 
-                        <p>
-                            JPG, PNG, WEBP
-                        </p>
+                        <p>Leave empty to retain the current thumbnail. JPG, PNG, or WEBP.</p>
 
                         <input
                             type="file"
                             id="editThumbnailInput"
                             name="thumbnail"
+                            class="edit-friendly-file-input"
                             accept="image/*">
 
                         <img
@@ -422,13 +432,12 @@
                             Upload Comic Panels
                         </h3>
 
-                        <p>
-                            Multiple images supported
-                        </p>
+                        <p>Add several panels at once. New panels are appended after existing ones.</p>
 
                         <input
                             type="file"
                             name="comic_images[]"
+                            class="edit-friendly-file-input"
                             multiple
                             accept="image/*">
 
@@ -502,6 +511,22 @@
                                                 ? $comic->image
                                                 : asset('uploads/comics/' . $comic->image) }}"
                                             alt="Comic">
+
+                                        <label for="comic-action-{{ $comic->id }}">Tindakan panel</label>
+                                        <select
+                                            id="comic-action-{{ $comic->id }}"
+                                            name="comic_actions[{{ $comic->id }}]"
+                                            class="edit-media-action comic-media-action">
+                                            <option value="keep" selected>Pertahankan</option>
+                                            <option value="replace">Ganti</option>
+                                            <option value="delete">Hapus</option>
+                                        </select>
+
+                                        <input
+                                            type="file"
+                                            name="comic_replacements[{{ $comic->id }}]"
+                                            accept="image/*"
+                                            class="comic-replacement-input">
 
                                     </div>
 
@@ -597,6 +622,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `
             <div class="edit-content-block">
 
+                <div class="edit-block-kind"><i class="fas fa-align-left"></i> Text block</div>
+
                 <button
                     type="button"
                     class="edit-remove-block">
@@ -635,6 +662,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `
             <div class="edit-content-block">
 
+                <div class="edit-block-kind"><i class="fas fa-images"></i> Image block · multiple allowed</div>
+
                 <button
                     type="button"
                     class="edit-remove-block">
@@ -650,6 +679,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     type="file"
                     class="edit-block-image-input"
                     name="blocks[${editBlockIndex}][image]"
+                    multiple
                     accept="image/*">
 
                 <img
@@ -776,6 +806,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
             updateEditWordCount();
             updateLivePreview();
+        }
+    });
+
+    function syncMediaAction(select) {
+        const card = select.closest('.edit-content-block, .edit-comic-preview-card');
+        const replacementInput = card?.querySelector('.edit-block-image-input, .comic-replacement-input');
+        if (!card || !replacementInput) return;
+
+        card.dataset.mediaAction = select.value;
+        replacementInput.hidden = select.value !== 'replace';
+        if (select.value !== 'replace') replacementInput.value = '';
+    }
+
+    document.querySelectorAll('.edit-media-action').forEach(syncMediaAction);
+
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('edit-media-action')) {
+            syncMediaAction(e.target);
+        }
+
+        if (e.target.classList.contains('edit-block-image-input') && e.target.files.length) {
+            const action = e.target.closest('.edit-content-block')?.querySelector('.edit-media-action');
+            if (action) {
+                action.value = 'replace';
+                syncMediaAction(action);
+            }
+        }
+
+        if (e.target.classList.contains('comic-replacement-input') && e.target.files.length) {
+            const action = e.target.closest('.edit-comic-preview-card')?.querySelector('.comic-media-action');
+            if (action) {
+                action.value = 'replace';
+                syncMediaAction(action);
+            }
         }
     });
 

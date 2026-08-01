@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Concerns\HasMedia;
 
 class MusicVideo extends Model
 {
+    use HasMedia;
     protected $table = 'music_videos';
     
     protected $fillable = [

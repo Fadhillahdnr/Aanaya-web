@@ -13,6 +13,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\MusicVideoController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\MediaUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,6 +116,14 @@ Route::view(
 */
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::post('/media/uploads/sign', [MediaUploadController::class, 'sign'])
+        ->middleware('throttle:30,1')
+        ->name('media.uploads.sign');
+
+    Route::post('/media/uploads/{media}/complete', [MediaUploadController::class, 'complete'])
+        ->middleware('throttle:60,1')
+        ->name('media.uploads.complete');
 
     /*
     |--------------------------------------------------------------------------

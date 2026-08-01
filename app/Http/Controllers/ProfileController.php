@@ -3,18 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Traits\CloudinaryUpload;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use App\Services\MediaService;
 
 class ProfileController extends Controller
 {
-    use CloudinaryUpload;
-
     /**
      * Display the user's profile form.
      */
@@ -28,7 +26,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request, MediaService $mediaService): RedirectResponse
     {
         $user = $request->user();
         $user->fill($request->safe()->except('profile_photo'));
@@ -36,14 +34,11 @@ class ProfileController extends Controller
         $oldPhoto = $user->profile_photo;
         $oldPublicId = $user->profile_photo_public_id;
 
-        if ($request->hasFile('profile_photo')) {
-            $upload = $this->uploadToCloudinary(
-                $request->file('profile_photo'),
-                'aanaya/profile-photos'
-            );
+        $media = $mediaService->fromRequest($request, 'profile_photo');
 
-            $user->profile_photo = $upload['url'];
-            $user->profile_photo_public_id = $upload['public_id'];
+        if ($media) {
+            $user->profile_photo = $media->secure_url;
+            $user->profile_photo_public_id = $media->public_id;
         }
 
         if (
@@ -54,9 +49,10 @@ class ProfileController extends Controller
 
         $user->save();
 
-        if ($request->hasFile('profile_photo')) {
+        if ($media) {
+            $mediaService->claim($media, $user, 'profile_photo');
             if ($oldPublicId) {
-                $this->deleteFromCloudinary($oldPublicId);
+                $mediaService->queueDelete($oldPublicId);
             } elseif ($oldPhoto && Storage::disk('public')->exists($oldPhoto)) {
                 // Clean up photos created by the previous local-storage flow.
                 Storage::disk('public')->delete($oldPhoto);
@@ -73,7 +69,7 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, MediaService $mediaService): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
@@ -84,7 +80,7 @@ class ProfileController extends Controller
         Auth::logout();
 
         if ($user->profile_photo_public_id) {
-            $this->deleteFromCloudinary($user->profile_photo_public_id);
+            $mediaService->queueDelete($user->profile_photo_public_id);
         } elseif (
             $user->profile_photo &&
             Storage::disk('public')->exists($user->profile_photo)

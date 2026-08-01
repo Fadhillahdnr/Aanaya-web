@@ -57,6 +57,8 @@ RUN composer install --no-interaction
 # ==========================
 RUN npm install
 
+RUN npm run build
+
 # ==========================
 # Permission
 # ==========================

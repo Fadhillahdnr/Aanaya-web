@@ -3,11 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Cloudinary\Cloudinary;
+use App\Models\Media;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Mockery;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
@@ -62,32 +60,27 @@ class ProfileTest extends TestCase
 
     public function test_uploaded_profile_photo_replaces_google_avatar(): void
     {
-        $uploadApi = Mockery::mock();
-        $uploadApi->shouldReceive('upload')
-            ->once()
-            ->with(Mockery::type('string'), [
-                'folder' => 'aanaya/profile-photos',
-            ])
-            ->andReturn([
-                'secure_url' => 'https://res.cloudinary.com/demo/image/upload/avatar.jpg',
-                'public_id' => 'aanaya/profile-photos/avatar',
-            ]);
-
-        $cloudinary = Mockery::mock();
-        $cloudinary->shouldReceive('uploadApi')
-            ->once()
-            ->andReturn($uploadApi);
-
-        $this->app->instance(Cloudinary::class, $cloudinary);
-
         $user = User::factory()->create([
             'avatar' => 'https://example.com/google-avatar.jpg',
+        ]);
+
+        $media = Media::create([
+            'uploaded_by' => $user->id,
+            'public_id' => 'development/users/avatars/avatar',
+            'resource_type' => 'image',
+            'media_type' => 'image',
+            'purpose' => 'profile_photo',
+            'original_name' => 'avatar.jpg',
+            'mime_type' => 'image/jpeg',
+            'size_bytes' => 1000,
+            'secure_url' => 'https://res.cloudinary.com/demo/image/upload/avatar.jpg',
+            'status' => 'ready',
         ]);
 
         $response = $this->actingAs($user)->patch('/profile', [
             'name' => $user->name,
             'email' => $user->email,
-            'profile_photo' => UploadedFile::fake()->image('avatar.jpg'),
+            'uploaded_media' => ['profile_photo' => $media->id],
         ]);
 
         $response
@@ -101,7 +94,7 @@ class ProfileTest extends TestCase
             $user->avatar_url
         );
         $this->assertSame(
-            'aanaya/profile-photos/avatar',
+            'development/users/avatars/avatar',
             $user->profile_photo_public_id
         );
     }

@@ -442,3 +442,28 @@
     }
 
 }
+
+/* UX refresh */
+.article-form-page{max-width:1440px;margin:0 auto}
+.article-form-card{border:1px solid #edf0f7}
+.field-help{margin:-3px 0 11px;color:#7c8496;font-size:.84rem;line-height:1.5}
+.field-required{margin-left:6px;padding:3px 8px;border-radius:999px;background:#fff1f2;color:#e11d48;font-size:.68rem;text-transform:uppercase;letter-spacing:.04em}
+.editor-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:12px}
+.editor-tip,.block-kind{display:inline-flex;align-items:center;gap:7px;color:#6366f1;font-size:.78rem;font-weight:700}
+.editor-tip{flex:none;padding:7px 10px;border-radius:999px;background:#eef2ff}
+.block-kind{margin-bottom:12px;text-transform:uppercase;letter-spacing:.04em}
+.block-toolbar{display:flex;flex-wrap:wrap;gap:10px;padding-top:17px;border-top:1px solid #e8ebf3;margin-top:17px}
+#addTextBlock,#addImageBlock{display:inline-flex;align-items:center;gap:8px;margin:0}
+.content-block{padding-top:20px;box-shadow:0 7px 22px rgba(30,41,59,.045)}
+.remove-block{top:14px;right:14px;background:#fff1f2;color:#e11d48;border:1px solid #fecdd3;transition:.2s}
+.remove-block:hover{background:#e11d48;color:#fff}
+.upload-box{transition:border-color .2s,background .2s,transform .2s}
+.upload-box:hover{border-color:#818cf8;background:#f7f8ff}
+.upload-box h3{margin:0 0 7px;color:#1f2937;font-size:1.05rem}
+.friendly-file-input,.edit-friendly-file-input{font-size:.82rem;color:#64748b}
+.friendly-file-input::file-selector-button,.edit-friendly-file-input::file-selector-button{border:0;border-radius:11px;padding:10px 14px;margin-right:10px;background:#6366f1;color:#fff;font-weight:700;cursor:pointer}
+#comicPreviewGrid{width:100%;counter-reset:comic-panel}
+#comicPreviewGrid img{aspect-ratio:3/4;object-fit:cover;border:1px solid #e5e7eb}
+.editor-empty{padding:28px;text-align:center;border:1px dashed #dbe3f1;border-radius:14px;color:#7c8496;background:#fff}
+.save-btn:disabled{cursor:wait;opacity:.7;transform:none}
+@media(max-width:600px){.editor-heading{flex-direction:column}.block-toolbar>*{flex:1;justify-content:center}.submit-wrapper{position:sticky;bottom:12px;z-index:5}.save-btn{width:100%}}

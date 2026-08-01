@@ -54,6 +54,7 @@
         @endif
 
         <form
+            data-cloudinary-direct-upload
             action="/admin/articles/store"
             method="POST"
             enctype="multipart/form-data"
@@ -66,14 +67,14 @@
 
                 <!-- ARTICLE -->
                 <label
-                    class="category-card active-category"
+                    class="category-card {{ old('category', 'article') === 'article' ? 'active-category' : '' }}"
                     id="articleCard">
 
                     <input
                         type="radio"
                         name="category"
                         value="article"
-                        checked>
+                        {{ old('category', 'article') === 'article' ? 'checked' : '' }}>
 
                     <div class="category-icon">
                         <i class="fas fa-newspaper"></i>
@@ -89,13 +90,14 @@
 
                 <!-- COMIC -->
                 <label
-                    class="category-card"
+                    class="category-card {{ old('category') === 'comic' ? 'active-category' : '' }}"
                     id="comicCard">
 
                     <input
                         type="radio"
                         name="category"
-                        value="comic">
+                        value="comic"
+                        {{ old('category') === 'comic' ? 'checked' : '' }}>
 
                     <div id="comicCount"></div>
 
@@ -122,7 +124,8 @@
                     <!-- TITLE -->
                     <div class="form-group">
 
-                        <label>Title</label>
+                        <label>Content Title <span class="field-required">Required</span></label>
+                        <p class="field-help">Use a short, recognizable title for readers.</p>
 
                         <input
                             type="text"
@@ -147,6 +150,7 @@
                         id="publishDateGroup">
 
                         <label>Publish Date</label>
+                        <p class="field-help">Optional. Leave empty when no schedule is needed.</p>
 
                         <input
                             type="datetime-local"
@@ -160,9 +164,13 @@
 
                         <div class="form-group">
 
-                            <label>
-                                Article Content
-                            </label>
+                            <div class="editor-heading">
+                                <div>
+                                    <label>Article Content</label>
+                                    <p class="field-help">Combine text and images in their reading order.</p>
+                                </div>
+                                <span class="editor-tip"><i class="fas fa-layer-group"></i> Block editor</span>
+                            </div>
 
                             <div class="block-editor">
 
@@ -177,21 +185,10 @@
 
                                 </div>
 
-                                <button
-                                    type="button"
-                                    id="addTextBlock">
-
-                                    + Text Block
-
-                                </button>
-
-                                <button
-                                    type="button"
-                                    id="addImageBlock">
-
-                                    + Image Block
-
-                                </button>
+                                <div class="block-toolbar">
+                                    <button type="button" id="addTextBlock"><i class="fas fa-align-left"></i> Add text</button>
+                                    <button type="button" id="addImageBlock"><i class="fas fa-image"></i> Add images</button>
+                                </div>
 
                             </div>
 
@@ -209,6 +206,7 @@
                             <label>
                                 Comic Description
                             </label>
+                            <p class="field-help">Add a short synopsis for your readers.</p>
 
                             <textarea
                                 rows="8"
@@ -232,13 +230,13 @@
 
                         <i class="fas fa-image"></i>
 
-                        <p>
-                            Upload Thumbnail
-                        </p>
+                        <h3>Cover thumbnail</h3>
+                        <p>Choose one JPG, PNG, or WEBP image. Recommended ratio 16:9.</p>
 
                         <input
                             type="file"
                             name="thumbnail"
+                            class="friendly-file-input"
                             accept="image/*"
                             required>
 
@@ -264,16 +262,14 @@
 
                         <i class="fas fa-images"></i>
 
-                        <p>
-                            Upload Comic Images
-                            <br>
-                            Multiple allowed
-                        </p>
+                        <h3>Comic panels</h3>
+                        <p>Select several images at once. Selection order becomes reading order.</p>
 
                         <input
                             type="file"
                             id="comicImagesInput"
                             name="comic_images[]"
+                            class="friendly-file-input"
                             accept="image/*"
                             multiple>
 
@@ -412,6 +408,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `
             <div class="content-block">
 
+                <div class="block-kind"><i class="fas fa-align-left"></i> Text block</div>
+
                 <button
                     type="button"
                     class="remove-block">
@@ -451,6 +449,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `
             <div class="content-block">
 
+                <div class="block-kind"><i class="fas fa-images"></i> Image block · multiple allowed</div>
+
                 <button
                     type="button"
                     class="remove-block">
@@ -466,6 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     type="file"
                     class="block-image-input"
                     name="blocks[${blockIndex}][image]"
+                    multiple
                     accept="image/*">
 
                 <img
@@ -841,7 +842,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
-    toggleContentType('article');
+    toggleContentType(document.querySelector('input[name="category"]:checked')?.value || 'article');
 
     updatePreview();
 

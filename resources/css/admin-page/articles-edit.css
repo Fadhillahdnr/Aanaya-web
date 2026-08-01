@@ -588,3 +588,30 @@
         width:100%;
     }
 }
+
+/* UX refresh */
+.edit-field-help{margin:-3px 0 10px;color:#7c8496;font-size:.84rem;line-height:1.5}
+.edit-editor-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.edit-editor-tip,.edit-block-kind{display:inline-flex;align-items:center;gap:7px;color:#e9568b;font-size:.78rem;font-weight:700}
+.edit-editor-tip{flex:none;padding:7px 10px;border-radius:999px;background:#fff1f5}
+.edit-block-kind{margin:0 0 13px;text-transform:uppercase;letter-spacing:.04em}
+.edit-block-toolbar{display:flex;flex-wrap:wrap;gap:10px;padding-top:18px;border-top:1px solid #e5e7eb}
+#editAddTextBlock,#editAddImageBlock{display:inline-flex;align-items:center;gap:8px;margin:0}
+.edit-content-block{position:relative;background:#fff;border:1px solid #e7e9ef;border-radius:18px;padding:20px;box-shadow:0 7px 22px rgba(30,41,59,.045)}
+.edit-content-block[data-media-action="delete"],.edit-comic-preview-card[data-media-action="delete"]{border-color:#fda4af;background:#fff6f7;opacity:.72}
+.edit-content-block[data-media-action="replace"],.edit-comic-preview-card[data-media-action="replace"]{border-color:#818cf8;background:#fafaff}
+.edit-remove-block{position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:50%;border:1px solid #fecdd3;background:#fff1f2;color:#e11d48;font-size:18px;cursor:pointer;transition:.2s}
+.edit-remove-block:hover{background:#e11d48;color:#fff}
+.edit-media-action{width:100%;margin:7px 0 14px;padding:11px 13px;border:1px solid #dfe3eb;border-radius:12px;background:#fff;color:#374151;font-weight:650}
+.edit-media-action:focus{outline:none;border-color:#ff7eb3;box-shadow:0 0 0 4px rgba(255,126,179,.12)}
+.edit-block-image-input,.comic-replacement-input{width:100%;font-size:.8rem;color:#64748b}
+.edit-block-image-input::file-selector-button,.comic-replacement-input::file-selector-button{border:0;border-radius:10px;padding:9px 12px;margin-right:8px;background:#6366f1;color:#fff;font-weight:700;cursor:pointer}
+.edit-comic-preview-card{padding:10px;border:1px solid #e7e9ef;background:#fff;overflow:visible}
+.edit-comic-preview-card img{border-radius:11px;margin-bottom:10px}
+.edit-comic-preview-card label{display:block;margin:2px 0 5px;color:#4b5563;font-size:.75rem;font-weight:700}
+.edit-upload-box{transition:border-color .2s,background .2s}
+.edit-upload-box:hover{border-color:#ff9cbc;background:#fffafb}
+.edit-friendly-file-input{font-size:.82rem;color:#64748b}
+.edit-friendly-file-input::file-selector-button{background:#ff758c}
+.edit-save-btn:disabled{cursor:wait;opacity:.7;transform:none}
+@media(max-width:576px){.edit-editor-heading{flex-direction:column}.edit-block-toolbar>*{flex:1;justify-content:center}.edit-submit-wrapper{position:sticky;bottom:12px;z-index:5}}

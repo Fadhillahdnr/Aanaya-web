@@ -8,7 +8,7 @@
 
     </form>
 
-    <form method="post"
+    <form method="post" data-cloudinary-direct-upload
         action="{{ route('profile.update') }}"
         enctype="multipart/form-data"
         class="user-profile-form">

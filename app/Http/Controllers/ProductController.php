@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Cloudinary\Cloudinary;
+use App\Services\MediaService;
 
 class ProductController extends Controller
 {
@@ -39,34 +39,25 @@ class ProductController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function store(Request $request)
+    public function store(Request $request, MediaService $mediaService)
     {
         $request->validate([
             'name'  => 'required',
-            'image' => 'required|image|mimes:jpg,jpeg,png,webp',
+            'uploaded_media.image' => 'required|string|exists:media,id',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
         ]);
 
-        $cloudinary = app(Cloudinary::class);
+        $media = $mediaService->fromRequest($request, 'image', true);
 
-        $upload = $cloudinary
-            ->uploadApi()
-            ->upload(
-                $request->file('image')->getRealPath(),
-                [
-                    'folder' => 'products'
-                ]
-            );
-
-        Product::create([
+        $product = Product::create([
             'name' => $request->name,
 
             'slug' => Str::slug($request->name),
 
-            'image' => $upload['secure_url'],
+            'image' => $media->secure_url,
 
-            'image_public_id' => $upload['public_id'],
+            'image_public_id' => $media->public_id,
 
             'description' => $request->description,
 
@@ -78,6 +69,8 @@ class ProductController extends Controller
 
             'is_active' => true,
         ]);
+
+        $mediaService->claim($media, $product, 'image');
 
         return redirect('/admin/products')
             ->with('success', 'Product berhasil ditambahkan!');
@@ -105,7 +98,7 @@ class ProductController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, MediaService $mediaService)
     {
         $product = Product::findOrFail($id);
 
@@ -113,7 +106,7 @@ class ProductController extends Controller
             'name'  => 'required',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'uploaded_media.image' => 'nullable|string|exists:media,id',
         ]);
 
         $data = [
@@ -130,57 +123,18 @@ class ProductController extends Controller
             'category' => $request->category,
         ];
 
-        if ($request->hasFile('image')) {
-
-            $cloudinary = app(Cloudinary::class);
-
-            /*
-            |--------------------------------------------------------------------------
-            | DELETE OLD IMAGE
-            |--------------------------------------------------------------------------
-            */
-
-            if (!empty($product->image_public_id)) {
-
-                try {
-
-                    $cloudinary
-                        ->uploadApi()
-                        ->destroy(
-                            $product->image_public_id
-                        );
-
-                } catch (\Exception $e) {
-
-                    \Log::warning(
-                        'Cloudinary delete failed: '
-                        . $e->getMessage()
-                    );
-                }
-            }
-
-            /*
-            |--------------------------------------------------------------------------
-            | UPLOAD NEW IMAGE
-            |--------------------------------------------------------------------------
-            */
-
-            $upload = $cloudinary
-                ->uploadApi()
-                ->upload(
-                    $request->file('image')->getRealPath(),
-                    [
-                        'folder' => 'products'
-                    ]
-                );
-
-            $data['image'] = $upload['secure_url'];
-
-            $data['image_public_id'] =
-                $upload['public_id'];
+        if ($media = $mediaService->fromRequest($request, 'image')) {
+            $oldPublicId = $product->image_public_id;
+            $data['image'] = $media->secure_url;
+            $data['image_public_id'] = $media->public_id;
         }
 
         $product->update($data);
+
+        if (isset($media)) {
+            $mediaService->claim($media, $product, 'image');
+            $mediaService->queueDelete($oldPublicId);
+        }
 
         return redirect('/admin/products')
             ->with('success', 'Product berhasil diupdate!');
@@ -192,31 +146,11 @@ class ProductController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function destroy($id)
+    public function destroy($id, MediaService $mediaService)
     {
         $product = Product::findOrFail($id);
 
-        if (!empty($product->image_public_id)) {
-
-            try {
-
-                $cloudinary = app(Cloudinary::class);
-
-                $cloudinary
-                    ->uploadApi()
-                    ->destroy(
-                        $product->image_public_id
-                    );
-
-            } catch (\Exception $e) {
-
-                \Log::warning(
-                    'Cloudinary delete failed: '
-                    . $e->getMessage()
-                );
-            }
-        }
-
+        $mediaService->queueDelete($product->image_public_id);
         $product->delete();
 
         return redirect('/admin/products')

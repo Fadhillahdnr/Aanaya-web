@@ -21,6 +21,7 @@
     <div class="gallery-form-card">
 
         <form
+            data-cloudinary-direct-upload
             action="/admin/gallery/{{ $gallery->id }}"
             method="POST"
             enctype="multipart/form-data">
@@ -58,7 +59,7 @@
                     <div class="current-gallery-image">
 
                         <img
-                            src="{{ asset('uploads/gallery/' . $gallery->image) }}">
+                            src="{{ filter_var($gallery->image, FILTER_VALIDATE_URL) ? $gallery->image : asset('uploads/gallery/' . $gallery->image) }}">
 
                     </div>
 

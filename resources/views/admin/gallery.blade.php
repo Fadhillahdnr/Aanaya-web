@@ -39,7 +39,7 @@
                 <div class="gallery-image-wrapper">
 
                     <img
-                        src="{{ asset('uploads/gallery/' . $gallery->image) }}"
+                        src="{{ filter_var($gallery->image, FILTER_VALIDATE_URL) ? $gallery->image : asset('uploads/gallery/' . $gallery->image) }}"
                         alt="{{ $gallery->title }}">
 
                     <!-- OVERLAY -->

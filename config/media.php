@@ -1,0 +1,11 @@
+<?php
+
+return [
+    'image_max_bytes' => (int) env('MEDIA_IMAGE_MAX_MB', 5) * 1024 * 1024,
+    'audio_max_bytes' => (int) env('MEDIA_AUDIO_MAX_MB', 20) * 1024 * 1024,
+    'video_max_bytes' => (int) env('MEDIA_VIDEO_MAX_MB', 30) * 1024 * 1024,
+    'video_max_duration' => (int) env('MEDIA_VIDEO_MAX_DURATION_SECONDS', 180),
+    'video_max_long_edge' => (int) env('MEDIA_VIDEO_MAX_LONG_EDGE', 1280),
+    'video_max_short_edge' => (int) env('MEDIA_VIDEO_MAX_SHORT_EDGE', 720),
+    'stale_after_hours' => (int) env('MEDIA_STALE_AFTER_HOURS', 24),
+];

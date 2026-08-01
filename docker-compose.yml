@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   app:
     build: .
@@ -18,3 +16,27 @@ services:
 
     stdin_open: true
     tty: true
+
+  queue:
+    build: .
+    container_name: aanaya-queue
+    command: php artisan queue:work database --sleep=3 --tries=3 --timeout=120
+    volumes:
+      - .:/var/www
+      - /var/www/vendor
+      - /var/www/node_modules
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  scheduler:
+    build: .
+    container_name: aanaya-scheduler
+    command: php artisan schedule:work
+    volumes:
+      - .:/var/www
+      - /var/www/vendor
+      - /var/www/node_modules
+    env_file:
+      - .env
+    restart: unless-stopped

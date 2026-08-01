@@ -47,7 +47,7 @@
                 <div class="gallery-image-box">
 
                     <img
-                        src="{{ asset('uploads/gallery/' . $gallery->image) }}"
+                        src="{{ filter_var($gallery->image, FILTER_VALIDATE_URL) ? $gallery->image : asset('uploads/gallery/' . $gallery->image) }}"
                         alt="{{ $gallery->title }}"
                         class="gallery-image">
 
@@ -75,7 +75,7 @@
 
                             <button
                                 class="gallery-action-btn open-gallery-modal"
-                                data-image="{{ asset('uploads/gallery/' . $gallery->image) }}"
+                                data-image="{{ filter_var($gallery->image, FILTER_VALIDATE_URL) ? $gallery->image : asset('uploads/gallery/' . $gallery->image) }}"
                                 data-title="{{ $gallery->title }}"
                                 data-description="{{ $gallery->description }}">
                                 

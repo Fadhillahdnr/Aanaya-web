@@ -73,6 +73,7 @@
         </h2>
 
         <form
+            data-cloudinary-direct-upload
             method="POST"
             action="{{ route('admin.music.store') }}"
             enctype="multipart/form-data">
