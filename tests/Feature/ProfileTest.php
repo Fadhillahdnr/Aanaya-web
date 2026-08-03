@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Media;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -44,7 +44,7 @@ class ProfileTest extends TestCase
             ->actingAs($user)
             ->patch('/profile', [
                 'name' => 'Test User',
-                'email' => 'test@example.com',
+                'email' => 'test.profile@gmail.com',
             ]);
 
         $response
@@ -54,8 +54,53 @@ class ProfileTest extends TestCase
         $user->refresh();
 
         $this->assertSame('Test User', $user->name);
-        $this->assertSame('test@example.com', $user->email);
+        $this->assertSame('test.profile@gmail.com', $user->email);
         $this->assertNull($user->email_verified_at);
+    }
+
+    public function test_personal_profile_details_can_be_updated(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->patch('/profile', [
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => '+62 812-3456-7890',
+                'address' => 'Jl. Melati No. 12, Bandung, Jawa Barat 40123',
+                'gender' => 'female',
+                'date_of_birth' => '2000-05-18',
+            ]);
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertRedirect('/profile');
+
+        $user->refresh();
+
+        $this->assertSame('+62 812-3456-7890', $user->phone);
+        $this->assertSame('Jl. Melati No. 12, Bandung, Jawa Barat 40123', $user->address);
+        $this->assertSame('female', $user->gender);
+        $this->assertSame('2000-05-18', $user->date_of_birth->toDateString());
+    }
+
+    public function test_profile_rejects_an_invalid_phone_gender_and_future_birth_date(): void
+    {
+        $user = User::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->from('/profile')
+            ->patch('/profile', [
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => 'not-a-phone',
+                'gender' => 'unknown',
+                'date_of_birth' => now()->addDay()->toDateString(),
+            ])
+            ->assertRedirect('/profile')
+            ->assertSessionHasErrors(['phone', 'gender', 'date_of_birth']);
     }
 
     public function test_google_avatar_is_displayed_before_a_custom_photo_is_uploaded(): void

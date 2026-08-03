@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
 use App\Models\User;
-
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -34,6 +31,31 @@ class UserController extends Controller
     public function create()
     {
         return view('admin.user-create');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SHOW
+    |--------------------------------------------------------------------------
+    */
+
+    public function show(User $user)
+    {
+        $user->load([
+            'orders' => fn ($query) => $query
+                ->withCount('items')
+                ->latest()
+                ->limit(8),
+        ])->loadCount('orders');
+
+        $orderStats = [
+            'completed' => $user->orders()->where('status', 'completed')->count(),
+            'active' => $user->orders()->whereIn('status', ['pending', 'processing', 'shipped'])->count(),
+            'cancelled' => $user->orders()->where('status', 'cancelled')->count(),
+            'total_spent' => $user->orders()->where('status', 'completed')->sum('total_price'),
+        ];
+
+        return view('admin.user-show', compact('user', 'orderStats'));
     }
 
     /*
@@ -95,7 +117,7 @@ class UserController extends Controller
 
             'name' => 'required|max:255',
 
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,'.$user->id,
 
             'role' => 'required|in:admin,user',
 
@@ -115,7 +137,7 @@ class UserController extends Controller
 
             $user->update([
 
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
 
             ]);
         }

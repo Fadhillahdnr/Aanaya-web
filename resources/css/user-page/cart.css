@@ -149,6 +149,15 @@
     margin-bottom: 8px;
 }
 
+.cart-variant {
+    margin: 6px 0 10px;
+    color: #7d6371;
+    font-size: 14px;
+}
+
+.cart-variant strong { color: #513746; }
+.cart-variant span { color: #a08794; }
+
 .cart-price {
     font-size: 20px;
     font-weight: 700;

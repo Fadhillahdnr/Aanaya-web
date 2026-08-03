@@ -3,19 +3,25 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasMedia;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmailContract
 {
-    use HasFactory, HasMedia, Notifiable;
+    use HasFactory, HasMedia, MustVerifyEmail, Notifiable;
 
     protected $fillable = [
 
         'name',
         'email',
+        'phone',
+        'address',
+        'gender',
+        'date_of_birth',
         'password',
         'profile_photo',
         'profile_photo_public_id',
@@ -37,6 +43,7 @@ class User extends Authenticatable
         return [
 
             'email_verified_at' => 'datetime',
+            'date_of_birth' => 'date',
             'password' => 'hashed',
 
         ];

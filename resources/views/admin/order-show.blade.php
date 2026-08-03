@@ -159,9 +159,10 @@
                                 </div>
 
                                 <span>
-
-                                    {{ $item->product->name }}
-
+                                    {{ $item->product?->name ?? 'Product no longer available' }}
+                                    @if($item->variant_name)
+                                        <small>{{ $item->variant_label ?? 'Option' }}: {{ $item->variant_name }}{{ $item->variant_sku ? ' · '.$item->variant_sku : '' }}</small>
+                                    @endif
                                 </span>
 
                             </div>

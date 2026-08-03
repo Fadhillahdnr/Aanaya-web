@@ -184,6 +184,10 @@
                             :messages="$errors->get('email')"
                             class="mt-2" />
 
+                        <p class="auth-regis-field-help">
+                            Use an active Gmail, Yahoo, Outlook, iCloud, Proton Mail, or another supported address. Verification is available from your Profile.
+                        </p>
+
                     </div>
 
                     <!-- PASSWORD -->

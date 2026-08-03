@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -42,8 +43,19 @@ class CheckoutController extends Controller
         ]);
 
         [$order, $items, $total] = DB::transaction(function () use ($cart, $validated) {
-            $products = Product::query()
-                ->whereIn('id', array_keys($cart))
+            $productIds = collect($cart)
+                ->map(fn ($item, $key) => $item['product_id'] ?? (is_numeric($key) ? $key : null))
+                ->filter()
+                ->unique();
+            $variantIds = collect($cart)->pluck('variant_id')->filter()->unique();
+
+            $products = Product::with('activeVariants')
+                ->whereIn('id', $productIds)
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('id');
+            $variants = ProductVariant::query()
+                ->whereIn('id', $variantIds)
                 ->lockForUpdate()
                 ->get()
                 ->keyBy('id');
@@ -51,8 +63,12 @@ class CheckoutController extends Controller
             $items = [];
             $total = 0;
 
-            foreach ($cart as $productId => $cartItem) {
+            foreach ($cart as $cartKey => $cartItem) {
+                $productId = $cartItem['product_id'] ?? (is_numeric($cartKey) ? (int) $cartKey : null);
                 $product = $products->get((int) $productId);
+                $variant = ! empty($cartItem['variant_id'])
+                    ? $variants->get((int) $cartItem['variant_id'])
+                    : null;
                 $quantity = max(1, (int) ($cartItem['quantity'] ?? 1));
 
                 if (! $product || ! $product->is_active) {
@@ -61,17 +77,36 @@ class CheckoutController extends Controller
                     ]);
                 }
 
-                if ($product->stock < $quantity) {
+                if ($variant) {
+                    if ($variant->product_id !== $product->id || ! $variant->is_active) {
+                        throw ValidationException::withMessages([
+                            'cart' => "Pilihan untuk {$product->name} sudah tidak tersedia.",
+                        ]);
+                    }
+
+                    $stock = $variant->stock;
+                    $price = (int) round((float) ($variant->price ?? $product->price));
+                } else {
+                    if ($product->has_variants) {
+                        throw ValidationException::withMessages([
+                            'cart' => "Pilih {$product->variant_label} untuk {$product->name}.",
+                        ]);
+                    }
+
+                    $stock = $product->stock;
+                    $price = (int) round((float) $product->price);
+                }
+
+                if ($stock < $quantity) {
                     throw ValidationException::withMessages([
-                        'cart' => "Stok {$product->name} tidak mencukupi.",
+                        'cart' => "Stok {$product->name}".($variant ? " - {$variant->name}" : '').' tidak mencukupi.',
                     ]);
                 }
 
-                $price = (int) round((float) $product->price);
                 $subtotal = $price * $quantity;
                 $total += $subtotal;
 
-                $items[] = compact('product', 'quantity', 'price', 'subtotal');
+                $items[] = compact('product', 'variant', 'quantity', 'price', 'subtotal');
             }
 
             $order = Order::create([
@@ -88,16 +123,34 @@ class CheckoutController extends Controller
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item['product']->id,
+                    'product_variant_id' => $item['variant']?->id,
+                    'variant_label' => $item['variant'] ? $item['product']->variant_label : null,
+                    'variant_name' => $item['variant']?->name,
+                    'variant_sku' => $item['variant']?->sku,
                     'price' => $item['price'],
                     'quantity' => $item['quantity'],
                     'subtotal' => $item['subtotal'],
                 ]);
 
-                // save() deliberately runs model events so cached public product
-                // data is invalidated immediately after a successful checkout.
-                $item['product']->stock -= $item['quantity'];
-                $item['product']->save();
+                if ($item['variant']) {
+                    $item['variant']->stock -= $item['quantity'];
+                    $item['variant']->save();
+                } else {
+                    // save() deliberately runs model events so cached public product
+                    // data is invalidated immediately after a successful checkout.
+                    $item['product']->stock -= $item['quantity'];
+                    $item['product']->save();
+                }
             }
+
+            collect($items)
+                ->filter(fn ($item) => $item['variant'])
+                ->pluck('product')
+                ->unique('id')
+                ->each(function ($product) {
+                    $product->stock = (int) $product->variants()->where('is_active', true)->sum('stock');
+                    $product->save();
+                });
 
             return [$order, $items, $total];
         });
@@ -110,7 +163,8 @@ class CheckoutController extends Controller
         $message .= "🛍 Products:\n";
 
         foreach ($items as $item) {
-            $message .= "- {$item['product']->name} x {$item['quantity']}\n";
+            $variantText = $item['variant'] ? " ({$item['product']->variant_label}: {$item['variant']->name})" : '';
+            $message .= "- {$item['product']->name}{$variantText} x {$item['quantity']}\n";
         }
 
         $message .= "\n💰 Total: Rp ".number_format($total, 0, ',', '.');

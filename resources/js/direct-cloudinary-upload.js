@@ -3,6 +3,7 @@ const csrfToken = () => document.querySelector('meta[name="csrf-token"]')?.conte
 const purposeFor = (input) => {
     if (input.name.includes('blocks[')) return 'article_block_image';
     if (input.name.startsWith('comic_replacements[')) return 'comic_images';
+    if (/^variants\[\d+\]\[image\]$/.test(input.name)) return 'product_variant_image';
     return input.name.replace(/\[\]/g, '').split('[')[0];
 };
 
@@ -22,6 +23,10 @@ const hiddenNameFor = (input) => {
     if (input.name.startsWith('comic_replacements[')) {
         const comicImageId = input.name.match(/^comic_replacements\[(\d+)\]$/)?.[1];
         return `uploaded_media[comic_replacements][${comicImageId}]`;
+    }
+    if (/^variants\[(\d+)\]\[image\]$/.test(input.name)) {
+        const index = input.name.match(/^variants\[(\d+)\]/)?.[1];
+        return `uploaded_media[variants][${index}][image]`;
     }
     if (input.name.endsWith('[]')) return `uploaded_media[${input.name.slice(0, -2)}][]`;
     return `uploaded_media[${input.name}]`;

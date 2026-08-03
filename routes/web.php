@@ -310,6 +310,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     );
 
     Route::get(
+        '/admin/users/{user}',
+        [UserController::class, 'show']
+    )->name('admin.users.show');
+
+    Route::get(
         '/admin/users/{user}/edit',
         [UserController::class, 'edit']
     );

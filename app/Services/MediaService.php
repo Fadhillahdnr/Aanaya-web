@@ -6,6 +6,7 @@ use App\Jobs\DeleteCloudinaryAsset;
 use App\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 
 class MediaService
@@ -18,10 +19,27 @@ class MediaService
             if ($required) {
                 throw ValidationException::withMessages([$key => 'Upload media belum selesai.']);
             }
+
             return null;
         }
 
         return $this->readyOwnedMedia((string) $id);
+    }
+
+    /**
+     * @return Collection<int, Media>
+     */
+    public function fromRequestMany(Request $request, string $key, bool $required = false)
+    {
+        $ids = array_values(array_unique(array_filter(
+            (array) data_get($request->input('uploaded_media', []), $key, [])
+        )));
+
+        if ($required && $ids === []) {
+            throw ValidationException::withMessages([$key => 'Upload minimal satu foto belum selesai.']);
+        }
+
+        return collect($ids)->map(fn ($id) => $this->readyOwnedMedia((string) $id));
     }
 
     public function readyOwnedMedia(string $id): Media
@@ -48,6 +66,7 @@ class MediaService
 
         if ($purpose && in_array($purpose, [
             'image', 'cover_image', 'audio_file', 'thumbnail', 'video_file', 'profile_photo',
+            'product_variant_image',
         ], true)) {
             Media::query()
                 ->where('mediable_type', $model->getMorphClass())

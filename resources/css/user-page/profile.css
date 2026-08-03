@@ -258,6 +258,60 @@
         0 0 0 4px rgba(235,126,186,.15);
 }
 
+.user-profile-textarea{
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.user-profile-fields-grid{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.user-profile-group--wide{
+    grid-column: 1 / -1;
+}
+
+.user-profile-section-heading{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(142,35,67,.1);
+}
+
+.user-profile-section-icon{
+    display: grid;
+    place-items: center;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 15px;
+    color: #a52d59;
+    background: linear-gradient(135deg, rgba(255,226,240,.95), rgba(238,226,255,.95));
+}
+
+.user-profile-section-heading h3{
+    margin: 0 0 3px;
+    color: #472638;
+    font-size: 1.05rem;
+}
+
+.user-profile-section-heading p,
+.user-profile-field-help{
+    margin: 0;
+    color: #6f5d68;
+    font-size: .85rem;
+    line-height: 1.5;
+}
+
+select.user-profile-input{
+    min-height: 52px;
+    cursor: pointer;
+}
+
 /* =========================================================
    PROFILE PHOTO
 ========================================================= */
@@ -581,20 +635,52 @@
 
 .user-profile-verify{
     margin-top: 12px;
+    padding: 14px 16px;
+    border: 1px solid rgba(183,103,27,.2);
+    border-radius: 15px;
+    color: #75501f;
+    background: rgba(255,243,217,.68);
+}
+
+.user-profile-verify p{
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    line-height: 1.55;
+}
+
+.user-profile-verify--complete{
+    border-color: rgba(24,131,94,.22);
+    color: #176548;
+    background: rgba(226,248,238,.72);
+}
+
+.user-profile-success{
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .user-profile-verify-btn{
     margin-top: 10px;
 
-    background: transparent;
-
-    border: none;
-
-    color: #e01f42;
+    min-height: 44px;
+    padding: 10px 15px;
+    border: 1px solid rgba(224,31,66,.2);
+    border-radius: 12px;
+    background: rgba(255,255,255,.72);
+    color: #a61e43;
 
     font-weight: 700;
 
     cursor: pointer;
+}
+
+.user-profile-verify-btn:focus-visible{
+    outline: 3px solid rgba(224,31,66,.24);
+    outline-offset: 2px;
 }
 
 /* =========================================================
@@ -749,6 +835,15 @@
 
     .user-profile-btn{
         width: 100%;
+    }
+
+    .user-profile-fields-grid{
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .user-profile-group--wide{
+        grid-column: auto;
     }
 }
 

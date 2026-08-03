@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
@@ -29,8 +27,7 @@ class GoogleController extends Controller
             $googleUser->email
         )->first();
 
-        if (!$user)
-        {
+        if (! $user) {
             $user = User::create([
 
                 'name' => $googleUser->name,
@@ -50,14 +47,14 @@ class GoogleController extends Controller
                 ),
 
             ]);
-        }
-        else
-        {
+        } else {
             $user->update([
 
                 'google_id' => $googleUser->id,
 
                 'avatar' => $googleUser->avatar,
+
+                'email_verified_at' => $user->email_verified_at ?? now(),
 
             ]);
         }

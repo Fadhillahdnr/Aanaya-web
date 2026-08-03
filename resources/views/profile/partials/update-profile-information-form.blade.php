@@ -93,7 +93,7 @@
         <!-- NAME -->
         <div class="user-profile-group">
 
-            <label>Name</label>
+            <label for="name">Name</label>
 
             <input
                 id="name"
@@ -113,7 +113,7 @@
         <!-- EMAIL -->
         <div class="user-profile-group">
 
-            <label>Email</label>
+            <label for="email">Email</label>
 
             <input
                 id="email"
@@ -132,13 +132,15 @@
                 <div class="user-profile-verify">
 
                     <p>
-                        Your email address is unverified.
+                        <strong>Email not verified.</strong>
+                        Send a secure link to confirm that this email belongs to you.
                     </p>
 
                     <button form="send-verification"
                             class="user-profile-verify-btn">
 
-                        Re-send Verification Email
+                        <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                        Send Verification Email
 
                     </button>
 
@@ -148,14 +150,90 @@
 
                     <div class="user-profile-success">
 
-                        Verification link sent successfully ✨
+                        <i class="fas fa-circle-check" aria-hidden="true"></i>
+                        Verification link sent. Please check your inbox and spam folder.
 
                     </div>
 
                 @endif
 
+            @elseif ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail)
+                <div class="user-profile-verify user-profile-verify--complete">
+                    <p>
+                        <i class="fas fa-circle-check" aria-hidden="true"></i>
+                        <strong>Email verified.</strong>
+                        Your email ownership has been confirmed.
+                    </p>
+                </div>
             @endif
 
+        </div>
+
+        <div class="user-profile-section-heading">
+            <div class="user-profile-section-icon" aria-hidden="true">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div>
+                <h3>Personal Details</h3>
+                <p>These details help make checkout quicker and more personal.</p>
+            </div>
+        </div>
+
+        <div class="user-profile-fields-grid">
+            <div class="user-profile-group">
+                <label for="phone">Phone Number</label>
+                <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    class="user-profile-input"
+                    value="{{ old('phone', $user->phone) }}"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    placeholder="e.g. 08123456789"
+                    aria-describedby="phone-help">
+                <p id="phone-help" class="user-profile-field-help">Used for shipping updates and checkout.</p>
+                <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+            </div>
+
+            <div class="user-profile-group">
+                <label for="date_of_birth">Date of Birth</label>
+                <input
+                    id="date_of_birth"
+                    name="date_of_birth"
+                    type="date"
+                    class="user-profile-input"
+                    value="{{ old('date_of_birth', $user->date_of_birth?->format('Y-m-d')) }}"
+                    max="{{ now()->toDateString() }}"
+                    autocomplete="bday">
+                <x-input-error class="mt-2" :messages="$errors->get('date_of_birth')" />
+            </div>
+
+            <div class="user-profile-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" class="user-profile-input">
+                    <option value="">Choose an option</option>
+                    <option value="female" @selected(old('gender', $user->gender) === 'female')>Female</option>
+                    <option value="male" @selected(old('gender', $user->gender) === 'male')>Male</option>
+                    <option value="non_binary" @selected(old('gender', $user->gender) === 'non_binary')>Non-binary</option>
+                    <option value="prefer_not_to_say" @selected(old('gender', $user->gender) === 'prefer_not_to_say')>Prefer not to say</option>
+                </select>
+                <x-input-error class="mt-2" :messages="$errors->get('gender')" />
+            </div>
+
+            <div class="user-profile-group user-profile-group--wide">
+                <label for="address">Address</label>
+                <textarea
+                    id="address"
+                    name="address"
+                    class="user-profile-input user-profile-textarea"
+                    rows="4"
+                    maxlength="1000"
+                    autocomplete="street-address"
+                    placeholder="Street, building number, district, city, and postal code">{{ old('address', $user->address) }}</textarea>
+                <p class="user-profile-field-help">You can still use a different delivery address during checkout.</p>
+                <x-input-error class="mt-2" :messages="$errors->get('address')" />
+            </div>
         </div>
 
         <!-- BUTTON -->

@@ -4,8 +4,10 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
@@ -38,7 +40,7 @@ class EmailVerificationTest extends TestCase
 
         Event::assertDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
-        $response->assertRedirect(route('dashboard', absolute: false).'?verified=1');
+        $response->assertRedirect(route('profile.edit', absolute: false).'?verified=1');
     }
 
     public function test_email_is_not_verified_with_invalid_hash(): void
@@ -54,5 +56,19 @@ class EmailVerificationTest extends TestCase
         $this->actingAs($user)->get($verificationUrl);
 
         $this->assertFalse($user->fresh()->hasVerifiedEmail());
+    }
+
+    public function test_user_can_request_email_verification_from_profile(): void
+    {
+        Notification::fake();
+        $user = User::factory()->unverified()->create(['email' => 'listener@gmail.com']);
+
+        $this->actingAs($user)
+            ->from('/profile')
+            ->post(route('verification.send'))
+            ->assertRedirect('/profile')
+            ->assertSessionHas('status', 'verification-link-sent');
+
+        Notification::assertSentTo($user, VerifyEmail::class);
     }
 }

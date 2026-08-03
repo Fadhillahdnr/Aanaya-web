@@ -101,6 +101,9 @@
                         @endif
                         <div class="user-order-item-copy">
                             <strong>{{ $item->product?->name ?? 'Product no longer available' }}</strong>
+                            @if($item->variant_name)
+                                <span>{{ $item->variant_label ?? 'Option' }}: {{ $item->variant_name }}{{ $item->variant_sku ? ' · '.$item->variant_sku : '' }}</span>
+                            @endif
                             <span>{{ $item->quantity }} × Rp {{ number_format($item->price, 0, ',', '.') }}</span>
                         </div>
                         <strong>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</strong>

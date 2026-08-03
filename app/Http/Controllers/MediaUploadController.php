@@ -16,6 +16,8 @@ class MediaUploadController extends Controller
     private const PURPOSES = [
         'image', 'cover_image', 'audio_file', 'thumbnail', 'video_file',
         'profile_photo', 'comic_images', 'article_block_image',
+        'product_images',
+        'product_variant_image',
     ];
 
     public function sign(Request $request, Cloudinary $cloudinary): JsonResponse
@@ -158,6 +160,8 @@ class MediaUploadController extends Controller
             'thumbnail' => 'articles-and-videos/thumbnails',
             'comic_images' => 'articles/comics',
             'article_block_image' => 'articles/blocks',
+            'product_images' => 'products/images',
+            'product_variant_image' => 'products/variants',
             default => 'products/images',
         };
     }

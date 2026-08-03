@@ -46,7 +46,7 @@
                             <i class="fas fa-phone"></i> Phone Number
                         </label>
                         <div class="input-wrapper">
-                            <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" inputmode="tel" autocomplete="tel" placeholder="e.g. 08123456789" required>
+                            <input type="tel" id="phone" name="phone" value="{{ old('phone', auth()->user()->phone) }}" inputmode="tel" autocomplete="tel" placeholder="e.g. 08123456789" required>
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                         <i class="fas fa-map-marker-alt"></i> Complete Shipping Address
                     </label>
                     <div class="input-wrapper">
-                        <textarea id="address" name="address" rows="4" autocomplete="street-address" placeholder="Street name, building number, district, city, postal code..." required>{{ old('address') }}</textarea>
+                        <textarea id="address" name="address" rows="4" autocomplete="street-address" placeholder="Street name, building number, district, city, postal code..." required>{{ old('address', auth()->user()->address) }}</textarea>
                     </div>
                 </div>
 
@@ -75,7 +75,13 @@
                             $checkoutTotal += $lineTotal;
                         @endphp
                         <div class="checkout-summary-item">
-                            <span>{{ $item['name'] }} <small>× {{ $item['quantity'] }}</small></span>
+                            <span>
+                                {{ $item['name'] }}
+                                @if(! empty($item['variant_name']))
+                                    <small>· {{ $item['variant_label'] ?? 'Option' }}: {{ $item['variant_name'] }}</small>
+                                @endif
+                                <small>× {{ $item['quantity'] }}</small>
+                            </span>
                             <strong>Rp {{ number_format($lineTotal, 0, ',', '.') }}</strong>
                         </div>
                     @endforeach

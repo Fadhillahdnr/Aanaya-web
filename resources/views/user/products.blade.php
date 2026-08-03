@@ -122,13 +122,20 @@
                                     <i class="fas fa-arrow-right" aria-hidden="true"></i>
                                 </a>
 
-                                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="inline-form">
-                                    @csrf
-                                    <button type="submit" class="user-cart-btn" @disabled($product->stock < 1)>
-                                        <i class="fas {{ $product->stock > 0 ? 'fa-bag-shopping' : 'fa-ban' }}" aria-hidden="true"></i>
-                                        <span>{{ $product->stock > 0 ? 'Add to cart' : 'Unavailable' }}</span>
-                                    </button>
-                                </form>
+                                @if($product->has_variants)
+                                    <a href="{{ route('merchandise.show', $product->slug) }}" class="user-cart-btn">
+                                        <i class="fas fa-sliders" aria-hidden="true"></i>
+                                        <span>Choose {{ $product->variant_label }}</span>
+                                    </a>
+                                @else
+                                    <form action="{{ route('cart.add', $product->id) }}" method="POST" class="inline-form">
+                                        @csrf
+                                        <button type="submit" class="user-cart-btn" @disabled($product->stock < 1)>
+                                            <i class="fas {{ $product->stock > 0 ? 'fa-bag-shopping' : 'fa-ban' }}" aria-hidden="true"></i>
+                                            <span>{{ $product->stock > 0 ? 'Add to cart' : 'Unavailable' }}</span>
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     </article>

@@ -44,6 +44,14 @@
 
                     <div class="cart-info">
                         <h2>{{ $item['name'] }}</h2>
+                        @if(! empty($item['variant_name']))
+                            <p class="cart-variant">
+                                {{ $item['variant_label'] ?? 'Option' }}: <strong>{{ $item['variant_name'] }}</strong>
+                                @if(! empty($item['variant_sku']))
+                                    <span>· {{ $item['variant_sku'] }}</span>
+                                @endif
+                            </p>
+                        @endif
                         
                         <div class="cart-price" data-subtotal="{{ $id }}">
                             Rp {{ number_format($subtotal, 0, ',', '.') }}
@@ -81,7 +89,7 @@
                     <i class="fas fa-box-open"></i>
                     <h2>Your cart is empty</h2>
                     <p>Looks like you haven't added any dreamy products yet.</p>
-                    <a href="/products" class="continue-shopping-btn">Explore Products</a>
+                    <a href="{{ route('merchandise') }}" class="continue-shopping-btn">Explore Products</a>
                 </div>
             @endforelse
         </div>

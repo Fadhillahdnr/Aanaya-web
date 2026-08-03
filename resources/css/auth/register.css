@@ -369,6 +369,13 @@
         0 0 0 4px rgba(235,126,186,.15);
 }
 
+.auth-regis-field-help{
+    margin: 8px 2px 0;
+    color: #6f626b;
+    font-size: .8rem;
+    line-height: 1.55;
+}
+
 .auth-regis-password-toggle{
     position: absolute;
 

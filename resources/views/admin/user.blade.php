@@ -60,11 +60,7 @@
 
                             <div class="user-info">
 
-                                <div class="user-avatar">
-
-                                    {{ strtoupper(substr($user->name, 0, 1)) }}
-
-                                </div>
+                                <img class="user-avatar" src="{{ $user->avatar_url }}" alt="{{ $user->name }} profile photo" loading="lazy" decoding="async">
 
                                 <div>
 
@@ -97,6 +93,15 @@
                         <td data-label="Action">
 
                             <div class="table-actions">
+
+                                <a href="{{ route('admin.users.show', $user) }}"
+                                   class="view-btn">
+
+                                    <i class="fas fa-eye" aria-hidden="true"></i>
+
+                                    Detail
+
+                                </a>
 
                                 <a href="/admin/users/{{ $user->id }}/edit"
                                    class="edit-btn">
