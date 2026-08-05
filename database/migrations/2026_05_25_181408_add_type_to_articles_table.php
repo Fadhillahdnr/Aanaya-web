@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::table('articles', function (Blueprint $table) {
 
             $table->string('type')
-                  ->default('article')
-                  ->after('title');
+                ->default('article')
+                ->after('title');
 
         });
     }

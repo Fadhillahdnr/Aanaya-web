@@ -17,9 +17,9 @@ class AdminUserSeeder extends Seeder
                 'email' => 'admin@aanaya.com',
             ],
             [
-                'name'     => 'Admin Aanaya',
+                'name' => 'Admin Aanaya',
                 'password' => 'admin123',
-                'role'     => 'admin',
+                'role' => 'admin',
             ]
         );
     }

@@ -63,6 +63,8 @@ class MediaUploadController extends Controller
             'media_id' => $media->id,
             'upload_url' => "https://api.cloudinary.com/v1_1/{$cloudinary->configuration->cloud->cloudName}/{$resourceType}/upload",
             'parameters' => $parameters,
+            'upload_strategy' => $validated['media_type'] === 'video' ? 'chunked' : 'single',
+            'chunk_size_bytes' => $validated['media_type'] === 'video' ? config('media.video_chunk_bytes') : null,
         ]);
     }
 

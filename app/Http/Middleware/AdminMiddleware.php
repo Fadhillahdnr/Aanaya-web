@@ -15,7 +15,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // Check if user logged in
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect('/login');
         }
 

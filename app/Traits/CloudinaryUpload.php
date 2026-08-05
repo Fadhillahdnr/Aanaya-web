@@ -25,17 +25,15 @@ trait CloudinaryUpload
             ->upload(
                 $file->getRealPath(),
                 [
-                    'folder' => $folder
+                    'folder' => $folder,
                 ]
             );
 
         return [
 
-            'url' =>
-                $upload['secure_url'],
+            'url' => $upload['secure_url'],
 
-            'public_id' =>
-                $upload['public_id']
+            'public_id' => $upload['public_id'],
 
         ];
     }
@@ -69,7 +67,7 @@ trait CloudinaryUpload
 
             \Log::warning(
                 'Cloudinary delete failed: '
-                . $e->getMessage()
+                .$e->getMessage()
             );
         }
     }

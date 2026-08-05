@@ -16,8 +16,15 @@ storage/framework/cache
 storage/framework/sessions
 storage/framework/views
 
-# Environment
+# Environment and local credentials
 .env
+.env.*
+.codex
+.agents
+
+# Development-only tooling
+tests
+tools
 
 # IDE
 .vscode

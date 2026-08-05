@@ -13,13 +13,13 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('article_id')
-                  ->constrained()
-                  ->onDelete('cascade');
+                ->constrained()
+                ->onDelete('cascade');
 
             $table->string('image');
 
             $table->integer('sort_order')
-                  ->default(0);
+                ->default(0);
 
             $table->timestamps();
 

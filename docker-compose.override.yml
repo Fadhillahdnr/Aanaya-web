@@ -1,0 +1,80 @@
+services:
+  dependencies:
+    image: aanaya-php-fpm
+    command: composer install --no-interaction --no-progress --prefer-dist
+    working_dir: /var/www
+    env_file:
+      - .env
+    volumes:
+      - ./:/var/www
+      - aanaya-vendor:/var/www/vendor
+      - aanaya-storage:/var/www/storage
+      - ./docker/php/development.ini:/usr/local/etc/php/conf.d/zz-development.ini:ro
+    restart: "no"
+
+  app:
+    depends_on:
+      dependencies:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./:/var/www
+      - aanaya-vendor:/var/www/vendor
+      - aanaya-storage:/var/www/storage
+      - ./docker/php/development.ini:/usr/local/etc/php/conf.d/zz-development.ini:ro
+
+  nginx:
+    volumes:
+      - ./public:/var/www/public:ro
+      - aanaya-storage:/var/www/storage:ro
+
+  queue:
+    command: php artisan queue:listen redis --sleep=3 --tries=3 --timeout=120
+    depends_on:
+      app:
+        condition: service_started
+      dependencies:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./:/var/www
+      - aanaya-vendor:/var/www/vendor
+      - aanaya-storage:/var/www/storage
+      - ./docker/php/development.ini:/usr/local/etc/php/conf.d/zz-development.ini:ro
+
+  scheduler:
+    depends_on:
+      app:
+        condition: service_started
+      dependencies:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./:/var/www
+      - aanaya-vendor:/var/www/vendor
+      - aanaya-storage:/var/www/storage
+      - ./docker/php/development.ini:/usr/local/etc/php/conf.d/zz-development.ini:ro
+
+  vite:
+    image: node:22-alpine
+    working_dir: /var/www
+    command: >-
+      sh -lc "if [ ! -x node_modules/.bin/vite ]; then
+      npm ci --no-audit --no-fund;
+      fi && npm run dev -- --host 0.0.0.0"
+    environment:
+      APP_URL: "http://localhost:${APP_PORT:-8000}"
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./:/var/www
+      - aanaya-node-modules:/var/www/node_modules
+    restart: unless-stopped
+
+volumes:
+  aanaya-vendor:
+  aanaya-node-modules:

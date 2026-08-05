@@ -116,6 +116,36 @@ class ProfileTest extends TestCase
             ->assertSee('https://example.com/google-avatar.jpg', false);
     }
 
+    public function test_navigation_uses_initials_when_user_has_no_profile_photo(): void
+    {
+        $user = User::factory()->create([
+            'name' => 'Muhamad Fadhillah Dinurahman',
+            'avatar' => null,
+            'profile_photo' => null,
+        ]);
+
+        $this->actingAs($user)
+            ->get('/dashboard')
+            ->assertOk()
+            ->assertSee('MF')
+            ->assertSee('Muhamad Fadhillah Dinurahman')
+            ->assertDontSee('assets/default-avatar.png', false);
+    }
+
+    public function test_navigation_prioritizes_uploaded_profile_photo_over_google_avatar(): void
+    {
+        $user = User::factory()->create([
+            'avatar' => 'https://example.com/google-avatar.jpg',
+            'profile_photo' => 'https://res.cloudinary.com/demo/image/upload/uploaded-profile.jpg',
+        ]);
+
+        $this->actingAs($user)
+            ->get('/dashboard')
+            ->assertOk()
+            ->assertSee('https://res.cloudinary.com/demo/image/upload/uploaded-profile.jpg', false)
+            ->assertDontSee('https://example.com/google-avatar.jpg', false);
+    }
+
     public function test_uploaded_profile_photo_replaces_google_avatar(): void
     {
         $user = User::factory()->create([

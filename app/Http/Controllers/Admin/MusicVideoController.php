@@ -43,7 +43,9 @@ class MusicVideoController extends Controller
         ]);
 
         $mediaService->claim($videoMedia, $video, 'video_file');
-        if ($thumbnail) $mediaService->claim($thumbnail, $video, 'thumbnail', 1);
+        if ($thumbnail) {
+            $mediaService->claim($thumbnail, $video, 'thumbnail', 1);
+        }
 
         return redirect('/admin/mv')->with('success', 'Music video uploaded');
     }

@@ -9,6 +9,8 @@ services:
     environment:
       APP_URL: "http://localhost:${APP_PORT:-8000}"
       GOOGLE_REDIRECT_URI: "http://localhost:${APP_PORT:-8000}/auth/google/callback"
+      LOG_CHANNEL: stderr
+      DB_EMULATE_PREPARES: "true"
       CACHE_STORE: redis
       SESSION_DRIVER: redis
       SESSION_CONNECTION: default
@@ -51,6 +53,8 @@ services:
     environment:
       APP_URL: "http://localhost:${APP_PORT:-8000}"
       GOOGLE_REDIRECT_URI: "http://localhost:${APP_PORT:-8000}/auth/google/callback"
+      LOG_CHANNEL: stderr
+      DB_EMULATE_PREPARES: "true"
       CACHE_STORE: redis
       SESSION_DRIVER: redis
       SESSION_CONNECTION: default
@@ -81,6 +85,8 @@ services:
     environment:
       APP_URL: "http://localhost:${APP_PORT:-8000}"
       GOOGLE_REDIRECT_URI: "http://localhost:${APP_PORT:-8000}/auth/google/callback"
+      LOG_CHANNEL: stderr
+      DB_EMULATE_PREPARES: "true"
       CACHE_STORE: redis
       SESSION_DRIVER: redis
       SESSION_CONNECTION: default

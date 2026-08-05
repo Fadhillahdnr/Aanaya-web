@@ -181,6 +181,7 @@ function callTool(mixed $id, array $params, Cloudinary $cloudinary, string $proj
 
     if (! is_array($arguments)) {
         toolError($id, 'Tool arguments must be an object.');
+
         return;
     }
 
@@ -283,12 +284,14 @@ function requiredString(array $arguments, string $key): string
     if ($value === '') {
         throw new InvalidArgumentException("{$key} is required.");
     }
+
     return $value;
 }
 
 function stringValue(array $arguments, string $key, string $default): string
 {
     $value = trim((string) ($arguments[$key] ?? $default));
+
     return $value === '' ? $default : $value;
 }
 
@@ -298,6 +301,7 @@ function enumValue(array $arguments, string $key, array $allowed, string $defaul
     if (! in_array($value, $allowed, true)) {
         throw new InvalidArgumentException("{$key} must be one of: ".implode(', ', $allowed).'.');
     }
+
     return $value;
 }
 
@@ -307,6 +311,7 @@ function intValue(array $arguments, string $key, int $default, int $min, int $ma
     if ($value < $min || $value > $max) {
         throw new InvalidArgumentException("{$key} must be between {$min} and {$max}.");
     }
+
     return $value;
 }
 
@@ -328,6 +333,7 @@ function normalize(mixed $value): mixed
     if (is_array($value)) {
         return array_map('normalize', $value);
     }
+
     return $value;
 }
 

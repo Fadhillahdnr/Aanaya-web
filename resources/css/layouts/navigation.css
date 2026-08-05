@@ -1168,3 +1168,222 @@ body.mobile-navigation-open{
 
     font-weight:700;
 }
+
+/* =========================================================
+   ACCOUNT TRIGGER — PHOTO + INITIALS FALLBACK
+========================================================= */
+
+.user-btn{
+    min-width: 0;
+    min-height: 58px;
+    gap: 10px;
+    padding: 7px 12px 7px 8px;
+    background: linear-gradient(135deg, rgba(255,255,255,.72), rgba(255,240,247,.6));
+}
+
+.user-btn:hover{
+    transform: none;
+    box-shadow: 0 12px 28px rgba(126,54,93,.1);
+}
+
+.user-btn:focus-visible{
+    outline: 3px solid rgba(224,31,66,.28);
+    outline-offset: 3px;
+}
+
+.navbar-user-avatar-shell{
+    position: relative;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    overflow: hidden;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(224,31,66,.84), rgba(181,140,255,.84));
+    box-shadow: 0 8px 20px rgba(224,31,66,.16);
+}
+
+.navbar-user-avatar-shell .navbar-user-avatar,
+.navbar-user-avatar-shell .navbar-user-avatar-fallback{
+    position: absolute;
+    inset: 2px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.navbar-user-avatar-shell .navbar-user-avatar{
+    z-index: 2;
+    display: block;
+    border: 0;
+    object-fit: cover;
+    background: #fff7fa;
+}
+
+.navbar-user-avatar-shell .navbar-user-avatar-fallback{
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    color: #9d214f;
+    background: linear-gradient(135deg, #fff1f6, #eee7ff);
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .04em;
+}
+
+.navbar-user-copy{
+    display: flex;
+    min-width: 0;
+    max-width: 172px;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.navbar-user-copy small{
+    margin-bottom: 1px;
+    color: #765e6d;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.navbar-user-copy strong{
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    color: #3d2934;
+    font-size: 13px;
+    font-weight: 750;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-btn .navbar-user-chevron{
+    width: 20px;
+    transition: transform .22s ease, color .22s ease;
+}
+
+.user-btn .navbar-user-chevron.is-open{
+    transform: rotate(180deg);
+}
+
+.dropdown-menu{
+    top: calc(100% + 12px);
+}
+
+.dropdown-user-summary{
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 11px;
+    padding: 8px 10px 14px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid rgba(82,48,67,.09);
+}
+
+.dropdown-user-avatar{
+    position: relative;
+    display: grid;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    place-items: center;
+    border-radius: 50%;
+    color: #9d214f;
+    background: linear-gradient(135deg, #fff0f5, #ebe4ff);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 800;
+    overflow: hidden;
+}
+
+.dropdown-user-avatar > span,
+.dropdown-user-avatar > img{
+    position: absolute;
+    inset: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.dropdown-user-avatar > span{
+    z-index: 1;
+    display: grid;
+    place-items: center;
+}
+
+.dropdown-user-avatar > img{
+    z-index: 2;
+    object-fit: cover;
+    background: #fff7fa;
+}
+
+.dropdown-user-summary > span:last-child{
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+}
+
+.dropdown-user-summary strong,
+.dropdown-user-summary small{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dropdown-user-summary strong{
+    color: #3d2934;
+    font-size: 13px;
+}
+
+.dropdown-user-summary small{
+    margin-top: 3px;
+    color: #765e6d;
+    font-size: 10px;
+}
+
+.mobile-drawer-avatar-shell{
+    position: relative;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #eb7eba, #9f73e9);
+}
+
+.mobile-drawer-avatar-shell .mobile-drawer-avatar-fallback,
+.mobile-drawer-avatar-shell img{
+    position: absolute;
+    inset: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+}
+
+.mobile-drawer-avatar-shell .mobile-drawer-avatar-fallback{
+    z-index: 1;
+}
+
+.mobile-drawer-avatar-shell img{
+    z-index: 2;
+    object-fit: cover;
+}
+
+@media(max-width:768px){
+    .navbar-user-copy,
+    .user-btn .navbar-user-chevron{
+        display: none;
+    }
+
+    .user-btn{
+        min-height: 46px;
+        padding: 1px;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+    }
+}

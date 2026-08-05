@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('title');
 
             $table->string('artist')
-                  ->default('Aanaya');
+                ->default('Aanaya');
 
             $table->string('thumbnail')->nullable();
 
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('description')->nullable();
 
             $table->boolean('is_featured')
-                  ->default(false);
+                ->default(false);
 
             $table->timestamps();
 

@@ -26,7 +26,9 @@ class DirectMediaUploadTest extends TestCase
         ]);
 
         $response->assertOk()
-            ->assertJsonStructure(['media_id', 'upload_url', 'parameters' => ['signature', 'api_key', 'timestamp', 'folder', 'public_id']]);
+            ->assertJsonStructure(['media_id', 'upload_url', 'upload_strategy', 'chunk_size_bytes', 'parameters' => ['signature', 'api_key', 'timestamp', 'folder', 'public_id']])
+            ->assertJsonPath('upload_strategy', 'single')
+            ->assertJsonPath('chunk_size_bytes', null);
 
         $this->assertDatabaseHas('media', [
             'id' => $response->json('media_id'),
@@ -58,11 +60,63 @@ class DirectMediaUploadTest extends TestCase
             'purpose' => 'video_file',
             'original_name' => 'huge.mp4',
             'mime_type' => 'video/mp4',
-            'size_bytes' => 40 * 1024 * 1024,
+            'size_bytes' => config('media.video_max_bytes') + 1,
             'media_type' => 'video',
         ])->assertUnprocessable();
 
         $this->assertDatabaseCount('media', 0);
+    }
+
+    public function test_large_video_receives_a_ten_megabyte_chunked_upload_intent(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($admin)->postJson('/media/uploads/sign', [
+            'purpose' => 'video_file',
+            'original_name' => 'music-video.mp4',
+            'mime_type' => 'video/mp4',
+            'size_bytes' => 100 * 1024 * 1024,
+            'media_type' => 'video',
+        ])->assertOk()
+            ->assertJsonPath('upload_strategy', 'chunked')
+            ->assertJsonPath('chunk_size_bytes', 10 * 1024 * 1024);
+    }
+
+    public function test_video_above_full_hd_resolution_is_rejected_on_completion(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $media = Media::create([
+            'uploaded_by' => $admin->id,
+            'public_id' => 'development/music-videos/videos/large-video',
+            'resource_type' => 'video',
+            'media_type' => 'video',
+            'purpose' => 'video_file',
+            'original_name' => 'large-video.mp4',
+            'mime_type' => 'video/mp4',
+            'size_bytes' => 1000,
+            'status' => 'pending',
+        ]);
+        $version = 123456791;
+        $signature = SignatureVerifier::generateHmac(
+            "public_id={$media->public_id}&version={$version}",
+            (string) Configuration::instance()->cloud->apiSecret,
+        );
+
+        $this->actingAs($admin)->postJson("/media/uploads/{$media->id}/complete", [
+            'public_id' => $media->public_id,
+            'version' => $version,
+            'signature' => $signature,
+            'secure_url' => 'https://res.cloudinary.com/demo/video/upload/v123/large-video.mp4',
+            'resource_type' => 'video',
+            'format' => 'mp4',
+            'bytes' => 1000,
+            'width' => 3840,
+            'height' => 2160,
+            'duration' => 120,
+        ])->assertUnprocessable()
+            ->assertSeeText('Resolusi video melebihi batas aplikasi.');
+
+        $this->assertSame('pending', $media->fresh()->status);
     }
 
     public function test_cloudinary_response_signature_is_verified_before_media_becomes_ready(): void

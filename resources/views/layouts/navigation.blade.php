@@ -127,6 +127,18 @@
         <div class="navbar-right">
 
             @auth
+                @php
+                    $navbarUser = Auth::user();
+                    $navbarNameParts = preg_split('/\s+/', trim($navbarUser->name)) ?: [];
+                    $navbarInitials = collect($navbarNameParts)
+                        ->filter()
+                        ->take(2)
+                        ->map(fn ($namePart) => mb_strtoupper(mb_substr($namePart, 0, 1)))
+                        ->implode('');
+                    $navbarAvatarUrl = $navbarUser->avatar_url;
+                    $hasNavbarAvatar = $navbarAvatarUrl
+                        && $navbarAvatarUrl !== asset('assets/default-avatar.png');
+                @endphp
 
                 <!-- USER -->
                 <div
@@ -134,43 +146,41 @@
                     x-data="{ dropdown: false }">
 
                     <button
+                        type="button"
                         @click="dropdown = !dropdown"
+                        @keydown.escape.stop="dropdown = false"
+                        :aria-expanded="dropdown.toString()"
+                        aria-controls="navbar-user-menu"
+                        aria-haspopup="menu"
                         class="user-btn">
 
-                        @auth
+                        <span class="navbar-user-avatar-shell" aria-hidden="true">
+                            <span class="navbar-user-avatar-fallback">
+                                {{ $navbarInitials ?: 'A' }}
+                            </span>
 
-                        <a
-                            href="{{ route('profile.edit') }}"
-                            class="navbar-avatar-link">
-
-                            @if(Auth::user()->avatar_url)
-
+                            @if($hasNavbarAvatar)
                                 <img
-                                    src="{{ Auth::user()->avatar_url }}"
+                                    src="{{ $navbarAvatarUrl }}"
                                     class="navbar-user-avatar"
-                                    alt="{{ Auth::user()->name }}">
-
-                            @else
-
-                                <div
-                                    class="navbar-user-avatar-fallback">
-
-                                    {{ strtoupper(substr(Auth::user()->name,0,1)) }}
-
-                                </div>
-
+                                    alt=""
+                                    x-on:error="$el.remove()">
                             @endif
+                        </span>
 
-                        </a>
+                        <span class="navbar-user-copy">
+                            <small>Welcome back</small>
+                            <strong>{{ $navbarUser->name }}</strong>
+                        </span>
 
-                        @endauth
-
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down navbar-user-chevron" :class="{ 'is-open': dropdown }"></i>
 
                     </button>
 
                     <!-- DROPDOWN -->
                     <div
+                        id="navbar-user-menu"
+                        x-cloak
                         x-show="dropdown"
                         x-transition:enter="dropdown-enter"
                         x-transition:enter-start="dropdown-enter-start"
@@ -179,9 +189,23 @@
                         x-transition:leave-start="dropdown-leave-start"
                         x-transition:leave-end="dropdown-leave-end"
                         @click.outside="dropdown = false"
-                        class="dropdown-menu">
+                        class="dropdown-menu"
+                        role="menu">
 
-                        <a href="{{ route('profile.edit') }}">
+                        <div class="dropdown-user-summary">
+                            <span class="dropdown-user-avatar" aria-hidden="true">
+                                <span>{{ $navbarInitials ?: 'A' }}</span>
+                                @if($hasNavbarAvatar)
+                                    <img src="{{ $navbarAvatarUrl }}" alt="" x-on:error="$el.remove()">
+                                @endif
+                            </span>
+                            <span>
+                                <strong>{{ $navbarUser->name }}</strong>
+                                <small>{{ $navbarUser->email }}</small>
+                            </span>
+                        </div>
+
+                        <a href="{{ route('profile.edit') }}" role="menuitem">
 
                             <i class="fas fa-user"></i>
 
@@ -189,7 +213,7 @@
 
                         </a>
 
-                        <a href="{{ route('orders.index') }}">
+                        <a href="{{ route('orders.index') }}" role="menuitem">
 
                             <i class="fas fa-receipt"></i>
 
@@ -199,7 +223,7 @@
 
                         @if(Auth::user()->role === 'admin')
 
-                            <a href="/admin">
+                            <a href="/admin" role="menuitem">
 
                                 <i class="fas fa-shield-heart"></i>
 
@@ -215,7 +239,7 @@
 
                             @csrf
 
-                            <button type="submit">
+                            <button type="submit" role="menuitem">
 
                                 <i class="fas fa-right-from-bracket"></i>
 
@@ -325,13 +349,14 @@
 
                 @auth
                     <a href="{{ route('profile.edit') }}" class="mobile-drawer-profile" @click="closeMenu()">
-                        @if(Auth::user()->avatar_url)
-                            <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}">
-                        @else
-                            <span class="mobile-drawer-avatar-fallback">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
-                        @endif
+                        <span class="mobile-drawer-avatar-shell" aria-hidden="true">
+                            <span class="mobile-drawer-avatar-fallback">{{ $navbarInitials ?: 'A' }}</span>
+                            @if($hasNavbarAvatar)
+                                <img src="{{ $navbarAvatarUrl }}" alt="" x-on:error="$el.remove()">
+                            @endif
+                        </span>
                         <span>
-                            <strong>{{ Auth::user()->name }}</strong>
+                            <strong>{{ $navbarUser->name }}</strong>
                             <small>View your profile</small>
                         </span>
                         <i class="fas fa-chevron-right"></i>

@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\Music;
 use App\Models\Article;
-use App\Models\Product;
 use App\Models\Gallery;
+use App\Models\Music;
 use App\Models\MusicVideo;
+use App\Models\Product;
 
 class AdminController extends Controller
 {
