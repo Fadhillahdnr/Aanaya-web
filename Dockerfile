@@ -77,10 +77,47 @@ CMD ["php-fpm", "--nodaemonize"]
 # =========================================================
 FROM nginx:1.28-alpine AS nginx
 
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+ENV PORT=80 \
+    PHP_FPM_HOST=app \
+    NGINX_ENVSUBST_FILTER='^(PORT|PHP_FPM_HOST)$'
+
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=app /var/www/public /var/www/public
 
 EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
     CMD wget -q -O /dev/null http://127.0.0.1/up || exit 1
+
+# =========================================================
+# Render: Nginx + PHP-FPM in one public web service
+# =========================================================
+FROM app AS render
+
+USER root
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        curl \
+        gettext-base \
+        nginx-light \
+        supervisor \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -f /etc/nginx/sites-enabled/default
+
+COPY nginx.conf /etc/nginx/templates/aanaya.conf.template
+COPY docker/render/supervisord.conf /etc/supervisor/conf.d/aanaya.conf
+COPY docker/render/start.sh /usr/local/bin/start-aanaya-render
+
+RUN chmod +x /usr/local/bin/start-aanaya-render
+
+ENV PORT=10000 \
+    PHP_FPM_HOST=127.0.0.1
+
+EXPOSE 10000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl --fail --silent http://127.0.0.1:${PORT}/up > /dev/null || exit 1
+
+CMD ["start-aanaya-render"]

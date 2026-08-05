@@ -34,6 +34,10 @@ services:
       context: .
       target: nginx
     image: aanaya-nginx
+    environment:
+      PORT: 80
+      PHP_FPM_HOST: app
+      NGINX_ENVSUBST_FILTER: "^(PORT|PHP_FPM_HOST)$"
     depends_on:
       - app
     ports:
