@@ -1,4 +1,4 @@
-import { ARTICLE_SCENES, clamp, mapProgressToTime } from './ArticleSceneConfig';
+import { ARTICLE_SCENES, AUDIO_CONFIG, clamp, mapProgressToTime } from './ArticleSceneConfig';
 
 const SEEK_EPSILON_SECONDS = .03;
 const PROGRESS_EPSILON = .0005;
@@ -44,6 +44,7 @@ export class ArticleVideo {
             const state = {
                 scene, sceneId, config, video, preferredSource,
                 duration: 0, targetProgress: 0, smoothedProgress: 0,
+                previousMappedTime: null,
                 scrubFraction: scrubVh / (scrubVh + holdVh),
                 seekFrame: null, trigger: null, loaded: false, fallbackTried: false, listeners: [],
             };
@@ -108,11 +109,19 @@ export class ArticleVideo {
 
     queueSeek(state, overallProgress, velocity = 0) {
         state.targetProgress = clamp(overallProgress / state.scrubFraction);
+        const mappedVideoTime = mapProgressToTime(state.targetProgress, state.config.cues, state.duration);
+        const mappedTimeDelta = state.previousMappedTime === null ? 0 : mappedVideoTime - state.previousMappedTime;
+        const isHolding = overallProgress > state.scrubFraction || Math.abs(mappedTimeDelta) < .003;
+        state.previousMappedTime = mappedVideoTime;
         this.onSceneProgress(state.sceneId, {
             progress: overallProgress,
             videoProgress: state.targetProgress,
+            mappedVideoTime,
+            globalAudioTime: clamp(state.config.audio.offset + mappedVideoTime, 0, AUDIO_CONFIG.duration),
+            direction: mappedTimeDelta >= 0 ? 1 : -1,
             velocity,
-            isHolding: overallProgress > state.scrubFraction,
+            moving: !isHolding,
+            isHolding,
         });
         if (state.seekFrame === null) state.seekFrame = requestAnimationFrame(() => this.updateSeek(state));
     }

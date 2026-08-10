@@ -38,7 +38,7 @@
             <span data-cursor-label>Explore</span>
         </div>
 
-        <button class="article-sound" type="button" data-article-sound aria-pressed="false">
+        <button class="article-sound" type="button" data-article-sound aria-pressed="false" aria-label="Enable cinematic sound">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Zm12.5 1.2a3 3 0 0 1 0 3.6M19.8 7a7 7 0 0 1 0 10"/></svg>
             <span>Sound</span><strong data-sound-state>Off</strong>
         </button>

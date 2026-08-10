@@ -66,6 +66,7 @@ class PublicContentPaginationTest extends TestCase
         $response->assertSee('data-scene="ending"', false);
         $response->assertSee('data-article-sound', false);
         $response->assertSee('End of story');
+        $this->assertFileExists(public_path('audio/article-experience/aanaya-cinematic-story-soundtrack-50s.mp3'));
     }
 
     public function test_public_gallery_page_uses_pagination(): void

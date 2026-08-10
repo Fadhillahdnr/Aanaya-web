@@ -1,1214 +1,209 @@
 <x-app-layout>
-    <div class="dream-dashboard">
-
-        <!-- =========================================================
-            HERO SECTION
-        ========================================================== -->
-        <section class="dream-hero">
-
-            <!-- PARALLAX BG -->
-            <div class="hero-parallax"></div>
-
-            <!-- BACKGROUND SLIDER -->
-            <div class="hero-slider">
-
-                <div class="hero-slide active">
-                    <img src="{{ asset('assets/bg/bg1.png') }}" alt="" fetchpriority="high" decoding="async">
-                </div>
-
-                <div class="hero-slide">
-                    <img data-src="{{ asset('assets/bg/bg2.jpeg') }}" alt="" decoding="async">
-                </div>
-
-                <div class="hero-slide">
-                    <img data-src="{{ asset('assets/bg/bg3.png') }}" alt="" decoding="async">
-                </div>
-
-                <div class="hero-slide">
-                    <img data-src="{{ asset('assets/bg/bg4.png') }}" alt="" decoding="async">
-                </div>
-
-            </div>
-
-            <!-- OVERLAY -->
-            <div class="hero-overlay"></div>
-
-            <!-- GLOW -->
-            <div class="hero-glow glow-1"></div>
-            <div class="hero-glow glow-2"></div>
-
-            <!-- PARTICLES -->
-            <div class="floating-particles">
-
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-
-            </div>
-
-            <!-- CONTENT -->
-            <div class="hero-container">
-
-                <!-- LEFT -->
-                <div class="hero-left reveal reveal-left">
-
-                    <div class="dream-badge">
-
-                        <span></span>
-
-                        DREAMY CINEMATIC EXPERIENCE
-
-                    </div>
-
-                    <h1 class="dream-title">
-
-                        @auth
-                            Hello,
-                            <span>{{ Auth::user()->name }}</span>
-                        @endauth
-
-                        @guest
-                            Welcome To
-                            <span>Aanaya</span>
-                        @endguest
-
-                    </h1>
-
-                    <p class="dream-description">
-
-                        Enter a dreamy cinematic universe filled with emotional music,
-                        immersive visuals, soft aesthetics, and emotional storytelling
-                        that creates a unique digital experience.
-
-                    </p>
-
-                    <div class="dream-buttons">
-
-                        <a href="/music"
-                           class="dream-btn primary-btn magnetic-btn">
-
-                            <i class="fas fa-play"></i>
-
-                            Listen Music
-
-                        </a>
-
-                        <a href="/gallery"
-                           class="dream-btn secondary-btn magnetic-btn">
-
-                            <i class="fas fa-image"></i>
-
-                            Explore Gallery
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <!-- RIGHT -->
-                <div class="hero-right reveal reveal-right">
-
-                    @if(isset($latestVideos) && $latestVideos->count())
-
-                        <div class="hero-video-card tilt-card">
-
-                            <div class="hero-video-wrapper">
-
-                                <video
-                                    id="heroVideo"
-                                    autoplay
-                                    muted
-                                    preload="metadata"
-                                    playsinline
-                                    class="hero-video">
-
-                                    <source
-                                        src="{{ \App\Support\MediaUrl::video($latestVideos[0]->video_file) }}"
-                                        type="video/mp4">
-
-                                </video>
-
-                            </div>
-
-                        </div>
-
-                    @endif
-
-                </div>
-
-            </div>
-
-            <!-- NAV -->
-            <div class="hero-navigation">
-
-                <button type="button"
-                        class="hero-nav-btn"
-                        id="prevSlide"
-                        aria-label="Previous background">
-
-                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
-
-                </button>
-
-                <button type="button"
-                        class="hero-nav-btn"
-                        id="nextSlide"
-                        aria-label="Next background">
-
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-
-                </button>
-
-            </div>
-
-        </section>
-
-        <!-- =========================================================
-            CHARACTER WRAPPER
-        ========================================================= -->
-
-        <div class="character-section-wrapper">
-
-            <div class="floating-character">
-
-                <div class="floating-character-glow"></div>
-
-                <video
-                    muted
-                    loop
-                    playsinline
-                    preload="none"
-                    data-lazy-video
-                    data-autoplay="true"
-                    class="floating-character-video">
-
-                    <source
-                        data-src="{{ asset('assets/character/aanaya.webm') }}"
-                        type="video/webm">
-
-                    <source
-                        data-src="{{ asset('assets/character/aanaya.mp4') }}"
-                        type="video/mp4">
-
-                </video>
-
-            </div>
-
+    @php
+        $latestVideo = $latestVideos->first();
+        $heroVisual = $latestVideo?->thumbnail ?: asset('assets/bg/bg2.jpeg');
+    @endphp
+
+    <main class="dashboard-experience" data-dashboard-experience>
+        <div class="dashboard-experience__grain" aria-hidden="true"></div>
+
+        <div class="dashboard-chapter" data-dashboard-chapter-indicator aria-hidden="true">
+            <span data-dashboard-chapter-number>01</span>
+            <i><b data-dashboard-chapter-progress></b></i>
+            <small data-dashboard-chapter-name>Introduction</small>
         </div>
 
+        <header class="dashboard-hero" data-dashboard-hero data-dashboard-chapter="Introduction" data-dashboard-chapter-number="01">
+            <div class="dashboard-hero__backdrop" data-dashboard-depth="background">
+                <x-media-image
+                    :src="$heroVisual"
+                    :alt="$latestVideo ? 'Latest Aanaya visual: '.$latestVideo->title : ''"
+                    :width="1600"
+                    :height="1000"
+                    crop="fill"
+                    sizes="100vw"
+                    priority />
+            </div>
+            <div class="dashboard-hero__wash" aria-hidden="true"></div>
 
-        <!-- =========================================================
-            AANAYA SIGNATURE VIDEO
-        ========================================================= -->
-        <section class="aanaya-signature-section">
+            <p class="dashboard-hero__greeting" data-hero-intro>
+                @auth
+                    Hello, {{ Auth::user()->name }} · Welcome into the Aanaya universe
+                @else
+                    Welcome into the Aanaya universe
+                @endauth
+            </p>
 
-            <div class="aanaya-signature-container">
-
-                <!-- VIDEO -->
-                <div class="aanaya-signature-video">
-
-                    <video
-                        muted
-                        loop
-                        playsinline
-                        preload="none"
-                        data-lazy-video
-                        data-autoplay="true">
-
-                        <source
-                            data-src="{{ asset('assets/video/logo.mp4') }}"
-                            type="video/mp4">
-
-                    </video>
-
-                </div>
-
-                <!-- CONTENT -->
-                <div class="aanaya-signature-content">
-
-                    <span class="aanaya-signature-badge">
-
-                        AANAYA VISUAL IDENTITY
-
-                    </span>
-
-                    <h2>
-
-                        A Dream
-                        <span>
-                            In Motion
-                        </span>
-
-                    </h2>
-
-                    <p>
-
-                        Every frame carries the essence of Aanaya —
-                        dreamy visuals, emotional storytelling,
-                        and cinematic atmospheres blended into
-                        a single experience.
-
-                    </p>
-
-                    <a href="/gallery"
-                    class="aanaya-signature-btn">
-
-                        <i class="fas fa-images"></i>
-
-                        Explore Gallery
-
-                    </a>
-
-                </div>
-
+            <div class="dashboard-hero__title" data-dashboard-depth="title">
+                <span aria-hidden="true">AANAYA</span>
+                <h1>Aanaya</h1>
             </div>
 
-        </section>
-        <!-- =========================================================
-            DISCOVER
-        ========================================================= -->
-        <section class="dream-section reveal-section discover-section">
+            <figure class="dashboard-hero__portrait" data-dashboard-depth="portrait">
+                <img src="{{ asset('assets/members/member1.jpg') }}" alt="Aanaya, lead vocalist and songwriter" width="896" height="1195" fetchpriority="high" decoding="async">
+            </figure>
 
-            <div class="section-heading reveal reveal-up">
-
-                <div>
-
-                    <span class="section-mini-title">
-                        DISCOVER
-                    </span>
-
-                    <h2>
-                        Explore The Universe
-                    </h2>
-
-                </div>
-
+            <div class="dashboard-hero__copy" data-hero-intro>
+                <p>Dreams don’t stay still.</p>
+                <span>Music, stories and images shaped by feelings that refuse to disappear.</span>
             </div>
 
-            <div class="dream-grid">
-
-                <!-- MUSIC -->
-                <a href="/music"
-                class="dream-card delay-1">
-
-                    <div class="dream-icon pink">
-
-                        <i class="fas fa-music"></i>
-
-                    </div>
-
-                    <div class="dream-card-content">
-
-                        <h3>Music</h3>
-
-                        <p>
-                            Emotional cinematic soundtracks and dreamy ambience.
-                        </p>
-
-                    </div>
-
-                    <div class="card-arrow">
-
-                        <i class="fas fa-arrow-right"></i>
-
-                    </div>
-
-                </a>
-
-                <!-- ARTICLES -->
-                <a href="/articles"
-                class="dream-card delay-2">
-
-                    <div class="dream-icon purple">
-
-                        <i class="fas fa-book-open"></i>
-
-                    </div>
-
-                    <div class="dream-card-content">
-
-                        <h3>Articles</h3>
-
-                        <p>
-                            Stories, thoughts, and emotional universe updates.
-                        </p>
-
-                    </div>
-
-                    <div class="card-arrow">
-
-                        <i class="fas fa-arrow-right"></i>
-
-                    </div>
-
-                </a>
-
-                <!-- GALLERY -->
-                <a href="/gallery"
-                class="dream-card delay-3">
-
-                    <div class="dream-icon blue">
-
-                        <i class="fas fa-camera"></i>
-
-                    </div>
-
-                    <div class="dream-card-content">
-
-                        <h3>Gallery</h3>
-
-                        <p>
-                            Elegant visual collections with dreamy aesthetics.
-                        </p>
-
-                    </div>
-
-                    <div class="card-arrow">
-
-                        <i class="fas fa-arrow-right"></i>
-
-                    </div>
-
-                </a>
-
-                <!-- STORE -->
-                <a href="/merchandise"
-                class="dream-card delay-4">
-
-                    <div class="dream-icon peach">
-
-                        <i class="fas fa-bag-shopping"></i>
-
-                    </div>
-
-                    <div class="dream-card-content">
-
-                        <h3>Store</h3>
-
-                        <p>
-                            Explore premium official Aanaya merchandise.
-                        </p>
-
-                    </div>
-
-                    <div class="card-arrow">
-
-                        <i class="fas fa-arrow-right"></i>
-
-                    </div>
-
-                </a>
-
-            </div>
-
-        </section>
-
-        <!-- =========================================================
-            MEMBERS SECTION
-        ========================================================= -->
-        <section class="members-section reveal-section">
-
-            <div class="section-heading reveal reveal-up">
-
-                <div>
-
-                    <span class="section-mini-title">
-                        OUR MEMBERS
-                    </span>
-
-                    <h2>
-                        Meet The Souls Behind Aanaya
-                    </h2>
-
-                    <p>
-                        Every melody begins with a heartbeat.
-                        Meet the dreamers who bring Aanaya's
-                        cinematic universe to life.
-                    </p>
-
-                </div>
-
-            </div>
-
-            <!-- FEATURED MEMBER -->
-            <div class="featured-member reveal reveal-up">
-
-                <div class="featured-member-image">
-
-                    <img
-                        src="{{ asset('assets/members/member1.jpg') }}"
-                        alt="Aanaya"
-                        loading="lazy"
-                        decoding="async">
-
-                </div>
-
-                <div class="featured-member-content">
-
-                    <span class="member-role">
-
-                        Lead Vocalist • Songwriter
-
-                    </span>
-
-                    <h3>
-                        Aanaya
-                    </h3>
-
-                    <p>
-
-                        The emotional voice behind Aanaya.
-                        Through intimate lyrics and dreamy
-                        melodies, she transforms feelings
-                        into cinematic stories.
-
-                    </p>
-
-                    <div class="member-tags">
-
-                        <span>Dream Pop</span>
-
-                        <span>Lyrics</span>
-
-                        <span>Vocals</span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- MEMBER GRID -->
-            <div class="members-grid">
-
-                <!-- MEMBER -->
-                <div class="member-card reveal reveal-up">
-
-                    <div class="member-image">
-
-                        <img
-                            src="{{ asset('assets/members/member2.png') }}"
-                            alt="Falisha"
-                            loading="lazy"
-                            decoding="async">
-
-                    </div>
-
-                    <div class="member-content">
-
-                        <span class="member-role">
-
-                            Singer • Visual Artist
-
-                        </span>
-
-                        <h4>
-                            Falisha
-                        </h4>
-
-                        <p>
-                            Creates dreamy visuals
-                            and aesthetic concepts.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <!-- MEMBER -->
-                <div class="member-card reveal reveal-up">
-
-                    <div class="member-image">
-
-                        <img
-                            src="{{ asset('assets/members/member3.png') }}"
-                            alt="Ren"
-                            loading="lazy"
-                            decoding="async">
-
-                    </div>
-
-                    <div class="member-content">
-
-                        <span class="member-role">
-
-                            Producer
-
-                        </span>
-
-                        <h4>
-                            Keanu
-                        </h4>
-
-                        <p>
-                            Architect of cinematic
-                            soundscapes and ambience.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <!-- MEMBER -->
-                <div class="member-card reveal reveal-up">
-
-                    <div class="member-image">
-
-                        <img
-                            src="{{ asset('assets/members/member4.png') }}"
-                            alt="Mika"
-                            loading="lazy"
-                            decoding="async">
-
-                    </div>
-
-                    <div class="member-content">
-
-                        <span class="member-role">
-
-                            Composer
-
-                        </span>
-
-                        <h4>
-                            Rangga
-                        </h4>
-
-                        <p>
-                            Turns emotions into
-                            unforgettable melodies.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- =========================================================
-            MUSIC SECTION
-        ========================================================= -->
-        <section class="dashboard-dream-section-music reveal-section">
-
-            <!-- HEADING -->
-            <div class="dashboard-section-heading-music reveal reveal-up">
-
-                <div>
-
-                    <span class="dashboard-section-mini-title-music">
-                        MUSIC COLLECTION
-                    </span>
-
-                    <h2>
-                        Latest Dream Releases
-                    </h2>
-
-                </div>
-
-            </div>
-
-            <a href="/music"
-                class="dream-btn dream-btn-msc primary-btn magnetic-btn">
-                    <i class="fas fa-play"></i>
-                    Listen Music
+            <a class="dashboard-hero__scroll" href="#manifesto" data-hero-intro>
+                <span>Scroll to discover</span><i aria-hidden="true"></i>
             </a>
+        </header>
 
-            <!-- GRID -->
-            <div class="dashboard-music-showcase-grid">
-
-                <!-- CARD -->
-                <div class="dashboard-spotify-card tilt-card reveal reveal-left">
-
-                    <div class="dashboard-spotify-card-glow"></div>
-
-                    <!-- TOP -->
-                    <div class="dashboard-card-top">
-
-                        <span class="dashboard-music-type">
-                            Latest Single
-                        </span>
-
-                    </div>
-
-                    <!-- CONTENT -->
-                    <div class="dashboard-spotify-content">
-
-                        <h3>
-                            Unfold
-                        </h3>
-
-                        <p>
-                            Emotional indie-pop single with cinematic dreamy vibes.
-                        </p>
-
-                    </div>
-
-                    <!-- EMBED -->
-                    <div class="dashboard-spotify-embed">
-
-                        <iframe
-                            src="https://open.spotify.com/embed/track/0fQnKYxYVQupxyL8PKif9a?utm_source=generator&theme=0"
-                            allowfullscreen=""
-                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                            loading="lazy">
-                        </iframe>
-
-                    </div>
-
-                </div>
-
-                <!-- CARD -->
-                <div class="dashboard-spotify-card tilt-card reveal reveal-right">
-
-                    <div class="dashboard-spotify-card-glow"></div>
-
-                    <!-- TOP -->
-                    <div class="dashboard-card-top">
-
-                        <span class="dashboard-music-type">
-                            Dream Pop
-                        </span>
-
-                    </div>
-
-                    <!-- CONTENT -->
-                    <div class="dashboard-spotify-content">
-
-                        <h3>
-                            MSYL
-                        </h3>
-
-                        <p>
-                            Floating melodies and dreamy synth layers.
-                        </p>
-
-                    </div>
-
-                    <!-- EMBED -->
-                    <div class="dashboard-spotify-embed">
-
-                        <iframe
-                            src="https://open.spotify.com/embed/track/1Uk8q00F6gDdEqXKAk5Wbr?utm_source=generator&theme=0"
-                            allowfullscreen=""
-                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                            loading="lazy">
-                        </iframe>
-
-                    </div>
-
-                </div>
-
+        <section class="dashboard-manifesto" id="manifesto" data-dashboard-manifesto data-dashboard-chapter="Manifesto" data-dashboard-chapter-number="02" aria-labelledby="manifesto-title">
+            <div class="dashboard-manifesto__inner">
+                <p class="dashboard-kicker">01 · A living universe</p>
+                <h2 id="manifesto-title">
+                    <span data-manifesto-line="left">A dream</span>
+                    <span data-manifesto-line="right">should</span>
+                    <span data-manifesto-line="scale"><em>move.</em></span>
+                </h2>
+                <p class="dashboard-manifesto__support">Music. Stories. Images. Feelings.</p>
             </div>
-
         </section>
 
-        <!-- =========================================================
-            VISUAL UNIVERSE
-        ========================================================= -->
-        <section class="visual-universe-section reveal-section">
-
-            <header class="visual-universe-header reveal reveal-up">
-                <div class="visual-universe-heading">
-                    <span class="section-mini-title">VISUAL UNIVERSE</span>
-                    <h2>The World <em>Of Aanaya</em></h2>
-                </div>
-
-                <div class="visual-universe-intro">
-                    <span class="visual-universe-count" aria-hidden="true">01 — 04</span>
-                    <p>
-                        Every song has a visual soul. Explore the cinematic aesthetics,
-                        dreamy colors, and emotional atmosphere that shape our universe.
-                    </p>
-                </div>
+        <section class="dashboard-explore" data-dashboard-explore data-dashboard-chapter="Explore" data-dashboard-chapter-number="03" aria-labelledby="explore-title">
+            <header class="dashboard-section-heading">
+                <p class="dashboard-kicker">02 · Discover</p>
+                <h2 id="explore-title">Choose your way<br>into the story.</h2>
             </header>
 
-            <div class="visual-universe-grid">
-                <div class="visual-universe-column visual-universe-column--wide">
-                    <figure class="visual-card visual-card--dream visual-large">
-                        <picture>
-                            <source srcset="{{ asset('assets/visual/visual1.webp') }}" type="image/webp">
-                            <img src="{{ asset('assets/visual/visual1.png') }}"
-                                alt="Dreamlike pink Aanaya visual artwork" width="1080" height="1080"
-                                loading="lazy" decoding="async">
-                        </picture>
-                        <figcaption class="visual-overlay">
-                            <span class="visual-card-number" aria-hidden="true">01</span>
-                            <div class="visual-card-copy">
-                                <span class="visual-card-category">Dream Pop Aesthetic</span>
-                                <h3>Soft Colors &amp; Endless Feelings</h3>
-                                <p>A quiet world where color carries every unspoken emotion.</p>
-                            </div>
-                        </figcaption>
-                    </figure>
+            <nav class="dashboard-explore__nav" aria-label="Explore Aanaya">
+                @php
+                    $exploreItems = [
+                        ['route' => 'music', 'number' => '01', 'label' => 'Music', 'detail' => 'Listen to the feelings', 'theme' => 'music'],
+                        ['route' => 'articles', 'number' => '02', 'label' => 'Stories', 'detail' => 'Read what stayed unspoken', 'theme' => 'stories'],
+                        ['route' => 'gallery', 'number' => '03', 'label' => 'Visuals', 'detail' => 'See the universe unfold', 'theme' => 'visuals'],
+                        ['route' => 'merchandise', 'number' => '04', 'label' => 'Store', 'detail' => 'Keep a piece of Aanaya', 'theme' => 'store'],
+                    ];
+                @endphp
 
-                    <figure class="visual-card visual-card--emotional">
-                        <picture>
-                            <source srcset="{{ asset('assets/visual/visual3.webp') }}" type="image/webp">
-                            <img src="{{ asset('assets/visual/visual3.png') }}"
-                                alt="Emotional landscape artwork representing stories between notes"
-                                width="1376" height="768" loading="lazy" decoding="async">
-                        </picture>
-                        <figcaption class="visual-overlay">
-                            <span class="visual-card-number" aria-hidden="true">02</span>
-                            <div class="visual-card-copy">
-                                <span class="visual-card-category">Emotional</span>
-                                <h3>Stories Between Notes</h3>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </div>
+                @foreach ($exploreItems as $item)
+                    <a href="{{ route($item['route']) }}" class="dashboard-explore__item" data-explore-item data-dream-theme="{{ $item['theme'] }}">
+                        <span>{{ $item['number'] }}</span>
+                        <strong>{{ $item['label'] }}</strong>
+                        <small>{{ $item['detail'] }}</small>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg>
+                    </a>
+                @endforeach
+            </nav>
 
-                <div class="visual-universe-column visual-universe-column--portrait">
-                    <figure class="visual-card visual-card--cinematic">
-                        <picture>
-                            <source srcset="{{ asset('assets/visual/visual2.webp') }}" type="image/webp">
-                            <img src="{{ asset('assets/visual/visual2.png') }}"
-                                alt="Cinematic portrait from the Aanaya visual universe"
-                                width="1545" height="1999" loading="lazy" decoding="async">
-                        </picture>
-                        <figcaption class="visual-overlay">
-                            <span class="visual-card-number" aria-hidden="true">03</span>
-                            <div class="visual-card-copy">
-                                <span class="visual-card-category">Cinematic</span>
-                                <h3>Midnight Memories</h3>
-                            </div>
-                        </figcaption>
-                    </figure>
-
-                    <figure class="visual-card visual-card--paper-dreams">
-                        <picture>
-                            <source srcset="{{ asset('assets/visual/visual4.webp') }}" type="image/webp">
-                            <img src="{{ asset('assets/visual/visual4.png') }}"
-                                alt="Aanaya members surrounded by paper planes and illustrated memories"
-                                width="896" height="1194" loading="lazy" decoding="async">
-                        </picture>
-                        <figcaption class="visual-overlay">
-                            <span class="visual-card-number" aria-hidden="true">04</span>
-                            <div class="visual-card-copy">
-                                <span class="visual-card-category">Paper Dreams</span>
-                                <h3>Letters We Never Sent</h3>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </div>
+            <div class="dashboard-explore__aura" data-explore-aura data-dream-theme="music" aria-hidden="true">
+                <i class="dashboard-explore__aura-glow"></i>
+                <i class="dashboard-explore__aura-orbit"></i>
+                <svg class="dashboard-explore__aura-star" viewBox="0 0 100 100" aria-hidden="true">
+                    <path d="M50 2C53 34 66 47 98 50C66 53 53 66 50 98C47 66 34 53 2 50C34 47 47 34 50 2Z"/>
+                </svg>
+                <span data-explore-aura-label>Music</span>
             </div>
-
         </section>
 
-        {{-- visual vidio --}}
+        <section class="dashboard-members" data-dashboard-members data-dashboard-chapter="The people" data-dashboard-chapter-number="04" aria-labelledby="members-title">
+            <header class="dashboard-members__heading dashboard-section-heading">
+                <p class="dashboard-kicker">03 · The people</p>
+                <h2 id="members-title">Meet the souls<br><em>behind Aanaya.</em></h2>
+                <p>Every melody begins with a heartbeat. Four people turn intimate feelings into one cinematic universe.</p>
+            </header>
 
-        <section class="aanaya-visual-section">
+            <div class="dashboard-members__composition">
+                <article class="dashboard-member dashboard-member--aanaya" data-member-depth="10">
+                    <span class="dashboard-member__role-bg" aria-hidden="true">VOCALS</span>
+                    <figure><img src="{{ asset('assets/members/member1.jpg') }}" alt="Aanaya" width="896" height="1195" loading="lazy" decoding="async"></figure>
+                    <div><p>Lead Vocalist · Songwriter</p><h3>Aanaya</h3><span>The emotional voice transforming intimate lyrics into cinematic stories.</span></div>
+                </article>
 
-            <div class="aanaya-visual-video">
+                <article class="dashboard-member dashboard-member--falisha" data-member-depth="18">
+                    <span class="dashboard-member__role-bg" aria-hidden="true">VISUALS</span>
+                    <figure><img src="{{ asset('assets/members/member2.webp') }}" alt="Falisha" width="1200" height="1598" loading="lazy" decoding="async"></figure>
+                    <div><p>Singer · Visual Artist</p><h3>Falisha</h3><span>Creates the dreamy visual language and aesthetic concepts of Aanaya.</span></div>
+                </article>
 
-                <video
-                    muted
-                    loop
-                    playsinline
-                    preload="none"
-                    data-lazy-video
-                    data-autoplay="true">
+                <article class="dashboard-member dashboard-member--keanu" data-member-depth="13">
+                    <span class="dashboard-member__role-bg" aria-hidden="true">PRODUCER</span>
+                    <figure><img src="{{ asset('assets/members/member3.webp') }}" alt="Keanu" width="1200" height="1598" loading="lazy" decoding="async"></figure>
+                    <div><p>Producer</p><h3>Keanu</h3><span>Architect of the cinematic soundscapes and quiet ambience.</span></div>
+                </article>
 
-                    <source
-                        data-src="{{ asset('assets/visual/visualaanaya.mp4') }}"
-                        type="video/mp4">
-
-                </video>
-
-                <div class="aanaya-visual-overlay"></div>
-
+                <article class="dashboard-member dashboard-member--rangga" data-member-depth="21">
+                    <span class="dashboard-member__role-bg" aria-hidden="true">COMPOSER</span>
+                    <figure><img src="{{ asset('assets/members/member4.webp') }}" alt="Rangga" width="1200" height="1598" loading="lazy" decoding="async"></figure>
+                    <div><p>Composer</p><h3>Rangga</h3><span>Turns fragile emotions into melodies that stay after the song ends.</span></div>
+                </article>
             </div>
-
-            <div class="aanaya-visual-content">
-
-                <span>
-                    VISUAL IDENTITY
-                </span>
-
-                <h2>
-                    Dreams Have Colors.
-                    Music Has Shapes.
-                </h2>
-
-                <p>
-                    Aanaya is more than music.
-                    It is a visual experience built
-                    from soft pink tones, cinematic
-                    storytelling, floating emotions,
-                    and dreamlike memories.
-                </p>
-
-            </div>
-
         </section>
 
-        <!-- =========================================================
-            QUOTE
-        ========================================================== -->
-        <section class="dream-quote-section reveal-section">
+        <section class="dashboard-music" data-dashboard-music data-dashboard-chapter="Music" data-dashboard-chapter-number="05" aria-labelledby="music-title">
+            <header class="dashboard-music__heading">
+                <p class="dashboard-kicker">04 · Listen</p>
+                <h2 id="music-title">Songs made<br>to be <em>felt.</em></h2>
+                <a href="{{ route('music') }}">Explore all music <span aria-hidden="true">↗</span></a>
+            </header>
 
-            <div class="dream-quote-card reveal reveal-zoom">
+            <div class="dashboard-releases">
+                <article class="dashboard-release dashboard-release--unfold" data-release>
+                    <div class="dashboard-release__visual"><img src="{{ asset('assets/visual/visual1.webp') }}" alt="Unfold release artwork" width="1080" height="1080" loading="lazy" decoding="async"></div>
+                    <div class="dashboard-release__content">
+                        <p>Latest single · Aanaya</p><h3>UNFOLD</h3>
+                        <span>Emotional indie-pop wrapped in a quiet cinematic atmosphere.</span>
+                        <button type="button" class="dashboard-listen" data-spotify-load data-spotify-src="https://open.spotify.com/embed/track/0fQnKYxYVQupxyL8PKif9a?utm_source=generator&theme=0" aria-expanded="false">Listen on Spotify</button>
+                        <div class="dashboard-release__embed" data-spotify-mount></div>
+                    </div>
+                </article>
 
-                <div class="quote-icon">
-
-                    <i class="fas fa-quote-left"></i>
-
-                </div>
-
-                <h2>
-
-                    “Music begins where words end.”
-
-                </h2>
-
-                <span>
-
-                    — Aanaya Universe
-
-                </span>
-
+                <article class="dashboard-release dashboard-release--msyl" data-release>
+                    <div class="dashboard-release__visual"><img src="{{ asset('assets/visual/visual3.webp') }}" alt="MSYL release artwork" width="1376" height="768" loading="lazy" decoding="async"></div>
+                    <div class="dashboard-release__content">
+                        <p>Dream pop · Aanaya</p><h3>MSYL</h3>
+                        <span>Floating melodies, soft synth layers and memories that never quite leave.</span>
+                        <button type="button" class="dashboard-listen" data-spotify-load data-spotify-src="https://open.spotify.com/embed/track/1Uk8q00F6gDdEqXKAk5Wbr?utm_source=generator&theme=0" aria-expanded="false">Listen on Spotify</button>
+                        <div class="dashboard-release__embed" data-spotify-mount></div>
+                    </div>
+                </article>
             </div>
-
         </section>
 
-    </div>
-
-    <!-- =========================================================
-        SCRIPT
-    ========================================================== -->
-    <script>
-
-        /* =========================================================
-            HERO SLIDER
-        ========================================================== */
-
-        const slides =
-            document.querySelectorAll('.hero-slide');
-
-        let currentSlide = 0;
-
-        function showSlide(index){
-
-            const image = slides[index].querySelector('img[data-src]');
-            if(image){
-                image.src = image.dataset.src;
-                image.removeAttribute('data-src');
-            }
-
-            slides.forEach(slide => {
-                slide.classList.remove('active');
-            });
-
-            slides[index].classList.add('active');
-
-        }
-
-        window.requestIdleCallback?.(() => {
-            const nextImage = slides[1]?.querySelector('img[data-src]');
-            if(nextImage){
-                nextImage.src = nextImage.dataset.src;
-                nextImage.removeAttribute('data-src');
-            }
-        });
-
-        function nextSlide(){
-
-            currentSlide++;
-
-            if(currentSlide >= slides.length){
-                currentSlide = 0;
-            }
-
-            showSlide(currentSlide);
-
-        }
-
-        function prevSlide(){
-
-            currentSlide--;
-
-            if(currentSlide < 0){
-                currentSlide = slides.length - 1;
-            }
-
-            showSlide(currentSlide);
-
-        }
-
-        document
-            .getElementById('nextSlide')
-            .addEventListener('click', nextSlide);
-
-        document
-            .getElementById('prevSlide')
-            .addEventListener('click', prevSlide);
-
-        setInterval(nextSlide, 7000);
-
-        /* =========================================================
-            SCROLL REVEAL
-        ========================================================== */
-
-        const reveals =
-            document.querySelectorAll('.reveal');
-
-        function revealOnScroll(){
-
-            reveals.forEach(el => {
-
-                const windowHeight =
-                    window.innerHeight;
-
-                const revealTop =
-                    el.getBoundingClientRect().top;
-
-                const revealPoint = 120;
-
-                if(revealTop < windowHeight - revealPoint){
-
-                    el.classList.add('active');
-
-                }
-
-            });
-
-        }
-
-        window.addEventListener(
-            'scroll',
-            revealOnScroll
-        );
-
-        revealOnScroll();
-
-        /* =========================================================
-            TILT EFFECT
-        ========================================================== */
-
-        const tiltCards =
-            document.querySelectorAll('.tilt-card');
-
-        tiltCards.forEach(card => {
-
-            card.addEventListener(
-                'mousemove',
-                (e) => {
-
-                    const rect =
-                        card.getBoundingClientRect();
-
-                    const x =
-                        e.clientX - rect.left;
-
-                    const y =
-                        e.clientY - rect.top;
-
-                    const centerX =
-                        rect.width / 2;
-
-                    const centerY =
-                        rect.height / 2;
-
-                    const rotateX =
-                        ((y - centerY) / 25);
-
-                    const rotateY =
-                        ((centerX - x) / 25);
-
-                    card.style.transform =
-                        `
-                        perspective(1000px)
-                        rotateX(${rotateX}deg)
-                        rotateY(${rotateY}deg)
-                        translateY(-8px)
-                        `;
-
-                }
-            );
-
-            card.addEventListener(
-                'mouseleave',
-                () => {
-
-                    card.style.transform =
-                        `
-                        perspective(1000px)
-                        rotateX(0deg)
-                        rotateY(0deg)
-                        translateY(0px)
-                        `;
-
-                }
-            );
-
-        });
-
-        /* =========================================================
-            PARALLAX
-        ========================================================== */
-
-        window.addEventListener(
-            'scroll',
-            () => {
-
-                const scrolled =
-                    window.pageYOffset;
-
-                const parallax =
-                    document.querySelector('.hero-parallax');
-
-                parallax.style.transform =
-                    `translateY(${scrolled * 0.35}px)`;
-
-            }
-        );
-
-    </script>
-
-
-    <script>
-
-        /*
-        =========================================================
-        HERO VIDEO AUTO PLAY DATABASE
-        =========================================================
-        */
-
-        const heroVideo =
-            document.getElementById('heroVideo');
-
-        /*
-        =========================================================
-        VIDEO LIST
-        =========================================================
-        */
-
-        const videoList = [
-
-            @foreach($latestVideos as $video)
-
-                @json(\App\Support\MediaUrl::video($video->video_file)),
-
-            @endforeach
-
-        ];
-
-        /*
-        =========================================================
-        CURRENT INDEX
-        =========================================================
-        */
-
-        let currentVideo = 0;
-
-        const shouldReduceMedia =
-            window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-            navigator.connection?.saveData === true;
-
-        /*
-        =========================================================
-        FUNCTION NEXT VIDEO
-        =========================================================
-        */
-
-        function nextVideo(){
-
-            currentVideo++;
-
-            /*
-            BALIK KE VIDEO PERTAMA
-            */
-            if(currentVideo >= videoList.length){
-
-                currentVideo = 0;
-
-            }
-
-            /*
-            GANTI VIDEO
-            */
-            heroVideo.src =
-                videoList[currentVideo];
-
-            /*
-            LOAD VIDEO BARU
-            */
-            heroVideo.load();
-
-            /*
-            PLAY VIDEO BARU
-            */
-            if (!shouldReduceMedia) {
-                heroVideo.play().catch(() => {});
-            }
-
-        }
-
-        /*
-        =========================================================
-        SAAT VIDEO SELESAI
-        =========================================================
-        */
-
-        heroVideo.onended = function(){
-
-            if (!shouldReduceMedia && videoList.length > 1) {
-                nextVideo();
-            }
-
-        };
-
-        if (shouldReduceMedia) {
-            heroVideo.removeAttribute('autoplay');
-            heroVideo.pause();
-        } else {
-            const heroObserver = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting) {
-                    heroVideo.play().catch(() => {});
-                } else {
-                    heroVideo.pause();
-                }
-            }, { threshold: 0.15 });
-
-            heroObserver.observe(heroVideo);
-        }
-
-    </script>
-
-    <script>
-
-    document.addEventListener('DOMContentLoaded', () => {
-
-        const cards = document.querySelectorAll('.dream-card');
-
-        const observer = new IntersectionObserver((entries) => {
-
-            entries.forEach(entry => {
-
-                if(entry.isIntersecting){
-
-                    entry.target.classList.add('active');
-
-                }
-
-            });
-
-        }, {
-            threshold: 0.15
-        });
-
-        cards.forEach(card => {
-            observer.observe(card);
-        });
-
-    });
-
-    </script>
-
-
+        <section class="dashboard-visuals" data-dashboard-visuals data-dashboard-chapter="Visual universe" data-dashboard-chapter-number="06" aria-labelledby="visuals-title">
+            <header class="dashboard-visuals__heading dashboard-section-heading">
+                <p class="dashboard-kicker">05 · Visual universe</p>
+                <h2 id="visuals-title">The world<br><em>of Aanaya.</em></h2>
+                <p>Every song has a visual soul: dreamy colors, paper memories and midnight feelings.</p>
+            </header>
+
+            <div class="dashboard-visuals__composition">
+                @foreach ([
+                    ['visual1.webp', 'Dream Pop Aesthetic', 'Soft Colors & Endless Feelings', '01', 10, 1080, 1080],
+                    ['visual2.webp', 'Cinematic', 'Midnight Memories', '02', 18, 1545, 1999],
+                    ['visual3.webp', 'Emotional', 'Stories Between Notes', '03', 13, 1376, 768],
+                    ['visual4.webp', 'Paper Dreams', 'Letters We Never Sent', '04', 22, 896, 1194],
+                ] as [$image, $category, $title, $number, $depth, $width, $height])
+                    <figure class="dashboard-visual dashboard-visual--{{ $number }}" data-visual-depth="{{ $depth }}">
+                        <div><img src="{{ asset('assets/visual/'.$image) }}" alt="{{ $title }}" width="{{ $width }}" height="{{ $height }}" loading="lazy" decoding="async"></div>
+                        <figcaption><span>{{ $number }} · {{ $category }}</span><strong>{{ $title }}</strong></figcaption>
+                    </figure>
+                @endforeach
+            </div>
+        </section>
+
+        <section class="dashboard-signature" data-dashboard-signature data-dashboard-chapter="Identity" data-dashboard-chapter-number="07" aria-labelledby="signature-title">
+            <img src="{{ asset('assets/bg/bg4.webp') }}" alt="" width="1600" height="894" loading="lazy" decoding="async">
+            <div>
+                <p class="dashboard-kicker">06 · Aanaya visual identity</p>
+                <h2 id="signature-title">A dream<br><em>in motion.</em></h2>
+                <p>Dreamy visuals and emotional storytelling, shaped into a single feeling.</p>
+                <a href="{{ route('gallery') }}">Explore the visual archive <span aria-hidden="true">↗</span></a>
+            </div>
+        </section>
+
+        <section class="dashboard-ending" data-dashboard-chapter="Finale" data-dashboard-chapter-number="08" aria-labelledby="ending-title">
+            <p class="dashboard-kicker">07 · Stay a little longer</p>
+            <h2 id="ending-title">KEEP<br><em>DREAMING.</em></h2>
+            <p>Music. Stories. Visuals. Aanaya.</p>
+            <a href="{{ route('music') }}">Explore Aanaya <span aria-hidden="true">→</span></a>
+        </section>
+
+        <div class="dashboard-cursor" data-dashboard-cursor aria-hidden="true"><span>Explore</span></div>
+    </main>
 </x-app-layout>

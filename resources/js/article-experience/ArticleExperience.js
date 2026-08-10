@@ -23,7 +23,7 @@ export class ArticleExperience {
         scroll.init();
         this.modules.push(scroll);
 
-        const audio = new ArticleAudio(this.root);
+        const audio = new ArticleAudio(this.root, this.prefersReducedMotion);
         audio.init();
         this.modules.push(audio);
 
@@ -46,7 +46,7 @@ export class ArticleExperience {
             this.prefersReducedMotion,
             (sceneId, state) => {
                 scroll.updateScene(sceneId, state);
-                audio.updateScene(sceneId, state.progress);
+                audio.setTargetTime({ time: state.globalAudioTime, moving: state.moving });
                 atmosphere?.updateScene?.(sceneId, state);
             },
         );

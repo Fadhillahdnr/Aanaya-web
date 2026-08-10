@@ -566,6 +566,9 @@
 .article-sound svg { width: 1rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
 .article-sound strong { color: #efabc0; }
 .article-sound[aria-pressed="true"] { background: rgba(109,38,58,.92); }
+.article-sound.is-loading { cursor: wait; opacity: .72; }
+.article-sound:disabled { cursor: not-allowed; opacity: .48; }
+.article-sound:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
 
 .article-progress__label {
     position: absolute;

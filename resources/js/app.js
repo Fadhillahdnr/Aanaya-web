@@ -23,3 +23,13 @@ if (articleExperienceRoot) {
             console.warn('Aanaya cinematic article enhancement could not start.', error);
         });
 }
+
+const dashboardExperienceRoot = document.querySelector('[data-dashboard-experience]');
+
+if (dashboardExperienceRoot) {
+    import('./dashboard-experience/index.js')
+        .then(({ initDashboardExperience }) => initDashboardExperience(dashboardExperienceRoot))
+        .catch((error) => {
+            console.warn('Aanaya dashboard enhancement could not start.', error);
+        });
+}
