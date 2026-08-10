@@ -180,54 +180,95 @@ export class DashboardExperience {
     }
 
     initPointerExperience() {
-        const aura = this.root.querySelector('[data-explore-aura]');
-        const auraGlow = aura?.querySelector('.dashboard-explore__aura-glow');
-        const auraOrbit = aura?.querySelector('.dashboard-explore__aura-orbit');
-        const auraLabel = aura?.querySelector('[data-explore-aura-label]');
+        const paperTrail = this.root.querySelector('[data-explore-paper-trail]');
         const cursor = this.root.querySelector('[data-dashboard-cursor]');
         const cursorLabel = cursor?.querySelector('span');
-        if (!aura || !auraGlow || !auraOrbit || !auraLabel || !cursor || !cursorLabel) return;
+        if (!paperTrail || !cursor || !cursorLabel) return;
 
-        const moveAuraX = gsap.quickTo(aura, 'x', { duration: .62, ease: 'power3.out' });
-        const moveAuraY = gsap.quickTo(aura, 'y', { duration: .62, ease: 'power3.out' });
+        const trailLength = 16;
+        const planeFragment = document.createDocumentFragment();
+        for (let index = 0; index < trailLength; index += 1) {
+            const plane = document.createElement('i');
+            plane.className = 'dashboard-explore__paper-plane';
+            planeFragment.append(plane);
+        }
+        paperTrail.replaceChildren(planeFragment);
+        const planes = [...paperTrail.children];
+
+        gsap.set(cursor, { xPercent: -50, yPercent: -50 });
         const moveCursorX = gsap.quickTo(cursor, 'x', { duration: .2, ease: 'power3.out' });
         const moveCursorY = gsap.quickTo(cursor, 'y', { duration: .2, ease: 'power3.out' });
-        const auraMotion = gsap.timeline({ paused: true, repeat: -1, yoyo: true })
-            .to(auraGlow, { rotate: 9, scale: 1.045, duration: 2.8, ease: 'sine.inOut' }, 0)
-            .to(auraOrbit, { rotate: 20, scaleY: .76, duration: 2.8, ease: 'sine.inOut' }, 0);
+        let isExploreActive = false;
+        let planeIndex = 0;
+        let stepSide = 1;
+        let previousPoint = null;
+
+        const addPaperPlane = (x, y, angle) => {
+            const plane = planes[planeIndex % planes.length];
+            const radians = angle * Math.PI / 180;
+            const sideOffset = stepSide * 10;
+            const offsetX = Math.cos(radians + Math.PI / 2) * sideOffset;
+            const offsetY = Math.sin(radians + Math.PI / 2) * sideOffset;
+            stepSide *= -1;
+            planeIndex += 1;
+
+            gsap.killTweensOf(plane);
+            gsap.set(plane, {
+                x: x + offsetX,
+                y: y + offsetY,
+                xPercent: -50,
+                yPercent: -50,
+                rotation: angle + (stepSide > 0 ? 9 : -9),
+                scale: .72,
+                opacity: .9,
+            });
+            gsap.to(plane, {
+                y: `+=${stepSide * 9}`,
+                rotation: `+=${stepSide * 12}`,
+                scale: .35,
+                opacity: 0,
+                duration: 1.15,
+                ease: 'power2.out',
+            });
+        };
 
         const onPointerMove = (event) => {
-            moveAuraX(event.clientX);
-            moveAuraY(event.clientY);
             moveCursorX(event.clientX);
             moveCursorY(event.clientY);
             gsap.to(cursor, {
-                opacity: event.clientX <= 8 || event.clientY <= 8 ? 0 : 1,
+                opacity: isExploreActive || event.clientX <= 8 || event.clientY <= 8 ? 0 : 1,
                 duration: .2,
                 overwrite: true,
             });
+
+            if (!isExploreActive) return;
+            if (!previousPoint) previousPoint = { x: event.clientX, y: event.clientY };
+            const distance = Math.hypot(event.clientX - previousPoint.x, event.clientY - previousPoint.y);
+            if (distance < 34) return;
+
+            const angle = Math.atan2(event.clientY - previousPoint.y, event.clientX - previousPoint.x) * 180 / Math.PI;
+            addPaperPlane(event.clientX, event.clientY, angle);
+            previousPoint = { x: event.clientX, y: event.clientY };
         };
         const onPointerLeave = () => {
-            gsap.to([cursor, aura], { opacity: 0, duration: .2, overwrite: true });
-            auraMotion.pause();
+            gsap.to([cursor, ...planes], { opacity: 0, duration: .2, overwrite: true });
+            previousPoint = null;
         };
         window.addEventListener('pointermove', onPointerMove, { passive: true });
         document.documentElement.addEventListener('mouseleave', onPointerLeave);
 
         this.root.querySelectorAll('[data-explore-item]').forEach((item) => {
             const onEnter = () => {
-                aura.dataset.dreamTheme = item.dataset.dreamTheme;
-                auraLabel.textContent = item.querySelector('strong')?.textContent || 'Explore';
+                isExploreActive = true;
+                previousPoint = null;
+                paperTrail.dataset.dreamTheme = item.dataset.dreamTheme;
                 cursorLabel.textContent = 'Open';
-                gsap.to(aura, { opacity: .92, scale: 1, duration: .42, ease: 'power3.out' });
-                gsap.to(cursor, { scale: .82, duration: .25 });
-                auraMotion.play();
+                gsap.to(cursor, { opacity: 0, duration: .18 });
             };
             const onLeave = () => {
+                isExploreActive = false;
+                previousPoint = null;
                 cursorLabel.textContent = 'Explore';
-                gsap.to(aura, { opacity: 0, scale: .78, duration: .28 });
-                gsap.to(cursor, { scale: 1, duration: .25 });
-                auraMotion.pause();
             };
             item.addEventListener('pointerenter', onEnter);
             item.addEventListener('pointerleave', onLeave);
@@ -239,7 +280,7 @@ export class DashboardExperience {
         this.cleanupCallbacks.push(() => {
             window.removeEventListener('pointermove', onPointerMove);
             document.documentElement.removeEventListener('mouseleave', onPointerLeave);
-            auraMotion.kill();
+            gsap.killTweensOf(planes);
         });
     }
 

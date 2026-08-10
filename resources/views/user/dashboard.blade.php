@@ -91,14 +91,7 @@
                 @endforeach
             </nav>
 
-            <div class="dashboard-explore__aura" data-explore-aura data-dream-theme="music" aria-hidden="true">
-                <i class="dashboard-explore__aura-glow"></i>
-                <i class="dashboard-explore__aura-orbit"></i>
-                <svg class="dashboard-explore__aura-star" viewBox="0 0 100 100" aria-hidden="true">
-                    <path d="M50 2C53 34 66 47 98 50C66 53 53 66 50 98C47 66 34 53 2 50C34 47 47 34 50 2Z"/>
-                </svg>
-                <span data-explore-aura-label>Music</span>
-            </div>
+            <div class="dashboard-explore__paper-trail" data-explore-paper-trail data-dream-theme="music" aria-hidden="true"></div>
         </section>
 
         <section class="dashboard-members" data-dashboard-members data-dashboard-chapter="The people" data-dashboard-chapter-number="04" aria-labelledby="members-title">
