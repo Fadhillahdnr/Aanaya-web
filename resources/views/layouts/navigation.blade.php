@@ -1,418 +1,209 @@
+@php
+    $navigationItems = [
+        ['number' => '01', 'label' => 'Home', 'route' => 'dashboard', 'active' => request()->routeIs('dashboard'), 'icon' => 'fa-house'],
+        ['number' => '02', 'label' => 'Music', 'route' => 'music', 'active' => request()->routeIs('music'), 'icon' => 'fa-music'],
+        ['number' => '03', 'label' => 'Stories', 'route' => 'articles', 'active' => request()->routeIs('articles*'), 'icon' => 'fa-book-open'],
+        ['number' => '04', 'label' => 'Gallery', 'route' => 'gallery', 'active' => request()->routeIs('gallery'), 'icon' => 'fa-images'],
+        ['number' => '05', 'label' => 'Merch', 'route' => 'merchandise', 'active' => request()->routeIs('merchandise*') || request()->routeIs('cart.*') || request()->routeIs('checkout*') || request()->routeIs('orders.*'), 'icon' => 'fa-bag-shopping'],
+        ['number' => '06', 'label' => 'About', 'route' => 'about', 'active' => request()->routeIs('about'), 'icon' => 'fa-heart'],
+    ];
+    $navbarCartCount = collect(session('cart', []))->sum(fn ($item) => (int) ($item['quantity'] ?? 1));
+
+    if (Auth::check()) {
+        $navbarUser = Auth::user();
+        $navbarNameParts = preg_split('/\s+/', trim($navbarUser->name)) ?: [];
+        $navbarInitials = collect($navbarNameParts)
+            ->filter()
+            ->take(2)
+            ->map(fn ($namePart) => mb_strtoupper(mb_substr($namePart, 0, 1)))
+            ->implode('');
+        $navbarAvatarUrl = $navbarUser->avatar_url;
+        $hasNavbarAvatar = $navbarAvatarUrl && $navbarAvatarUrl !== asset('assets/default-avatar.png');
+    }
+@endphp
+
 <nav
     x-data="{
         open: false,
-        scrolled: false,
-        lastScroll: 0,
-        hidden: false,
         openMenu() {
             this.open = true;
-            this.hidden = false;
-            this.$nextTick(() => this.$refs.mobileClose?.focus());
+            this.$nextTick(() => this.$refs.drawerClose?.focus());
         },
         closeMenu(returnFocus = false) {
             this.open = false;
-            if (returnFocus) {
-                this.$nextTick(() => this.$refs.mobileToggle?.focus());
+            if (returnFocus) this.$nextTick(() => (this.$refs.mobileToggle || this.$refs.railToggle)?.focus());
+        },
+        trapFocus(event) {
+            const focusable = [...this.$refs.drawer.querySelectorAll('a[href], button:not([disabled])')]
+                .filter((element) => element.offsetParent !== null);
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
             }
         }
     }"
-    x-init="
-        window.addEventListener('scroll', () => {
-
-            let currentScroll = window.pageYOffset;
-
-            scrolled = currentScroll > 30;
-
-            if(currentScroll > lastScroll && currentScroll > 120){
-                hidden = true;
-            }else{
-                hidden = false;
-            }
-
-            lastScroll = currentScroll;
-        });
-    "
-    x-effect="document.body.classList.toggle('mobile-navigation-open', open)"
+    x-effect="document.body.classList.toggle('aanaya-navigation-open', open)"
     @keydown.escape.window="open && closeMenu(true)"
-    @resize.window="if (window.innerWidth > 1100 && open) closeMenu()"
-    :class="{
-        'navbar-scrolled': scrolled,
-        'navbar-hidden': hidden
-    }"
-    class="aanaya-navbar">
+    class="aanaya-navigation"
+    aria-label="Primary navigation">
 
-    <div class="navbar-container">
+    <span class="aanaya-rail-sensor" aria-hidden="true"></span>
 
-        <!-- LOGO -->
-        <div class="navbar-left">
+    <aside class="aanaya-nav-rail" aria-label="Quick navigation">
+        <a href="{{ route('dashboard') }}" class="aanaya-nav-logo" aria-label="Aanaya home">
+            <img src="{{ asset('images/logo.png') }}" alt="">
+        </a>
 
-            <a
-                href="{{ route('dashboard') }}"
-                class="navbar-logo">
+        <button
+            type="button"
+            x-ref="railToggle"
+            @click="openMenu()"
+            :aria-expanded="open.toString()"
+            aria-controls="aanaya-navigation-drawer"
+            aria-label="Open navigation menu"
+            class="aanaya-rail-toggle">
+            <span></span><span></span>
+        </button>
 
-                <img
-                    src="{{ asset('images/logo.png') }}"
-                    alt="Aanaya Logo">
-
-            </a>
-
+        <div class="aanaya-rail-links">
+            @foreach($navigationItems as $item)
+                <a
+                    href="{{ route($item['route']) }}"
+                    class="aanaya-rail-link {{ $item['active'] ? 'is-active' : '' }}"
+                    aria-label="{{ $item['label'] }}"
+                    @if($item['active']) aria-current="page" @endif>
+                    <i class="fas {{ $item['icon'] }}" aria-hidden="true"></i>
+                    <span>{{ $item['label'] }}</span>
+                </a>
+            @endforeach
         </div>
 
-        <!-- DESKTOP MENU -->
-        <div class="desktop-menu">
-
-            <a
-                href="{{ route('dashboard') }}"
-                class="nav-link {{ request()->routeIs('dashboard') ? 'active-link' : '' }}">
-
-                <i class="fas fa-house"></i>
-
-                <span>Dashboard</span>
-
-            </a>
-
-            <a
-                href="{{ route('music') }}"
-                class="nav-link {{ request()->routeIs('music') ? 'active-link' : '' }}">
-
-                <i class="fas fa-music"></i>
-
-                <span>Music</span>
-
-            </a>
-
-            <a
-                href="{{ route('articles') }}"
-                class="nav-link {{ request()->routeIs('articles') ? 'active-link' : '' }}">
-
-                <i class="fas fa-newspaper"></i>
-
-                <span>Articles</span>
-
-            </a>
-
-            <a
-                href="{{ route('gallery') }}"
-                class="nav-link {{ request()->routeIs('gallery') ? 'active-link' : '' }}">
-
-                <i class="fas fa-image"></i>
-
-                <span>Gallery</span>
-
-            </a>
-
-            <a
-                href="{{ route('merchandise') }}"
-                class="nav-link {{ request()->routeIs('merchandise*') || request()->routeIs('orders.*') ? 'active-link' : '' }}">
-
-                <i class="fas fa-bag-shopping"></i>
-
-                <span>Merch</span>
-
-            </a>
-
-            <a
-                href="{{ route('about') }}"
-                class="nav-link {{ request()->routeIs('about') ? 'active-link' : '' }}">
-
-                <i class="fas fa-heart"></i>
-
-                <span>About</span>
-
-            </a>
-
-        </div>
-
-        <!-- RIGHT -->
-        <div class="navbar-right">
-
+        <div class="aanaya-rail-utilities">
             @auth
-                @php
-                    $navbarUser = Auth::user();
-                    $navbarNameParts = preg_split('/\s+/', trim($navbarUser->name)) ?: [];
-                    $navbarInitials = collect($navbarNameParts)
-                        ->filter()
-                        ->take(2)
-                        ->map(fn ($namePart) => mb_strtoupper(mb_substr($namePart, 0, 1)))
-                        ->implode('');
-                    $navbarAvatarUrl = $navbarUser->avatar_url;
-                    $hasNavbarAvatar = $navbarAvatarUrl
-                        && $navbarAvatarUrl !== asset('assets/default-avatar.png');
-                @endphp
-
-                <!-- USER -->
-                <div
-                    class="user-dropdown"
-                    x-data="{ dropdown: false }">
-
-                    <button
-                        type="button"
-                        @click="dropdown = !dropdown"
-                        @keydown.escape.stop="dropdown = false"
-                        :aria-expanded="dropdown.toString()"
-                        aria-controls="navbar-user-menu"
-                        aria-haspopup="menu"
-                        class="user-btn">
-
-                        <span class="navbar-user-avatar-shell" aria-hidden="true">
-                            <span class="navbar-user-avatar-fallback">
-                                {{ $navbarInitials ?: 'A' }}
-                            </span>
-
-                            @if($hasNavbarAvatar)
-                                <img
-                                    src="{{ $navbarAvatarUrl }}"
-                                    class="navbar-user-avatar"
-                                    alt=""
-                                    x-on:error="$el.remove()">
-                            @endif
-                        </span>
-
-                        <span class="navbar-user-copy">
-                            <small>Welcome back</small>
-                            <strong>{{ $navbarUser->name }}</strong>
-                        </span>
-
-                        <i class="fas fa-chevron-down navbar-user-chevron" :class="{ 'is-open': dropdown }"></i>
-
-                    </button>
-
-                    <!-- DROPDOWN -->
-                    <div
-                        id="navbar-user-menu"
-                        x-cloak
-                        x-show="dropdown"
-                        x-transition:enter="dropdown-enter"
-                        x-transition:enter-start="dropdown-enter-start"
-                        x-transition:enter-end="dropdown-enter-end"
-                        x-transition:leave="dropdown-leave"
-                        x-transition:leave-start="dropdown-leave-start"
-                        x-transition:leave-end="dropdown-leave-end"
-                        @click.outside="dropdown = false"
-                        class="dropdown-menu"
-                        role="menu">
-
-                        <div class="dropdown-user-summary">
-                            <span class="dropdown-user-avatar" aria-hidden="true">
-                                <span>{{ $navbarInitials ?: 'A' }}</span>
-                                @if($hasNavbarAvatar)
-                                    <img src="{{ $navbarAvatarUrl }}" alt="" x-on:error="$el.remove()">
-                                @endif
-                            </span>
-                            <span>
-                                <strong>{{ $navbarUser->name }}</strong>
-                                <small>{{ $navbarUser->email }}</small>
-                            </span>
-                        </div>
-
-                        <a href="{{ route('profile.edit') }}" role="menuitem">
-
-                            <i class="fas fa-user"></i>
-
-                            Profile
-
-                        </a>
-
-                        <a href="{{ route('orders.index') }}" role="menuitem">
-
-                            <i class="fas fa-receipt"></i>
-
-                            My Orders
-
-                        </a>
-
-                        @if(Auth::user()->role === 'admin')
-
-                            <a href="/admin" role="menuitem">
-
-                                <i class="fas fa-shield-heart"></i>
-
-                                Admin Panel
-
-                            </a>
-
-                        @endif
-
-                        <form
-                            method="POST"
-                            action="{{ route('logout') }}">
-
-                            @csrf
-
-                            <button type="submit" role="menuitem">
-
-                                <i class="fas fa-right-from-bracket"></i>
-
-                                Logout
-
-                            </button>
-
-                        </form>
-
-                    </div>
-
-                </div>
-
+                <a href="{{ route('cart.index') }}" class="aanaya-rail-link" aria-label="Cart{{ $navbarCartCount ? ', '.$navbarCartCount.' items' : '' }}">
+                    <i class="fas fa-bag-shopping" aria-hidden="true"></i>
+                    @if($navbarCartCount > 0)<b>{{ min($navbarCartCount, 99) }}</b>@endif
+                    <span>Cart</span>
+                </a>
+                <button type="button" @click="openMenu()" class="aanaya-rail-profile" aria-label="Open account navigation">
+                    <span>{{ $navbarInitials ?: 'A' }}</span>
+                    @if($hasNavbarAvatar)
+                        <img src="{{ $navbarAvatarUrl }}" alt="" x-on:error="$el.remove()">
+                    @endif
+                </button>
             @else
-
-                <!-- GUEST -->
-                <div class="guest-buttons">
-
-                    <a
-                        href="{{ route('login') }}"
-                        class="login-btn">
-
-                        Login
-
-                    </a>
-
-                    <a
-                        href="{{ route('register') }}"
-                        class="register-btn">
-
-                        Register
-
-                    </a>
-
-                </div>
-
-
+                <a href="{{ route('login') }}" class="aanaya-rail-link" aria-label="Login">
+                    <i class="fas fa-user" aria-hidden="true"></i><span>Login</span>
+                </a>
             @endauth
-
-            <!-- MOBILE TOGGLE -->
-            <button
-                type="button"
-                x-ref="mobileToggle"
-                @click="open ? closeMenu() : openMenu()"
-                :aria-expanded="open.toString()"
-                aria-controls="user-mobile-sidebar"
-                aria-label="Open navigation menu"
-                class="mobile-toggle">
-
-                <i class="fas fa-bars"></i>
-
-            </button>
-
         </div>
+    </aside>
 
-    </div>
+    <header class="aanaya-mobile-header">
+        <a href="{{ route('dashboard') }}" class="aanaya-mobile-logo" aria-label="Aanaya home">
+            <img src="{{ asset('images/logo.png') }}" alt="">
+        </a>
+        <span class="aanaya-mobile-page">
+            {{ collect($navigationItems)->firstWhere('active', true)['label'] ?? 'Aanaya' }}
+        </span>
+        <button
+            type="button"
+            x-ref="mobileToggle"
+            @click="openMenu()"
+            :aria-expanded="open.toString()"
+            aria-controls="aanaya-navigation-drawer"
+            aria-label="Open navigation menu"
+            class="aanaya-mobile-toggle">
+            <span></span><span></span>
+        </button>
+    </header>
 
-    <!-- MOBILE SIDEBAR -->
     <template x-teleport="body">
-        <div
-            x-cloak
-            x-show="open"
-            class="mobile-drawer-layer"
-            aria-labelledby="user-mobile-sidebar-title">
-
+        <div x-cloak x-show="open" class="aanaya-drawer-layer">
             <button
                 type="button"
                 x-show="open"
                 x-transition.opacity.duration.200ms
                 @click="closeMenu(true)"
-                class="mobile-drawer-scrim"
-                aria-label="Close navigation menu">
-            </button>
+                class="aanaya-drawer-scrim"
+                aria-label="Close navigation menu"></button>
 
             <aside
-                id="user-mobile-sidebar"
+                id="aanaya-navigation-drawer"
+                x-ref="drawer"
                 x-show="open"
-                x-transition:enter="mobile-drawer-enter"
-                x-transition:enter-start="mobile-drawer-enter-start"
-                x-transition:enter-end="mobile-drawer-enter-end"
-                x-transition:leave="mobile-drawer-leave"
-                x-transition:leave-start="mobile-drawer-leave-start"
-                x-transition:leave-end="mobile-drawer-leave-end"
-                @click.outside="closeMenu()"
-                class="mobile-drawer"
+                @keydown.tab="trapFocus($event)"
+                x-transition:enter="aanaya-drawer-transition"
+                x-transition:enter-start="aanaya-drawer-closed"
+                x-transition:enter-end="aanaya-drawer-open"
+                x-transition:leave="aanaya-drawer-transition"
+                x-transition:leave-start="aanaya-drawer-open"
+                x-transition:leave-end="aanaya-drawer-closed"
+                class="aanaya-drawer"
                 role="dialog"
-                aria-modal="true">
+                aria-modal="true"
+                aria-labelledby="aanaya-drawer-title">
 
-                <div class="mobile-drawer-header">
-                    <a href="{{ route('dashboard') }}" class="mobile-drawer-brand" @click="closeMenu()">
+                <div class="aanaya-drawer-atmosphere" aria-hidden="true"></div>
+                <header class="aanaya-drawer-header">
+                    <a href="{{ route('dashboard') }}" class="aanaya-drawer-brand" @click="closeMenu()">
                         <img src="{{ asset('images/logo.png') }}" alt="">
-                        <span>
-                            <small>Welcome to</small>
-                            <strong id="user-mobile-sidebar-title">Aanaya Universe</strong>
-                        </span>
+                        <span><small>Step inside</small><strong id="aanaya-drawer-title">Aanaya Universe</strong></span>
                     </a>
-
-                    <button
-                        type="button"
-                        x-ref="mobileClose"
-                        @click="closeMenu(true)"
-                        class="mobile-drawer-close"
-                        aria-label="Close navigation menu">
-                        <i class="fas fa-xmark"></i>
+                    <button type="button" x-ref="drawerClose" @click="closeMenu(true)" class="aanaya-drawer-close" aria-label="Close navigation menu">
+                        <i class="fas fa-xmark" aria-hidden="true"></i>
                     </button>
-                </div>
+                </header>
 
-                @auth
-                    <a href="{{ route('profile.edit') }}" class="mobile-drawer-profile" @click="closeMenu()">
-                        <span class="mobile-drawer-avatar-shell" aria-hidden="true">
-                            <span class="mobile-drawer-avatar-fallback">{{ $navbarInitials ?: 'A' }}</span>
-                            @if($hasNavbarAvatar)
-                                <img src="{{ $navbarAvatarUrl }}" alt="" x-on:error="$el.remove()">
-                            @endif
-                        </span>
-                        <span>
-                            <strong>{{ $navbarUser->name }}</strong>
-                            <small>View your profile</small>
-                        </span>
-                        <i class="fas fa-chevron-right"></i>
-                    </a>
-                @endauth
-
-                <nav class="mobile-drawer-nav" aria-label="Mobile navigation">
-                    <span class="mobile-drawer-label">Explore</span>
-
-                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}" @click="closeMenu()">
-                        <i class="fas fa-house"></i><span>Dashboard</span>
-                    </a>
-                    <a href="{{ route('music') }}" class="{{ request()->routeIs('music') ? 'active' : '' }}" @click="closeMenu()">
-                        <i class="fas fa-music"></i><span>Music</span>
-                    </a>
-                    <a href="{{ route('articles') }}" class="{{ request()->routeIs('articles') ? 'active' : '' }}" @click="closeMenu()">
-                        <i class="fas fa-newspaper"></i><span>Articles</span>
-                    </a>
-                    <a href="{{ route('gallery') }}" class="{{ request()->routeIs('gallery') ? 'active' : '' }}" @click="closeMenu()">
-                        <i class="fas fa-image"></i><span>Gallery</span>
-                    </a>
-                    <a href="{{ route('merchandise') }}" class="{{ request()->routeIs('merchandise*') || request()->routeIs('orders.*') ? 'active' : '' }}" @click="closeMenu()">
-                        <i class="fas fa-bag-shopping"></i><span>Merchandise</span>
-                    </a>
-                    <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}" @click="closeMenu()">
-                        <i class="fas fa-heart"></i><span>About</span>
-                    </a>
-
-                    @auth
-                        <span class="mobile-drawer-label mobile-drawer-label-account">Account</span>
-                        <a href="{{ route('orders.index') }}" class="{{ request()->routeIs('orders.*') ? 'active' : '' }}" @click="closeMenu()">
-                            <i class="fas fa-receipt"></i><span>My Orders</span>
+                <nav class="aanaya-drawer-nav" aria-label="Explore Aanaya">
+                    @foreach($navigationItems as $item)
+                        <a
+                            href="{{ route($item['route']) }}"
+                            class="{{ $item['active'] ? 'is-active' : '' }}"
+                            @if($item['active']) aria-current="page" @endif
+                            @click="closeMenu()">
+                            <span class="aanaya-drawer-number">{{ $item['number'] }}</span>
+                            <span class="aanaya-drawer-label">{{ $item['label'] }}</span>
+                            <i class="fas fa-arrow-right-long" aria-hidden="true"></i>
                         </a>
-                        @if(Auth::user()->role === 'admin')
-                            <a href="/admin" @click="closeMenu()">
-                                <i class="fas fa-shield-heart"></i><span>Admin Panel</span>
-                            </a>
-                        @endif
-                    @endauth
+                    @endforeach
                 </nav>
 
-                <div class="mobile-drawer-footer">
+                <div class="aanaya-drawer-account">
                     @auth
+                        <a href="{{ route('profile.edit') }}" class="aanaya-drawer-profile" @click="closeMenu()">
+                            <span class="aanaya-drawer-avatar" aria-hidden="true">
+                                <span>{{ $navbarInitials ?: 'A' }}</span>
+                                @if($hasNavbarAvatar)<img src="{{ $navbarAvatarUrl }}" alt="" x-on:error="$el.remove()">@endif
+                            </span>
+                            <span class="aanaya-drawer-user-copy">
+                                <small>Signed in as</small><strong>{{ $navbarUser->name }}</strong>
+                            </span>
+                        </a>
+                        <div class="aanaya-drawer-utility-links">
+                            <a href="{{ route('cart.index') }}" @click="closeMenu()">Cart @if($navbarCartCount > 0)<span>{{ $navbarCartCount }}</span>@endif</a>
+                            <a href="{{ route('orders.index') }}" @click="closeMenu()">Orders</a>
+                            @if($navbarUser->role === 'admin')<a href="/admin" @click="closeMenu()">Admin</a>@endif
+                        </div>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="mobile-drawer-logout">
-                                <i class="fas fa-right-from-bracket"></i><span>Logout</span>
-                            </button>
+                            <button type="submit" class="aanaya-drawer-logout">Logout <i class="fas fa-arrow-right-from-bracket" aria-hidden="true"></i></button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" class="mobile-drawer-login" @click="closeMenu()">Login</a>
-                        <a href="{{ route('register') }}" class="mobile-drawer-register" @click="closeMenu()">Create account</a>
+                        <p>Keep a little piece of the Aanaya universe with you.</p>
+                        <div class="aanaya-drawer-guest-actions">
+                            <a href="{{ route('login') }}" @click="closeMenu()">Login</a>
+                            <a href="{{ route('register') }}" @click="closeMenu()">Create account</a>
+                        </div>
                     @endauth
                 </div>
             </aside>
         </div>
     </template>
-
 </nav>
