@@ -60,7 +60,11 @@ class PublicContentPaginationTest extends TestCase
         $response->assertSee('data-scrub-video', false);
         $response->assertSee('The opening remains readable without JavaScript.');
         $response->assertSee('The next chapter is still server rendered.');
-        $response->assertSee('scene-reading.mp4');
+        $response->assertSee('data-scene="reading"', false);
+        $response->assertSee('data-scene="approach-book"', false);
+        $response->assertSee('data-scene="enter-book"', false);
+        $response->assertSee('data-scene="ending"', false);
+        $response->assertSee('data-article-sound', false);
         $response->assertSee('End of story');
     }
 

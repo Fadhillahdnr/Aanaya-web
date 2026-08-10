@@ -1,160 +1,97 @@
+import { clamp } from './ArticleSceneConfig';
+
+const range = (progress, start, end) => clamp((progress - start) / (end - start));
+
 export class ArticleScroll {
     constructor(root, gsap, ScrollTrigger, prefersReducedMotion) {
         this.root = root;
         this.gsap = gsap;
         this.ScrollTrigger = ScrollTrigger;
         this.prefersReducedMotion = prefersReducedMotion;
-        this.context = null;
         this.triggers = [];
     }
 
     init() {
-        if (this.prefersReducedMotion) {
-            return;
-        }
-
+        if (this.prefersReducedMotion) return;
         this.context = this.gsap.context(() => {
-            this.animateHero();
-            this.animatePortal();
+            this.animateHeroEntrance();
             this.animateChapters();
-            this.animateInterludes();
-            this.animateEnding();
             this.trackReadingProgress();
         }, this.root);
     }
 
-    animateHero() {
-        const hero = this.root.querySelector('.article-cinematic');
-        const title = hero?.querySelector('[data-hero-title]');
-        const supporting = hero?.querySelectorAll('[data-hero-reveal]');
-        const media = hero?.querySelector('[data-cinematic-media]');
+    updateScene(sceneId, state) {
+        const scene = this.root.querySelector(`[data-scene="${sceneId}"]`);
+        if (!scene) return;
+        const { progress, videoProgress, isHolding } = state;
+        scene.style.setProperty('--scene-progress', progress.toFixed(4));
 
-        if (!hero || !title || !media) return;
+        if (sceneId === 'reading') {
+            this.gsap.set(scene.querySelector('[data-cinematic-media]'), { scale: 1 + videoProgress * .07, filter: `saturate(${1 - range(progress, .82, 1) * .55}) blur(${range(progress, .9, 1) * 3}px)` });
+            this.gsap.set(scene.querySelector('.article-cinematic__content'), { yPercent: -12 * range(progress, .48, .86), opacity: 1 - range(progress, .64, .9) });
+            this.gsap.set(scene.querySelector('[data-scene-transition]'), { opacity: range(progress, .82, 1) });
+        }
 
-        this.gsap.from(title, { opacity: 0, y: 70, rotateX: -16, filter: 'blur(12px)', duration: 1.35, ease: 'power4.out' });
-        this.gsap.from(supporting, { opacity: 0, y: 24, duration: .9, stagger: .12, delay: .25, ease: 'power3.out' });
+        if (sceneId === 'approach-book') {
+            this.gsap.set(scene.querySelector('[data-scene-transition="entry"]'), { opacity: 1 - range(progress, 0, .14) });
+            this.gsap.set(scene.querySelector('[data-scene-transition="exit"]'), { opacity: range(progress, .84, 1) });
+            this.gsap.set(scene.querySelector('[data-scene-copy]'), { opacity: range(progress, .18, .34) * (1 - range(progress, .7, .86)), y: 24 * (1 - range(progress, .18, .34)) });
+        }
 
-        this.gsap.timeline({
-            scrollTrigger: {
-                trigger: hero,
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 1.25,
-            },
-        })
-            .to(media, { scale: 1.15, filter: 'saturate(.8) brightness(.72)', ease: 'none' }, 0)
-            .to('.article-cinematic__content', { yPercent: -18, opacity: .12, ease: 'none' }, .2);
+        if (sceneId === 'enter-book') {
+            const paperProgress = range(progress, .72, 1);
+            this.gsap.set(scene.querySelector('[data-portal-copy]'), { opacity: range(progress, .08, .25) * (1 - range(progress, .54, .72)), y: 30 * (1 - range(progress, .08, .25)) });
+            this.gsap.set(scene.querySelector('[data-portal-paper]'), { opacity: paperProgress, scale: .2 + paperProgress * 1.45, borderRadius: `${50 * (1 - paperProgress)}%` });
+        }
+
+        if (sceneId === 'paper-plane') {
+            this.gsap.set(scene.querySelector('[data-interlude-copy]'), { opacity: range(progress, .18, .34) * (1 - range(progress, .7, .86)), y: 28 * (1 - range(progress, .18, .34)) });
+            const veil = scene.querySelector('.article-interlude__veil');
+            if (veil) veil.style.opacity = String(Math.max(1 - range(progress, 0, .14), range(progress, .84, 1)));
+        }
+
+        if (sceneId === 'ending') {
+            const reveal = isHolding ? range(progress, .82, 1) : 0;
+            const content = scene.querySelector('[data-ending-content]');
+            this.gsap.set(content, { opacity: reveal, y: 36 * (1 - reveal) });
+        }
     }
 
-    animatePortal() {
-        const portal = this.root.querySelector('.article-portal');
-        const paper = portal?.querySelector('[data-portal-paper]');
-        const copy = portal?.querySelector('[data-portal-copy]');
-
-        if (!portal || !paper || !copy) return;
-
-        this.gsap.timeline({
-            scrollTrigger: {
-                trigger: portal,
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 1.3,
-            },
-        })
-            .fromTo(copy, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: .22, ease: 'none' })
-            .to(copy, { scale: .86, opacity: 0, duration: .24, ease: 'none' }, .55)
-            .to(paper, { scale: 1.55, opacity: 1, borderRadius: '0%', filter: 'blur(0px)', duration: .45, ease: 'power2.in' }, .5);
+    animateHeroEntrance() {
+        const hero = this.root.querySelector('.article-cinematic');
+        const title = hero?.querySelector('[data-hero-title]');
+        if (!title) return;
+        this.gsap.from(title, { opacity: 0, y: 52, filter: 'blur(9px)', duration: 1.2, ease: 'power4.out' });
+        this.gsap.from(hero.querySelectorAll('[data-hero-reveal]'), { opacity: 0, y: 18, duration: .8, stagger: .1, delay: .2, ease: 'power3.out' });
     }
 
     animateChapters() {
-        this.root.querySelectorAll('[data-story-reveal]').forEach((element) => {
-            this.gsap.from(element, {
-                opacity: 0,
-                y: 32,
-                duration: .9,
-                ease: 'power3.out',
-                scrollTrigger: { trigger: element, start: 'top 82%', once: true },
-            });
-        });
-
-        this.root.querySelectorAll('[data-story-image]').forEach((figure, index) => {
-            const mask = figure.querySelector('.article-chapter__image-mask');
-            const image = figure.querySelector('img');
-            const light = figure.querySelector('.article-chapter__light');
-
-            if (!mask || !image) return;
-
-            this.gsap.from(mask, {
-                clipPath: index % 2 === 0
-                    ? 'inset(0 100% 0 0 round 48% 48% 1.5rem 1.5rem / 12% 12% 1.5rem 1.5rem)'
-                    : 'inset(0 0 0 100% round 48% 48% 1.5rem 1.5rem / 12% 12% 1.5rem 1.5rem)',
-                duration: 1.15,
-                ease: 'power4.out',
-                scrollTrigger: { trigger: figure, start: 'top 80%', once: true },
-            });
-
-            this.gsap.to(image, {
-                yPercent: -7,
-                scale: 1.09,
-                ease: 'none',
-                scrollTrigger: { trigger: figure, start: 'top bottom', end: 'bottom top', scrub: 1.1 },
-            });
-
-            if (light) {
-                this.gsap.to(light, {
-                    xPercent: 80,
-                    ease: 'none',
-                    scrollTrigger: { trigger: figure, start: 'top 85%', end: 'bottom 20%', scrub: 1.3 },
-                });
-            }
-        });
-    }
-
-    animateInterludes() {
-        this.root.querySelectorAll('.article-interlude').forEach((interlude) => {
-            const copy = interlude.querySelector('[data-interlude-copy]');
-            if (!copy) return;
-
-            this.gsap.fromTo(copy, { opacity: 0, y: 50 }, {
-                opacity: 1,
-                y: -20,
-                ease: 'none',
-                scrollTrigger: { trigger: interlude, start: 'top 70%', end: 'bottom 45%', scrub: 1.25 },
-            });
-        });
-    }
-
-    animateEnding() {
-        const ending = this.root.querySelector('.article-ending');
-        const content = ending?.querySelector('[data-ending-content]');
-        if (!ending || !content) return;
-
-        this.gsap.from(content.children, {
-            opacity: 0,
-            y: 36,
-            duration: .9,
-            stagger: .11,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: ending, start: 'top 62%', once: true },
-        });
+        this.root.querySelectorAll('[data-story-reveal]').forEach((element) => this.gsap.from(element, {
+            opacity: 0, y: 18, duration: .75, ease: 'power3.out',
+            scrollTrigger: { trigger: element, start: 'top 84%', once: true },
+        }));
+        this.root.querySelectorAll('[data-story-image] img').forEach((image) => this.gsap.to(image, {
+            yPercent: -4, scale: 1.06, ease: 'none',
+            scrollTrigger: { trigger: image, start: 'top bottom', end: 'bottom top', scrub: 1.4 },
+        }));
     }
 
     trackReadingProgress() {
+        const story = this.root.querySelector('[data-article-story]');
+        const progress = this.root.querySelector('[data-article-progress]');
         const fill = this.root.querySelector('[data-progress-fill]');
         const value = this.root.querySelector('[data-progress-value]');
-        if (!fill || !value) return;
-
-        const trigger = this.ScrollTrigger.create({
-            trigger: this.root,
+        if (!story || !progress || !fill || !value) return;
+        this.triggers.push(this.ScrollTrigger.create({
+            trigger: story,
             start: 'top top',
             end: 'bottom bottom',
-            onUpdate: ({ progress }) => {
-                fill.style.transform = `scaleY(${progress})`;
-                value.value = `${Math.round(progress * 100)}%`;
+            onToggle: ({ isActive }) => progress.classList.toggle('is-active', isActive),
+            onUpdate: ({ progress: readingProgress }) => {
+                fill.style.transform = `scaleY(${readingProgress})`;
+                value.value = `${Math.round(readingProgress * 100)}%`;
             },
-        });
-
-        this.triggers.push(trigger);
+        }));
     }
 
     destroy() {

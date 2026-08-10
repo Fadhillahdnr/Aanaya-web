@@ -1,6 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArticleAtmosphere } from './ArticleAtmosphere';
+import { ArticleAudio } from './ArticleAudio';
 import { ArticleScroll } from './ArticleScroll';
 import { ArticleVideo } from './ArticleVideo';
 
@@ -18,17 +19,19 @@ export class ArticleExperience {
     init() {
         this.root.classList.add('article-experience--enhanced');
 
-        const videos = new ArticleVideo(this.root, ScrollTrigger, this.prefersReducedMotion);
-        videos.init();
-        this.modules.push(videos);
-
         const scroll = new ArticleScroll(this.root, gsap, ScrollTrigger, this.prefersReducedMotion);
         scroll.init();
         this.modules.push(scroll);
 
+        const audio = new ArticleAudio(this.root);
+        audio.init();
+        this.modules.push(audio);
+
+        let atmosphere = null;
+
         if (this.canUseAtmosphere()) {
             try {
-                const atmosphere = new ArticleAtmosphere(this.root.querySelector('[data-article-canvas]'));
+                atmosphere = new ArticleAtmosphere(this.root.querySelector('[data-article-canvas]'));
                 atmosphere.init();
                 this.modules.push(atmosphere);
             } catch (error) {
@@ -36,6 +39,19 @@ export class ArticleExperience {
                 console.warn('WebGL atmosphere unavailable; using the cinematic CSS fallback.', error);
             }
         }
+
+        const videos = new ArticleVideo(
+            this.root,
+            ScrollTrigger,
+            this.prefersReducedMotion,
+            (sceneId, state) => {
+                scroll.updateScene(sceneId, state);
+                audio.updateScene(sceneId, state.progress);
+                atmosphere?.updateScene?.(sceneId, state);
+            },
+        );
+        videos.init();
+        this.modules.push(videos);
 
         if (this.hasFinePointer && !this.prefersReducedMotion) {
             this.initCursor();

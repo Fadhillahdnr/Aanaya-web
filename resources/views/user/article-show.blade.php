@@ -6,12 +6,17 @@
             ? $orderedBlocks->reject(fn ($block) => $block->is($introBlock))->values()
             : $orderedBlocks;
         $chapters = $storyBlocks->chunk(2)->values();
+        $interludeAfterChapter = max(1, (int) ceil($chapters->count() / 2));
         $publishedDate = $article->published_at ?? $article->created_at;
+        $hasOptimizedArticleVideos = file_exists(public_path('videos/article-experience/optimized/scene-reading.mp4'));
+        $hasMobileOptimizedArticleVideos = file_exists(public_path('videos/article-experience/optimized/mobile/scene-reading.mp4'));
     @endphp
 
     <article
         class="article-experience"
         data-article-experience
+        data-optimized-videos="{{ $hasOptimizedArticleVideos ? 'true' : 'false' }}"
+        data-mobile-optimized-videos="{{ $hasMobileOptimizedArticleVideos ? 'true' : 'false' }}"
         itemscope
         itemtype="https://schema.org/Article"
     >
@@ -33,12 +38,16 @@
             <span data-cursor-label>Explore</span>
         </div>
 
+        <button class="article-sound" type="button" data-article-sound aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Zm12.5 1.2a3 3 0 0 1 0 3.6M19.8 7a7 7 0 0 1 0 10"/></svg>
+            <span>Sound</span><strong data-sound-state>Off</strong>
+        </button>
+
         <header class="article-cinematic" data-video-scene data-scene="reading">
             <div class="article-cinematic__sticky">
                 <div class="article-cinematic__media" data-cinematic-media>
                     <video
                         data-scrub-video
-                        data-video-src="{{ asset('videos/article-experience/scene-reading.mp4') }}"
                         poster="{{ \App\Support\MediaUrl::image($article->thumbnail, 1600, 1000, 'fill') }}"
                         muted
                         playsinline
@@ -57,6 +66,7 @@
                         class="article-cinematic__poster" />
 
                     <div class="article-cinematic__veil" aria-hidden="true"></div>
+                    <div class="article-scene-transition article-scene-transition--burgundy" data-scene-transition aria-hidden="true"></div>
                 </div>
 
                 <div class="article-cinematic__content">
@@ -95,11 +105,21 @@
             </div>
         </header>
 
-        <section class="article-portal" data-video-scene data-scene="book" aria-label="Enter the story">
-            <div class="article-portal__sticky">
+        <section class="article-approach" data-video-scene data-scene="approach-book" aria-label="Approaching the book">
+            <div class="article-approach__sticky" style="--scene-poster: url('{{ \App\Support\MediaUrl::image($article->thumbnail, 1440, 900, 'fill') }}')">
+                <video data-scrub-video muted playsinline preload="none" aria-hidden="true"></video>
+                <div class="article-scene-transition article-scene-transition--burgundy" data-scene-transition="entry" aria-hidden="true"></div>
+                <div class="article-approach__copy" data-scene-copy>
+                    <span>Chapter 00</span><p>Come a little closer.</p>
+                </div>
+                <div class="article-scene-transition article-scene-transition--paper" data-scene-transition="exit" aria-hidden="true"></div>
+            </div>
+        </section>
+
+        <section class="article-portal" data-video-scene data-scene="enter-book" aria-label="Enter the story">
+            <div class="article-portal__sticky" style="--scene-poster: url('{{ \App\Support\MediaUrl::image($article->thumbnail, 1440, 900, 'fill') }}')">
                 <video
                     data-scrub-video
-                    data-video-src="{{ asset('videos/article-experience/scene-book.mp4') }}"
                     poster="{{ \App\Support\MediaUrl::image($article->thumbnail, 1440, 900, 'fill') }}"
                     muted
                     playsinline
@@ -178,12 +198,11 @@
                     </div>
                 </section>
 
-                @if ($chapterIndex === 0 && $chapters->count() > 1)
-                    <section class="article-interlude" data-video-scene data-scene="pages" aria-label="Turn the page">
-                        <div class="article-interlude__sticky">
+                @if ($chapterNumber === $interludeAfterChapter && $chapters->count() > 1)
+                    <section class="article-interlude" data-video-scene data-scene="paper-plane" aria-label="Turn the page">
+                        <div class="article-interlude__sticky" style="--scene-poster: url('{{ \App\Support\MediaUrl::image($article->thumbnail, 1440, 900, 'fill') }}')">
                             <video
                                 data-scrub-video
-                                data-video-src="{{ asset('videos/article-experience/scene-pages.mp4') }}"
                                 poster="{{ \App\Support\MediaUrl::image($article->thumbnail, 1440, 900, 'fill') }}"
                                 muted
                                 playsinline
@@ -202,11 +221,11 @@
             @endforelse
         </main>
 
-        <footer class="article-ending" data-video-scene data-scene="letter">
+        <footer class="article-ending" data-video-scene data-scene="ending">
+          <div class="article-ending__sticky" style="--scene-poster: url('{{ \App\Support\MediaUrl::image($article->thumbnail, 1600, 1000, 'fill') }}')">
             <div class="article-ending__media" aria-hidden="true">
                 <video
                     data-scrub-video
-                    data-video-src="{{ asset('videos/article-experience/scene-letter.mp4') }}"
                     poster="{{ \App\Support\MediaUrl::image($article->thumbnail, 1600, 1000, 'fill') }}"
                     muted
                     playsinline
@@ -224,6 +243,7 @@
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg>
                 </a>
             </div>
+          </div>
         </footer>
 
         <p class="article-experience__status" data-article-status role="status" aria-live="polite"></p>
