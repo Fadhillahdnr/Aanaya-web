@@ -62,8 +62,10 @@ services:
     image: node:22-alpine
     working_dir: /var/www
     command: >-
-      sh -lc "if [ ! -x node_modules/.bin/vite ]; then
-      npm ci --no-audit --no-fund;
+      sh -lc "if [ ! -x node_modules/.bin/vite ] ||
+      ! cmp -s package-lock.json node_modules/.aanaya-package-lock.json; then
+      npm ci --no-audit --no-fund &&
+      cp package-lock.json node_modules/.aanaya-package-lock.json;
       fi && npm run dev -- --host 0.0.0.0"
     environment:
       APP_URL: "http://localhost:${APP_PORT:-8000}"
