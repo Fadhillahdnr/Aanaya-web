@@ -42,26 +42,17 @@ class UserDashboardController extends Controller
 
     public function Musicindex()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | LATEST DATA
-        |--------------------------------------------------------------------------
-        */
+        $data = Cache::remember('public.music.v3', now()->addMinutes(10), function () {
+            $recentMusics = Music::query()
+                ->latest('created_at')
+                ->latest('id')
+                ->take(12)
+                ->get();
 
-        $data = Cache::remember('public.music.v2', now()->addMinutes(10), function () {
             return [
-                'latestMusic' => Music::latest()->first(),
-                'latestArticle' => Article::latest()->first(),
-                'latestProduct' => Product::latest()->first(),
-                'latestGallery' => Gallery::latest()->first(),
+                'latestMusic' => $recentMusics->first(),
+                'recentMusics' => $recentMusics,
                 'totalMusic' => Music::count(),
-                'totalArticles' => Article::count(),
-                'totalProducts' => Product::count(),
-                'totalGallery' => Gallery::count(),
-                'recentMusics' => Music::latest()->take(10)->get(),
-                'recentArticles' => Article::latest()->take(3)->get(),
-                'featuredProducts' => Product::latest()->take(4)->get(),
-                'recentGallery' => Gallery::latest()->take(8)->get(),
             ];
         });
 

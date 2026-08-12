@@ -68,3 +68,11 @@ if (aboutExperienceRoot) {
         .then(({ initAboutExperience }) => initAboutExperience(aboutExperienceRoot))
         .catch((error) => console.warn('Aanaya about enhancement could not start.', error));
 }
+
+const musicExperienceRoot = document.querySelector('[data-music-experience]');
+
+if (musicExperienceRoot) {
+    import('./music-experience/index.js')
+        .then(({ initMusicExperience }) => initMusicExperience(musicExperienceRoot))
+        .catch((error) => console.warn('Aanaya music experience could not start.', error));
+}

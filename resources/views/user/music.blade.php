@@ -1,608 +1,186 @@
 <x-app-layout>
+    @php
+        $msylMusic = $recentMusics->first(fn ($music) => str_contains(strtolower($music->title), 'msyl') || str_contains(strtolower($music->title), 'someone you love'));
+        $musicTracks = $recentMusics->map(fn ($music) => [
+            'id' => $music->id,
+            'slug' => $music->slug,
+            'title' => $music->title,
+            'artist' => $music->artist,
+            'audio' => $music->audio_file,
+            'cover' => $music->cover_image,
+            'spotify' => $music->spotify_link,
+            'youtube' => $music->youtube_link,
+        ])->values();
+    @endphp
 
-<div class="music-page">
+    <main class="music-experience" data-music-experience data-track-count="{{ $recentMusics->count() }}">
+        <div class="music-reactive-glow" aria-hidden="true"></div>
 
-    <!-- =========================================
-        BACKGROUND
-    ========================================== -->
-    <div class="music-noise"></div>
-
-    <div class="music-bg glow-1"></div>
-    <div class="music-bg glow-2"></div>
-    <div class="music-bg glow-3"></div>
-
-    <!-- =========================================
-        HERO
-    ========================================== -->
-    <section class="music-hero">
-
-        <div class="music-hero-content"
-             data-aos="fade-up">
-
-            <span class="music-badge">
-
-                <span class="badge-dot"></span>
-
-                Aanaya Dreamy Music
-
-            </span>
-
-            <h1>
-
-                Dreamy Sounds
-
-                <span>
-                    & Emotional Stories
-                </span>
-
-            </h1>
-
-            <p>
-                Dive into Aanaya’s cinematic universe 
-                emotional melodies,
-                floating atmospheres,
-                and soft dreamy experiences crafted
-                through music.
-            </p>
-
-        </div>
-
-    </section>
-
-    <!-- =========================================
-         MUSIC COLLECTION
-    ========================================== -->
-    <section class="dream-music-section">
-
-        <!-- HEADING -->
-        <div class="dream-music-section-heading">
-
-            <div>
-
-                <span class="dream-music-section-mini-title">
-                    MUSIC COLLECTION
-                </span>
-
-                <h2>
-                    Recent Releases
-                </h2>
-
-            </div>
-
-            <!-- FILTER -->
-            <div class="dream-music-filter">
-
-                <button class="dream-music-filter-btn active">
-                    All
-                </button>
-
-                <button class="dream-music-filter-btn">
-                    Singles
-                </button>
-
-                <button class="dream-music-filter-btn">
-                    Albums
-                </button>
-
-            </div>
-
-        </div>
-
-        <!-- GRID -->
-        <div class="dream-music-grid">
-
-            @forelse($recentMusics as $music)
-
-            <div class="dream-music-card"
-                data-aos="fade-up">
-
-                <!-- COVER -->
-                <div class="dream-music-image">
-
-                    <x-media-image :src="$music->cover_image" :alt="$music->title"
-                        :width="640" :height="640" crop="fill"
-                        sizes="(max-width: 700px) 92vw, 33vw" />
-
-                    <div class="dream-music-image-overlay"></div>
-
-                    <button
-                        class="dream-music-floating-play-btn">
-
-                        <i class="fas fa-play"></i>
-
-                    </button>
-
+        <section class="music-cinema music-cinema--hero" data-music-scene="unfoldHero" aria-labelledby="music-hero-title">
+            <div class="music-cinema__stage">
+                <video class="music-cinema__video" muted playsinline preload="metadata" aria-hidden="true"
+                    poster="{{ asset('videos/music-experience/posters/scene-unfold-letter-opens.webp') }}"
+                    data-video-src="{{ asset('videos/music-experience/scene-unfold-letter-opens.mp4') }}"></video>
+                <div class="music-cinema__veil" aria-hidden="true"></div>
+                <div class="music-cinema__copy music-cinema__copy--hero">
+                    <span class="music-eyebrow">00 / The sound awakens</span>
+                    <h1 id="music-hero-title"><span>Aanaya</span>The sound<br>between feelings.</h1>
+                    <p>Music <i></i> Memory <i></i> Emotion</p>
                 </div>
+                <a class="music-scroll-cue" href="#latest-release">Scroll into the sound <span aria-hidden="true">↓</span></a>
+            </div>
+        </section>
 
-                <!-- CONTENT -->
-                <div class="dream-music-content">
+        <div class="music-paper-wash" aria-hidden="true"></div>
 
-                    <div class="dream-music-meta">
+        <section class="music-cinema music-cinema--portal" data-music-scene="unfoldPortal" aria-labelledby="portal-title">
+            <div class="music-cinema__stage">
+                <video class="music-cinema__video" muted playsinline preload="none" aria-hidden="true"
+                    poster="{{ asset('videos/music-experience/posters/scene-unfold-into-sound.webp') }}"
+                    data-video-src="{{ asset('videos/music-experience/scene-unfold-into-sound.mp4') }}"
+                    data-mobile-src="{{ asset('videos/music-experience/scene-unfold-into-sound-mobile.mp4') }}"></video>
+                <div class="music-cinema__veil" aria-hidden="true"></div>
+                <div class="music-cinema__copy music-cinema__copy--portal">
+                    <span class="music-eyebrow">01 / Into the sound</span>
+                    <h2 id="portal-title">Every feeling<br><em>finds a form.</em></h2>
+                </div>
+            </div>
+        </section>
 
-                        <div>
-
-                            <span class="dream-music-tag">
-                                Latest Release
-                            </span>
-
-                            <h3>
-                                {{ $music->title }}
-                            </h3>
-
-                            <p>
-                                {{ $music->artist }}
-                            </p>
-
-                            @if($music->release_date)
-
-                            <div class="dream-music-release">
-
-                                <i class="fas fa-calendar"></i>
-
-                                {{ \Carbon\Carbon::parse($music->release_date)->format('d M Y') }}
-
-                            </div>
-
-                            @endif
-
-                            <!-- STREAMING LINKS -->
-                            <div class="dream-music-stream-links">
-
-                                @if($music->spotify_link)
-
-                                <a
-                                    href="{{ $music->spotify_link }}"
-                                    target="_blank"
-                                    class="spotify-link">
-
-                                    <i class="fab fa-spotify"></i>
-
-                                    Spotify
-
-                                </a>
-
-                                @endif
-
-                                @if($music->youtube_link)
-
-                                <a
-                                    href="{{ $music->youtube_link }}"
-                                    target="_blank"
-                                    class="youtube-link">
-
-                                    <i class="fab fa-youtube"></i>
-
-                                    YouTube
-
-                                </a>
-
-                                @endif
-
-                            </div>
-
-                        </div>
-
+        <section id="latest-release" class="music-featured" aria-labelledby="featured-title">
+            <div class="music-section-index">02</div>
+            @if ($latestMusic)
+                <div class="music-featured__media" data-cover-tilt>
+                    <x-media-image :src="$latestMusic->cover_image" :alt="'Cover artwork '.$latestMusic->title"
+                        :width="1000" :height="1000" crop="fill" priority="true"
+                        sizes="(max-width: 767px) 84vw, 46vw" />
+                    <canvas class="music-featured__wave" data-music-visualizer aria-hidden="true"></canvas>
+                    <span class="music-featured__disc" aria-hidden="true"></span>
+                </div>
+                <div class="music-featured__copy" data-music-reveal>
+                    <span class="music-eyebrow">Latest release</span>
+                    <h2 id="featured-title">{{ $latestMusic->title }}</h2>
+                    <p class="music-featured__artist">{{ $latestMusic->artist }}</p>
+                    @if ($latestMusic->description)
+                        <p class="music-featured__description">{{ $latestMusic->description }}</p>
+                    @endif
+                    @if ($latestMusic->release_date)
+                        <time datetime="{{ $latestMusic->release_date }}">{{ \Carbon\Carbon::parse($latestMusic->release_date)->format('d F Y') }}</time>
+                    @endif
+                    <div class="music-actions">
+                        @if ($latestMusic->audio_file)
+                            <button type="button" class="music-play-action" data-play-track="{{ $latestMusic->id }}">
+                                <span aria-hidden="true">▶</span> Play on Aanaya
+                            </button>
+                        @endif
+                        @if ($latestMusic->spotify_link)
+                            <a href="{{ $latestMusic->spotify_link }}" target="_blank" rel="noopener noreferrer">Spotify ↗</a>
+                        @endif
+                        @if ($latestMusic->youtube_link)
+                            <a href="{{ $latestMusic->youtube_link }}" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+                        @endif
                     </div>
+                </div>
+            @else
+                <div class="music-empty" data-music-reveal>
+                    <span class="music-eyebrow">Latest release</span>
+                    <h2 id="featured-title">The next feeling is still being written.</h2>
+                    <p>New Aanaya music will unfold here soon.</p>
+                </div>
+            @endif
+        </section>
 
-                    <!-- PLAYER -->
-                    <div class="dream-music-player">
+        <section class="music-discography music-discography--light" aria-labelledby="discography-one-title">
+            <header class="music-discography__header" data-music-reveal>
+                <span class="music-eyebrow">03 / Discography — Act I</span>
+                <h2 id="discography-one-title">Songs become<br><em>places.</em></h2>
+                <p>{{ $totalMusic }} {{ \Illuminate\Support\Str::plural('release', $totalMusic) }} inside the Aanaya universe.</p>
+            </header>
+            <div class="music-release-list">
+                @forelse ($recentMusics->take((int) ceil(max($recentMusics->count(), 1) / 2)) as $music)
+                    @include('user.partials.music-release', ['music' => $music, 'releaseNumber' => $loop->iteration])
+                @empty
+                    <p class="music-discography__empty">No releases yet. The first chapter is still taking shape.</p>
+                @endforelse
+            </div>
+        </section>
 
-                        <button
-                            class="dream-music-play-btn">
-
-                            <i class="fas fa-play"></i>
-
+        <section class="music-cinema music-cinema--msyl" data-music-scene="msyl" aria-labelledby="msyl-title">
+            <div class="music-cinema__stage">
+                <video class="music-cinema__video" muted playsinline preload="none" aria-hidden="true"
+                    poster="{{ asset('videos/music-experience/posters/scene-msyl-collage.webp') }}"
+                    data-video-src="{{ asset('videos/music-experience/scene-msyl-collage.mp4') }}"
+                    data-mobile-src="{{ asset('videos/music-experience/scene-msyl-collage-mobile.mp4') }}"></video>
+                <div class="music-cinema__veil" aria-hidden="true"></div>
+                <div class="music-cinema__copy music-cinema__copy--msyl">
+                    <span class="music-eyebrow">04 / Collage of two hearts</span>
+                    <h2 id="msyl-title">{{ $msylMusic?->title ?? 'MSYL' }}</h2>
+                    <p>{{ $msylMusic?->artist ?? 'A story inside the Aanaya universe.' }}</p>
+                    @if ($msylMusic?->audio_file)
+                        <button type="button" class="music-play-action music-play-action--light" data-play-track="{{ $msylMusic->id }}">
+                            <span aria-hidden="true">▶</span> Play this feeling
                         </button>
-
-                        <div class="dream-music-audio-info">
-
-                            <span>
-                                {{ $music->title }}
-                            </span>
-
-                            <div class="dream-music-audio-wave">
-
-                                <i></i>
-                                <i></i>
-                                <i></i>
-                                <i></i>
-                                
-                            </div>
-                        </div>
-                        <!-- PROGRESS -->
-                        <div class="dream-music-progress-wrap">
-
-                            <span class="current-time">
-                                0:00
-                            </span>
-
-                            <input
-                                type="range"
-                                class="dream-music-progress dream-music-volume-slider"
-                                value="0"
-                                min="0"
-                                max="100">
-
-                            <span class="duration">
-                                0:00
-                            </span>
-
-                        </div>
-                        
-
-                    </div>
-
-
-                    <!-- AUDIO -->
-                    <audio
-                        class="dream-music-audio"
-                        preload="none"
-                        data-src="{{ $music->audio_file }}">
-
-                        <source
-                            data-src="{{ $music->audio_file }}"
-                            type="audio/mpeg">
-
-                    </audio>
-
+                    @endif
                 </div>
-
             </div>
+        </section>
 
-            @empty
-
-            <div class="dream-music-empty-box">
-
-                <i class="fas fa-music"></i>
-
-                <h3>
-
-                    No Music Yet
-
-                </h3>
-
-                <p>
-
-                    Upload your first dreamy soundtrack.
-
-                </p>
-
+        <section class="music-discography music-discography--dark" aria-labelledby="discography-two-title">
+            <header class="music-discography__header" data-music-reveal>
+                <span class="music-eyebrow">05 / The music universe</span>
+                <h2 id="discography-two-title">Keep unfolding.</h2>
+                <p>Every release leaves another memory behind.</p>
+            </header>
+            <div class="music-release-list">
+                @foreach ($recentMusics->slice((int) ceil(max($recentMusics->count(), 1) / 2)) as $music)
+                    @include('user.partials.music-release', ['music' => $music, 'releaseNumber' => $loop->iteration + (int) ceil($recentMusics->count() / 2)])
+                @endforeach
             </div>
-
-            @endforelse
-
-        </div>
-
-    </section>
-
-<!-- =========================================
-    AUDIO SCRIPT
-========================================== -->
-<script>
-
-document
-    .querySelectorAll('.dream-music-card')
-    .forEach(card => {
-
-        const playBtn =
-            card.querySelector(
-                '.dream-music-play-btn'
-            );
-
-        const floatingBtn =
-            card.querySelector(
-                '.dream-music-floating-play-btn'
-            );
-
-        const audio =
-            card.querySelector(
-                '.dream-music-audio'
-            );
-
-        const icon =
-            playBtn.querySelector('i');
-
-        const floatingIcon =
-            floatingBtn.querySelector('i');
-
-        const volumeSlider =
-            card.querySelector(
-                '.dream-music-volume-slider'
-            );
-
-        const progress =
-            card.querySelector(
-                '.dream-music-progress'
-            );
-
-        const currentTime =
-            card.querySelector(
-                '.current-time'
-            );
-
-        const duration =
-            card.querySelector(
-                '.duration'
-            );
-
-        if(volumeSlider){
-
-            volumeSlider.addEventListener(
-                'input',
-                () => {
-
-                    audio.volume =
-                        volumeSlider.value;
-
-                }
-            );
-
-        }
-
-        if(progress){
-
-            progress.addEventListener(
-                'input',
-                () => {
-
-                    audio.currentTime =
-                        (progress.value / 100) *
-                        audio.duration;
-
-                }
-            );
-
-        }
-        /*
-        ==========================================
-        FORMAT TIME
-        ==========================================
-        */
-
-        function formatTime(seconds)
-        {
-            if (isNaN(seconds))
-            {
-                return "0:00";
-            }
-
-            const mins =
-                Math.floor(seconds / 60);
-
-            const secs =
-                Math.floor(seconds % 60);
-
-            return (
-                mins +
-                ':' +
-                String(secs)
-                    .padStart(2, '0')
-            );
-        }
-
-        /*
-        ==========================================
-        PLAY / PAUSE
-        ==========================================
-        */
-
-        function toggleAudio()
-        {
-            document
-                .querySelectorAll(
-                    '.dream-music-audio'
-                )
-                .forEach(otherAudio => {
-
-                    if(otherAudio !== audio)
-                    {
-                        otherAudio.pause();
-
-                        const otherCard =
-                            otherAudio.closest(
-                                '.dream-music-card'
-                            );
-
-                        otherCard
-                            .querySelector(
-                                '.dream-music-play-btn i'
-                            )
-                            .className =
-                            'fas fa-play';
-
-                        otherCard
-                            .querySelector(
-                                '.dream-music-floating-play-btn i'
-                            )
-                            .className =
-                            'fas fa-play';
-
-                        otherCard
-                            .classList
-                            .remove(
-                                'playing'
-                            );
-                    }
-
-                });
-
-            if(audio.paused)
-            {
-                if(audio.dataset.loaded !== 'true')
-                {
-                    const source = audio.querySelector('source[data-src]');
-                    if(source) source.src = source.dataset.src;
-                    audio.dataset.loaded = 'true';
-                    audio.load();
-                }
-
-                audio.play();
-
-                icon.classList.remove(
-                    'fa-play'
-                );
-
-                icon.classList.add(
-                    'fa-pause'
-                );
-
-                floatingIcon.classList.remove(
-                    'fa-play'
-                );
-
-                floatingIcon.classList.add(
-                    'fa-pause'
-                );
-
-                card.classList.add(
-                    'playing'
-                );
-            }
-            else
-            {
-                audio.pause();
-
-                icon.classList.remove(
-                    'fa-pause'
-                );
-
-                icon.classList.add(
-                    'fa-play'
-                );
-
-                floatingIcon.classList.remove(
-                    'fa-pause'
-                );
-
-                floatingIcon.classList.add(
-                    'fa-play'
-                );
-
-                card.classList.remove(
-                    'playing'
-                );
-            }
-        }
-
-        /*
-        ==========================================
-        BUTTON EVENTS
-        ==========================================
-        */
-
-        playBtn.addEventListener(
-            'click',
-            toggleAudio
-        );
-
-        floatingBtn.addEventListener(
-            'click',
-            toggleAudio
-        );
-
-        /*
-        ==========================================
-        AUDIO LOADED
-        ==========================================
-        */
-
-        audio.addEventListener(
-            'loadedmetadata',
-            () =>
-        {
-            duration.innerText =
-                formatTime(
-                    audio.duration
-                );
-        });
-
-        /*
-        ==========================================
-        AUDIO PROGRESS
-        ==========================================
-        */
-
-        audio.addEventListener(
-            'timeupdate',
-            () =>
-        {
-            if(audio.duration)
-            {
-                progress.value =
-                    (
-                        audio.currentTime /
-                        audio.duration
-                    ) * 100;
-            }
-
-            currentTime.innerText =
-                formatTime(
-                    audio.currentTime
-                );
-        });
-
-        /*
-        ==========================================
-        SEEK AUDIO
-        ==========================================
-        */
-
-        progress.addEventListener(
-            'input',
-            () =>
-        {
-            if(audio.duration)
-            {
-                audio.currentTime =
-                    (
-                        progress.value / 100
-                    ) *
-                    audio.duration;
-            }
-        });
-
-        /*
-        ==========================================
-        VOLUME
-        ==========================================
-        */
-
-        volumeSlider.addEventListener(
-            'input',
-            () =>
-        {
-            audio.volume =
-                volumeSlider.value;
-        });
-
-        /*
-        ==========================================
-        AUDIO ENDED
-        ==========================================
-        */
-
-        audio.addEventListener(
-            'ended',
-            () =>
-        {
-            icon.className =
-                'fas fa-play';
-
-            floatingIcon.className =
-                'fas fa-play';
-
-            progress.value = 0;
-
-            currentTime.innerText =
-                '0:00';
-
-            card.classList.remove(
-                'playing'
-            );
-        });
-
-    });
-
-</script>
-
+        </section>
+
+        <section class="music-cinema music-cinema--ending" data-music-scene="ending" aria-labelledby="ending-title">
+            <div class="music-cinema__stage">
+                <video class="music-cinema__video" muted playsinline preload="none" aria-hidden="true"
+                    poster="{{ asset('videos/music-experience/posters/scene-last-note.webp') }}"
+                    data-video-src="{{ asset('videos/music-experience/scene-last-note.mp4') }}"></video>
+                <img class="music-ending-poster" src="{{ asset('videos/music-experience/posters/ending-hold.webp') }}" alt="" aria-hidden="true">
+                <div class="music-cinema__veil" aria-hidden="true"></div>
+                <div class="music-cinema__copy music-cinema__copy--ending">
+                    <span class="music-eyebrow">06 / The last note</span>
+                    <h2 id="ending-title">Don't just<br>listen.<br><em>Feel it.</em></h2>
+                </div>
+            </div>
+        </section>
+
+        <section class="music-quiet-ending" aria-label="End of the Aanaya music experience">
+            <span>07</span><p>The song continues with you.</p>
+        </section>
+
+        <script type="application/json" data-music-tracks>@json($musicTracks)</script>
+
+        <aside class="music-player" data-music-player hidden aria-label="Aanaya music player">
+            <audio data-music-player-audio preload="metadata"></audio>
+            <img data-player-cover src="" alt="">
+            <div class="music-player__identity">
+                <strong data-player-title>Choose a release</strong>
+                <span data-player-artist>Aanaya</span>
+            </div>
+            <button type="button" class="music-player__transport" data-player-previous aria-label="Previous track">‹</button>
+            <button type="button" class="music-player__transport music-player__transport--primary" data-player-toggle aria-label="Play"><span aria-hidden="true">▶</span></button>
+            <button type="button" class="music-player__transport" data-player-next aria-label="Next track">›</button>
+            <div class="music-player__timeline">
+                <span data-player-current>0:00</span>
+                <input type="range" data-player-seek min="0" max="0" value="0" step="0.01" aria-label="Seek through track">
+                <span data-player-duration>0:00</span>
+            </div>
+            <label class="music-player__volume">
+                <span class="sr-only">Volume</span><span aria-hidden="true">◖</span>
+                <input type="range" data-player-volume min="0" max="1" value="0.8" step="0.01" aria-label="Volume">
+            </label>
+            <button type="button" class="music-player__expand" data-player-expand aria-expanded="false" aria-label="Show player details">⌃</button>
+            <div class="music-player__status" data-player-status role="status" aria-live="polite"></div>
+        </aside>
+
+        <noscript><style>.music-cinema{height:auto!important}.music-cinema__stage{position:relative!important;min-height:82svh}.music-player{display:none!important}</style></noscript>
+    </main>
 </x-app-layout>

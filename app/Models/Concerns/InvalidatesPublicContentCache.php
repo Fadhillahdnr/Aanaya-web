@@ -16,5 +16,6 @@ trait InvalidatesPublicContentCache
     {
         Cache::forget('public.dashboard.v2');
         Cache::forget('public.music.v2');
+        Cache::forget('public.music.v3');
     }
 }
