@@ -14,7 +14,15 @@ class AuthenticationTest extends TestCase
     {
         $response = $this->get('/login');
 
-        $response->assertStatus(200);
+        $response
+            ->assertStatus(200)
+            ->assertSee('data-auth-experience', false)
+            ->assertSee('data-password-toggle', false)
+            ->assertSee(route('google.login'), false)
+            ->assertSee(route('password.request'), false)
+            ->assertSee(route('register'), false)
+            ->assertDontSee('onclick=', false)
+            ->assertDontSee('svgrepo.com', false);
     }
 
     public function test_users_can_authenticate_using_the_login_screen(): void

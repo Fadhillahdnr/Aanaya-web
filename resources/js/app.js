@@ -33,3 +33,22 @@ if (dashboardExperienceRoot) {
             console.warn('Aanaya dashboard enhancement could not start.', error);
         });
 }
+
+const welcomeExperienceRoot = document.querySelector('[data-welcome-experience]');
+
+if (welcomeExperienceRoot) {
+    import('./welcome-experience/index.js')
+        .then(({ initWelcomeExperience }) => initWelcomeExperience(welcomeExperienceRoot))
+        .catch((error) => {
+            welcomeExperienceRoot.classList.add('welcome-experience--fallback');
+            console.warn('Aanaya welcome enhancement could not start.', error);
+        });
+}
+
+const authExperienceRoot = document.querySelector('[data-auth-experience]');
+
+if (authExperienceRoot) {
+    import('./auth-experience/index.js')
+        .then(({ initAuthExperience }) => initAuthExperience(authExperienceRoot))
+        .catch((error) => console.warn('Aanaya auth enhancement could not start.', error));
+}

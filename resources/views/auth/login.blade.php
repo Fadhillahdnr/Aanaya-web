@@ -1,228 +1,94 @@
 <x-guest-layout>
+    <div class="auth-experience auth-experience--login" data-auth-experience>
+        <header class="auth-experience__nav">
+            <a href="{{ route('home') }}" class="auth-brand" aria-label="Aanaya home">
+                <img src="{{ asset('images/logo.png') }}" alt="" width="48" height="48">
+                <span>Aanaya</span>
+            </a>
+            <a href="{{ route('register') }}" class="auth-nav-link">Create account <span aria-hidden="true">↗</span></a>
+        </header>
 
-    <div class="auth-page">
-
-        <!-- BACKGROUND BLUR -->
-        <div class="auth-blur auth-blur-1"></div>
-        <div class="auth-blur auth-blur-2"></div>
-
-        <!-- LOGIN CARD -->
-        <div class="auth-card">
-
-            <!-- LEFT -->
-            <div class="auth-left">
-
-                <span class="auth-tag">
-                    DREAM POP • CINEMATIC • EMOTIONAL
-                </span>
-
-                <h1>
-                    Welcome Back to
-                    <span>Aanaya</span>
-                </h1>
-
-                <p>
-                    Continue your dreamy musical journey
-                    and explore the emotional universe
-                    of Aanaya.
-                </p>
-
-                <!-- MUSIC DECOR -->
-                <div class="music-bars">
-
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
+        <main class="auth-experience__layout" id="auth-main">
+            <section class="auth-story" aria-labelledby="login-story-title">
+                <div class="auth-story__atmosphere" aria-hidden="true">
+                    <span class="auth-orbit auth-orbit--one" data-auth-depth="0.35"></span>
+                    <span class="auth-orbit auth-orbit--two" data-auth-depth="0.7"></span>
+                    <span class="auth-note" data-auth-depth="1">A / 01</span>
                 </div>
-
-            </div>
-
-            <!-- RIGHT -->
-            <div class="auth-right">
-
-                <div class="login-header">
-
-                    <h2>Login</h2>
-
-                    <p>
-                        Access your account
-                    </p>
-
+                <div class="auth-story__copy" data-auth-reveal>
+                    <p class="auth-kicker">Return to the feeling</p>
+                    <h1 id="login-story-title">Welcome<br><em>back.</em></h1>
+                    <p>Continue where the music, stories, and quiet moments left you.</p>
                 </div>
+                <div class="auth-story__chapters" aria-hidden="true">
+                    <span>Music</span><span>Stories</span><span>Visuals</span>
+                </div>
+            </section>
 
-                <!-- Session Status -->
-                <x-auth-session-status
-                    class="mb-4"
-                    :status="session('status')" />
+            <section class="auth-panel" aria-labelledby="login-heading">
+                <div class="auth-panel__inner" data-auth-form>
+                    <p class="auth-panel__eyebrow">Member access</p>
+                    <h2 id="login-heading">Sign in to Aanaya</h2>
+                    <p class="auth-panel__intro">Welcome back. Your universe is waiting.</p>
 
-                <form method="POST"
-                      action="{{ route('login') }}"
-                      class="auth-form">
+                    <x-auth-session-status class="auth-status" :status="session('status')" />
 
-                    @csrf
+                    <form method="POST" action="{{ route('login') }}" class="auth-form" data-auth-form-element>
+                        @csrf
 
-                    <!-- EMAIL -->
-                    <div class="form-group">
-
-                        <label>Email Address</label>
-
-                        <input
-                            type="email"
-                            name="email"
-                            value="{{ old('email') }}"
-                            required
-                            autofocus
-                            autocomplete="username"
-                            class="auth-input"
-                            placeholder="Enter your email">
-
-                        <x-input-error
-                            :messages="$errors->get('email')"
-                            class="mt-2" />
-
-                    </div>
-
-                    <!-- PASSWORD -->
-                    <div class="form-group">
-
-                        <label>Password</label>
-
-                        <div class="auth-input-wrapper">
-
-                            <input
-                                id="login_password"
-                                type="password"
-                                name="password"
-                                required
-                                autocomplete="current-password"
-                                class="auth-input"
-                                placeholder="Enter your password">
-
-                            <!-- TOGGLE -->
-                            <button type="button"
-                                    class="auth-password-toggle"
-                                    onclick="togglePassword('login_password', this)">
-
-                                <i class="fas fa-eye"></i>
-
-                            </button>
-
+                        <div class="auth-field">
+                            <label for="login_email">Email address</label>
+                            <input id="login_email" type="email" name="email" value="{{ old('email') }}"
+                                required autofocus autocomplete="username" inputmode="email"
+                                aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}"
+                                @if ($errors->has('email')) aria-describedby="login_email_error" @endif
+                                placeholder="you@example.com">
+                            <div id="login_email_error" class="auth-field__error" role="alert">
+                                <x-input-error :messages="$errors->get('email')" />
+                            </div>
                         </div>
 
-                        <x-input-error
-                            :messages="$errors->get('password')"
-                            class="mt-2" />
+                        <div class="auth-field">
+                            <label for="login_password">Password</label>
+                            <div class="auth-field__control">
+                                <input id="login_password" type="password" name="password" required
+                                    autocomplete="current-password"
+                                    aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}"
+                                    @if ($errors->has('password')) aria-describedby="login_password_error" @endif
+                                    placeholder="Enter your password">
+                                <button type="button" class="auth-password-toggle" data-password-toggle
+                                    data-password-target="login_password" aria-label="Show password" aria-pressed="false">
+                                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.75"/></svg>
+                                </button>
+                            </div>
+                            <div id="login_password_error" class="auth-field__error" role="alert">
+                                <x-input-error :messages="$errors->get('password')" />
+                            </div>
+                        </div>
 
-                    </div>
-                    <!-- OPTIONS -->
-                    <div class="auth-options">
+                        <div class="auth-form__options">
+                            <label class="auth-checkbox"><input type="checkbox" name="remember"><span>Remember me</span></label>
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}">Forgot password?</a>
+                            @endif
+                        </div>
 
-                        <label class="remember-box">
+                        <button type="submit" class="auth-submit" data-auth-submit>
+                            <span data-submit-label>Enter Aanaya</span><span aria-hidden="true" data-submit-arrow>→</span>
+                            <span class="auth-submit__loader" aria-hidden="true"></span>
+                        </button>
 
-                            <input type="checkbox"
-                                   name="remember">
+                        <div class="auth-divider"><span>or continue with</span></div>
 
-                            <span>
-                                Remember me
-                            </span>
-
-                        </label>
-
-                        @if (Route::has('password.request'))
-
-                            <a href="{{ route('password.request') }}"
-                               class="forgot-link">
-
-                                Forgot Password?
-
-                            </a>
-
-                        @endif
-
-                    </div>
-
-                    <!-- BUTTON -->
-                    <button type="submit"
-                            class="login-btn-main">
-
-                        Log In
-
-                    </button>
-
-                    <!-- DIVIDER -->
-                    <div class="auth-divider">
-
-                        <span>OR</span>
-
-                    </div>
-
-                    <a href="{{ route('google.login') }}"
-                        class="auth-google-btn">
-
-                            <img
-                                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                                alt="Google">
-
+                        <a href="{{ route('google.login') }}" class="auth-google">
+                            <svg aria-hidden="true" viewBox="0 0 24 24"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.5-.2-2.2H12v4.3h5.4a4.6 4.6 0 0 1-2 3v2.8h3.6c2.1-2 3.3-4.8 3.3-7.9Z"/><path fill="#34A853" d="M12 22c3 0 5.5-1 7.3-2.7l-3.6-2.8c-1 .7-2.3 1-3.7 1-2.9 0-5.3-1.9-6.2-4.5H2.1v2.9A11 11 0 0 0 12 22Z"/><path fill="#FBBC05" d="M5.8 13a6.6 6.6 0 0 1 0-4.2V6H2.1a11 11 0 0 0 0 9.8L5.8 13Z"/><path fill="#EA4335" d="M12 4.4c1.6 0 3 .5 4.2 1.6l3.1-3.1A10.5 10.5 0 0 0 2.1 6l3.7 2.8C6.7 6.2 9.1 4.4 12 4.4Z"/></svg>
                             Continue with Google
-
-                    </a>
-
-                    <!-- BACK BUTTON -->
-                    <a href="{{ route('home') }}"
-                    class="forgot-back-btn">
-
-                        <i class="fas fa-arrow-left"></i>
-
-                        Back to Home
-
-                    </a>
-
-                    <!-- REGISTER -->
-                    <div class="register-link">
-
-                        Don’t have an account?
-
-                        <a href="{{ route('register') }}">
-                            Create Account
                         </a>
 
-                    </div>
-
-                </form>
-
-            </div>
-
-        </div>
-
+                        <p class="auth-switch">New to Aanaya? <a href="{{ route('register') }}">Create an account</a></p>
+                    </form>
+                </div>
+            </section>
+        </main>
     </div>
-
-<script>
-    function togglePassword(inputId, button){
-
-        const input = document.getElementById(inputId);
-
-        const icon = button.querySelector('i');
-
-        if(input.type === 'password'){
-
-            input.type = 'text';
-
-            icon.classList.remove('fa-eye');
-
-            icon.classList.add('fa-eye-slash');
-
-        }else{
-
-            input.type = 'password';
-
-            icon.classList.remove('fa-eye-slash');
-
-            icon.classList.add('fa-eye');
-
-        }
-    }
-</script>
-
 </x-guest-layout>

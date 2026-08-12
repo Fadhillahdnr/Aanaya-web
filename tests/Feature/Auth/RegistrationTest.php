@@ -16,7 +16,14 @@ class RegistrationTest extends TestCase
     {
         $response = $this->get('/register');
 
-        $response->assertStatus(200);
+        $response
+            ->assertStatus(200)
+            ->assertSee('data-auth-experience', false)
+            ->assertSee('data-password-toggle', false)
+            ->assertSee(route('google.login'), false)
+            ->assertSee(route('login'), false)
+            ->assertDontSee('onclick=', false)
+            ->assertDontSee('svgrepo.com', false);
     }
 
     public function test_new_users_can_register(): void

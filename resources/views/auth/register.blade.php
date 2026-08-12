@@ -1,350 +1,95 @@
 <x-guest-layout>
+    <div class="auth-experience auth-experience--register" data-auth-experience>
+        <header class="auth-experience__nav">
+            <a href="{{ route('home') }}" class="auth-brand" aria-label="Aanaya home">
+                <img src="{{ asset('images/logo.png') }}" alt="" width="48" height="48">
+                <span>Aanaya</span>
+            </a>
+            <a href="{{ route('login') }}" class="auth-nav-link">Sign in <span aria-hidden="true">↗</span></a>
+        </header>
 
-    <div class="auth-regis-page">
-
-        <!-- BLUR -->
-        <div class="auth-regis-blur auth-regis-blur-1"></div>
-        <div class="auth-regis-blur auth-regis-blur-2"></div>
-
-        <!-- CARD -->
-        <div class="auth-regis-card">
-
-            <!-- LEFT -->
-            <div class="auth-regis-left">
-
-                <span class="auth-regis-tag">
-                    JOIN AANAYA ✨
-                </span>
-
-                <h1>
-                    Become Part of
-                    <span>Aanaya Universe</span>
-                </h1>
-
-                <p>
-                    Create your account to explore dreamy music,
-                    exclusive gallery, latest articles,
-                    and official merchandise.
-                </p>
-
-                <!-- FEATURES -->
-                <div class="auth-regis-features">
-
-                    <!-- ITEM -->
-                    <div class="auth-regis-feature-item">
-
-                        <i class="fas fa-music"></i>
-
-                        <div class="auth-regis-feature-content">
-
-                            <h4>
-                                Exclusive Music Access
-                            </h4>
-
-                            <p>
-                                Listen to dreamy tracks, unreleased demos,
-                                and emotional soundscapes from Aanaya.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-                    <div class="auth-regis-feature-item">
-
-                        <i class="fas fa-image"></i>
-
-                        <div class="auth-regis-feature-content">
-
-                            <h4>
-                                Dreamy Visual Gallery
-                            </h4>
-
-                            <p>
-                                Explore cinematic visuals, aesthetics,
-                                behind the scenes, and emotional moments.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-                    <div class="auth-regis-feature-item">
-
-                        <i class="fas fa-shirt"></i>
-
-                        <div class="auth-regis-feature-content">
-
-                            <h4>
-                                Official Merchandise
-                            </h4>
-
-                            <p>
-                                Discover exclusive apparel and limited
-                                collections inspired by Aanaya’s universe.
-                            </p>
-
-                        </div>
-
-                    </div>
-
+        <main class="auth-experience__layout" id="auth-main">
+            <section class="auth-story" aria-labelledby="register-story-title">
+                <div class="auth-story__atmosphere" aria-hidden="true">
+                    <span class="auth-orbit auth-orbit--one" data-auth-depth="0.35"></span>
+                    <span class="auth-orbit auth-orbit--two" data-auth-depth="0.7"></span>
+                    <span class="auth-note" data-auth-depth="1">A / 02</span>
                 </div>
-
-                <!-- MUSIC BARS -->
-                <div class="auth-regis-music-bars">
-
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
+                <div class="auth-story__copy" data-auth-reveal>
+                    <p class="auth-kicker">A new chapter begins</p>
+                    <h1 id="register-story-title">Enter the<br><em>universe.</em></h1>
+                    <p>Create an account and make the music, stories, and visual world of Aanaya yours.</p>
                 </div>
-
-            </div>
-
-            <!-- RIGHT -->
-            <div class="auth-regis-right">
-
-                <!-- HEADER -->
-                <div class="auth-regis-header">
-
-                    <h2>
-                        Create Account
-                    </h2>
-
-                    <p>
-                        Start your dreamy journey today ✨
-                    </p>
-
+                <div class="auth-story__chapters" aria-hidden="true">
+                    <span>Music</span><span>Stories</span><span>Feelings</span>
                 </div>
+            </section>
 
-                <!-- FORM -->
-                <form method="POST"
-                      action="{{ route('register') }}"
-                      class="auth-regis-form">
+            <section class="auth-panel" aria-labelledby="register-heading">
+                <div class="auth-panel__inner" data-auth-form>
+                    <p class="auth-panel__eyebrow">Begin here</p>
+                    <h2 id="register-heading">Create your account</h2>
+                    <p class="auth-panel__intro">A few details, then the universe is yours.</p>
 
-                    @csrf
+                    <form method="POST" action="{{ route('register') }}" class="auth-form" data-auth-form-element>
+                        @csrf
 
-                    <!-- NAME -->
-                    <div class="auth-regis-group">
-
-                        <label for="name">
-                            Full Name
-                        </label>
-
-                        <div class="auth-regis-input-wrapper">
-
-                            <i class="fas fa-user"></i>
-
-                            <input
-                                id="name"
-                                type="text"
-                                name="name"
-                                value="{{ old('name') }}"
-                                required
-                                autofocus
-                                autocomplete="name"
-                                placeholder="Enter your full name"
-                                class="auth-regis-input">
-
+                        <div class="auth-field">
+                            <label for="register_name">Full name</label>
+                            <input id="register_name" type="text" name="name" value="{{ old('name') }}" required autofocus
+                                autocomplete="name" aria-invalid="{{ $errors->has('name') ? 'true' : 'false' }}"
+                                @if ($errors->has('name')) aria-describedby="register_name_error" @endif placeholder="Your full name">
+                            <div id="register_name_error" class="auth-field__error" role="alert"><x-input-error :messages="$errors->get('name')" /></div>
                         </div>
 
-                        <x-input-error
-                            :messages="$errors->get('name')"
-                            class="mt-2" />
-
-                    </div>
-
-                    <!-- EMAIL -->
-                    <div class="auth-regis-group">
-
-                        <label for="email">
-                            Email Address
-                        </label>
-
-                        <div class="auth-regis-input-wrapper">
-
-                            <i class="fas fa-envelope"></i>
-
-                            <input
-                                id="email"
-                                type="email"
-                                name="email"
-                                value="{{ old('email') }}"
-                                required
-                                autocomplete="username"
-                                placeholder="Enter your email"
-                                class="auth-regis-input">
-
+                        <div class="auth-field">
+                            <label for="register_email">Email address</label>
+                            <input id="register_email" type="email" name="email" value="{{ old('email') }}" required
+                                autocomplete="username" inputmode="email" aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}"
+                                aria-describedby="register_email_help{{ $errors->has('email') ? ' register_email_error' : '' }}" placeholder="you@example.com">
+                            <p id="register_email_help" class="auth-field__help">Use an active email from a trusted provider. You can verify it from your profile.</p>
+                            <div id="register_email_error" class="auth-field__error" role="alert"><x-input-error :messages="$errors->get('email')" /></div>
                         </div>
 
-                        <x-input-error
-                            :messages="$errors->get('email')"
-                            class="mt-2" />
+                        <div class="auth-form__password-grid">
+                            <div class="auth-field">
+                                <label for="register_password">Password</label>
+                                <div class="auth-field__control">
+                                    <input id="register_password" type="password" name="password" required autocomplete="new-password"
+                                        aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}"
+                                        @if ($errors->has('password')) aria-describedby="register_password_error" @endif placeholder="Create password">
+                                    <button type="button" class="auth-password-toggle" data-password-toggle data-password-target="register_password" aria-label="Show password" aria-pressed="false">
+                                        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.75"/></svg>
+                                    </button>
+                                </div>
+                                <div id="register_password_error" class="auth-field__error" role="alert"><x-input-error :messages="$errors->get('password')" /></div>
+                            </div>
 
-                        <p class="auth-regis-field-help">
-                            Use an active Gmail, Yahoo, Outlook, iCloud, Proton Mail, or another supported address. Verification is available from your Profile.
-                        </p>
-
-                    </div>
-
-                    <!-- PASSWORD -->
-                    <div class="auth-regis-group">
-
-                        <label for="password">
-                            Password
-                        </label>
-
-                        <div class="auth-regis-input-wrapper">
-
-                            <i class="fas fa-lock"></i>
-
-                            <input
-                                id="password"
-                                type="password"
-                                name="password"
-                                required
-                                autocomplete="new-password"
-                                placeholder="Create password"
-                                class="auth-regis-input">
-
-                            <!-- TOGGLE -->
-                            <button type="button"
-                                    class="auth-regis-password-toggle"
-                                    onclick="togglePassword('password', this)">
-
-                                <i class="fas fa-eye"></i>
-
-                            </button>
-
+                            <div class="auth-field">
+                                <label for="password_confirmation">Confirm password</label>
+                                <div class="auth-field__control">
+                                    <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Repeat password">
+                                    <button type="button" class="auth-password-toggle" data-password-toggle data-password-target="password_confirmation" aria-label="Show password" aria-pressed="false">
+                                        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.75"/></svg>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
-                        <x-input-error
-                            :messages="$errors->get('password')"
-                            class="mt-2" />
+                        <button type="submit" class="auth-submit" data-auth-submit>
+                            <span data-submit-label>Join Aanaya</span><span aria-hidden="true" data-submit-arrow>→</span>
+                            <span class="auth-submit__loader" aria-hidden="true"></span>
+                        </button>
 
-                    </div>
-
-                    <!-- CONFIRM PASSWORD -->
-                    <div class="auth-regis-group">
-
-                        <label for="password_confirmation">
-                            Confirm Password
-                        </label>
-
-                        <div class="auth-regis-input-wrapper">
-
-                            <i class="fas fa-shield-heart"></i>
-
-                            <input
-                                id="password_confirmation"
-                                type="password"
-                                name="password_confirmation"
-                                required
-                                autocomplete="new-password"
-                                placeholder="Confirm password"
-                                class="auth-regis-input">
-
-                            <!-- TOGGLE -->
-                            <button type="button"
-                                    class="auth-regis-password-toggle"
-                                    onclick="togglePassword('password_confirmation', this)">
-
-                                <i class="fas fa-eye"></i>
-
-                            </button>
-
-                        </div>
-
-                        <x-input-error
-                            :messages="$errors->get('password_confirmation')"
-                            class="mt-2" />
-
-                    </div>
-
-                    <!-- BUTTON -->
-                    <button type="submit"
-                            class="auth-regis-btn">
-
-                        <i class="fas fa-user-plus"></i>
-
-                        Create Account
-
-                    </button>
-                    
-                    <div class="auth-divider">
-
-                        <span>OR</span>
-
-                    </div>
-
-                    <a href="{{ route('google.login') }}"
-                        class="auth-google-btn">
-
-                        <img
-                            src="https://www.svgrepo.com/show/475656/google-color.svg"
-                            alt="Google">
-
-                        Continue with Google
-
-                    </a>
-
-                    <!-- BACK BUTTON -->
-                    <a href="{{ route('home') }}"
-                    class="forgot-back-btn">
-
-                        <i class="fas fa-arrow-left"></i>
-
-                        Back to Home
-
-                    </a>
-
-                    <!-- LOGIN -->
-                    <div class="auth-regis-login-link">
-
-                        Already have an account?
-
-                        <a href="{{ route('login') }}">
-                            Sign In
+                        <div class="auth-divider"><span>or continue with</span></div>
+                        <a href="{{ route('google.login') }}" class="auth-google">
+                            <svg aria-hidden="true" viewBox="0 0 24 24"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.5-.2-2.2H12v4.3h5.4a4.6 4.6 0 0 1-2 3v2.8h3.6c2.1-2 3.3-4.8 3.3-7.9Z"/><path fill="#34A853" d="M12 22c3 0 5.5-1 7.3-2.7l-3.6-2.8c-1 .7-2.3 1-3.7 1-2.9 0-5.3-1.9-6.2-4.5H2.1v2.9A11 11 0 0 0 12 22Z"/><path fill="#FBBC05" d="M5.8 13a6.6 6.6 0 0 1 0-4.2V6H2.1a11 11 0 0 0 0 9.8L5.8 13Z"/><path fill="#EA4335" d="M12 4.4c1.6 0 3 .5 4.2 1.6l3.1-3.1A10.5 10.5 0 0 0 2.1 6l3.7 2.8C6.7 6.2 9.1 4.4 12 4.4Z"/></svg>
+                            Continue with Google
                         </a>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-        </div>
-
+                        <p class="auth-switch">Already part of Aanaya? <a href="{{ route('login') }}">Sign in</a></p>
+                    </form>
+                </div>
+            </section>
+        </main>
     </div>
-
-    <script>
-    function togglePassword(inputId, button){
-
-        const input = document.getElementById(inputId);
-
-        const icon = button.querySelector('i');
-
-        if(input.type === 'password'){
-
-            input.type = 'text';
-
-            icon.classList.remove('fa-eye');
-
-            icon.classList.add('fa-eye-slash');
-
-        }else{
-
-            input.type = 'password';
-
-            icon.classList.remove('fa-eye-slash');
-
-            icon.classList.add('fa-eye');
-
-        }
-    }
-</script>
-
 </x-guest-layout>
