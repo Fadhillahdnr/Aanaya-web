@@ -29,7 +29,7 @@
 
 </head>
 
-<body class="font-sans antialiased">
+<body id="page-top" class="font-sans antialiased">
 
     <div class="min-h-screen">
 

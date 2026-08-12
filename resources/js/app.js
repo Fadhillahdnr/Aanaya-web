@@ -52,3 +52,19 @@ if (authExperienceRoot) {
         .then(({ initAuthExperience }) => initAuthExperience(authExperienceRoot))
         .catch((error) => console.warn('Aanaya auth enhancement could not start.', error));
 }
+
+const footerExperienceRoot = document.querySelector('[data-footer-experience]');
+
+if (footerExperienceRoot) {
+    import('./footer-experience/index.js')
+        .then(({ initFooterExperience }) => initFooterExperience(footerExperienceRoot))
+        .catch((error) => console.warn('Aanaya footer enhancement could not start.', error));
+}
+
+const aboutExperienceRoot = document.querySelector('[data-about-experience]');
+
+if (aboutExperienceRoot) {
+    import('./about-experience/index.js')
+        .then(({ initAboutExperience }) => initAboutExperience(aboutExperienceRoot))
+        .catch((error) => console.warn('Aanaya about enhancement could not start.', error));
+}

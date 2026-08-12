@@ -1,382 +1,192 @@
-/* =========================================================
-   ABOUT PAGE
-========================================================= */
-
-.about-page{
+.about-experience {
+    --about-pink: #eb7eba;
+    --about-soft: #f4c6f4;
+    --about-ivory: #fcf8ed;
+    --about-crimson: #e01f42;
+    --about-coral: #f54351;
+    --about-dark: #16090f;
+    --about-ink: #38121d;
     position: relative;
+    overflow: clip;
+    color: var(--about-ink);
+    background: var(--about-ivory);
+}
 
-    min-height: 100vh;
+.about-chapter,
+.about-kicker {
+    margin: 0;
+    font-size: .66rem;
+    font-weight: 800;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+}
 
-    background: #fcf8ed;
+.about-orbit {
+    position: relative;
+    height: 290svh;
+    min-height: 1900px;
+    color: var(--about-ivory);
+    background: var(--about-dark);
+}
 
+.about-orbit__stage {
+    position: sticky;
+    top: 0;
+    display: grid;
+    min-height: 100svh;
+    place-items: center;
     overflow: hidden;
-
-    padding:
-        140px
-        20px
-        100px;
+    perspective: 1250px;
+    isolation: isolate;
 }
 
-/* =========================================================
-   BACKGROUND GLOW
-========================================================= */
-
-.about-bg{
+.about-orbit__atmosphere {
     position: absolute;
-
-    border-radius: 50%;
-
-    filter: blur(140px);
-
-    opacity: .25;
-
-    pointer-events: none;
+    inset: 0;
+    z-index: -2;
+    background:
+        radial-gradient(circle at 22% 35%, rgba(224, 31, 66, .22), transparent 30%),
+        radial-gradient(circle at 80% 72%, rgba(235, 126, 186, .12), transparent 27%),
+        linear-gradient(145deg, #210b13, #12070c 72%);
 }
 
-.about-page .glow-1{
-    width: 500px;
-    height: 500px;
-
-    background: #eb7eba;
-
-    top: -150px;
-    left: -150px;
+.about-orbit__atmosphere::after {
+    position: absolute;
+    inset: 0;
+    opacity: .027;
+    content: '';
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.about-page .glow-2{
-    width: 450px;
-    height: 450px;
-
-    background: #f54351;
-
-    right: -100px;
-    bottom: 0;
-}
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.about-hero{
+.about-orbit__copy {
     position: relative;
-    z-index: 2;
-
-    max-width: 900px;
-
-    margin: 0 auto 100px;
-
+    z-index: 4;
+    width: min(88vw, 1050px);
     text-align: center;
 }
 
-/* =========================================================
-   BADGE
-========================================================= */
+.about-kicker { margin-bottom: 26px; color: var(--about-pink); }
+.about-orbit__copy h1 { margin: 0; font-size: clamp(5rem, 13vw, 12rem); font-weight: 400; line-height: .65; letter-spacing: -.085em; }
+.about-orbit__copy h1 span, .about-orbit__copy h1 strong { display: block; font-weight: inherit; }
+.about-orbit__copy h1 strong { color: var(--about-soft); font-style: italic; }
+.about-orbit__line { margin: 34px 0 0; color: rgba(252,248,237,.76); font-family: var(--font-display); font-size: clamp(1.3rem, 2.6vw, 2.3rem); line-height: 1.18; }
+.about-orbit__line em { color: var(--about-pink); }
+.about-orbit__moods { display: flex; margin-top: 30px; justify-content: center; gap: 22px; color: rgba(252,248,237,.5); font-size: .62rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
 
-.about-badge{
-    display: inline-flex;
+.about-orbit__world { position: absolute; inset: 0; z-index: 3; transform-style: preserve-3d; pointer-events: none; }
+.about-orbit__card, .about-orbit__fragment, .about-orbit__paper { position: absolute; will-change: transform; }
+.about-orbit__card { width: clamp(110px, 13vw, 210px); margin: 0; padding: 7px 7px 28px; border: 1px solid rgba(244,198,244,.42); background: rgba(26,9,15,.78); box-shadow: 0 25px 70px rgba(0,0,0,.34); transform-style: preserve-3d; }
+.about-orbit__card img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.about-orbit__card figcaption { position: absolute; right: 8px; bottom: 8px; left: 8px; color: rgba(252,248,237,.55); font-size: .52rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+.about-orbit__card--one { top: 10%; left: 7%; transform: translateZ(-180px) rotate(-8deg); }
+.about-orbit__card--two { top: 8%; right: 7%; width: clamp(90px, 10vw, 160px); transform: translateZ(-280px) rotate(9deg); }
+.about-orbit__card--three { right: 10%; bottom: 8%; transform: translateZ(120px) rotate(7deg); }
+.about-orbit__card--four { bottom: 5%; left: 4%; width: clamp(145px, 17vw, 260px); transform: translateZ(220px) rotate(-6deg); }
+.about-orbit__card--five { top: 18%; left: 48%; width: clamp(90px, 10vw, 150px); opacity: .55; transform: translateZ(-360px) rotate(4deg); }
+.about-orbit__fragment { color: rgba(244,198,244,.36); font-family: var(--font-display); font-size: clamp(2rem, 4vw, 4.5rem); font-style: italic; }
+.about-orbit__fragment--one { top: 32%; left: 3%; transform: translateZ(-250px) rotate(-12deg); }
+.about-orbit__fragment--two { top: 25%; right: 4%; color: rgba(235,126,186,.42); transform: translateZ(80px) rotate(10deg); }
+.about-orbit__paper { width: 80px; aspect-ratio: 1.4; border: 1px solid rgba(252,248,237,.35); background: linear-gradient(150deg, transparent 49%, rgba(252,248,237,.16) 50%); clip-path: polygon(0 20%, 100% 0, 72% 100%, 48% 57%); }
+.about-orbit__paper--one { top: 8%; left: 36%; transform: translateZ(100px) rotate(18deg); }
+.about-orbit__paper--two { right: 35%; bottom: 8%; width: 110px; transform: translateZ(260px) rotate(-15deg); }
+.about-orbit__scroll { position: absolute; right: 35px; bottom: 32px; z-index: 6; margin: 0; color: rgba(252,248,237,.45); font-size: .58rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; writing-mode: vertical-rl; }
+.about-orbit__scroll span { margin-top: 12px; color: var(--about-pink); }
 
-    align-items: center;
+.about-story { display: grid; width: min(100% - 48px, 1380px); margin-inline: auto; padding: clamp(110px, 15vw, 210px) 0; grid-template-columns: minmax(300px, .9fr) minmax(440px, 1.1fr); gap: clamp(70px, 10vw, 160px); background: var(--about-ivory); }
+.about-story__heading { position: sticky; top: 110px; align-self: start; }
+.about-story .about-chapter { margin-bottom: 30px; color: var(--about-crimson); }
+.about-story h2, .about-constellation h2, .about-identity h2 { margin: 0; font-size: clamp(4rem, 8vw, 8rem); font-weight: 400; line-height: .78; letter-spacing: -.07em; }
+.about-story h2 em, .about-constellation h2 em, .about-identity h2 em { color: var(--about-crimson); font-weight: inherit; }
+.about-story__body { border-top: 1px solid rgba(56,18,29,.18); }
+.about-story__entry { display: grid; padding: 40px 0; grid-template-columns: 90px 1fr; gap: 24px; border-bottom: 1px solid rgba(56,18,29,.18); }
+.about-story__entry span { color: var(--about-crimson); font-size: .66rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+.about-story__entry p { max-width: 65ch; margin: 0; color: rgba(56,18,29,.76); font-size: clamp(1rem, 1.35vw, 1.15rem); line-height: 1.8; }
 
-    gap: 12px;
+.about-feeling { position: relative; min-height: 130svh; padding: clamp(90px, 11vw, 150px) clamp(24px, 6vw, 90px); overflow: hidden; color: var(--about-ink); background: linear-gradient(150deg, var(--about-soft), #f9dfe7 62%, var(--about-ivory)); }
+.about-feeling .about-chapter { color: var(--about-crimson); }
+.about-feeling__words { display: flex; min-height: 92svh; padding-block: 50px; justify-content: center; flex-direction: column; }
+.about-feeling__words span { display: block; font-family: var(--font-display); font-size: clamp(4.2rem, 13vw, 12rem); line-height: .72; letter-spacing: -.08em; will-change: transform; }
+.about-feeling__words span:nth-child(even) { align-self: flex-end; color: var(--about-crimson); font-style: italic; }
+.about-feeling > p:last-child { position: absolute; right: 8vw; bottom: 8vw; max-width: 430px; margin: 0; color: rgba(56,18,29,.72); font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.8rem); font-style: italic; line-height: 1.5; }
 
-    padding:
-        12px
-        26px;
+.about-constellation { position: relative; min-height: 145svh; padding: clamp(100px, 13vw, 180px) clamp(24px, 6vw, 90px); overflow: hidden; color: var(--about-ivory); background: linear-gradient(155deg, #210b13, var(--about-dark)); }
+.about-constellation > header { position: relative; z-index: 4; width: min(880px, 76vw); }
+.about-constellation .about-chapter { margin-bottom: 28px; color: var(--about-pink); }
+.about-constellation h2 em { color: var(--about-soft); }
+.about-constellation__scene { position: relative; min-height: 88svh; margin-top: 40px; perspective: 1100px; }
+.about-constellation__media { position: absolute; margin: 0; padding: 7px 7px 29px; border: 1px solid rgba(244,198,244,.28); background: #1b0a11; box-shadow: 0 28px 80px rgba(0,0,0,.35); transition: border-color .25s ease, transform .35s ease; }
+.about-constellation__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.about-constellation__media figcaption { position: absolute; bottom: 8px; left: 9px; color: rgba(252,248,237,.55); font-size: .55rem; letter-spacing: .14em; text-transform: uppercase; }
+.about-constellation__media--one { top: 5%; left: 5%; width: min(24vw, 330px); height: min(34vw, 460px); transform: rotate(-5deg) translateZ(80px); }
+.about-constellation__media--two { top: 16%; right: 3%; width: min(37vw, 520px); height: min(23vw, 320px); transform: rotate(4deg) translateZ(-40px); }
+.about-constellation__media--three { right: 28%; bottom: 0; width: min(22vw, 290px); height: min(30vw, 410px); transform: rotate(-2deg) translateZ(120px); }
+.about-constellation__media:hover { border-color: var(--about-pink); transform: translateZ(145px) scale(1.025); }
+.about-constellation__quote { position: absolute; top: 57%; left: 37%; z-index: 3; max-width: 360px; margin: 0; color: rgba(252,248,237,.7); font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.7rem); font-style: italic; line-height: 1.5; }
 
-    border-radius: 999px;
+.about-identity { position: relative; display: grid; min-height: 115svh; padding: 9vw 7vw; align-items: center; grid-template-columns: 1fr .85fr; overflow: hidden; background: var(--about-ivory); }
+.about-identity__type { position: absolute; top: 50%; left: 50%; color: rgba(224,31,66,.085); font-family: var(--font-display); font-size: 23vw; letter-spacing: -.1em; transform: translate(-50%,-50%); white-space: nowrap; }
+.about-identity__character { position: relative; z-index: 2; width: min(42vw, 580px); height: min(75svh, 760px); justify-self: center; overflow: hidden; filter: drop-shadow(0 35px 45px rgba(56,18,29,.18)); }
+.about-identity__character video, .about-identity__character img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.about-identity__copy { position: relative; z-index: 3; max-width: 590px; }
+.about-identity .about-chapter { margin-bottom: 28px; color: var(--about-crimson); }
+.about-identity__copy > p:last-child { max-width: 52ch; margin: 30px 0 0; color: rgba(56,18,29,.7); font-size: 1.05rem; line-height: 1.75; }
 
-    background:
-        rgba(255,255,255,.75);
+.about-manifesto { display: grid; min-height: 105svh; padding: 10vw 7vw; place-content: center; text-align: center; background: linear-gradient(150deg, var(--about-ivory), #fae7ec); }
+.about-manifesto .about-chapter { margin-bottom: 40px; color: var(--about-crimson); }
+.about-manifesto h2 { margin: 0; font-size: clamp(4.5rem, 12vw, 12rem); font-weight: 400; line-height: .72; letter-spacing: -.08em; }
+.about-manifesto h2 span { color: rgba(56,18,29,.28); }
+.about-manifesto h2 em { color: var(--about-crimson); font-weight: inherit; }
+.about-manifesto > p:last-child { max-width: 510px; margin: 44px auto 0; color: rgba(56,18,29,.68); font-family: var(--font-display); font-size: 1.25rem; font-style: italic; line-height: 1.6; }
 
-    backdrop-filter: blur(15px);
-
-    color: #e01f42;
-
-    font-weight: 700;
-
-    letter-spacing: 1px;
-
-    margin-bottom: 30px;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.05);
+@media (max-width: 1023px) {
+    .about-orbit { height: 220svh; min-height: 1500px; }
+    .about-orbit__card--five, .about-orbit__paper--two, .about-orbit__fragment--one { display: none; }
+    .about-story { grid-template-columns: 1fr; gap: 60px; }
+    .about-story__heading { position: static; }
+    .about-identity { grid-template-columns: .9fr 1.1fr; }
+    .about-identity__character { width: 45vw; }
 }
 
-.badge-dot{
-    width: 10px;
-    height: 10px;
-
-    border-radius: 50%;
-
-    background: #e01f42;
+@media (max-width: 767px) {
+    .about-orbit { height: 185svh; min-height: 1200px; }
+    .about-orbit__stage { perspective: 850px; }
+    .about-orbit__copy { width: calc(100% - 38px); }
+    .about-kicker { max-width: 270px; margin-inline: auto; font-size: .57rem; line-height: 1.6; }
+    .about-orbit__copy h1 { font-size: clamp(4rem, 23vw, 6rem); }
+    .about-orbit__line { font-size: 1.25rem; }
+    .about-orbit__moods { gap: 10px; font-size: .51rem; }
+    .about-orbit__card { width: 105px; padding: 5px 5px 22px; }
+    .about-orbit__card--one { top: 9%; left: -8%; }
+    .about-orbit__card--two { top: 14%; right: -7%; width: 86px; }
+    .about-orbit__card--three { right: -10%; bottom: 10%; }
+    .about-orbit__card--four { bottom: 7%; left: -11%; width: 125px; }
+    .about-orbit__fragment, .about-orbit__paper { display: none; }
+    .about-orbit__scroll { right: 12px; }
+    .about-story { width: calc(100% - 38px); padding-block: 100px; gap: 48px; }
+    .about-story h2, .about-constellation h2, .about-identity h2 { font-size: clamp(3.7rem, 18vw, 5.3rem); }
+    .about-story__entry { padding: 30px 0; grid-template-columns: 1fr; gap: 12px; }
+    .about-feeling { min-height: 100svh; padding-inline: 20px; }
+    .about-feeling__words { min-height: 72svh; }
+    .about-feeling__words span { font-size: clamp(3.8rem, 20vw, 6rem); }
+    .about-feeling > p:last-child { position: static; margin: 20px 0 0; }
+    .about-constellation { min-height: auto; padding: 100px 19px; }
+    .about-constellation > header { width: 100%; }
+    .about-constellation__scene { display: grid; min-height: auto; margin-top: 70px; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .about-constellation__media { position: relative; inset: auto; width: 100%; height: auto; transform: none; }
+    .about-constellation__media img { aspect-ratio: 4 / 5; }
+    .about-constellation__media--two { grid-column: 1 / -1; }
+    .about-constellation__media--two img { aspect-ratio: 16 / 9; }
+    .about-constellation__quote { position: static; grid-column: 1 / -1; margin-top: 24px; }
+    .about-identity { min-height: auto; padding: 100px 19px; grid-template-columns: 1fr; }
+    .about-identity__character { width: min(82vw, 430px); height: 58svh; }
+    .about-identity__copy { margin-top: 42px; }
+    .about-manifesto { min-height: 90svh; padding: 100px 19px; }
+    .about-manifesto h2 { font-size: clamp(4rem, 20vw, 6rem); }
 }
 
-/* =========================================================
-   TITLE
-========================================================= */
-
-.about-hero h1{
-    font-family:
-        'Playfair Display',
-        serif;
-
-    font-size:
-        clamp(
-            3rem,
-            8vw,
-            6rem
-        );
-
-    line-height: 1.05;
-
-    color: #222;
-
-    margin-bottom: 25px;
-}
-
-.about-hero h1 span{
-    display: inline-block;
-
-    background:
-        linear-gradient(
-            135deg,
-            #eb7eba,
-            #e01f42
-        );
-
-    -webkit-background-clip: text;
-
-    -webkit-text-fill-color: transparent;
-}
-
-/* =========================================================
-   DESCRIPTION
-========================================================= */
-
-.about-hero p{
-    max-width: 750px;
-
-    margin: auto;
-
-    color: #555;
-
-    line-height: 1.9;
-
-    font-size: 1.08rem;
-}
-
-/* =========================================================
-   STORY SECTION
-========================================================= */
-
-.about-story-section{
-    position: relative;
-    z-index: 2;
-
-    max-width: 1400px;
-
-    margin: auto;
-}
-
-/* =========================================================
-   CARD
-========================================================= */
-
-.about-story-card{
-    background:
-        rgba(255,255,255,.75);
-
-    backdrop-filter:
-        blur(20px);
-
-    border-radius: 40px;
-
-    padding: 50px;
-
-    box-shadow:
-        0 30px 60px rgba(0,0,0,.08);
-
-    border:
-        1px solid rgba(224,31,66,.08);
-}
-
-/* =========================================================
-   CONTENT
-========================================================= */
-
-.about-story-content{
-    display: grid;
-
-    grid-template-columns:
-        1.2fr
-        .8fr;
-
-    gap: 60px;
-
-    align-items: center;
-}
-
-/* =========================================================
-   TEXT
-========================================================= */
-
-.about-mini-badge{
-    display: inline-block;
-
-    margin-bottom: 20px;
-
-    padding:
-        10px
-        18px;
-
-    border-radius: 999px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #eb7eba,
-            #f4c6f4
-        );
-
-    color: #8d2953;
-
-    font-size: .8rem;
-
-    font-weight: 700;
-
-    letter-spacing: 1px;
-}
-
-.about-story-text h2{
-    font-family:
-        'Playfair Display',
-        serif;
-
-    font-size:
-        clamp(
-            2rem,
-            5vw,
-            3.5rem
-        );
-
-    margin-bottom: 25px;
-
-    color: #222;
-}
-
-.about-story-text p{
-    color: #555;
-
-    line-height: 2;
-
-    margin-bottom: 22px;
-
-    font-size: 1.03rem;
-}
-
-/* =========================================================
-   IMAGE
-========================================================= */
-
-.about-image-wrap{
-    position: relative;
-
-    overflow: hidden;
-
-    border-radius: 35px;
-
-    box-shadow:
-        0 30px 60px rgba(0,0,0,.15);
-}
-
-.about-image{
-    width: 100%;
-
-    display: block;
-
-    object-fit: cover;
-
-    transition: .7s ease;
-}
-
-.about-image-wrap:hover .about-image{
-    transform: scale(1.06);
-}
-
-.about-image-overlay{
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        linear-gradient(
-            180deg,
-            transparent,
-            rgba(224,31,66,.12)
-        );
-
-    pointer-events: none;
-}
-
-/* =========================================================
-   DECORATION
-========================================================= */
-
-.about-story-card::before{
-    content: '';
-
-    display: block;
-
-    width: 120px;
-    height: 6px;
-
-    border-radius: 999px;
-
-    margin-bottom: 35px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #eb7eba,
-            #e01f42,
-            #f54351
-        );
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:992px){
-
-    .about-story-content{
-        grid-template-columns: 1fr;
-    }
-
-    .about-story-card{
-        padding: 35px;
-    }
-
-    .about-image-wrap{
-        order: -1;
-    }
-}
-
-@media(max-width:768px){
-
-    .about-page{
-        padding-top: 110px;
-    }
-
-    .about-hero{
-        margin-bottom: 70px;
-    }
-
-    .about-story-card{
-        padding: 25px;
-    }
-
-    .about-hero h1{
-        font-size: 3rem;
-    }
+@media (prefers-reduced-motion: reduce) {
+    .about-orbit { height: auto; min-height: 100svh; }
+    .about-orbit__stage { position: relative; }
+    .about-orbit [data-orbit-object], .about-feeling [data-feeling-word], .about-identity__type { transform: none !important; }
+    .about-orbit__card--five, .about-orbit__paper, .about-orbit__fragment { display: none; }
 }
